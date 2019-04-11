@@ -84,11 +84,11 @@
 
 
 	<context:component-scan
-		base-package="hnch.referencia.core,
-						      hnch.referencia.base,
-							 hnch.referencia.web" />
+		base-package="sigelab.core,
+					  sigelab.base,
+					  sigelab.web" />
 
-	<jpa:repositories base-package="hnch.referencia.core" />
+	<jpa:repositories base-package="sigelab.core" />
 
 
 </beans>
