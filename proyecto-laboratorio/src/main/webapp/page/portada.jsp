@@ -91,7 +91,7 @@
 		<div class="container-fluid"> 
 		<img id="imgFotoPaciente"
 										style="width: 100%; height: 100%;"
-										src="${pageContext.request.contextPath}/assets/img/portadaHCH.png" />
+										src="${pageContext.request.contextPath}/assets/img/imgPortadaLab.png" />
 			<!-- Breadcrumbs
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">Inicio</a></li>
