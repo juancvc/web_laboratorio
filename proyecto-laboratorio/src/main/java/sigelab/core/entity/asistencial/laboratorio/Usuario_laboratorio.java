@@ -10,7 +10,7 @@ import java.util.Date;
 @SuppressWarnings("serial")
 @NamedStoredProcedureQueries({
 
-		@NamedStoredProcedureQuery(name = "usuario.insertar", procedureName = "[SIGEHOV2SEGU].RECO.USP_USUARIO_INSERTAR", resultClasses = Usuario_laboratorio.class, parameters = {
+		@NamedStoredProcedureQuery(name = "usuarioLab.insertar", procedureName = "[SIGEHOV2SEGU].RECO.USP_USUARIO_INSERTAR", resultClasses = Usuario_laboratorio.class, parameters = {
 				@StoredProcedureParameter(mode = ParameterMode.OUT, name = "CODUSUAR", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.OUT, name = "NROPERIO", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
@@ -23,7 +23,7 @@ import java.util.Date;
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSCR", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class) }),
 	
-		@NamedStoredProcedureQuery(name = "usuario.actualizar", procedureName = "[SIGEHOV2SEGU].RECO.USP_USUARIO_UPDATE", resultClasses = Usuario_laboratorio.class, parameters = {
+		@NamedStoredProcedureQuery(name = "usuarioLab.actualizar", procedureName = "[SIGEHOV2SEGU].RECO.USP_USUARIO_UPDATE", resultClasses = Usuario_laboratorio.class, parameters = {
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODUSUAR", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPERIO", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
@@ -36,7 +36,7 @@ import java.util.Date;
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = String.class) }),
 		
-		@NamedStoredProcedureQuery(name = "usuario.eliminar", procedureName = "[SIGEHOV2SEGU].RECO.USP_USUARIO_DELETE", resultClasses = Usuario_laboratorio.class, parameters = {
+		@NamedStoredProcedureQuery(name = "usuarioLab.eliminar", procedureName = "[SIGEHOV2SEGU].RECO.USP_USUARIO_DELETE", resultClasses = Usuario_laboratorio.class, parameters = {
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODUSUAR", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPERIO", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
@@ -47,17 +47,17 @@ import java.util.Date;
 	 
 	 
 
-		@NamedStoredProcedureQuery(name = "usuario.listar", procedureName = "SIGEHOV2SEGU.[RECO].[USP_USUARIO_FINDBYLIKEOBJECT]", resultClasses = Usuario_laboratorio.class, parameters = {
+		@NamedStoredProcedureQuery(name = "usuarioLab.listar", procedureName = "SIGEHOV2SEGU.[RECO].[USP_USUARIO_FINDBYLIKEOBJECT]", resultClasses = Usuario_laboratorio.class, parameters = {
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMUSUAR", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODIPERF", type = String.class)
 
 		}),
 
-		@NamedStoredProcedureQuery(name = "usuario.autenticar", procedureName = "SIGEHOV2SEGU.[RECO].[USP_USUARIO_AUTENTICAR]", resultClasses = Usuario_laboratorio.class, parameters = {
+		@NamedStoredProcedureQuery(name = "usuarioLab.autenticar", procedureName = "SIGEHOV2SEGU.[RECO].[USP_USUARIO_AUTENTICAR]", resultClasses = Usuario_laboratorio.class, parameters = {
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMUSUAR", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "PSWUSUAR", type = String.class) }),
 	 
-		  @NamedStoredProcedureQuery(name = "usuario.resetpass",
+		  @NamedStoredProcedureQuery(name = "usuarioLab.resetpass",
 		  procedureName = "[SIGEHOV2SEGU].[RECO].[USP_USUARIO_RESTABLECER_CLAVE]", resultClasses =Usuario_laboratorio.class, parameters = {
 		 
 			    @StoredProcedureParameter(mode = ParameterMode.IN, name = "CODUSUAR", type = String.class),
@@ -70,10 +70,10 @@ import java.util.Date;
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = String.class) }),
 		  
 
-		@NamedStoredProcedureQuery(name = "usuarioObj.buscarPorCodigoUsuario", procedureName = "[SIGEHOV2SEGU].[RECO].[USP_USUARIO_FINDBY_CODUSER]", resultClasses = Usuario_laboratorio.class, parameters = {
+		@NamedStoredProcedureQuery(name = "usuarioLab.buscarPorCodigoUsuario", procedureName = "[SIGEHOV2SEGU].[RECO].[USP_USUARIO_FINDBY_CODUSER]", resultClasses = Usuario_laboratorio.class, parameters = {
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODUSUAR", type = String.class) }),
 
-		@NamedStoredProcedureQuery(name = "usuario.buscarxcodperso", procedureName = "SIGEHOV2SEGU.[RECO].[USP_USUARIO_FINDBY_CODPERSO]", resultClasses = Usuario_laboratorio.class, parameters = {
+		@NamedStoredProcedureQuery(name = "usuarioLab.buscarxcodperso", procedureName = "SIGEHOV2SEGU.[RECO].[USP_USUARIO_FINDBY_CODPERSO]", resultClasses = Usuario_laboratorio.class, parameters = {
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODPERSO", type = String.class) }) })
 
 @Entity

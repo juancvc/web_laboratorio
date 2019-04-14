@@ -1,5 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page import="hnch.referencia.core.bean.seguridad.UsuarioBean"%>
+<%@page import="sigelab.core.bean.seguridad.UsuarioBean"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -15,53 +15,7 @@
 				class="nav-link-text label_control_barra"> Inicio</span></a>
 		</li>
 	</c:if>
-	<c:if test="${accesoMenu.menu_Referencia}">
-		<c:set var="menuReferencia"
-			value="${pageContext.request.contextPath}/page/inicio.jsp" />
-		<!-- <li class="nav-item ${pageContext.request.requestURI eq menuReportes ? ' active' : ''}" data-toggle="tooltip" data-placement="right" title="Referencia"> -->
-		<li class="nav-item label_control_barra" data-toggle="tooltip"
-			data-placement="right" title="Referencia"><a
-			class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-			href="#menuReferencia" data-parent="#exampleAccordion"> <i
-				class="fa fa-fw fa-table"></i> <span
-				class="nav-link-text label_control_barra">Referencia</span>
-		</a>
-			<ul class="sidenav-second-level collapse" id="menuReferencia">
-				<li><a
-					href="${pageContext.request.contextPath}/referenciaController/nuevo"><span
-						class="label_control_barra">Ficha Registro</span></a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/referenciaController/listado"><span
-						class="label_control_barra">Listado</span></a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/inicioController/estadisticos"><span
-						class="label_control_barra">Estadísticos</span></a></li>
-			</ul></li>
-	</c:if>
-	<c:if test="${accesoMenu.menu_Contrareferencia}">
-		<li class="nav-item" data-toggle="tooltip" data-placement="right"
-			title="Contra-Referencia"><a class="nav-link" href="#"> <i
-				class="fa fa-fw fa-dashboard"></i> <span
-				class="nav-link-text label_control_barra">Contrareferencia</span>
-		</a></li>
-	</c:if>
-	<c:if test="${accesoMenu.menu_Citas}">
-		<li class="nav-item label_control_barra" data-toggle="tooltip"
-			data-placement="right" title="Citas"><a
-			class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-			href="#menuCita" data-parent="#exampleAccordion"> <i
-				class="fa fa-fw fa-area-chart"></i> <span
-				class="nav-link-text label_control_barra ">Citas</span>
-		</a>
-			<ul class="sidenav-second-level collapse" id="menuCita">
-				<li><a
-					href="${pageContext.request.contextPath}/citasController/nuevo"><span
-						class="label_control_barra">Registro</span></a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/citasController/listado"><span
-						class="label_control_barra">Listado</span></a></li>
-			</ul></li>
-	</c:if>
+	<!-- 
 	<c:if test="${accesoMenu.menu_BancoSangre}">
 		<li class="nav-item" data-toggle="tooltip" data-placement="right"
 			title="Banco de Sangre"><a
@@ -90,9 +44,7 @@
 						<li><a
 							href="${pageContext.request.contextPath}/evaluacionController/listaPostulantesEvaluacion">Postulantes</a>
 						</li>
-						<!-- <li><a
-							href="${pageContext.request.contextPath}/evaluacionController/listadoPostulante">Listado</a>
-						</li> - -->
+					 
 					</ul></li>
 				<li><a href="#collapseEntrevista"
 					class="nav-link-collapse collapsed" data-toggle="collapse">Entrevista</a>
@@ -132,6 +84,43 @@
 				</c:if>
 			</ul></li>
 	</c:if>
+	-->
+
+	<li class="nav-item" data-toggle="tooltip" data-placement="right"
+		title="Paciente"><a
+		class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
+		href="#collapsePaciente" data-parent="#exampleAccordion"> <i
+			class="fa fa-fw fa-wrench"></i> <span
+			class="nav-link-text label_control_barra">Pacientes</span>
+	</a>
+		<ul class="sidenav-third-level collapse" id="collapsePaciente">
+			<li><a
+				href="${pageContext.request.contextPath}/bancoController/nuevoPostulante">Registro</a>
+			</li>
+			<li><a
+				href="${pageContext.request.contextPath}/bancoController/listadoPostulante">Listado</a>
+			</li>
+		</ul></li>
+
+	<li class="nav-item" data-toggle="tooltip" data-placement="right"
+		title="Herramientas"><a
+		class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
+		href="#collapseLaboratorio" data-parent="#exampleAccordion"> <i
+			class="fa fa-fw fa-wrench"></i> <span
+			class="nav-link-text label_control_barra">Laboratorio</span>
+	</a>
+		<ul class="sidenav-third-level collapse" id="collapseLaboratorio">
+			<li><a
+				href="${pageContext.request.contextPath}/bancoController/nuevoPostulante">Registro</a>
+			</li>
+			<li><a
+				href="${pageContext.request.contextPath}/bancoController/listadoPostulante">Listado</a>
+			</li>
+		</ul></li>
+
+
+ 
+
 	<c:if test="${accesoMenu.menu_Herramientas}">
 		<li class="nav-item" data-toggle="tooltip" data-placement="right"
 			title="Herramientas"><a

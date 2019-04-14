@@ -42,9 +42,7 @@ import java.sql.Timestamp;
 					}),
 		}
 		)
-@Entity
-@Table(name="REFAPOYO")
-@NamedQuery(name="Refapoyo.findAll", query="SELECT r FROM Refapoyo r")
+@Entity 
 public class Tarifario_laboratorio implements Serializable {
 	private static final long serialVersionUID = 1L;
 

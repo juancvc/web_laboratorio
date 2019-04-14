@@ -52,14 +52,14 @@ import java.util.Date;
 		@StoredProcedureParameter(mode = ParameterMode.IN,  name = "p_tm1sitprf", type = Integer.class)
 	}),*/
 	@NamedStoredProcedureQuery(name = "acceso.listar", 
-		procedureName = "[SIGEHOV2SEGU].RECO.USP_ACCESO_LISTADO", 
+		procedureName = "SEGU.USP_ACCESO_LISTADO", 
 		resultClasses = Acceso.class,
 		parameters = {
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODIPERF", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODCOMPA", type = String.class)
 	}),
 	@NamedStoredProcedureQuery(name = "acceso.asignar", 
-		procedureName = "[SIGEHOV2SEGU].RECO.USP_ACCESO_ASIGNAR", 
+		procedureName = "SEGU.USP_ACCESO_ASIGNAR", 
 		parameters = {
 			@StoredProcedureParameter(mode = ParameterMode.INOUT, name = "CODACCES", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN,  name = "SWASIGNA", type = String.class),

@@ -17,8 +17,7 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  <filter>
-    <filter-name>LoginFilter</filter-name>
+  <filter>    <filter-name>LoginFilter</filter-name>
     <filter-class>
 	
 		sigelab.web.controller.seguridad.filtro.LoginFilter

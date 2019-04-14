@@ -7,6 +7,7 @@ import sigelab.core.bean.seguridad.PerfilBean;
 import sigelab.core.bean.seguridad.UsuarioBean;
 import sigelab.core.bean.seguridad.UsuarioPerfilBean;
 import sigelab.core.service.exception.ServiceException;
+import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis14Service; 
 import sigelab.core.service.interfaces.seguridad.AccesoService;
 import sigelab.core.service.interfaces.seguridad.UsuarioPerfilService;
@@ -54,7 +55,7 @@ public class InicioController extends BaseController{
 	private UsuarioPerfilService usuarioPerfilService;
 	
 	@Autowired
-	private MaestraAsis14Service maestraAsis14Service;
+	private MaestraAsis01Service maestraAsis14Service;
 	 
 	
 	List<TablaBean> lstMaestra =(new ArrayList<TablaBean>()); ;
