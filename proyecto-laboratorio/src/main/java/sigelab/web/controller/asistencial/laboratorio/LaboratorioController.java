@@ -1,4 +1,4 @@
-package sigelab.web.controller.asistencial.banco;
+package sigelab.web.controller.asistencial.laboratorio;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +32,9 @@ import sigelab.core.bean.asistencial.banco.EstadoFisicoBean;
 import sigelab.core.bean.asistencial.banco.LugarCampaniaBean;  
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
+import sigelab.core.bean.general.TarifarioBean;
 import sigelab.core.bean.general.UbigeoBean;
+import sigelab.core.bean.seguridad.UsuarioBean;
 import sigelab.core.entity.asistencial.banco.InterUAL;
 import sigelab.core.entity.general.PacienteReniec;
 import sigelab.core.service.exception.ServiceException;
@@ -43,11 +45,12 @@ import sigelab.core.service.interfaces.asistencial.banco.LugarCampaniaService;
 import sigelab.core.service.interfaces.asistencial.banco.PostulanteService;
 import sigelab.core.service.interfaces.asistencial.banco.PreDonanteService;
 import sigelab.core.service.interfaces.asistencial.banco.SeropositivoService;
-import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis14Service;
+import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraBanc01Service; 
 import sigelab.core.service.interfaces.general.Maestra1Service;
 import sigelab.core.service.interfaces.general.PacienteReniecService;
 import sigelab.core.service.interfaces.general.PersonaService;
+import sigelab.core.service.interfaces.general.TarifarioService;
 import sigelab.core.service.interfaces.general.UbigeoService;
 import sigelab.web.controller.base.BaseController;
 import net.sf.jasperreports.engine.JRException;
@@ -59,8 +62,8 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader; 
 
 @Controller
-@RequestMapping(value = "bancoController")
-public class BancoController  extends BaseController {
+@RequestMapping(value = "laboratorioController")
+public class LaboratorioController  extends BaseController {
 	
 	List<TablaBean> lstSituacion = new ArrayList<TablaBean>();
 	List<TablaBean> lstDocumento = new ArrayList<TablaBean>();
@@ -70,14 +73,14 @@ public class BancoController  extends BaseController {
 	List<TablaBean> lstNacionalidad = new ArrayList<TablaBean>();
 	List<TablaBean> lstNivelInstrucion = new ArrayList<TablaBean>();
 	List<UbigeoBean> lstUbigeoBean = new ArrayList<UbigeoBean>();
-	List<UbigeoBean> lstUbigeoFiltro = new ArrayList<UbigeoBean>();
+	List<TablaBean> lstTipoExamen = new ArrayList<TablaBean>();
 	
 	PersonaBean personaBean = new PersonaBean();
 	PostulanteBean PostulanteBean = new PostulanteBean();
 	public UbigeoBean ubigeobean;
 	 
 	private List<CampaniaBean> lstCampaniaBean ;
-	private List<LugarCampaniaBean> lstLugarCampaniaBean ;
+	private List<TarifarioBean> lstTarifarioBean ;
 	private List<PostulanteBean> lstPostulanteBean ;
 	private List<SeropositivoBean> lstSeropositivoBean ;
 	
@@ -85,13 +88,13 @@ public class BancoController  extends BaseController {
 	private MaestraBanc01Service maestraBanc01Service; 
 	 
 	@Autowired
-	private MaestraAsis14Service maestraAsis14Service;
+	private MaestraAsis01Service maestraAsis01Service;
 	
 	@Autowired
 	private CampaniaService campaniaService;
 	
 	@Autowired
-	private LugarCampaniaService lugarCampaniaService;
+	private TarifarioService tarifarioService;
 	
 	@Autowired
 	private Maestra1Service maestraGene01Services;
@@ -129,8 +132,8 @@ public class BancoController  extends BaseController {
 	private void cargarCombos(ModelAndView mav) {
 		try {
 			lstSituacion =maestraBanc01Service.listarPorCodigoTabla("000034", 1);
-			lstDocumento = maestraAsis14Service.listarPorCodigoTabla("000003", 1);
-			lstSexo = maestraAsis14Service.listarPorCodigoTabla("000004", 1);
+			lstDocumento = maestraAsis01Service.listarPorCodigoTabla("000003", 1);
+			lstSexo = maestraAsis01Service.listarPorCodigoTabla("000004", 1);
 			lstEstadoCivil = maestraGene01Services.listarPorCodigoTabla("000005", 0);
 			lstOcupacion = maestraGene01Services.listarPorCodigoTabla("000007", 0);
 			lstNacionalidad = maestraGene01Services.listarPorCodigoTabla("000003", 0);
@@ -334,6 +337,8 @@ public class BancoController  extends BaseController {
 		return personaBean;
 	}
 	
+	
+
 	
 	
 	@RequestMapping(value = "/listarEstadoFisicoPersona", method = RequestMethod.GET)
@@ -702,23 +707,14 @@ public class BancoController  extends BaseController {
 	}
 	
  
-	@RequestMapping(value = "/nuevoPostulante", method = RequestMethod.GET)
+	@RequestMapping(value = "/orden", method = RequestMethod.GET)
 	public ModelAndView nuevoPostulante(HttpServletRequest request) {
 		PostulanteBean PostulanteBean = new PostulanteBean(); 
 		CampaniaBean campaniaBean = new CampaniaBean();
 		campaniaBean.getSituacion().setCodReg("000001");
-		lstCampaniaBean = new ArrayList<CampaniaBean>();   
-	/*	try {
-			lstCampaniaBean = campaniaService.getBuscarPorFiltros(campaniaBean);
-			if (lstCampaniaBean != null && lstCampaniaBean.size() > 0) {
-				PostulanteBean.setCampania(lstCampaniaBean.get(0));
-			}
-		} catch (ServiceException e) { 
-			e.printStackTrace();
-		}  */
-		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/postulante/registro-postulante", "command", PostulanteBean); 
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-orden", "command", PostulanteBean); 
 		
-	//	this.cargarCombos(mav);
+		 
 		return mav;
 	}
 	
@@ -740,6 +736,32 @@ public class BancoController  extends BaseController {
 		mav.addObject("lstUbigeoBean", lstUbigeoBean);
 		return mav;
 	}
+	
+	
+	/***NUEVA LINEA 19-04-2019****/
+	@RequestMapping(value = "/nuevoPaciente", method = RequestMethod.GET)
+	public ModelAndView nuevoPaciente(HttpServletRequest request) {
+		PostulanteBean PostulanteBean = new PostulanteBean(); 
+		CampaniaBean campaniaBean = new CampaniaBean();
+		campaniaBean.getSituacion().setCodReg("000001");
+		lstCampaniaBean = new ArrayList<CampaniaBean>();   
+	/*	try {
+			lstCampaniaBean = campaniaService.getBuscarPorFiltros(campaniaBean);
+			if (lstCampaniaBean != null && lstCampaniaBean.size() > 0) {
+				PostulanteBean.setCampania(lstCampaniaBean.get(0));
+			}
+		} catch (ServiceException e) { 
+			e.printStackTrace();
+		}  */
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-paciente-laboratorio", "command", PostulanteBean); 
+		
+	//	this.cargarCombos(mav);
+		return mav;
+	}
+	
+	
+	
+	
 	
 	@RequestMapping(value = "rptListadoPostulantes", method = RequestMethod.GET)
 	@ResponseBody
@@ -889,197 +911,59 @@ public class BancoController  extends BaseController {
 	/**************************************************************/
 	/********************** LUGAR DE CAMPAÑAS *********************/
 	
-	
-	@RequestMapping(value = "/listadoLugarCampania", method = RequestMethod.GET)
-	public ModelAndView listadoLugarCampania() throws Exception {
-		 
-		return listadoLugarCampaniaPost();
-	}
-	
-	@RequestMapping(value = "/listadoLugarCampania", method = RequestMethod.POST)
-	public ModelAndView listadoLugarCampaniaPost() throws Exception {
-		lstLugarCampaniaBean = new ArrayList<LugarCampaniaBean>(); 
-		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/lugarCampania/listado-lugarCampania", "command", new LugarCampaniaBean()); 
-		lstLugarCampaniaBean = lugarCampaniaService.getBuscarPorFiltros(new LugarCampaniaBean());  
-		mav.addObject("lstLugarCampaniaBean", lstLugarCampaniaBean);  
-		return mav;
-	}
+	 
+	 
 	@RequestMapping(value = "/nuevoLugarCampania", method = RequestMethod.GET)
 	public ModelAndView nuevoLugarCampania(HttpServletRequest request) {
 		LugarCampaniaBean lugarCampaniaBean = new LugarCampaniaBean(); 
 		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/lugarCampania/registro-lugarCampania", "command", lugarCampaniaBean); 
 		//this.cargarCombosCampania(mav);
 		return mav;
-	}
-	@RequestMapping(value = "/buscarLugarCampania", method = RequestMethod.POST)
-	public ModelAndView LugarCampaniaPOST(@ModelAttribute("lugarCampaniaBean") LugarCampaniaBean lugarCampaniaBean,
-			HttpServletRequest request
-			)
-			throws Exception { 
-		lstLugarCampaniaBean = new ArrayList<LugarCampaniaBean>(); 
-		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/lugarCampania/listado-lugarCampania", "command", lugarCampaniaBean); 
-		lstLugarCampaniaBean = lugarCampaniaService.getBuscarPorFiltros(lugarCampaniaBean);  
-		mav.addObject("lstLugarCampaniaBean", lstLugarCampaniaBean);  
-		return mav;
-		
-	}
-	
-	@RequestMapping(value = "/buscarLugarCampania", method = RequestMethod.GET)
-	public ModelAndView LugarCampania(@ModelAttribute("lugarCampaniaBean") LugarCampaniaBean lugarCampaniaBean,
-			HttpServletRequest request
-			)
-			throws Exception { 
-		 return LugarCampaniaPOST(lugarCampaniaBean, request);
-		
-	}
-	
-	@RequestMapping(value = "/grabarLugarCampania", method = RequestMethod.POST)
-	public @ResponseBody String grabarLugarCampania(@ModelAttribute("lugarCampaniaBean")LugarCampaniaBean lugarCampaniaBean,
-											 HttpServletRequest request) throws Exception {  
-		String codigo ="";   
-		if (lugarCampaniaBean.getCodigo()!=null && !lugarCampaniaBean.getCodigo().equals("")) {
-			this.setAuditoria(lugarCampaniaBean, request, false); 
-			System.out.println("actualiza campaniaBean " + lugarCampaniaBean.getCodigo());
-			if (lugarCampaniaService.actualizar(lugarCampaniaBean)) { 
-				System.out.println("campaniaBean " + lugarCampaniaBean.getCodigo());
-				codigo = lugarCampaniaBean.getCodigo();
-			}
-		} else {
-			this.setAuditoria(lugarCampaniaBean, request, true); 
-			System.out.println("insert campaniaBean " + lugarCampaniaBean.getCodigo());
-			if (lugarCampaniaService.insertar(lugarCampaniaBean)) { 
-				System.out.println("campaniaBean " + lugarCampaniaBean.getCodigo());
-				codigo = lugarCampaniaBean.getCodigo();
-			}
-			
-		}  
-		return codigo;
-	}
-	 
-	@RequestMapping(value = "/eliminarLugarCampania", method = RequestMethod.GET)
-	public @ResponseBody String eliminarLugarCampania(@RequestParam("index") Integer index,
-			 HttpServletRequest request) {
-		String resultado = "";
-		LugarCampaniaBean oLugarCampaniaBean = new LugarCampaniaBean(); 
-		oLugarCampaniaBean = this.lstLugarCampaniaBean.get(index);
-		
-		System.out.println("lstLugarCampaniaBean.getCodigo " + oLugarCampaniaBean.getCodigo());
-		System.out.println("lstLugarCampaniaBean " + oLugarCampaniaBean);
-		try {
-			if (lugarCampaniaService.eliminar(oLugarCampaniaBean)) {
-				System.out.println("Se eliminó el registro ");
-				resultado  ="1";
-			} 
-		} catch (ServiceException e) { 
-			e.printStackTrace();
-		}
-		 return resultado;
-	}
-	
-	@RequestMapping(value = "/listarLugarCampanias", method = RequestMethod.GET)
-	public @ResponseBody List<LugarCampaniaBean> refrescarListaLugarCampanias()throws Exception { 
-	 	try {
-	 		lstLugarCampaniaBean = lugarCampaniaService.getBuscarPorFiltros(new LugarCampaniaBean());  
-		} catch (ServiceException e) { 
-			e.printStackTrace();
-		}
-		 
-		return lstLugarCampaniaBean; 
-	}
-	
-	@RequestMapping(value = "/validarExisteLugarCampania", method = RequestMethod.GET)
-	public @ResponseBody String validarExisteLugarCampania(@ModelAttribute("lugarCampaniaBean")LugarCampaniaBean lugarCampaniaBean)throws Exception { 
-		String valida ="0";
-		
-	 	try {
-	 		if (lstLugarCampaniaBean == null) { 
-	 			lstLugarCampaniaBean = lugarCampaniaService.getBuscarPorFiltros(new LugarCampaniaBean());   
-			} 
-	 		if (lstLugarCampaniaBean != null) {
-	 			for ( LugarCampaniaBean oLugarCampaniaBean: lstLugarCampaniaBean) {
-					if (oLugarCampaniaBean.getNombre().trim().equals(lugarCampaniaBean.getNombre().trim()) &&
-						oLugarCampaniaBean.getUbigeoLugar().getCodigoRegistro().equals(lugarCampaniaBean.getUbigeoLugar().getCodigoRegistro().trim())&&
-						!oLugarCampaniaBean.getCodigo().equals(lugarCampaniaBean.getCodigo())) {
-						valida ="1";
-						break;
-					}
-				}
-			}
-	 		
-		} catch (ServiceException e) { 
-			e.printStackTrace();
-		}
-		 System.out.println("valida " + valida);
-		return valida; 
-	}
-	
-	
-	@RequestMapping(value = "/modificarLugarCampania", method = RequestMethod.POST)
-	public ModelAndView modificarLugarCampania(@RequestParam("codigo") Integer index, HttpServletRequest request) {
-
-		System.out.println("modificar codigo: " + index); 
-		LugarCampaniaBean oLugarCampaniaBean = new LugarCampaniaBean(); 
-		oLugarCampaniaBean = this.lstLugarCampaniaBean.get(index);
-		System.out.println("modificar oReferenciaBean: " + oLugarCampaniaBean.getCodigo());
-		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/lugarCampania/registro-lugarCampania", "command", oLugarCampaniaBean);
-		mav.addObject("lugarCampaniaBean", oLugarCampaniaBean);  
-		return mav;
-	}
- 
-	@RequestMapping(value = "/lugarCampaniasModal", method = RequestMethod.POST)
-	public ModelAndView lugarCampaniasModal() throws Exception {
-
-		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/campania/listado-lugarcampania-modal", "command", new LugarCampaniaBean());
-
-		try {
-			lstLugarCampaniaBean = lugarCampaniaService.getBuscarPorFiltros(new LugarCampaniaBean());  
-		} catch (ServiceException e) { 
-			e.printStackTrace();
-		}
-		mav.addObject("lstLugarCampaniaBean", lstLugarCampaniaBean);
-		return mav;
-	}
-	
-	@RequestMapping(value = "/buscarFiltroLugarCampania", method = RequestMethod.GET)
-	public @ResponseBody  List<LugarCampaniaBean> 
-	doBuscarLugarCampaniaBean(@ModelAttribute("lugarCampaniaBean") LugarCampaniaBean oLugarCampaniaBean)throws Exception { 
-		
- 
-		System.out.println("oUbigeoBean.getCodigoUbigeo() " + oLugarCampaniaBean.getNombre());  
-		 
-		try {
-			lstLugarCampaniaBean = lugarCampaniaService.getBuscarPorFiltros(oLugarCampaniaBean);  
-		} catch (ServiceException e) { 
-			e.printStackTrace();
-		}
-			 
-		return lstLugarCampaniaBean;
-	}
-	
-	@RequestMapping(value = "/enviarLugarcampania", method = RequestMethod.GET)
-	public @ResponseBody LugarCampaniaBean enviarLugarcampania(
-			@RequestParam("index") Integer index, HttpServletRequest request) throws Exception {  
-    
-		LugarCampaniaBean oLugarCampaniaBean = new LugarCampaniaBean(); 
-		try {
-			oLugarCampaniaBean = this.lstLugarCampaniaBean.get(index);
-			 
-		} catch (Exception e) { 
-		}
-		
-		return oLugarCampaniaBean;
-	}
-	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	@RequestMapping(value = "/imprimirTicket", method = RequestMethod.POST)
-	public ModelAndView imprimirTicket(HttpServletRequest request) { 
-		return new ModelAndView("asistencial/bancoSangre/postulante/ajax/imprimir-ticket-postulante", "command", PostulanteBean); 
-		 
-	}
-	
+	}  
 	
 	 
+ 
+   
+ 
+	@RequestMapping(value = "/tarifarioModal", method = RequestMethod.POST)
+	public ModelAndView tarifarioModal() throws Exception {
+
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/listado-tarifario-modal", "command", new TarifarioBean());
+		lstTarifarioBean = new ArrayList<TarifarioBean>();
+		lstTipoExamen = new ArrayList<TablaBean>();
+		try {
+			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(new TarifarioBean());  
+			lstTipoExamen = maestraAsis01Service.listarPorCodigoTabla("000013", 1);
+		} catch (ServiceException e) { 
+			e.printStackTrace();
+		}
+		
+		mav.addObject("lstTarifarioBean", lstTarifarioBean);
+		mav.addObject("lstTipoExamen", lstTipoExamen);
+		return mav;
+	}
+	
+	
+	@RequestMapping(value = "/tarifarioGeneralModal", method = RequestMethod.GET)
+	public ModelAndView tarifarioGeneralModal() throws Exception {
+
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/listado-tarifario-general", "command", new TarifarioBean());
+		lstTarifarioBean = new ArrayList<TarifarioBean>();
+		lstTipoExamen = new ArrayList<TablaBean>();
+		try {
+			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(new TarifarioBean());  
+			lstTipoExamen = maestraAsis01Service.listarPorCodigoTabla("000013", 1);
+		} catch (ServiceException e) { 
+			e.printStackTrace();
+		}
+		
+		mav.addObject("lstTarifarioBean", lstTarifarioBean);
+		mav.addObject("lstTipoExamen", lstTipoExamen);
+		return mav;
+	}
+	
+	
+ 
 
 	public PersonaBean getPersonaBean() {
 		return personaBean;

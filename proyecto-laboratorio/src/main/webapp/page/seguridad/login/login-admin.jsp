@@ -12,7 +12,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>SIGEHO WEB</title>
+<title>LABMED</title>
 <!-- Bootstrap core CSS-->
 <link
 	href="${pageContext.request.contextPath}/app-assets/vendor/bootstrap/css/bootstrap.min.css"
@@ -29,7 +29,7 @@
 <link rel="apple-touch-icon"
 	href="${pageContext.request.contextPath}/app-assets/images/ico/logoHNCH.png">
 <link rel="shortcut icon" type="image/x-icon"
-	href="${pageContext.request.contextPath}/app-assets/images/ico/iconHNCH.ico">
+	href="${pageContext.request.contextPath}/app-assets/images/ico/logoLabico.ico">
 
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i"
@@ -67,8 +67,17 @@
 	padding:.60rem 1.10rem;
 	margin-bottom:0; 
 	font-weight: bold; 
+	align-text:center;
+	margin-left: auto;
+    margin-right: auto;
 }
-
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  height: 50%; 
+}
 </style>
 </head>
 
@@ -78,9 +87,10 @@
 			<div class="card-header" style="align-text:center">
 			<div class="form-group"> 
 						<img 
-					src="${pageContext.request.contextPath}/assets/img/logoHCHredondo.png"
-					class="img-fluid" alt="branding logo"> <span class="divTitulo">CONTROL DE ACCESO</span>
-					
+					src="${pageContext.request.contextPath}/assets/img/logoLab.png"
+					class="img-fluid center" alt="branding logo"> 
+					<div style="text-align: center;"><span class="divTitulo" >CONTROL DE ACCESO</span>
+					</div>
 					</div>
 					
 				

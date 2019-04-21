@@ -28,29 +28,67 @@ import java.sql.Timestamp;
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class)
 					}), 
 			@NamedStoredProcedureQuery(
-					name="referenciaApoyoDX.findByRefCb", 
-					procedureName="[RECO].[REFAPOYO_FIND_BY_CODREFCB]",
+					name="tarifario.listarPorFiltros", 
+					procedureName="[LABO].[TARIFARIO_LISTAR_X_FILTROS]",
 					resultClasses= Tarifario_laboratorio.class,
 					parameters={ 
-							@StoredProcedureParameter(mode = ParameterMode.IN, name ="CODREFCB", type = String.class),
-						    @StoredProcedureParameter(mode = ParameterMode.IN, name ="NROPERIO", type = String.class),
-						    @StoredProcedureParameter(mode = ParameterMode.IN, name ="NROVERSI", type = String.class),
-						    
-						    @StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class)
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="TG1TIPOT", type = String.class) 
 					}),
+			@NamedStoredProcedureQuery(
+					name="tarifario.registro", 
+					procedureName="[LABO].[TARIFARIO_ITEM_INSERT]",
+					resultClasses= Tarifario_laboratorio.class,
+					parameters={ 
+							@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODTARIF", type = 	String.class),
+							
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1TIPOT", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPO",  	  type =	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "SUBTIPO",  type = 	String.class),
+							
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMPRODU", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "PRECIO",   type =    Float.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUDUSUCR", type = 	String.class)
+					}),
+			@NamedStoredProcedureQuery(
+					name="tarifario.actualizar", 
+					procedureName="[LABO].[TARIFARIO_ITEM_UPDATE]",
+					resultClasses= Tarifario_laboratorio.class,
+					parameters={ 
+							@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODTARIF", type = 	String.class),
+							
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1TIPOT", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPO",  	  type =	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "SUBTIPO",  type = 	String.class),
+							
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMPRODU", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "PRECIO",   type =    Float.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUDUSUCR", type = 	String.class) 
+					}),
+			
 		}
 		)
 @Entity 
 public class Tarifario_laboratorio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private Tarifario_laboratorioPK id;
+	@Id
+	@Column(name="CODTARIF")
+	private String CODTARIF;
 
 	@Column(name="AUCDUSCR")
 	private String aucduscr;
+	
+	@Column(name="TIPO")
+	private String TIPO;
+	
+	@Column(name="SUBTIPO")
+	private String SUBTIPO;
+	
+	@Column(name="NOMPRODU")
+	private String NOMPRODU;
+	
+	@Column(name="PRECIO")
+	private Float PRECIO;
 
 	@Column(name="AUCDUSMO")
 	private String aucdusmo;
@@ -100,183 +138,289 @@ public class Tarifario_laboratorio implements Serializable {
 	@Column(name="SWMIGRAD")
 	private short swmigrad;
 
-	@Column(name="TG14TPAP")
-	private String tg14tpap;
+	@Column(name="TG1TIPOT")
+	private String TG1TIPOT;
 	
-	
-	private String nomTPApo; 
-	private String nomApoyo;
-	
+	 
 
 	public Tarifario_laboratorio() {
 	}
 
-	public Tarifario_laboratorioPK getId() {
-		return this.id;
+
+
+	public String getCODTARIF() {
+		return CODTARIF;
 	}
 
-	public void setId(Tarifario_laboratorioPK id) {
-		this.id = id;
+
+
+	public void setCODTARIF(String cODTARIF) {
+		CODTARIF = cODTARIF;
 	}
+
+
 
 	public String getAucduscr() {
-		return this.aucduscr;
+		return aucduscr;
 	}
+
+
 
 	public void setAucduscr(String aucduscr) {
 		this.aucduscr = aucduscr;
 	}
 
-	public String getAucdusmo() {
-		return this.aucdusmo;
+
+
+	public String getTIPO() {
+		return TIPO;
 	}
+
+
+
+	public void setTIPO(String tIPO) {
+		TIPO = tIPO;
+	}
+
+
+
+	public String getSUBTIPO() {
+		return SUBTIPO;
+	}
+
+
+
+	public void setSUBTIPO(String sUBTIPO) {
+		SUBTIPO = sUBTIPO;
+	}
+
+
+
+	public String getNOMPRODU() {
+		return NOMPRODU;
+	}
+
+
+
+	public void setNOMPRODU(String nOMPRODU) {
+		NOMPRODU = nOMPRODU;
+	}
+
+
+
+	public Float getPRECIO() {
+		return PRECIO;
+	}
+
+
+
+	public void setPRECIO(Float pRECIO) {
+		PRECIO = pRECIO;
+	}
+
+
+
+	public String getAucdusmo() {
+		return aucdusmo;
+	}
+
+
 
 	public void setAucdusmo(String aucdusmo) {
 		this.aucdusmo = aucdusmo;
 	}
 
+
+
 	public Timestamp getAufechcr() {
-		return this.aufechcr;
+		return aufechcr;
 	}
+
+
 
 	public void setAufechcr(Timestamp aufechcr) {
 		this.aufechcr = aufechcr;
 	}
 
+
+
 	public Timestamp getAufechmo() {
-		return this.aufechmo;
+		return aufechmo;
 	}
+
+
 
 	public void setAufechmo(Timestamp aufechmo) {
 		this.aufechmo = aufechmo;
 	}
 
+
+
 	public String getAuobsemo() {
-		return this.auobsemo;
+		return auobsemo;
 	}
+
+
 
 	public void setAuobsemo(String auobsemo) {
 		this.auobsemo = auobsemo;
 	}
 
+
+
 	public String getAupcipcr() {
-		return this.aupcipcr;
+		return aupcipcr;
 	}
+
+
 
 	public void setAupcipcr(String aupcipcr) {
 		this.aupcipcr = aupcipcr;
 	}
 
+
+
 	public String getAupcipmo() {
-		return this.aupcipmo;
+		return aupcipmo;
 	}
+
+
 
 	public void setAupcipmo(String aupcipmo) {
 		this.aupcipmo = aupcipmo;
 	}
 
+
+
 	public String getCodinstcb() {
-		return this.codinstcb;
+		return codinstcb;
 	}
+
+
 
 	public void setCodinstcb(String codinstcb) {
 		this.codinstcb = codinstcb;
 	}
 
+
+
 	public String getCodorgcb() {
-		return this.codorgcb;
+		return codorgcb;
 	}
+
+
 
 	public void setCodorgcb(String codorgcb) {
 		this.codorgcb = codorgcb;
 	}
 
+
+
 	public String getCodrefcb() {
-		return this.codrefcb;
+		return codrefcb;
 	}
+
+
 
 	public void setCodrefcb(String codrefcb) {
 		this.codrefcb = codrefcb;
 	}
 
+
+
 	public String getCodsedcb() {
-		return this.codsedcb;
+		return codsedcb;
 	}
+
+
 
 	public void setCodsedcb(String codsedcb) {
 		this.codsedcb = codsedcb;
 	}
 
+
+
 	public String getCodtarcb() {
-		return this.codtarcb;
+		return codtarcb;
 	}
+
+
 
 	public void setCodtarcb(String codtarcb) {
 		this.codtarcb = codtarcb;
 	}
 
+
+
 	public String getEstadorg() {
-		return this.estadorg;
+		return estadorg;
 	}
+
+
 
 	public void setEstadorg(String estadorg) {
 		this.estadorg = estadorg;
 	}
 
+
+
 	public String getNropercb() {
-		return this.nropercb;
+		return nropercb;
 	}
+
+
 
 	public void setNropercb(String nropercb) {
 		this.nropercb = nropercb;
 	}
 
+
+
 	public String getNrovercb() {
-		return this.nrovercb;
+		return nrovercb;
 	}
+
+
 
 	public void setNrovercb(String nrovercb) {
 		this.nrovercb = nrovercb;
 	}
 
+
+
 	public String getSituacrg() {
-		return this.situacrg;
+		return situacrg;
 	}
+
+
 
 	public void setSituacrg(String situacrg) {
 		this.situacrg = situacrg;
 	}
 
+
+
 	public short getSwmigrad() {
-		return this.swmigrad;
+		return swmigrad;
 	}
+
+
 
 	public void setSwmigrad(short swmigrad) {
 		this.swmigrad = swmigrad;
 	}
 
-	public String getTg14tpap() {
-		return this.tg14tpap;
+
+
+	public String getTG1TIPOT() {
+		return TG1TIPOT;
 	}
 
-	public void setTg14tpap(String tg14tpap) {
-		this.tg14tpap = tg14tpap;
-	}
 
-	public String getNomTPApo() {
-		return nomTPApo;
-	}
 
-	public void setNomTPApo(String nomTPApo) {
-		this.nomTPApo = nomTPApo;
+	public void setTG1TIPOT(String tG1TIPOT) {
+		TG1TIPOT = tG1TIPOT;
 	}
-
-	public String getNomApoyo() {
-		return nomApoyo;
-	}
-
-	public void setNomApoyo(String nomApoyo) {
-		this.nomApoyo = nomApoyo;
-	}
+ 
 
 }
