@@ -147,11 +147,10 @@
 										type="button" class="btn btn-flat btn-default">
 										<i class="fa fa-eraser"></i> LIMPIAR
 									</button>
-									<a
-										href="${pageContext.request.contextPath}/usuarioController/nuevo"
-										class="btn btn-secondary" title=""> <i class="icon-plus"></i>
-										NUEVO
-									</a>
+										<button id="btn-save-reg" type="button" class="btn btn-info"
+										onclick="cargarRegistroTarifarioModal()">
+										<i class="fa fa-plus"></i> NUEVO
+									</button>
 								</div>
 							</div>
 						</div>
@@ -300,6 +299,10 @@
 	type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/assets/js/scripts.js"
 	type="text/javascript"></script>
+		<script
+			src="${pageContext.request.contextPath}/assets/js/page/asistencial/tarifario.js"
+			type="text/javascript" charset="utf-8"></script>
+	
 		<script
 			src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
 			type="text/javascript" charset="utf-8"></script>

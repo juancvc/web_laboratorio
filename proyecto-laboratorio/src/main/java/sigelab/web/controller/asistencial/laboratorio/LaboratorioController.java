@@ -718,6 +718,26 @@ public class LaboratorioController  extends BaseController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/tarifarioRegModal", method = RequestMethod.POST)
+	public ModelAndView nuevoTarifario()throws Exception {
+
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-tarifario", "command", new TarifarioBean());
+		lstTarifarioBean = new ArrayList<TarifarioBean>();
+		lstTipoExamen = new ArrayList<TablaBean>();
+		try {
+			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(new TarifarioBean());  
+			lstTipoExamen = maestraAsis01Service.listarPorCodigoTabla("000013", 1);
+		} catch (ServiceException e) { 
+			e.printStackTrace();
+		}
+		
+		mav.addObject("lstTarifarioBean", lstTarifarioBean);
+		mav.addObject("lstTipoExamen", lstTipoExamen);
+		return mav;
+	}
+	
+	
+	
 	@RequestMapping(value = "/listadoUbigeoModal", method = RequestMethod.POST)
 	public ModelAndView listadoUbigeoModal() throws Exception {
 
