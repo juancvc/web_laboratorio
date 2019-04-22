@@ -145,7 +145,7 @@
 
 					<div class="card-body">
 						<div class="form-group">
-						<div class="label_title">DATOS DE PACIENTE :</div>
+						<div class="label_title">DATOS DE PROCEDIMIENTO :</div>
 						<div class="row">
 								<div class="form-group col-md-3 mb-1">
 									<label for="situacion" class="label_control">TIPO

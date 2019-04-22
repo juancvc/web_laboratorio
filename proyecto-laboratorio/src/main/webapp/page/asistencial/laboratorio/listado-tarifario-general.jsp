@@ -147,10 +147,12 @@
 										type="button" class="btn btn-flat btn-default">
 										<i class="fa fa-eraser"></i> LIMPIAR
 									</button>
-										<button id="btn-save-reg" type="button" class="btn btn-info"
-										onclick="cargarRegistroTarifarioModal()">
-										<i class="fa fa-plus"></i> NUEVO
-									</button>
+									<a
+										href="${pageContext.request.contextPath}/tarifarioController/nuevoTarifario"
+										class="btn btn-secondary" title=""> <i class="icon-plus"></i>
+										NUEVO
+									</a> 
+										
 								</div>
 							</div>
 						</div>
