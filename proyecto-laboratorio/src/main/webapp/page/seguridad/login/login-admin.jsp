@@ -98,8 +98,10 @@
 					</div>
 					<div class="form-group">
 						<label for="exampleInputPassword1">Contraseña</label>
+						
 						<f:input class="form-control" id="textPassword" path="contrasena"
 							type="password" placeholder="Ingrese Contraseña" required="true" />
+							
 					</div>
 					<div class="form-group">
 					<input class="form-control" type="text" disabled="true" id="msgErrorLogin" value="${msgErrorLogin}"
