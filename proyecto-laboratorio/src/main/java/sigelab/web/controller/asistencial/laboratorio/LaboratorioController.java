@@ -1,5 +1,6 @@
 package sigelab.web.controller.asistencial.laboratorio;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,7 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView; 
+import org.springframework.web.servlet.ModelAndView;
+
+import com.github.sarxos.webcam.Webcam;
+
 import sigelab.core.bean.asistencial.banco.PostulanteBean;
 import sigelab.core.bean.asistencial.banco.SeropositivoBean;
 import sigelab.core.bean.asistencial.banco.CampaniaBean;
@@ -131,7 +136,7 @@ public class LaboratorioController  extends BaseController {
 	
 	private void cargarCombos(ModelAndView mav) {
 		try {
-			lstSituacion =maestraBanc01Service.listarPorCodigoTabla("000034", 1);
+		//	lstSituacion =maestraBanc01Service.listarPorCodigoTabla("000034", 1);
 			lstDocumento = maestraAsis01Service.listarPorCodigoTabla("000003", 1);
 			lstSexo = maestraAsis01Service.listarPorCodigoTabla("000004", 1);
 			lstEstadoCivil = maestraGene01Services.listarPorCodigoTabla("000005", 0);
@@ -737,6 +742,47 @@ public class LaboratorioController  extends BaseController {
 	}
 	
 	
+	@RequestMapping(value = "/mostrarCamara", method = RequestMethod.POST)
+	public ModelAndView mostrarCamara()throws Exception {
+
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/pantalla-foto-paciente", "command", new TarifarioBean());
+	/*	lstTarifarioBean = new ArrayList<TarifarioBean>();
+		lstTipoExamen = new ArrayList<TablaBean>();
+		try {
+			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(new TarifarioBean());  
+			lstTipoExamen = maestraAsis01Service.listarPorCodigoTabla("000013", 1);
+		} catch (ServiceException e) { 
+			e.printStackTrace();
+		}
+		Webcam webcam = Webcam.getDefault();
+		webcam.open();
+		ImageIO.write(webcam.getImage(), "PNG", new File("fotopaciente.png"));
+		*/
+		mav.addObject("lstTarifarioBean", new TarifarioBean());
+		mav.addObject("lstTipoExamen", new TablaBean());
+		return mav;
+	}
+	
+	@RequestMapping(value = "/mostrarCamaraV2", method = RequestMethod.GET)
+	public ModelAndView mostrarCamaraV2(HttpServletRequest request) {
+		TarifarioBean tarifarioBean = new TarifarioBean(); 
+		CampaniaBean campaniaBean = new CampaniaBean();
+		campaniaBean.getSituacion().setCodReg("000001");
+		Webcam webcam = Webcam.getDefault();
+		webcam.open();
+		try {
+			ImageIO.write(webcam.getImage(), "PNG", new File("fotopaciente.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-tarifario", "command", tarifarioBean); 
+		
+		 
+		return mav;
+	}
+	
+	
 	
 	@RequestMapping(value = "/listadoUbigeoModal", method = RequestMethod.POST)
 	public ModelAndView listadoUbigeoModal() throws Exception {
@@ -775,7 +821,7 @@ public class LaboratorioController  extends BaseController {
 		}  */
 		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-paciente-laboratorio", "command", PostulanteBean); 
 		
-	//	this.cargarCombos(mav);
+		this.cargarCombos(mav);
 		return mav;
 	}
 	

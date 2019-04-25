@@ -577,11 +577,12 @@ td.cantidad, th.cantidad {
 										src="${pageContext.request.contextPath}/assets/img/fotoPersonaGenerico.gif" />
 										
 										<button id="btnBuscarUbigeoDireccion" type="button"
-										style="margin-top: 30px;" disabled="true"
-										onclick="ubigeoCargarModal(2)"
+										style="margin-top: 30px;" 
+										onclick="cargarPantallaWebCamModal()"
 										class="form-control btn btn-info">
-										<i class="ft-search"></i>TOMAR FOTO
+										<i class="fa fa-camera-retro fa-lg"></i>TOMAR FOTO
 									</button>
+								
 								</div>
 								<div class="col-md-3">
 									<div class="barCode">
@@ -610,11 +611,8 @@ td.cantidad, th.cantidad {
 													<th>N° REGISTRO</th>
 													<th>RESULTADO</th>
 													<th>FECHA</th>
-													<th>HTCO</th>
-													<th width="80">GF</th>
-													<th>TIPO DONACION</th>
-													<th>PARENTESCO</th>
-													<th>NOMBRE PACIENTE</th>
+													
+												
 												
 												</tr>
 											</thead>
@@ -709,6 +707,14 @@ td.cantidad, th.cantidad {
 					<div class="modal-content" id="modalmodalTicket"></div>
 				</div>
 			</div> 
+			
+			<div class="modal fade text-xs-left" id="modalWebCam" tabindex="-2"
+				role="dialog" aria-labelledby="myModalLabel35" data-dismiss="modal"
+				aria-hidden="true" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content" id="modalmodalWebCam"></div>
+				</div>
+			</div>
 		
 			
 		
@@ -791,6 +797,11 @@ td.cantidad, th.cantidad {
 
 <script src="${pageContext.request.contextPath}/assets/js/scripts.js"
 	type="text/javascript"></script>
+	
+	<script
+			src="${pageContext.request.contextPath}/assets/js/page/asistencial/fotoCam.js"
+			type="text/javascript" charset="utf-8"></script>
+	
 
 <script>
 function crearBoton(){

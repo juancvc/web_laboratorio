@@ -36,13 +36,15 @@ import java.sql.Timestamp;
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROCELU", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "SWRENIEC", type = String.class), }),
 			
-		@NamedStoredProcedureQuery(name = "persona.insertarPersonaBanco", procedureName = "SIGEHOV2GENE.[GENE].[USP_PERSONA_INSERT_BANCO_WEB]", resultClasses = Persona.class, parameters = {
+		@NamedStoredProcedureQuery(name = "persona.insertarPersonaLaboratorio", procedureName = "[GENE].[USP_PERSONA_INSERT_LABORATORIO]", resultClasses = Persona.class, parameters = {
 	
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class),
+			//	@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
+			//	@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
+			//	@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.OUT, name = "CODPERSO", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.OUT, name = "NROVERSI", type = String.class),
+			
+				
+			//	@StoredProcedureParameter(mode = ParameterMode.OUT, name = "NROVERSI", type = String.class),
 				
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "APEPATER", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "APEMATER", type = String.class),
@@ -50,7 +52,7 @@ import java.sql.Timestamp;
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "SEGNOMBR", type = String.class),
 
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1SEXOP", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHANAC", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHANACI", type = String.class),
 				
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTIPOD", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "NRODOCUM", type = String.class), 
@@ -119,7 +121,7 @@ import java.sql.Timestamp;
 				
 				@NamedStoredProcedureQuery(
 						name="persona.buscarPorDocumentoSigeho", 
-						procedureName="[RECO].[PERSONA_SIGEHO_FIND_BY_NRODOC]",
+						procedureName="[GENE].[PERSONA_SIGEHO_FIND_BY_NRODOC]",
 						resultClasses= Persona.class,
 						parameters={ 
 									@StoredProcedureParameter(mode=ParameterMode.IN,name="TG1TPDOC", type=String.class ),

@@ -179,11 +179,12 @@ public class BancoController  extends BaseController {
 				if(personaBean!=null){  
 					System.out.println("persona existe en sigehov2gene");
 					System.out.println(personaBean.getNombreCompleto());
-					personaBean.setOrigenDatos("SIGEHOv2");
+					personaBean.setOrigenDatos("LABMED");
 					
 					System.out.println("personaBean.getCodigo() " + personaBean.getCodigo());
 					PostulanteBean postulante = new PostulanteBean();
 					postulante.setPersona(personaBean);
+					
 					try {
 						postulante = postulanteService.buscarUltimaDonacion(postulante);
 						if (postulante != null) {

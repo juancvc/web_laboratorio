@@ -28,7 +28,7 @@ import java.util.Date;
 		@StoredProcedureParameter(mode = ParameterMode.IN,  name = "AUPCIPMO", type = String.class)
 	}),
 	@NamedStoredProcedureQuery(name = "perfil.eliminar", 
-	procedureName = " [SIGEHOV2SEGU].[RECO].[USP_PERFIL_DELETE]", 
+	procedureName = " [SIGEHOV2SEGU].[LABO].[USP_PERFIL_DELETE]", 
 	resultClasses = Perfil.class,
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODIPERF", type = String.class),
@@ -36,7 +36,7 @@ import java.util.Date;
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = String.class)
 	}),
 	@NamedStoredProcedureQuery(name = "perfil.listar", 
-	procedureName = "[SIGEHOV2SEGU].RECO.USP_PERFIL_FINDBYLIKEOBJECT", 
+	procedureName = "[BDLABORATORIO].LABO.USP_PERFIL_FINDBYLIKEOBJECT", 
 	resultClasses = Perfil.class,
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMBPERF", type = String.class) 
