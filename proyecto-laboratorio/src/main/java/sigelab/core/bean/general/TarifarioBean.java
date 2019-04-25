@@ -36,6 +36,9 @@ public class TarifarioBean extends BaseBean{
 	}
 
 	public String getDescripcion() {
+		if (descripcion == null) {
+			descripcion = "";
+		}
 		return descripcion;
 	}
 

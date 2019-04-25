@@ -78,23 +78,9 @@
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src='js_propio/cookies.js'></script>
-<script src='js_propio/funciones.js'></script>
-<script src='js_propio/eventos.js'></script>
-
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet" type="text/css" href="assets/css/vendor.css">
-<link rel="stylesheet" type="text/css" href="assets/css/flat-admin.css">
-
-<!-- Theme -->
-<link rel="stylesheet" type="text/css"
-	href="assets/css/theme/blue-sky.css">
-<link rel="stylesheet" type="text/css" href="assets/css/theme/blue.css">
-<link rel="stylesheet" type="text/css" href="assets/css/theme/red.css">
-<link rel="stylesheet" type="text/css"
-	href="assets/css/theme/yellow.css">
+ 
+ 
+ 
 </head>
 
 <style>
@@ -451,16 +437,12 @@
 			type="text/javascript"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/scripts.js"
 			type="text/javascript"></script>
-
-		<script type="text/javascript" src="assets/js/vendor.js"></script>
-		<script type="text/javascript" src="assets/js/app.js"></script>
-		<script src='js_propio/cookies.js'></script>
-
+ 
 		<!-- Include Date Range Picker -->
 
 		<script type="text/javascript"
 			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-		<script src="js/moment.min.js"></script>
+ 
 		<script
 			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/locales/bootstrap-datepicker.es.min.js"></script>
 

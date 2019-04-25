@@ -78,8 +78,7 @@ public class LaboratorioController  extends BaseController {
 	PersonaBean personaBean = new PersonaBean();
 	PostulanteBean PostulanteBean = new PostulanteBean();
 	public UbigeoBean ubigeobean;
-	 
-	private List<CampaniaBean> lstCampaniaBean ;
+	  
 	private List<TarifarioBean> lstTarifarioBean ;
 	private List<PostulanteBean> lstPostulanteBean ;
 	private List<SeropositivoBean> lstSeropositivoBean ;
@@ -606,23 +605,7 @@ public class LaboratorioController  extends BaseController {
 		 
 		return lstPostulanteBean; 
 	}
-	*/
-	@RequestMapping(value = "/campaniasModal", method = RequestMethod.POST)
-	public ModelAndView campaniasModal(String codigoSitu) throws Exception {
-
-		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/postulante/listado-campania-modal", "command", new CampaniaBean());
-		mav.addObject("campaniaBean", new CampaniaBean());
-		CampaniaBean oCampaniaBean = new CampaniaBean();
-		oCampaniaBean.getSituacion().setCodReg(codigoSitu);
-		try {
-			lstCampaniaBean = campaniaService.getBuscarPorFiltros(oCampaniaBean);  
-		} catch (ServiceException e) {
-			System.out.println("printStackTrace");
-			e.printStackTrace();
-		}
-		mav.addObject("lstCampaniaBean", lstCampaniaBean);
-		return mav;
-	}
+	*/ 
 	
 	@RequestMapping(value = "/buscarTamizaje", method = RequestMethod.POST)
 	public ModelAndView buscarTamizaje(String codigoPerso, String nroDocumento) throws Exception {
@@ -688,24 +671,7 @@ public class LaboratorioController  extends BaseController {
 			throws Exception { 
 		return this.buscarPostulantePOST(postulanteBean, request) ;
 	}
-	
-	@RequestMapping(value = "/enviarcampania", method = RequestMethod.GET)
-	public @ResponseBody CampaniaBean enviarcampania(
-			@RequestParam("index") Integer index, HttpServletRequest request) throws Exception {  
-    
-		CampaniaBean oCampaniaBean = new CampaniaBean(); 
-		try {
-			oCampaniaBean = this.lstCampaniaBean.get(index);
-			if (oCampaniaBean == null) {
-				this.getPostulanteBean().setCampania(oCampaniaBean);
-			}
-		} catch (Exception e) { 
-		}
-		
-		
-		return oCampaniaBean;
-	}
-	
+	 
  
 	@RequestMapping(value = "/orden", method = RequestMethod.GET)
 	public ModelAndView nuevoPostulante(HttpServletRequest request) {
@@ -716,27 +682,7 @@ public class LaboratorioController  extends BaseController {
 		
 		 
 		return mav;
-	}
-	
-	@RequestMapping(value = "/tarifarioRegModal", method = RequestMethod.POST)
-	public ModelAndView nuevoTarifario()throws Exception {
-
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-tarifario", "command", new TarifarioBean());
-		lstTarifarioBean = new ArrayList<TarifarioBean>();
-		lstTipoExamen = new ArrayList<TablaBean>();
-		try {
-			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(new TarifarioBean());  
-			lstTipoExamen = maestraAsis01Service.listarPorCodigoTabla("000013", 1);
-		} catch (ServiceException e) { 
-			e.printStackTrace();
-		}
-		
-		mav.addObject("lstTarifarioBean", lstTarifarioBean);
-		mav.addObject("lstTipoExamen", lstTipoExamen);
-		return mav;
-	}
-	
-	
+	} 
 	
 	@RequestMapping(value = "/listadoUbigeoModal", method = RequestMethod.POST)
 	public ModelAndView listadoUbigeoModal() throws Exception {
@@ -757,31 +703,7 @@ public class LaboratorioController  extends BaseController {
 		return mav;
 	}
 	
-	
-	/***NUEVA LINEA 19-04-2019****/
-	@RequestMapping(value = "/nuevoPaciente", method = RequestMethod.GET)
-	public ModelAndView nuevoPaciente(HttpServletRequest request) {
-		PostulanteBean PostulanteBean = new PostulanteBean(); 
-		CampaniaBean campaniaBean = new CampaniaBean();
-		campaniaBean.getSituacion().setCodReg("000001");
-		lstCampaniaBean = new ArrayList<CampaniaBean>();   
-	/*	try {
-			lstCampaniaBean = campaniaService.getBuscarPorFiltros(campaniaBean);
-			if (lstCampaniaBean != null && lstCampaniaBean.size() > 0) {
-				PostulanteBean.setCampania(lstCampaniaBean.get(0));
-			}
-		} catch (ServiceException e) { 
-			e.printStackTrace();
-		}  */
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-paciente-laboratorio", "command", PostulanteBean); 
-		
-	//	this.cargarCombos(mav);
-		return mav;
-	}
-	
-	
-	
-	
+	 
 	
 	@RequestMapping(value = "rptListadoPostulantes", method = RequestMethod.GET)
 	@ResponseBody
@@ -810,47 +732,7 @@ public class LaboratorioController  extends BaseController {
 		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	}
 	 
-	//////////////////////////FIN POSTULANTES///////////////////////
-		/**************************************************************/
-	/************************** CAMPAÑAS **************************/
-	
-	@RequestMapping(value = "/buscarCampania", method = RequestMethod.POST)
-	public ModelAndView doBuscar(@ModelAttribute("campaniaBean") CampaniaBean campaniaBean,
-			HttpServletRequest request
-			)
-			throws Exception { 
-		lstCampaniaBean = new ArrayList<CampaniaBean>(); 
-		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/campania/listado-campania", "command", campaniaBean); 
-		lstCampaniaBean = campaniaService.getBuscarPorFiltros(campaniaBean);  
-		mav.addObject("lstCampaniaBean", lstCampaniaBean); 
-		this.cargarCombosCampania(mav);
-		return mav;
-		
-	}
-	
-	@RequestMapping(value = "/buscarCampania", method = RequestMethod.GET)
-	public ModelAndView doBuscarGet(@ModelAttribute("campaniaBean") CampaniaBean campaniaBean,
-			HttpServletRequest request
-			)
-			throws Exception {  
-		return doBuscar(campaniaBean, request);
-		
-	}
-	
-	@RequestMapping(value = "/listadoCampania", method = RequestMethod.GET)
-	public ModelAndView listadoCampania() throws Exception {
-		 return listadoCampaniaPost();
-	}
-	
-	@RequestMapping(value = "/listadoCampania", method = RequestMethod.POST)
-	public ModelAndView listadoCampaniaPost() throws Exception {
-		lstCampaniaBean = new ArrayList<CampaniaBean>(); 
-		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/campania/listado-campania", "command", new CampaniaBean()); 
-		lstCampaniaBean = campaniaService.getBuscarPorFiltros(new CampaniaBean());  
-		mav.addObject("lstCampaniaBean", lstCampaniaBean); 
-		this.cargarCombosCampania(mav);
-		return mav;
-	}
+	 
 	
 	@RequestMapping(value = "/nuevaCampania", method = RequestMethod.GET)
 	public ModelAndView nuevaCampania(HttpServletRequest request) {
@@ -858,21 +740,7 @@ public class LaboratorioController  extends BaseController {
 		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/campania/registro-campania", "command", campaniaBean); 
 		this.cargarCombosCampania(mav);
 		return mav;
-	}
-	
-	@RequestMapping(value = "/modificarCampania", method = RequestMethod.POST)
-	public ModelAndView doModificar(@RequestParam("codigo") Integer index, HttpServletRequest request) {
-
-		System.out.println("modificar codigo: " + index); 
-		CampaniaBean oCampaniaBean = new CampaniaBean(); 
-		oCampaniaBean = this.lstCampaniaBean.get(index);
-		System.out.println("modificar oReferenciaBean: " + oCampaniaBean.getCodigo());
-		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/campania/registro-campania", "command", oCampaniaBean);
-		mav.addObject("campaniaBean", oCampaniaBean); 
-		this.cargarCombosCampania(mav);
-		return mav;
-	}
- 
+	} 
 	@RequestMapping(value = "/grabarCampania", method = RequestMethod.POST)
 	public @ResponseBody String grabarCampania(@ModelAttribute("campaniaBean")CampaniaBean campaniaBean,
 											 HttpServletRequest request) throws Exception {  
@@ -895,64 +763,45 @@ public class LaboratorioController  extends BaseController {
 		}  
 		return codigo;
 	}
+	 
 	
-	@RequestMapping(value = "/eliminarCampania", method = RequestMethod.GET)
-	public @ResponseBody String doEliminar(@RequestParam("index") Integer index,
-			 HttpServletRequest request) {
-		String resultado = "";
-		CampaniaBean oCampaniaBean = new CampaniaBean(); 
-		oCampaniaBean = this.lstCampaniaBean.get(index);
+	@RequestMapping(value = "/refrescarListTarifario", method = RequestMethod.GET)
+	public @ResponseBody List<TarifarioBean> refrescarListTarifario(
+							String tipo, 
+							String descripcion
+			)throws Exception { 
 		
-		System.out.println("oCampaniaBean.getCodigo " + oCampaniaBean.getCodigo());
-		System.out.println("oCampaniaBean " + oCampaniaBean);
+		System.out.println("descripcion== " + descripcion);
+		System.out.println("tipo== " + tipo);
+		
+		TarifarioBean prmTarifarioBean = new TarifarioBean(); 
+		prmTarifarioBean.setTipo(new TablaBean());
+		prmTarifarioBean.getTipo().setCodReg(tipo);
+		prmTarifarioBean.setDescripcion(descripcion);
+		
+		lstTarifarioBean = new ArrayList<TarifarioBean>(); 
 		try {
-			if (campaniaService.eliminar(oCampaniaBean)) {
-				System.out.println("Se eliminó el registro ");
-				resultado  ="1";
-			} 
-		} catch (ServiceException e) { 
-			e.printStackTrace();
-		}
-		 return resultado;
-	}
-	
-	@RequestMapping(value = "/listarCampanias", method = RequestMethod.GET)
-	public @ResponseBody List<CampaniaBean> refrescarListaCampanias()throws Exception { 
-	 	try {
-			lstCampaniaBean = campaniaService.getBuscarPorFiltros(new CampaniaBean());  
+			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(prmTarifarioBean);   
 		} catch (ServiceException e) { 
 			e.printStackTrace();
 		}
 		 
-		return lstCampaniaBean; 
-	}
-
-	
-	/**************************************************************/
-	/********************** LUGAR DE CAMPAÑAS *********************/
-	
-	 
-	 
-	@RequestMapping(value = "/nuevoLugarCampania", method = RequestMethod.GET)
-	public ModelAndView nuevoLugarCampania(HttpServletRequest request) {
-		LugarCampaniaBean lugarCampaniaBean = new LugarCampaniaBean(); 
-		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/lugarCampania/registro-lugarCampania", "command", lugarCampaniaBean); 
-		//this.cargarCombosCampania(mav);
-		return mav;
-	}  
-	
-	 
- 
-   
+		 
+		return lstTarifarioBean; 
+	} 
  
 	@RequestMapping(value = "/tarifarioModal", method = RequestMethod.POST)
 	public ModelAndView tarifarioModal() throws Exception {
-
+		TarifarioBean prmTarifarioBean = new TarifarioBean(); 
+		prmTarifarioBean.setTipo(new TablaBean());
+		prmTarifarioBean.getTipo().setCodReg("");
+		prmTarifarioBean.setDescripcion("");
 		ModelAndView mav = new ModelAndView("asistencial/laboratorio/listado-tarifario-modal", "command", new TarifarioBean());
 		lstTarifarioBean = new ArrayList<TarifarioBean>();
 		lstTipoExamen = new ArrayList<TablaBean>();
 		try {
-			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(new TarifarioBean());  
+			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(prmTarifarioBean);  
+			System.out.println("lstTarifarioBean.size() " + lstTarifarioBean.size());
 			lstTipoExamen = maestraAsis01Service.listarPorCodigoTabla("000013", 1);
 		} catch (ServiceException e) { 
 			e.printStackTrace();
@@ -961,28 +810,7 @@ public class LaboratorioController  extends BaseController {
 		mav.addObject("lstTarifarioBean", lstTarifarioBean);
 		mav.addObject("lstTipoExamen", lstTipoExamen);
 		return mav;
-	}
-	
-	
-	@RequestMapping(value = "/tarifarioGeneralModal", method = RequestMethod.GET)
-	public ModelAndView tarifarioGeneralModal() throws Exception {
-
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/listado-tarifario-general", "command", new TarifarioBean());
-		lstTarifarioBean = new ArrayList<TarifarioBean>();
-		lstTipoExamen = new ArrayList<TablaBean>();
-		try {
-			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(new TarifarioBean());  
-			lstTipoExamen = maestraAsis01Service.listarPorCodigoTabla("000013", 1);
-		} catch (ServiceException e) { 
-			e.printStackTrace();
-		}
-		
-		mav.addObject("lstTarifarioBean", lstTarifarioBean);
-		mav.addObject("lstTipoExamen", lstTipoExamen);
-		return mav;
-	}
-	
-	
+	} 
  
 
 	public PersonaBean getPersonaBean() {

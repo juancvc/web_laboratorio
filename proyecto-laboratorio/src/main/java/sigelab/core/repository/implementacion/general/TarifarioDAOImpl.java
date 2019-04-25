@@ -108,6 +108,7 @@ public class TarifarioDAOImpl implements TarifarioDAO {
 		
 			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifario.listarPorFiltros");
 			spq.setParameter("TG1TIPOT", TarifarioBean.getTipo().getCodReg()); 
+			spq.setParameter("DESCRIPC", TarifarioBean.getDescripcion()); 
 			if (spq.execute()) {
 				lstMaestra =  spq.getResultList(); 
 			} 
