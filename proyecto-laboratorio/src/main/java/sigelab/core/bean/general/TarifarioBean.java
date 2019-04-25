@@ -1,0 +1,63 @@
+//package pe.gob.procalidad.natigu.core.bean.bean.generico;
+package sigelab.core.bean.general;
+
+import sigelab.base.bean.BaseBean;
+
+public class TarifarioBean extends BaseBean{
+
+ 
+	private TablaBean tipo;
+	private String subtipo;
+	private String descripcion;
+	private float precio; 
+	private String sPrecio; 
+	
+	public TarifarioBean() {
+		super();
+	}
+
+	public TablaBean getTipo() {
+		if(tipo == null) {
+			tipo = new TablaBean();
+		}
+		return tipo;
+	}
+
+	public void setTipo(TablaBean tipo) {
+		this.tipo = tipo;
+	}
+
+	public String getSubtipo() {
+		return subtipo;
+	}
+
+	public void setSubtipo(String subtipo) {
+		this.subtipo = subtipo;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public float getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(float precio) {
+		this.precio = precio;
+	}
+
+	public String getsPrecio() {
+		return sPrecio;
+	}
+
+	public void setsPrecio(String sPrecio) {
+		this.sPrecio = sPrecio;
+	}
+	   
+	 
+}

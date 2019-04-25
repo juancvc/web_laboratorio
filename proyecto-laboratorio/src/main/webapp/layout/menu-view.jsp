@@ -95,7 +95,7 @@
 	</a>
 		<ul class="sidenav-third-level collapse" id="collapsePaciente">
 			<li><a
-				href="${pageContext.request.contextPath}/bancoController/nuevoPostulante">Registro</a>
+				href="${pageContext.request.contextPath}/laboratorioController/nuevoPaciente">Registro</a>
 			</li>
 			<li><a
 				href="${pageContext.request.contextPath}/bancoController/listadoPostulante">Listado</a>
@@ -111,7 +111,7 @@
 	</a>
 		<ul class="sidenav-third-level collapse" id="collapseLaboratorio">
 			<li><a
-				href="${pageContext.request.contextPath}/bancoController/nuevoPostulante">Registro</a>
+				href="${pageContext.request.contextPath}/laboratorioController/orden">Registro</a>
 			</li>
 			<li><a
 				href="${pageContext.request.contextPath}/bancoController/listadoPostulante">Listado</a>
@@ -133,9 +133,9 @@
 				<li><a
 					href="${pageContext.request.contextPath}/maestraController/listado"><span
 						class="label_control_barra">Maestras</span></a></li>
-				<!-- <li><a
-					href="${pageContext.request.contextPath}/renaesController/listado"><span
-						class="label_control_barra">Relacionar Renaes</span></a></li> -->
+				 <li><a
+					href="${pageContext.request.contextPath}/laboratorioController/tarifarioGeneralModal"><span
+						class="label_control_barra">Tarifario</span></a></li> 
 			</ul></li>
 	</c:if>
 
