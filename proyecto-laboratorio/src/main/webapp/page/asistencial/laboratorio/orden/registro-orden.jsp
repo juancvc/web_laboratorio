@@ -78,9 +78,9 @@
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
- 
- 
- 
+
+
+
 </head>
 
 <style>
@@ -131,15 +131,15 @@
 
 					<div class="card-body">
 						<div class="form-group">
-						<div class="label_title">DATOS DE PACIENTE :</div>
-						<div class="row">
+							<div class="label_title">DATOS DE PACIENTE :</div>
+							<div class="row">
 								<div class="form-group col-md-3 mb-1">
 									<label for="situacion" class="label_control">TIPO
 										DOCUMENTO <span class="required">*</span>
 									</label>
 									<div class="controls">
 										<f:select id="tipoDocumentoPaciente"
-											path="persona.tipoDocumento.codReg" required="required"
+											path="pacienteBean.persona.tipoDocumento.codReg" required="required"
 											class="form-control" onchange="limpiarPorTipo()">
 											<f:options items="${lstDocumento}" itemValue="codReg"
 												itemLabel="nombreCorto" />
@@ -156,7 +156,7 @@
 										<div class="controls">
 											<f:input type="text" class="form-control" required="required"
 												maxlength="12" id="nroDocumentoPaciente"
-												path="persona.nroDocumento"
+												path="pacienteBean.persona.nroDocumento"
 												onkeypress="return runScript(event)" />
 										</div>
 									</div>
@@ -168,7 +168,7 @@
 										<i class="ft-search"></i> BUSCAR
 									</button>
 								</div>
-								 
+
 							</div>
 							<div class="row">
 								<div class="form-group col-md-3 mb-1">
@@ -179,7 +179,7 @@
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaApellidoPaterno" disabled="true"
-											path="persona.apellidoPaterno" />
+											path="pacienteBean.persona.apellidoPaterno" />
 
 									</div>
 								</div>
@@ -190,7 +190,7 @@
 										<f:input type="text" class="form-control"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaApellidoMaterno" disabled="true"
-											path="persona.apellidoMaterno" />
+											path="pacienteBean.persona.apellidoMaterno" />
 
 									</div>
 								</div>
@@ -202,7 +202,7 @@
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaPrimerNombre" disabled="true"
-											path="persona.primerNombre" />
+											path="pacienteBean.persona.primerNombre" />
 
 									</div>
 								</div>
@@ -213,7 +213,7 @@
 										<f:input type="text" class="form-control"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaSegundoNombre" disabled="true"
-											path="persona.segundoNombre" />
+											path="pacienteBean.persona.segundoNombre" />
 									</div>
 								</div>
 							</div>
@@ -222,7 +222,7 @@
 									<label for="situacion" class="label_control">SEXO <span
 										class="required">*</span></label>
 									<div class="controls">
-										<f:select id="sexoPaciente" path="persona.sexo.codReg"
+										<f:select id="sexoPaciente" path="pacienteBean.persona.sexo.codReg"
 											disabled="true" class="form-control" required="required">
 											<f:option value="" label="Seleccionar" selected="true"
 												disabled="disabled" />
@@ -239,7 +239,7 @@
 										<fmt:formatDate value="${fechaHasta}" var="dateString"
 											pattern="dd/MM/yyyy" />
 										<f:input id="personaFechaNac" name="fecha" type="text"
-											class="form-control" path="persona.fechaNacStr"
+											class="form-control" path="pacienteBean.persona.fechaNacStr"
 											disabled="true" value="${dateString}" size="10"
 											maxlength="10" required="required"
 											onkeyup="this.value=formateafechaNacimiento(this.value);" />
@@ -252,95 +252,91 @@
 									</label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
-											disabled="true" id="edadPersona" path="persona.edad" />
+											disabled="true" id="edadPersona" path="pacienteBean.persona.edad" />
 
 									</div>
 								</div>
 								<div class="form-group col-md-3 mb-2">
-									<label for="nombreCompleto" class="label_control">HC
-									</label>
+									<label for="nombreCompleto" class="label_control">HC </label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
-											disabled="true" id="edadPersona" path="persona.edad" />
+											disabled="true" id="edadPersona" path="pacienteBean.persona.edad" />
 
 									</div>
 								</div>
-								</div>
-						  
-						<div class="label_title">
+							</div>
+
+							<div class="label_title">
 								ORDEN(ES) <span class="required">*</span>:
-							</div> 
-							<div id="panelCEX" class="panel_style col-md-12" > 
-							<div class="row">
-								<div class="col-md-12 text-right " style="margin-bottom: 20px;">
-									<button id="btn-save-reg" type="button" class="btn btn-info"
-										onclick="cargarTarifarioModal()">
-										<i class="fa fa-plus"></i> AGREGAR
-									</button>
-									 
-								</div>
 							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="table-responsive_">
-										<table class="table table-bordered">
-											<thead class="tabla_th">
-												<tr>
-													<th width="70">ITEM</th>
-												<!--	<th width="120">CIEX</th>-->
-													<th>DESCRIPCION</th>
-													<th>TIPO</th>
-												<!--	<th>ESPECIALIDAD ASOCIADA</th>-->
-													<th width="220">ACCION</th>
-												</tr>
-											</thead>
-											<tbody id="idbodyCIEXref" class="label_control">
-												<c:forEach var="ciex"
-													items="${lstReferenciaDiagnosticoBean}" varStatus="loop">
-													<tr>
-														<td>${loop.count}</td>
-														<td>${ciex.diagnostico.valor4}</td>
-														<td>${ciex.diagnostico.nombreCorto}</td>
-														<td> 
-														
-														<select name="cboTipoDX" id="cboTipoDX" value="${ciex.tipo.codReg}" class="form-control">
-														    <option value="">SELECCIONAR</option>
-														    <option value="000001" ${ciex.tipo.codReg == '000001' ? 'selected' : ' '}>PRESUNTIVO</option>
-														    <option value="000002" ${ciex.tipo.codReg == '000002' ? 'selected' : ' '}>DEFINITIVO</option>
-														    <option value="000003" ${ciex.tipo.codReg == '000003' ? 'selected' : ' '}>REPETIDO (CONTROL)</option>													  													    
-														</select> 
-																				
-														</td>
-														<td>${ciex.especialidad.nombreCorto}</td>
-														<c:choose>
-															<c:when test="${codigo==null || codigo==''}">
-																<td></td>
-															</c:when>
-															<c:otherwise>
-																<td><button type='button'
-																		class='btn btn-outline-danger btn-sm'
-																		data-toggle='tooltip' data-placement='top'
-																		title='Eliminar'
-																		onclick='confirmar_eliminar(${ciex.diagnostico.valor4})'
-																		data-original-title='Eliminar' id='eliminarDX'>
-																		<i class='icon-trash'></i>
-																	</button>
-																	<button id="btn-save-reg" type="button" class="btn btn-info"
-																		onclick="especialidadCargarModal()">
-																		<i class="fa fa-plus"></i>ESPECIALIDAD
-																	</button>
-																</td>
-															</c:otherwise>
-														</c:choose>
+							<div id="panelCEX" class="panel_style col-md-12">
+								<div class="row">
+									<div class="col-md-12 text-right " style="margin-bottom: 20px;">
+										<button id="btn-save-reg" type="button" class="btn btn-info"
+											onclick="cargarTarifarioModal()">
+											<i class="fa fa-plus"></i> AGREGAR
+										</button>
 
-													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
 									</div>
 								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="table-responsive">
+											<table class="table table-bordered" id="dataTable">
+												<thead class="tabla_th">
+													<tr>
+														<th width="70">ITEM</th>
+														<th>DESCRIPCION</th>
+														<th>TIPO</th>
+														<th>CANTIDAD</th>
+														<th>PRECIO UNITARIO</th>
+														<th>IMPORTE</th>
+														<th width="220">ACCION</th>
+													</tr>
+												</thead>
+												<tbody id="idbodyCIEXref" class="label_control">
+													<c:forEach var="ciex"
+														items="${lstReferenciaDiagnosticoBean}" varStatus="loop">
+														<tr>
+															<td>${loop.count}</td>
+															<td>${ciex.diagnostico.valor4}</td>
+															<td>${ciex.diagnostico.nombreCorto}</td>
+															<td></td>
+															<td>${ciex.especialidad.nombreCorto}</td>
+															<c:choose>
+																<c:when test="${codigo==null || codigo==''}">
+																	<td></td>
+																</c:when>
+																<c:otherwise>
+																	<td><button type='button'
+																			class='btn btn-outline-danger btn-sm'
+																			data-toggle='tooltip' data-placement='top'
+																			title='Eliminar'
+																			onclick='confirmar_eliminar(${ciex.diagnostico.valor4})'
+																			data-original-title='Eliminar' id='eliminarDX'>
+																			<i class='icon-trash'></i>
+																		</button>
+																		<button id="btn-save-reg" type="button"
+																			class="btn btn-info"
+																			onclick="especialidadCargarModal()">
+																			<i class="fa fa-plus"></i>ESPECIALIDAD
+																		</button></td>
+																</c:otherwise>
+															</c:choose>
+
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
 							</div>
-							</div>  
+						</div>
+						<div class="row">
+							<div class="form-group col-md-12 text-right"
+								style="margin-top: 2px;"></div>
 						</div>
 						<div class="row">
 							<div class="form-group col-md-12 text-right"
@@ -349,7 +345,7 @@
 									href="${pageContext.request.contextPath}/bancoController/nuevaCampania"
 									class="btn btn-secondary" title=""> <i class="fa icon-plus"></i>
 									NUEVO
-								</a> 
+								</a>
 
 								<button type="submit" onclick="grabarCampania()"
 									class="btn btn-primary">
@@ -367,15 +363,15 @@
 						me</button>
 				</f:form>
 			</div>
-		
-	<div class="modal fade text-xs-left" id="modalTarifario"
-			tabindex="-1" role="dialog" aria-labelledby="myModalLabel35"
-			data-dismiss="modal" aria-hidden="true" aria-hidden="true">
-			<div class="modal-dialog modal-lg" role="document">
-				<div class="modal-content" id="modalEstablecimientoContent"></div>
+
+			<div class="modal fade text-xs-left" id="modalTarifario"
+				tabindex="-1" role="dialog" aria-labelledby="myModalLabel35"
+				data-dismiss="modal" aria-hidden="true" aria-hidden="true">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content" id="modalEstablecimientoContent"></div>
+				</div>
 			</div>
-		</div>
-		
+
 			<!-- Example DataTables Card-->
 
 		</div>
@@ -437,53 +433,25 @@
 			type="text/javascript"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/scripts.js"
 			type="text/javascript"></script>
- 
+
 		<!-- Include Date Range Picker -->
 
 		<script type="text/javascript"
 			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
- 
+
 		<script
 			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/locales/bootstrap-datepicker.es.min.js"></script>
 
 
 
 
-		<script>
-			$(document)
-					.ready(
-							function() {
-								var date_input = $('input[id="date"]'); //our date input has the name "date"
-								var container = $('.bootstrap-iso form').length > 0 ? $(
-										'.bootstrap-iso form').parent()
-										: "body";
-								date_input.datepicker({
-									format : 'dd/mm/yyyy',
-									container : container,
-									todayHighlight : true,
-									autoclose : true,
-									language : 'es'
 
-								})
-							})
 
-			$(document)
-					.ready(
-							function() {
-								var date_inputHasta = $('input[id="dateHasta"]'); //our date input has the name "date"
-								var containerHasta = $('.bootstrap-iso form').length > 0 ? $(
-										'.bootstrap-iso form').parent()
-										: "body";
-								date_inputHasta.datepicker({
-									format : 'dd/mm/yyyy',
-									container : containerHasta,
-									todayHighlight : true,
-									autoclose : true,
-									language : 'es'
 
-								})
-							})
-		</script>
+ <script type="text/javascript">  
+		var  listadoExamenes= []; 
+ </script>
+
 	</div>
 </body>
 

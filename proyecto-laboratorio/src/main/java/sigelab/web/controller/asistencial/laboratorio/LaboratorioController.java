@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView; 
 import sigelab.core.bean.asistencial.banco.PostulanteBean;
 import sigelab.core.bean.asistencial.banco.SeropositivoBean;
+import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.banco.CampaniaBean;
 import sigelab.core.bean.asistencial.banco.DonanteBean;
 import sigelab.core.bean.asistencial.banco.EstadoFisicoBean;
@@ -675,11 +676,8 @@ public class LaboratorioController  extends BaseController {
  
 	@RequestMapping(value = "/orden", method = RequestMethod.GET)
 	public ModelAndView nuevoPostulante(HttpServletRequest request) {
-		PostulanteBean PostulanteBean = new PostulanteBean(); 
-		CampaniaBean campaniaBean = new CampaniaBean();
-		campaniaBean.getSituacion().setCodReg("000001");
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-orden", "command", PostulanteBean); 
-		
+		OrdenBean objOrdenBean = new OrdenBean();  
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-orden", "command", objOrdenBean);  
 		 
 		return mav;
 	} 
@@ -732,15 +730,7 @@ public class LaboratorioController  extends BaseController {
 		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	}
 	 
-	 
-	
-	@RequestMapping(value = "/nuevaCampania", method = RequestMethod.GET)
-	public ModelAndView nuevaCampania(HttpServletRequest request) {
-		CampaniaBean campaniaBean = new CampaniaBean(); 
-		ModelAndView mav = new ModelAndView("asistencial/bancoSangre/campania/registro-campania", "command", campaniaBean); 
-		this.cargarCombosCampania(mav);
-		return mav;
-	} 
+	  
 	@RequestMapping(value = "/grabarCampania", method = RequestMethod.POST)
 	public @ResponseBody String grabarCampania(@ModelAttribute("campaniaBean")CampaniaBean campaniaBean,
 											 HttpServletRequest request) throws Exception {  
@@ -812,6 +802,15 @@ public class LaboratorioController  extends BaseController {
 		return mav;
 	} 
  
+	
+
+   @RequestMapping(value = "/refrescarListaOrden", method = RequestMethod.GET)
+	public @ResponseBody TarifarioBean refrescarListaCIEXREF(@RequestParam("index") int index) throws Exception {
+		System.out.println("index " + index);
+		TarifarioBean objTarifarioBean = new TarifarioBean(); 
+		objTarifarioBean = lstTarifarioBean.get(index); 
+		return objTarifarioBean;
+	}
 
 	public PersonaBean getPersonaBean() {
 		return personaBean;
@@ -827,6 +826,14 @@ public class LaboratorioController  extends BaseController {
 
 	public void setPostulanteBean(PostulanteBean PostulanteBean) {
 		this.PostulanteBean = PostulanteBean;
+	}
+
+	public List<TarifarioBean> getLstTarifarioBean() {
+		return lstTarifarioBean;
+	}
+
+	public void setLstTarifarioBean(List<TarifarioBean> lstTarifarioBean) {
+		this.lstTarifarioBean = lstTarifarioBean;
 	}
 
 }
