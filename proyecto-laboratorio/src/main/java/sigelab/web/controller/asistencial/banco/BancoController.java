@@ -216,6 +216,23 @@ public class BancoController  extends BaseController {
 				
 					
 				}else{  
+					personaBean = new PersonaBean();
+					personaBean.getTipoDocumento().setCodReg("000002");
+					personaBean.setNroDocumento(numero);
+					personaBean.setOrigenDatos("");
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					PacienteReniec pacienteReniec = new PacienteReniec();
 					pacienteReniec.setNroDni(numero); 
 					List<PacienteReniec> lstPersona = null ; //new ArrayList<PacienteReniec>();
@@ -325,6 +342,7 @@ public class BancoController  extends BaseController {
 					}else{
 						System.out.println("no existe persona ó no hay servicio de reniec");
 						personaBean  = null;
+					//	personaBean  = new PersonaBean();
 					} 
 				} 
 		} catch (Exception e) {  
@@ -364,8 +382,9 @@ public class BancoController  extends BaseController {
 	public @ResponseBody PostulanteBean grabarPostulante(@ModelAttribute("postulanteBean")PostulanteBean postulanteBean,
 											 HttpServletRequest request) throws Exception {  
 		//PersonaBean opersona = new PersonaBean();
+		System.out.println("postulanteBean CODRGUBI " + postulanteBean.getPersona().getUbigeoDireccion().getCodigoRegistro());
 		DonanteBean odDonanteBean = new DonanteBean();
-		this.getPostulanteBean().getPersona().setOrigenDeRegistro("Sistema Banco Web");
+		this.getPostulanteBean().getPersona().setOrigenDeRegistro("Sistema Labmed Web");
 		this.getPostulanteBean().setCampania(postulanteBean.getCampania());
 		this.getPostulanteBean().getTipoPostulate().setCodReg("000001");
 		if (this.getPostulanteBean().getPersona().getCodigo().equals("")) {
@@ -374,7 +393,9 @@ public class BancoController  extends BaseController {
 				this.personaService.insertarPersonaBanco(postulanteBean.getPersona());
 				this.getPostulanteBean().setPersona(postulanteBean.getPersona());
 			}else{
+				setPersonaBean(new PersonaBean());
 				if(this.getPersonaBean().getSwReniec()){
+					
 					System.out.println("this.getPostulanteBean().getPersona(). " + this.getPostulanteBean().getPersona().getTipoDocumento().getCodReg());
 					System.out.println("this.getPostulanteBean().getPersona() ::" + this.getPostulanteBean().getPersona());
 					this.getPostulanteBean().getPersona().setTelefonoNumero(postulanteBean.getPersona().getTelefonoNumero());
@@ -386,6 +407,9 @@ public class BancoController  extends BaseController {
 					this.personaService.insertarPersonaBanco(this.getPostulanteBean().getPersona());
 					System.out.println("persona reniec");
 				}else{
+					this.getPostulanteBean().getPersona().setTelefonoNumero(postulanteBean.getPersona().getTelefonoNumero());
+					this.getPostulanteBean().getPersona().setCorreo(postulanteBean.getPersona().getCorreo());
+					this.getPostulanteBean().getPersona().getNivelInstrucion().setCodReg(postulanteBean.getPersona().getNivelInstrucion().getCodReg());
 					this.setAuditoria(postulanteBean.getPersona(), request, true); 
 					this.personaService.insertarPersonaBanco(postulanteBean.getPersona());
 					this.getPostulanteBean().setPersona(postulanteBean.getPersona());

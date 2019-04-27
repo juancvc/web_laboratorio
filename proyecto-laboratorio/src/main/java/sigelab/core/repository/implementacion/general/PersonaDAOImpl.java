@@ -306,26 +306,30 @@ public class PersonaDAOImpl implements PersonaDAO {
 		
 		boolean sw=false;
 		try {
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("persona.insertarPersonaBanco");
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("persona.insertarPersonaLaboratorio");
+			/*
 			spq.setParameter("CODORGAN", persona.getCodigoOrganizacion()); 
 			spq.setParameter("CODINSTI", persona.getCodigoInstitucion()); 
-			spq.setParameter("CODSEDEI", persona.getCodigoSede()); 
+			spq.setParameter("CODSEDEI", persona.getCodigoSede()); */
 			
 			spq.setParameter("APEPATER", persona.getApellidoPaterno());
 			spq.setParameter("APEMATER", persona.getApellidoMaterno());
 			spq.setParameter("PRINOMBR", persona.getPrimerNombre()); 
 			spq.setParameter("SEGNOMBR", persona.getSegundoNombre()); 
 			spq.setParameter("TG1SEXOP", persona.getSexo().getCodReg());
-			spq.setParameter("FECHANAC", persona.getFechaNacStr());
+			spq.setParameter("FECHANACI", persona.getFechaNacStr());
 			
 			spq.setParameter("CODTIPOD", persona.getTipoDocumento().getCodReg());  
 			spq.setParameter("NRODOCUM", persona.getNroDocumento()); 
 			
-			spq.setParameter("LUGANACI", persona.getUbigeoNacimiento().getCodigoRegistro()); 
+		
 			spq.setParameter("TG1NACIO", persona.getNacionalidad().getCodReg()); 
 			spq.setParameter("TG1ESCIV", persona.getEstadoCivil().getCodReg()); 
-			spq.setParameter("TG1OCUPA", persona.getOcupacion().getCodReg()); 
+			spq.setParameter("LUGANACI", persona.getUbigeoNacimiento().getCodigoRegistro());
+			
 			spq.setParameter("TG1NIINS", persona.getNivelInstrucion().getCodReg()); 
+			spq.setParameter("TG1OCUPA", persona.getOcupacion().getCodReg()); 
+			spq.setParameter("FOTO", persona.getFoto()); 
 			 
 			spq.setParameter("CORREODE", persona.getCorreo()); 
 			
@@ -333,7 +337,7 @@ public class PersonaDAOImpl implements PersonaDAO {
 			spq.setParameter("CODRGUBI", persona.getUbigeoDireccion().getCodigoRegistro());  
 			
 			spq.setParameter("TELFNUMR", persona.getTelefonoNumero()); 
-			spq.setParameter("FOTO", persona.getFoto()); 
+			
 			spq.setParameter("VARENIEC", persona.getSwReniec()? "1":"0");
 			spq.setParameter("ORIGREGI", persona.getOrigenDeRegistro()); 
 			
@@ -343,15 +347,15 @@ public class PersonaDAOImpl implements PersonaDAO {
 			
 			spq.execute();
 			
-			idPersona = spq.getOutputParameterValue(4);
-			nroVersi = spq.getOutputParameterValue(5);
-			codigoCorreo = spq.getOutputParameterValue(19);
-			codigoDireccion = spq.getOutputParameterValue(21);
-			codigoTelefono = spq.getOutputParameterValue(24);
+			idPersona = spq.getOutputParameterValue(1);
+		//	nroVersi = spq.getOutputParameterValue(5);
+			codigoCorreo = spq.getOutputParameterValue(16);
+			codigoDireccion = spq.getOutputParameterValue(18);
+			codigoTelefono = spq.getOutputParameterValue(21);
 			
 			if (idPersona != null) { 
 				persona.setCodigo(idPersona.toString());
-				persona.setNumeroVersion(nroVersi.toString());
+				//persona.setNumeroVersion(nroVersi.toString());
 				persona.setCodigoCorreo(codigoCorreo.toString());
 				persona.setCodigoDireccion(codigoDireccion.toString());
 				persona.setCodigoTelefono(codigoTelefono.toString());

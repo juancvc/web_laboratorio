@@ -57,11 +57,13 @@ import java.sql.Timestamp;
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTIPOD", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "NRODOCUM", type = String.class), 
 
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "LUGANACI", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1NACIO", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1ESCIV", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1OCUPA", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "LUGANACI", type = String.class),
+				
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1NIINS", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1OCUPA", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "FOTO", type = byte[].class),
 				
 				@StoredProcedureParameter(mode = ParameterMode.OUT, name = "CODCORXP", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CORREODE", type = String.class),
@@ -72,7 +74,7 @@ import java.sql.Timestamp;
 				
 				@StoredProcedureParameter(mode = ParameterMode.OUT, name = "CODTEXPE", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TELFNUMR", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "FOTO", type = byte[].class),
+				
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "VARENIEC", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "ORIGREGI", type = String.class),
 				

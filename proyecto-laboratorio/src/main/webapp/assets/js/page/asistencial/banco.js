@@ -616,8 +616,40 @@ function buscarPersonaWebService() {
 										document
 												.getElementById('btnBuscarUbigeoDireccion').disabled = false;
 									} else {
-										msg_advertencia("¡No se encontraron registros con ése número de DNI!, corrija.")
+										msg_advertencia("¡No se encontraron registros con ése número de DNI!, registre.")
 										limpiarPorTipo();
+										document
+										.getElementById('personaApellidoPaterno').disabled = false;
+								document
+										.getElementById('personaApellidoMaterno').disabled = false;
+								document
+										.getElementById('personaPrimerNombre').disabled = false;
+								document
+										.getElementById('personaSegundoNombre').disabled = false;
+								document
+										.getElementById('personaFechaNac').disabled = false;
+								document.getElementById('sexoPaciente').disabled = false;
+								document
+										.getElementById('personaDireccion').disabled = false;
+								document
+										.getElementById('estadoCivilPersona').disabled = false;
+								document
+										.getElementById('personaOcupacion').disabled = false;
+								document
+										.getElementById('personaNivelInstrucion').disabled = false;
+								document
+										.getElementById('personaNacionalidad').disabled = false;
+								document
+										.getElementById('ubigeoDireccion').disabled = false;
+								document
+										.getElementById('ubigeoNacimientoCodigoUbigeo').disabled = false;
+								//document.getElementById('ultimaFechaDonancion').disabled = false;
+								document.getElementById('correo').disabled = false;
+								document.getElementById('telefono').disabled = false;
+								document
+										.getElementById('btnBuscarUbigeoNaciemiento').disabled = false;
+								document
+										.getElementById('btnBuscarUbigeoDireccion').disabled = false;
 									}
 								}
 
