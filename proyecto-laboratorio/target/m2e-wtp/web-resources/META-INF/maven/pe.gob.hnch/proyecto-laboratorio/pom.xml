@@ -301,6 +301,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <artifactId>wsdl4j</artifactId>
     <version>1.6.2</version>
 </dependency>
+
+<dependency>
+  <groupId>com.github.sarxos</groupId>
+  <artifactId>webcam-capture</artifactId>
+  <version>0.3.10</version>
+</dependency>
 		
 	</dependencies>  
 

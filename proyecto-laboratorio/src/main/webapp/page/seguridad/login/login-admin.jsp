@@ -101,14 +101,20 @@
 					
 					<input id="Mensaje" type="hidden" value="${Mensaje}">
 					<div class="form-group">
-						<label for="exampleInputEmail1">Usuario</label>
+						<label for="exampleInputEmail1">Usuario <i
+						class="fa fa-user fa-fw"></i></label>
 						<f:input class="form-control" id="textUsuario"
 							path="nombreUsuario" type="text" aria-describedby="emailHelp"
 							placeholder="Ingrese Usuario" required="true" />
 					</div>
 					<div class="form-group">
+<<<<<<< HEAD
 						<label for="exampleInputPassword1">Contraseña</label>
 						
+=======
+						<label for="exampleInputPassword1">Contraseña <i
+						class="fa fa-key fa-fw"></i></label>
+>>>>>>> branch 'master' of https://github.com/juancvc/web_laboratorio.git
 						<f:input class="form-control" id="textPassword" path="contrasena"
 							type="password" placeholder="Ingrese Contraseña" required="true" />
 							

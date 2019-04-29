@@ -11,7 +11,7 @@
 		<li data-toggle="tooltip" data-placement="right" class="nav-item">
 			<a class="nav-link"
 			href="${pageContext.request.contextPath}/inicioController/portada"><i
-				class="fa fa-fw fa-dashboard"> </i><span
+				class="fa fa-home fa-fw"> </i><span
 				class="nav-link-text label_control_barra"> Inicio</span></a>
 		</li>
 	</c:if>
@@ -90,7 +90,7 @@
 		title="Paciente"><a
 		class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 		href="#collapsePaciente" data-parent="#exampleAccordion"> <i
-			class="fa fa-fw fa-wrench"></i> <span
+			class="fa fa-user fa-fw"></i> <span
 			class="nav-link-text label_control_barra">Pacientes</span>
 	</a>
 		<ul class="sidenav-third-level collapse" id="collapsePaciente">
@@ -106,7 +106,7 @@
 		title="Herramientas"><a
 		class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 		href="#collapseLaboratorio" data-parent="#exampleAccordion"> <i
-			class="fa fa-fw fa-wrench"></i> <span
+			class="fa fa-book fa-fw"></i> <span
 			class="nav-link-text label_control_barra">Laboratorio</span>
 	</a>
 		<ul class="sidenav-third-level collapse" id="collapseLaboratorio">
@@ -136,6 +136,9 @@
 				 <li><a
 					href="${pageContext.request.contextPath}/laboratorioController/tarifarioGeneralModal"><span
 						class="label_control_barra">Tarifario</span></a></li> 
+				 <li><a
+					href="${pageContext.request.contextPath}/laboratorioController/tarifarioGeneralModal"><span
+						class="label_control_barra">Resultados</span></a></li> 		
 			</ul></li>
 	</c:if>
 
@@ -144,14 +147,19 @@
 			title="Seguridad"><a
 			class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 			href="#collapseExamplePages" data-parent="#exampleAccordion"> <i
-				class="fa fa-fw fa-file"></i> <span
+				class="fa fa-lock"></i> <span
 				class="nav-link-text label_control_barra">Seguridad</span>
 		</a>
 			<ul class="sidenav-second-level collapse" id="collapseExamplePages">
 				<li><a href="#collapseUsuer"
+				
 					class="nav-link-collapse collapsed" data-toggle="collapse">Usuario</a>
 					<ul class="sidenav-third-level collapse" id="collapseUsuer">
-						<li><a
+						<li>
+						
+      				  
+     
+						<a
 							href="${pageContext.request.contextPath}/usuarioController/nuevo">Registro</a>
 						</li>
 						<li><a

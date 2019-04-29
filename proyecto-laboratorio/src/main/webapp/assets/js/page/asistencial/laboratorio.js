@@ -71,7 +71,7 @@ function llenarExamenIndex(index){
 						    	 	"<i class='icon-trash'></i></button> "+ 
 						    		"</td>"+
 			    		"</tr>";
-			    		
+			    		   
 			    	
 			    		} 
 			    // console.log(htmlTabla);

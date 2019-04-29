@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @NamedStoredProcedureQueries({
-	@NamedStoredProcedureQuery(name = "tgemaeGene01.listarPorCodigoTabla", procedureName = "SIGEHOV2GENE.[GENE].[USP_TMAGE01_LISTAR_X_CODTABLA]", 
+	@NamedStoredProcedureQuery(name = "tgemaeGene01.listarPorCodigoTabla", procedureName = "BDLABORATORIO.[GENE].[USP_TMAGE02_LISTAR_X_CODTABLA]", 
 		resultClasses = Tgemae01.class, parameters = {					
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTABLA", type = String.class),
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPO", type = int.class) 
