@@ -685,9 +685,6 @@ public class LaboratorioController  extends BaseController {
 		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-orden", "command", objOrdenBean);  
 		 
 		return mav;
-<<<<<<< HEAD
-	} 
-=======
 	}
 	
 	@RequestMapping(value = "/tarifarioRegModal", method = RequestMethod.POST)
@@ -750,8 +747,6 @@ public class LaboratorioController  extends BaseController {
 	}
 	
 	
->>>>>>> branch 'master' of https://github.com/juancvc/web_laboratorio.git
-	
 	@RequestMapping(value = "/listadoUbigeoModal", method = RequestMethod.POST)
 	public ModelAndView listadoUbigeoModal() throws Exception {
 
@@ -771,17 +766,14 @@ public class LaboratorioController  extends BaseController {
 		return mav;
 	}
 	
-<<<<<<< HEAD
-	 
-=======
+
 	
 	/***NUEVA LINEA 19-04-2019****/
 	@RequestMapping(value = "/nuevoPaciente", method = RequestMethod.GET)
 	public ModelAndView nuevoPaciente(HttpServletRequest request) {
 		PostulanteBean PostulanteBean = new PostulanteBean(); 
 		CampaniaBean campaniaBean = new CampaniaBean();
-		campaniaBean.getSituacion().setCodReg("000001");
-		lstCampaniaBean = new ArrayList<CampaniaBean>();   
+		campaniaBean.getSituacion().setCodReg("000001"); 
 	/*	try {
 			lstCampaniaBean = campaniaService.getBuscarPorFiltros(campaniaBean);
 			if (lstCampaniaBean != null && lstCampaniaBean.size() > 0) {
@@ -796,10 +788,6 @@ public class LaboratorioController  extends BaseController {
 		return mav;
 	}
 	
-	
-	
-	
->>>>>>> branch 'master' of https://github.com/juancvc/web_laboratorio.git
 	
 	@RequestMapping(value = "rptListadoPostulantes", method = RequestMethod.GET)
 	@ResponseBody

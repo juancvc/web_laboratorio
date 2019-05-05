@@ -108,13 +108,8 @@
 							placeholder="Ingrese Usuario" required="true" />
 					</div>
 					<div class="form-group">
-<<<<<<< HEAD
-						<label for="exampleInputPassword1">Contraseña</label>
-						
-=======
 						<label for="exampleInputPassword1">Contraseña <i
 						class="fa fa-key fa-fw"></i></label>
->>>>>>> branch 'master' of https://github.com/juancvc/web_laboratorio.git
 						<f:input class="form-control" id="textPassword" path="contrasena"
 							type="password" placeholder="Ingrese Contraseña" required="true" />
 							
