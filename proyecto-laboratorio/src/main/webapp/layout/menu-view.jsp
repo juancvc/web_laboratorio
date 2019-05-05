@@ -107,7 +107,7 @@
 		class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 		href="#collapseLaboratorio" data-parent="#exampleAccordion"> <i
 			class="fa fa-book fa-fw"></i> <span
-			class="nav-link-text label_control_barra">Orden Lab.</span>
+			class="nav-link-text label_control_barra"> Orden Lab.</span>
 	</a>
 		<ul class="sidenav-third-level collapse" id="collapseLaboratorio">
 			<li><a
