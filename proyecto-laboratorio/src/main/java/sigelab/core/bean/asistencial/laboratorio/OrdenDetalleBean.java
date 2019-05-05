@@ -1,5 +1,7 @@
 package sigelab.core.bean.asistencial.laboratorio;
   
+import java.text.DecimalFormat;
+
 import sigelab.base.bean.BaseBean; 
 import sigelab.core.bean.general.TarifarioBean;
 
@@ -11,7 +13,14 @@ public class OrdenDetalleBean extends BaseBean{
 	private Float importe; 
 	private Float precio;
 	private TarifarioBean examen;
+	private String sImporte; 
 	
+	public String getsImporte() {
+		return sImporte;
+	}
+	public void setsImporte(String sImporte) {
+		this.sImporte = sImporte;
+	}
 	public OrdenBean getOrdenBean() {
 		return ordenBean;
 	}
@@ -49,7 +58,7 @@ public class OrdenDetalleBean extends BaseBean{
 	public void setExamen(TarifarioBean examen) {
 		this.examen = examen;
 	}
-	public void ejecutarImporte(){ 
-			this.setImporte(this.getCantidad() * this.getPrecio()); 
+	public void ejecutarImporte(){   
+		this.setImporte(this.getCantidad() * this.getPrecio()); 
 	}
 }

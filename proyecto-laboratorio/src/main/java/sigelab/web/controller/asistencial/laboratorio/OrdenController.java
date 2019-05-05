@@ -2,7 +2,8 @@ package sigelab.web.controller.asistencial.laboratorio;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream; 
+import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList; 
 import java.util.HashMap;
 import java.util.List;
@@ -102,28 +103,21 @@ public class OrdenController  extends BaseController {
 	 
 	
 	@RequestMapping(value = "/consultarPersonaPorDocumento", method = RequestMethod.GET)
-	public @ResponseBody PersonaBean consultarPorNroDocumento(@RequestParam("tipoDocumento") String tipoDocumento,@RequestParam("numero") String numero)throws Exception {
+	public @ResponseBody PersonaBean consultarPorNroDocumento(
+			@RequestParam("tipoDocumento") String tipoDocumento,
+			@RequestParam("numero") String numero)throws Exception {
 		this.setPersonaBean(new PersonaBean());  
 		personaBean = new PersonaBean();
 		PersonaBean prmPersona = new PersonaBean();
 		prmPersona.setNroDocumento(numero);
 		prmPersona.getTipoDocumento().setCodReg(tipoDocumento);
-		try {
-		/*	personaBean = this.getPersonaService().buscarxTipoDocumentoNumeroDocumento(prmPersona); 
-			if(personaBean!=null){ 
-			
-			}else{*/
-				personaBean = personaService.buscarxTipoDocumentoNumeroDocumentoSigeho(prmPersona);
-				if(personaBean!=null){  
-					System.out.println("persona existe en sigehov2gene");
-					System.out.println(personaBean.getNombreCompleto());
-					personaBean.setOrigenDatos("SIGEHOv2");
-					
+		try { 
+				personaBean = personaService.buscarxTipoDocumentoNumeroDocumento(prmPersona);
+				if(personaBean!=null){   
+					System.out.println(personaBean.getNombreCompleto());  
 					System.out.println("personaBean.getCodigo() " + personaBean.getCodigo());
 					PostulanteBean postulante = new PostulanteBean();
-					postulante.setPersona(personaBean); 
-					 
-				
+					postulante.setPersona(personaBean);  
 					
 				}else{   
 				} 
@@ -149,7 +143,7 @@ public class OrdenController  extends BaseController {
 	public ModelAndView nuevoPostulante(HttpServletRequest request) {
 		OrdenBean objOrdenBean = new OrdenBean();  
 		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/registro-orden", "command", objOrdenBean);  
-		 
+		this.cargarCombos(mav); 
 		return mav;
 	} 
 	 
@@ -180,7 +174,7 @@ public class OrdenController  extends BaseController {
 		final OutputStream outStream = response.getOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	}
-	 
+	
 	 
 	 
 	
@@ -239,6 +233,8 @@ public class OrdenController  extends BaseController {
 		objOrdenDetalleBean.setPrecio(lstTarifarioBean.get(index).getPrecio());
 		objOrdenDetalleBean.setCantidad(1);
 		objOrdenDetalleBean.ejecutarImporte();
+		DecimalFormat df = new DecimalFormat("0.00"); 
+		objOrdenDetalleBean.setsImporte((df.format(objOrdenDetalleBean.getImporte()).replace(",", ".")));
 		return objOrdenDetalleBean;
 	}
 

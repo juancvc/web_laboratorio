@@ -92,6 +92,16 @@
 #datepicker>span:hover {
 	cursor: pointer;
 }
+
+#txtCajaImporteTotal:disabled{
+	font-color: #0A0A0A;
+	font-weight: plain;
+	font-family: Cambria;
+	font-size: 16px;
+	background-color: #C4E3F0;
+	text-align: left;
+	valign: center;
+} 
 </style>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
@@ -163,7 +173,7 @@
 								</div>
 								<div class="col-md-3">
 									<button id="idBtnCargarPaciente" type="button"
-										style="margin-top: 30px;" onclick="buscarPersonaWebService()"
+										style="margin-top: 30px;" onclick="buscarPersonaNroDoc()"
 										class="form-control btn btn-info">
 										<i class="ft-search"></i> BUSCAR
 									</button>
@@ -173,7 +183,7 @@
 							<div class="row">
 								<div class="form-group col-md-3 mb-1">
 									<label for="nombreCompleto" class="label_control">APELLIDO
-										PATERNO <span class="required">*</span>
+										PATERNO
 									</label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
@@ -196,7 +206,7 @@
 								</div>
 								<div class="form-group col-md-3 mb-1">
 									<label for="nombreCompleto" class="label_control">PRIMER
-										NOMBRE <span class="required">*</span>
+										NOMBRE
 									</label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
@@ -219,8 +229,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-3 mb-1">
-									<label for="situacion" class="label_control">SEXO <span
-										class="required">*</span></label>
+									<label for="situacion" class="label_control">SEXO </label>
 									<div class="controls">
 										<f:select id="sexoPaciente" path="pacienteBean.persona.sexo.codReg"
 											disabled="true" class="form-control" required="required">
@@ -230,23 +239,7 @@
 												itemLabel="nombreCorto" />
 										</f:select>
 									</div>
-								</div>
-								<div class="col-md-3 mb-1">
-									<label for="exampleInputName" class="label_control">FECHA
-										NACIMIENTO <span class="required">*</span>
-									</label>
-									<div class="controls">
-										<fmt:formatDate value="${fechaHasta}" var="dateString"
-											pattern="dd/MM/yyyy" />
-										<f:input id="personaFechaNac" name="fecha" type="text"
-											class="form-control" path="pacienteBean.persona.fechaNacStr"
-											disabled="true" value="${dateString}" size="10"
-											maxlength="10" required="required"
-											onkeyup="this.value=formateafechaNacimiento(this.value);" />
-
-
-									</div>
-								</div>
+								</div> 
 								<div class="form-group col-md-3 mb-1">
 									<label for="nombreCompleto" class="label_control">EDAD
 									</label>
@@ -256,11 +249,11 @@
 
 									</div>
 								</div>
-								<div class="form-group col-md-3 mb-2">
-									<label for="nombreCompleto" class="label_control">HC </label>
+								<div class="form-group col-md-6 mb-2">
+									<label for="nombreCompleto" class="label_control">DIRECCIÓN </label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
-											disabled="true" id="edadPersona" path="pacienteBean.persona.edad" />
+											disabled="true" id="personaDireccion" path="pacienteBean.persona.direccion" />
 
 									</div>
 								</div>
@@ -282,16 +275,16 @@
 								<div class="row">
 									<div class="col-md-12">
 										<div class="table-responsive">
-											<table class="table table-bordered" id="dataTable">
+											<table class="table table-bordered">
 												<thead class="tabla_th">
 													<tr>
-														<th width="70">ITEM</th>
+														<th width="30">ITEM</th>
 														<th>DESCRIPCION</th>
 														<th>TIPO</th>
-														<th>CANTIDAD</th>
+														<th width="50">CANTIDAD</th>
 														<th>PRECIO UNITARIO</th>
 														<th>IMPORTE</th>
-														<th width="220">ACCION</th>
+														<th>ACCION</th>
 													</tr>
 												</thead>
 												<tbody id="idbodyCIEXref" class="label_control">
@@ -331,13 +324,22 @@
 										</div>
 									</div>
 								</div>
-
+                             <div class="row">
+                               <div class="form-group col-md-9 text-right"
+								style="margin-top: 2px;"> 
+								</div>
+							    <div class="form-group col-md-3 text-right"
+								style="margin-top: 2px;">
+									<label for="nombreCompleto" class="label_control">IMPORTE TOTAL
+									</label>
+								<input type="text" class="form-control" id="txtCajaImporteTotal"
+												disabled="disabled" 
+												maxlength="4" />
+								</div>
+						</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="form-group col-md-12 text-right"
-								style="margin-top: 2px;"></div>
-						</div>
+						
 						<div class="row">
 							<div class="form-group col-md-12 text-right"
 								style="margin-top: 15px;">
@@ -442,13 +444,18 @@
 		<script
 			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/locales/bootstrap-datepicker.es.min.js"></script>
 
-
-
-
-
-
+ 
 
  <script type="text/javascript">  
+ 
+	function runScript(e) {
+		//See notes about 'which' and 'key'
+		if (e.keyCode == 13) {
+			buscarPersonaNroDoc();
+			return false;
+		}
+	}
+	
 		var  listadoExamenes= []; 
  </script>
 

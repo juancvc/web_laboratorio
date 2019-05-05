@@ -111,7 +111,7 @@ import java.sql.Timestamp;
 		
 		@NamedStoredProcedureQuery(
 							name="persona.buscarPorDocumento", 
-							procedureName="[RECO].[PERSONA_FIND_BY_NRODOC]",
+							procedureName="[GENE].[USP_PERSONA_FIND_BY_NRODOC]",
 							resultClasses= Persona.class,
 							parameters={ 
 										@StoredProcedureParameter(mode=ParameterMode.IN,name="TG1TPDOC", type=String.class ),
