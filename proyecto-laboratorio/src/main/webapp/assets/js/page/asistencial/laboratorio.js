@@ -78,12 +78,15 @@ function llenarExamenIndex(index){
 			    		$("#idBtnCerrarModalCIEX").trigger("click");
 				    	$('#idbodyCIEXref').empty();  
 				  	    $('#idbodyCIEXref').html(htmlTabla);
-				  	    
+				  	    var importe = 0.00;
 				  		for (var i = 0; i < listadoExamenes.length; i++) {
 				  			var objOrdenDetalle = listadoExamenes[i]; 
+				  			importe = importe + objOrdenDetalle.importe; 
 				  			//	$("#cboTipoDX"+objOrdenDetalle.valor4.trim()).val(objOrdenDetalle.valor7);
 				  			 
 				  		}
+				  		 $('#txtCajaImporteTotal').val(importe.toFixed(2)); 
+				  		$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
 		    		}
 		    	}
 		    
@@ -200,5 +203,61 @@ function buscarPersonaNroDoc(){
 					}
 				});
 		finBloqueo();
+	}
+}
+
+function grabarOrden(){   
+		var personaCodigo = $('#personaCodigo').val();   
+		var contextPath = $('#contextPath').val(); 
+		var actionForm = $('#frmGuardarOrden').attr("action");
+		
+		if (personaCodigo =="") {
+			msg_advertencia("Debe ingresar una persona para lo Orden."); 
+			return;
+			
+		} 
+		console.log("personaCodigo:: " + personaCodigo) ; 
+		var myFormulario = $('#frmGuardarOrden');  
+		
+		if(!myFormulario[0].checkValidity()) {
+			 msg_advertencia("Debe completar los campos requeridos(*) correctamente");
+
+		}else{ 
+			if(listadoExamenes.length == 0){
+				msg_advertencia("Ingrese al menos una Orden de exámen.");
+				return;
+			
+			
+			}  
+				iniciarBloqueo();
+				$.ajax({
+				contentType: "application/json",
+				type: "POST",
+				data: JSON.stringify(listadoExamenes),
+				url : contextPath+"/ordenController/grabarOrden",  
+		       
+				success : function(data) {
+					   // console.log("SUCCESS: ", data);
+					    if (data == "") {
+					    	msg_error("Error al registrar Orden");  
+						}else{
+						    msg_exito("Éxito al registrar Orden");  
+						    // enviarListado();
+							// $("#btnListado").trigger("click");
+						}
+ 
+				},
+				
+				error : function(xhr, status, er) { 
+				        console.log("error: " + xhr + " status: " + status + " er:" + er);
+							// msg_error();
+	
+						},
+			  			complete: function()
+	  			{
+	  				finBloqueo();
+
+				}
+		});
 	}
 }

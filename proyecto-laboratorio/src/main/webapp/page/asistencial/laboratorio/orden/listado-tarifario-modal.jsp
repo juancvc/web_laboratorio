@@ -74,8 +74,7 @@
 						<label for="exampleInputName" class="label_control">TIPO</label>
 
 						<div class="controls">
-							<f:select id="cboTipoExamen" path="tipo.codReg"
-								required="required" class="form-control"
+							<f:select id="cboTipoExamen" path="tipo.codReg"  class="form-control"
 								onchange="buscarPorTipo()">
 								<f:option value="" label="Todos" selected="true"
 									disabled="disabled" />

@@ -98,8 +98,8 @@
 	font-weight: plain;
 	font-family: Cambria;
 	font-size: 16px;
-	background-color: #C4E3F0;
-	text-align: left;
+	background-color: #DCE8EC;
+	text-align: right;
 	valign: center;
 } 
 </style>
@@ -126,7 +126,7 @@
 		<div class="container-fluid">
 			<div class="tituloForm">REGISTRO DE ORDEN</div>
 			<div class="card mb-3">
-				<f:form id="frmGuardarCampania" class="form-horizontal" role="form"
+				<f:form id="frmGuardarOrden" class="form-horizontal" role="form"
 					method="post" action="" onsubmit="return false">
 					<input id="contextPath" type="hidden"
 						value="${pageContext.request.contextPath}">
@@ -138,7 +138,7 @@
 					<f:input type="hidden" id="codigoSede" path="codigoSede" />
 					<f:input type="hidden" id="codigoInstitucion"
 						path="codigoInstitucion" />
-
+					<f:input type="hidden" id="personaCodigo" path="pacienteBean.persona.codigo" />
 					<div class="card-body">
 						<div class="form-group">
 							<div class="label_title">DATOS DE PACIENTE :</div>
@@ -267,7 +267,7 @@
 									<div class="col-md-12 text-right " style="margin-bottom: 20px;">
 										<button id="btn-save-reg" type="button" class="btn btn-info"
 											onclick="cargarTarifarioModal()">
-											<i class="fa fa-plus"></i> AGREGAR
+											<i class="fa fa-plus"></i> AGREGAR EXAMEN
 										</button>
 
 									</div>
@@ -330,11 +330,12 @@
 								</div>
 							    <div class="form-group col-md-3 text-right"
 								style="margin-top: 2px;">
-									<label for="nombreCompleto" class="label_control">IMPORTE TOTAL
+									<label for="nombreCompleto" class="label_control">IMPORTE TOTAL S/.
 									</label>
-								<input type="text" class="form-control" id="txtCajaImporteTotal"
+								<input type="text" value= "0.00" class="form-control" id="txtCajaImporteTotal"
 												disabled="disabled" 
 												maxlength="4" />
+								<f:input type="hidden" path="importeTotal" id="txtCajaImporteTotalHidden"  />				
 								</div>
 						</div>
 							</div>
@@ -344,12 +345,12 @@
 							<div class="form-group col-md-12 text-right"
 								style="margin-top: 15px;">
 								<a
-									href="${pageContext.request.contextPath}/bancoController/nuevaCampania"
+									href="${pageContext.request.contextPath}/ordenController/nuevo"
 									class="btn btn-secondary" title=""> <i class="fa icon-plus"></i>
 									NUEVO
 								</a>
 
-								<button type="submit" onclick="grabarCampania()"
+								<button type="submit" onclick="grabarOrden()"
 									class="btn btn-primary">
 									<i class="fa fa-floppy-o"></i> GUARDAR
 								</button>
