@@ -111,7 +111,9 @@ public class AccesoController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/asignarAcceso", method = RequestMethod.POST)
-    public @ResponseBody List<AccesoBean> asignarAcceso(@RequestBody AccesoBean[] accesoArray, HttpServletRequest request) {
+    public @ResponseBody List<AccesoBean> asignarAcceso(
+    		@RequestBody AccesoBean[] accesoArray, 
+    		HttpServletRequest request) {
         
 		List<AccesoBean> lstAccesoBean = new ArrayList<AccesoBean>();
 		

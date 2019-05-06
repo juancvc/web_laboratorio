@@ -21,8 +21,8 @@ public class Orden_laboratorioPK implements Serializable {
 	@Column(name="CODSEDEI")
 	private String codsedei;
 
-	@Column(name="NROPOST")
-	private String nroPost;
+	@Column(name="CODORDEN")
+	private String codOrden;
 
 	@Column(name="NROVERSI")
 	private String nroversi;
@@ -51,12 +51,6 @@ public class Orden_laboratorioPK implements Serializable {
 		this.codsedei = codsedei;
 	}  
 	 
-	public String getNroPost() {
-		return nroPost;
-	}
-	public void setNroPost(String nroPost) {
-		this.nroPost = nroPost;
-	}
 	public String getNroversi() {
 		return this.nroversi;
 	}
@@ -70,6 +64,12 @@ public class Orden_laboratorioPK implements Serializable {
 		this.nroperio = nroperio;
 	}
 
+	public String getCodOrden() {
+		return codOrden;
+	}
+	public void setCodOrden(String codOrden) {
+		this.codOrden = codOrden;
+	}
 	public boolean equals(Object other) {
 		if (this == other) {
 			return true;
@@ -82,7 +82,7 @@ public class Orden_laboratorioPK implements Serializable {
 			this.codorgan.equals(castOther.codorgan)
 			&& this.codinsti.equals(castOther.codinsti)
 			&& this.codsedei.equals(castOther.codsedei)
-			&& this.nroPost.equals(castOther.nroPost)
+			&& this.codOrden.equals(castOther.codOrden)
 			&& this.nroversi.equals(castOther.nroversi)
 			&& this.nroperio.equals(castOther.nroperio);
 	}
@@ -93,7 +93,7 @@ public class Orden_laboratorioPK implements Serializable {
 		hash = hash * prime + this.codorgan.hashCode();
 		hash = hash * prime + this.codinsti.hashCode();
 		hash = hash * prime + this.codsedei.hashCode();
-		hash = hash * prime + this.nroPost.hashCode();
+		hash = hash * prime + this.codOrden.hashCode();
 		hash = hash * prime + this.nroversi.hashCode();
 		hash = hash * prime + this.nroperio.hashCode();
 		

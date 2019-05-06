@@ -12,11 +12,52 @@ public class OrdenBean extends BaseBean{
 	private Date fechaOrden;
 	private String observacion;  
 	private Float importeTotal;
+	
+	private String sImporteTotal;
 	private String descripcionImporte;
 	
 	private List<OrdenDetalleBean> lstOrdenDetalleBean;
 	
+	private int cantidadItems;  
+	private String cadenaCodigoTarifario;  
+	private String cadenaCantidad;  
+	
+	
+ 
+	public int getCantidadItems() {
+		return cantidadItems;
+	}
+	public void setCantidadItems(int cantidadItems) {
+		this.cantidadItems = cantidadItems;
+	}
+	public String getCadenaCodigoTarifario() {
+		return cadenaCodigoTarifario;
+	}
+	public void setCadenaCodigoTarifario(String cadenaCodigoTarifario) {
+		this.cadenaCodigoTarifario = cadenaCodigoTarifario;
+	}
+	public String getCadenaCantidad() {
+		return cadenaCantidad;
+	}
+	public void setCadenaCantidad(String cadenaCantidad) {
+		this.cadenaCantidad = cadenaCantidad;
+	}
+	public String getsImporteTotal() {
+		return sImporteTotal;
+	}
+	public void setsImporteTotal(String sImporteTotal) {
+		this.sImporteTotal = sImporteTotal;
+	}
+	public List<OrdenDetalleBean> getLstOrdenDetalleBean() {
+		return lstOrdenDetalleBean;
+	}
+	public void setLstOrdenDetalleBean(List<OrdenDetalleBean> lstOrdenDetalleBean) {
+		this.lstOrdenDetalleBean = lstOrdenDetalleBean;
+	}
 	public PacienteBean getPacienteBean() {
+		if (pacienteBean == null ) {
+			pacienteBean = new PacienteBean();
+		}
 		return pacienteBean;
 	}
 	public void setPacienteBean(PacienteBean pacienteBean) {

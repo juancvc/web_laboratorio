@@ -12,20 +12,27 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller; 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView; 
+import org.springframework.web.servlet.ModelAndView;
+
+import com.ibm.icu.text.SimpleDateFormat;
+
 import sigelab.core.bean.asistencial.banco.PostulanteBean; 
 import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.TarifarioBean;
-import sigelab.core.bean.general.UbigeoBean; 
-import sigelab.core.service.exception.ServiceException; 
+import sigelab.core.bean.general.UbigeoBean;
+import sigelab.core.bean.seguridad.AccesoBean;
+import sigelab.core.service.exception.ServiceException;
+import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenService;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service; 
 import sigelab.core.service.interfaces.general.Maestra1Service; 
 import sigelab.core.service.interfaces.general.PersonaService;
@@ -60,6 +67,8 @@ public class OrdenController  extends BaseController {
 	@Autowired
 	private MaestraAsis01Service maestraAsis01Service;
 	 
+	@Autowired
+	private OrdenService ordenService;
 	
 	@Autowired
 	private TarifarioService tarifarioService;
@@ -236,6 +245,58 @@ public class OrdenController  extends BaseController {
 		DecimalFormat df = new DecimalFormat("0.00"); 
 		objOrdenDetalleBean.setsImporte((df.format(objOrdenDetalleBean.getImporte()).replace(",", ".")));
 		return objOrdenDetalleBean;
+	}
+
+    @RequestMapping(value = "/grabarOrden", method = RequestMethod.POST)
+	@ResponseBody
+	public String grabarOrden(
+		//	@RequestParam("personaCodigo")  String personaCodigo,
+			@RequestBody OrdenDetalleBean[] ordenDetalleArray,  
+			HttpServletRequest request) {
+    		
+    	System.out.println("personaCodigo:: " + this.getPersonaBean().getCodigo());
+		String codigo = "";
+		boolean sw = false;
+		String cadenaCodigoTarifario = "@";
+		String cadenaCantidad = "@"; 
+		OrdenBean ordenBean = new OrdenBean();
+		ordenBean.getPacienteBean().setPersona(this.getPersonaBean());
+		for (OrdenDetalleBean prmOrdenDetalleBean : ordenDetalleArray) {
+			System.out.println("getCodReg == >" + prmOrdenDetalleBean.getExamen().getCodigo());
+			
+			cadenaCantidad = cadenaCantidad + prmOrdenDetalleBean.getCantidad() + "@";
+			cadenaCodigoTarifario = cadenaCodigoTarifario + prmOrdenDetalleBean.getExamen().getCodigo() + "@";
+		}
+		ordenBean.setCadenaCantidad(cadenaCantidad);
+		ordenBean.setCadenaCodigoTarifario(cadenaCodigoTarifario);
+		ordenBean.setCantidadItems(ordenDetalleArray.length);
+		 
+		try {
+
+			if (ordenBean.getCodigo().equals("")) {
+				System.out.println("referenciaForm.getReferenciaBean().getPaciente().getTipoSeguro().getCodReg() "
+						+ ordenBean.getPacienteBean().getPersona().getCodigo());
+				this.setAuditoria(ordenBean, request, true);
+				  
+				sw = (this.ordenService.insertar(ordenBean));
+
+				if (sw) {
+					codigo = ordenBean.getCodigo(); 
+
+				} 
+
+			} else {
+				// UPDATE
+				this.setAuditoria(ordenBean, request, false);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("sw " + sw);
+		return codigo; 
+		 
 	}
 
 	public PersonaBean getPersonaBean() {
