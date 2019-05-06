@@ -421,6 +421,7 @@ function buscarPersonaLaboratorio() {
 	} else if (tipoDocumento == '000002' && numeroDocumento.trim().length != 8) {
 		msg_advertencia("Número de dni debe contener 8 dígitos.")
 		return;
+		
 	} else if (tipoDocumento == '000006' && numeroDocumento.trim().length < 9) {
 		msg_advertencia("Número de pasaporte incorrecto.")
 		return;
