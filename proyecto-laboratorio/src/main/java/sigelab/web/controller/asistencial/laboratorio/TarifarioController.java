@@ -723,7 +723,7 @@ public class TarifarioController  extends BaseController {
 		TarifarioBean tarifarioBean = new TarifarioBean(); 
 		CampaniaBean campaniaBean = new CampaniaBean();
 		campaniaBean.getSituacion().setCodReg("000001");
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-tarifario", "command", tarifarioBean); 
+		ModelAndView mav = new ModelAndView("general/tarifario/registro-tarifario", "command", tarifarioBean); 
 		
 		 
 		return mav;
@@ -732,7 +732,7 @@ public class TarifarioController  extends BaseController {
 	@RequestMapping(value = "/tarifarioRegModal", method = RequestMethod.POST)
 	public ModelAndView nuevoTarifario()throws Exception {
 
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-tarifario", "command", new TarifarioBean());
+		ModelAndView mav = new ModelAndView("general/tarifario/registro-tarifario", "command", new TarifarioBean());
 		lstTarifarioBean = new ArrayList<TarifarioBean>();
 		lstTipoExamen = new ArrayList<TablaBean>();
 		try {

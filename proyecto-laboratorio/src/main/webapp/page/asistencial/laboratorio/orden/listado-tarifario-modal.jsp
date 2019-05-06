@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="f"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i"
@@ -42,18 +42,7 @@
 <link
 	href="${pageContext.request.contextPath}/app-assets/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-<!-- Page level plugin CSS
-<link
-	href="${pageContext.request.contextPath}/app-assets/vendor/datatables/dataTables.bootstrap4.css"
-	rel="stylesheet">
 
-
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css">
-	
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/app-assets/vendors/css/forms/selects/select2.min.css">
-<!-- Custom styles for this template-->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/app-assets/fonts/simple-line-icons/style.min.css">
 
@@ -67,7 +56,7 @@
 	<div class="modal-content">
 		<div class="modal-header">
 			<label class="modal-title text-text-bold-600" id="myModalLabel35"><b>LISTADO
-					</b></label>
+			</b></label>
 			<button type="button" class="close" data-dismiss="modal"
 				aria-label="Close">
 				<span aria-hidden="true">&times;</span>
@@ -81,36 +70,35 @@
 
 			<div class="modal-body" id="buscarCIE10">
 				<div class="row">
-				<div class="col-md-4">
+					<div class="col-md-4">
 						<label for="exampleInputName" class="label_control">TIPO</label>
-						
+
 						<div class="controls">
-										<f:select id="tipoDocumentoPaciente"
-											path="tipo.codReg" required="required"
-											class="form-control" onchange="limpiarPorTipo()">
-											<f:option value="" label="Seleccionar" selected="true"
-												disabled="disabled" />
-											<f:options items="${lstTipoExamen}" itemValue="codReg"
-												itemLabel="nombreCorto" />
-										</f:select>
+							<f:select id="cboTipoExamen" path="tipo.codReg"
+								required="required" class="form-control"
+								onchange="buscarPorTipo()">
+								<f:option value="" label="Todos" selected="true"
+									disabled="disabled" />
+								<f:options items="${lstTipoExamen}" itemValue="codReg"
+									itemLabel="nombreCorto" />
+							</f:select>
 						</div>
 					</div>
 					<div class="col-md-8">
-						<label for="exampleInputName" class="label_control">NOMBRE
-							ELEMENTO</label>
-						<f:input type="text" class="form-control" id="nombreCortoDX"
+						<label for="exampleInputName" class="label_control">DESCRIPCIÓN</label>
+						<f:input type="text" class="form-control" id="txtDescripcion"
 							path="descripcion" />
 					</div>
-					
-				</div> 
+
+				</div>
 				<div class="row">
-					<div class="form-group col-md-12 text-right"  style="margin-top: 20px; margin-bottom: 20px;">
-						<button
-							onclick="limpiarForm();"
-							type="button" class="btn btn-flat btn-default">
+					<div class="form-group col-md-12 text-right"
+						style="margin-top: 20px; margin-bottom: 20px;">
+						<button onclick="limpiarForm();" type="button"
+							class="btn btn-flat btn-default">
 							<i class="fa fa-eraser"></i> LIMPIAR
 						</button>
-						<button class="btn btn-info" onclick="buscarCIE10()"
+						<button class="btn btn-info" onclick="buscarPorTipo()"
 							type="button">
 							<i class="ft-search"></i> BUSCAR
 						</button>
@@ -125,7 +113,7 @@
 									style="overflow-y: scroll">
 									<thead class="tabla_th">
 										<tr>
-											<th width="50">ITEM</th> 
+											<th width="50">ITEM</th>
 											<th>DESCRIPCION</th>
 											<th>TIPO</th>
 											<th>SUBTIPO</th>
@@ -133,10 +121,12 @@
 											<th width="45">ACCION</th>
 										</tr>
 									</thead>
-									<tbody id="idBodyListaCIEX" class="label_control">
-										<c:forEach var="ciex" items="${lstTarifarioBean}" varStatus="loop">
+									<tbody id="idBodyListaExamenes" class="label_control">
+
+										<c:forEach var="ciex" items="${lstTarifarioBean}"
+											varStatus="loop">
 											<tr>
-												<td>${loop.count}</td> 
+												<td>${loop.count}</td>
 												<td>${ciex.descripcion}</td>
 												<td>${ciex.tipo.nombreCorto}</td>
 												<td>${ciex.subtipo}</td>
@@ -145,7 +135,7 @@
 														class="btn btn-outline-success btn-sm"
 														data-toggle="tooltip" data-placement="top" title=""
 														data-original-title="Seleccionar"
-														onclick="llenarDxIndex(${loop.index})"
+														onclick="llenarExamenIndex(${loop.index})"
 														id="agregarEspecialidad">
 														<i class="icon-check"></i>
 													</button></td>
@@ -161,7 +151,9 @@
 			<div class="modal-footer">
 
 				<button type="button" id="idBtnCerrarModalCIEX"
-					class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close"></i> CERRAR</button>
+					class="btn btn-secondary" data-dismiss="modal">
+					<i class="fa fa-close"></i> CERRAR
+				</button>
 
 			</div>
 		</f:form>
@@ -183,7 +175,7 @@
 <!-- Core plugin JavaScript-->
 
 <script
-	src="${pageContext.request.contextPath}/assets/js/page/asistencial/referencia.js"
+	src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
 	type="text/javascript" charset="utf-8"></script>
 <!-- Page level plugin JavaScript-->
 <!-- Bootstrap core JavaScript-->
@@ -209,103 +201,40 @@
 	type="text/javascript" charset="utf-8"></script>
 
 <script
-		src="${pageContext.request.contextPath}/app-assets/js/scripts/extensions/block-ui.js"
-		type="text/javascript"></script>
+	src="${pageContext.request.contextPath}/app-assets/js/scripts/extensions/block-ui.js"
+	type="text/javascript"></script>
 <script src="http://malsup.github.io/jquery.blockUI.js"></script>
 <script> 
+
+$("#txtDescripcion").focus(); 
 function  limpiarForm(){
-	$("#nombreCortoDX").val("");
-	$("#valor4dx").val(""); 
-	$("#idBodyListaCIEX tr").remove(); 
-	 $("#nombreCortoDX").focus(); 
+	$("#cboTipoExamen").val("");
+	$("#txtDescripcion").val(""); 
+	$("#idBodyListaExamenes tr").remove(); 
+	 $("#txtDescripcion").focus(); 
    	} 
    	
-$("#nombreCortoDX").keyup(function(event) {
+$("#txtDescripcion").keyup(function(event) {
     if (event.keyCode === 13) {
-    	buscarCIE10();
+    	buscarPorTipo();
     }
-});	
-
-$("#valor4dx").keyup(function(event) {
-    if (event.keyCode === 13) {
-    	buscarCIE10();
-    }
-});	
-
-function buscarCIE10() {
-
+});	  
+ 
+function buscarPorTipo() {
+//debugger;
 	  var contextPath = $('#contextPath').val();
-	  var nombreCortoDX = $('#nombreCortoDX').val().trim();
-	  var valor4dx = $('#valor4dx').val().trim();
+	  var descripcion = $('#txtDescripcion').val().trim();
+	  var tipo = $('#cboTipoExamen').val().trim();
 	  
 	  var htmlTabla = "";  
-	  
-	  if ((nombreCortoDX == null || nombreCortoDX =="") && (valor4dx == null || valor4dx == "")){
-		  msg_advertencia("Ingrese algún filtro para iniciar la búsqueda.");  
-	  }else if (nombreCortoDX !="" && nombreCortoDX.length < 4){
-		  msg_advertencia("Ingrese al menos 4 caracteres para iniciar la búsqueda.");  
-		  
-	  }else if(valor4dx !="" && valor4dx.length < 4){
-		  $.ajax({
-			    type: "GET",
-			    data: $('#frmlistarCIE10').serialize(),
-			   	
-			    	url: contextPath+"/referenciaController/refrescarListCIEX" ,
-			    	success: function(response){
-			    	console.log(response.length);	
-			    	if(response.length > 0){
-			    	for (var i = 0; i < response.length; i++) {
-			    		var item = i+1;
-			    		var ciex = response[i];
-			    		htmlTabla += 
-			    			"<tr>"+
-			    				"<td>"+item +"</td>"+
-			    				"<td>"+ciex.valor4+"</td>"+ 
-				    			"<td>"+ciex.nombreCorto+"</td>"+ 
-				    			"<td>"+
-						    	 	"<button type='button'"+
-						    	 	" class='btn btn-outline-success btn-sm' "+
-						    	 	" data-toggle='tooltip'  data-placement='top'"+
-						    		"  onclick=llenarDxIndex("+i+");"+
-						      	 	" data-original-title='Seleccionar' title='Seleccionar'"+
-						    	 	" id='agregarEspecialidad'>"+
-						    	 	"<i class='icon-check'></i></button>"+
-						    		"</td>"+
-			    		"</tr>";
-			    	}
-					}else{
-			    		  msg_advertencia("No se encontraron resultados.");  
-			    	}
-			    	
-			    	//console.log(htmlTabla); 
-			    	 $('#idBodyListaCIEX').empty(); 
-			  	     $('#idBodyListaCIEX').html(htmlTabla);
-				    },error: function(xhr,status,er) {
-			         console.log("error: " + xhr + " status: " + status + " er:" + er);
-						    if(xhr.status==500) {
-						    	console.log(er);
-						    	//Error_500(er);
-						    }
-						    if(xhr.status==901) {
-					    	console.log(er);
-					    	//spire_session_901(er);
-			 			}
-			
-				    }, 
-				    complete: function()
-					{
-						//finBloqueo();
-					}
-			  });
-		  
-	  } else { 
-	 // iniciarBloqueo();
-	  
+	  var url = contextPath+"/laboratorioController/refrescarListTarifario?tipo="+tipo+ "&descripcion=" +descripcion;   
+	  console.log("descripcion " + descripcion);
+	  console.log("tipo " + tipo);
+	    
 	  $.ajax({
-	    type: "GET",
-	    data: $('#frmlistarCIE10').serialize(),
-	   	
-	    	url: contextPath+"/referenciaController/refrescarListCIEX" ,
+	        type: "GET",
+	     //   data: $('#frmlistarCIE10').serialize(), 
+	    	url : url, 
 	    	success: function(response){
 	    	console.log(response.length);	
 	    	if(response.length > 0){
@@ -315,13 +244,15 @@ function buscarCIE10() {
 	    		htmlTabla += 
 	    			"<tr>"+
 	    				"<td>"+item +"</td>"+
-	    				"<td>"+ciex.valor4+"</td>"+ 
-		    			"<td>"+ciex.nombreCorto+"</td>"+ 
+	    				"<td>"+ciex.descripcion+"</td>"+ 
+		    			"<td>"+ciex.tipo.nombreCorto+"</td>"+ 
+		    			"<td>"+ciex.subtipo+"</td>"+ 
+		    			"<td>"+ciex.sPrecio+"</td>"+ 
 		    			"<td>"+
 				    	 	"<button type='button'"+
 				    	 	" class='btn btn-outline-success btn-sm' "+
 				    	 	" data-toggle='tooltip'  data-placement='top'"+
-				    		"  onclick=llenarDxIndex("+i+");"+
+				    		"  onclick=llenarExamenIndex("+i+");"+
 				      	 	" data-original-title='Seleccionar' title='Seleccionar'"+
 				    	 	" id='agregarEspecialidad'>"+
 				    	 	"<i class='icon-check'></i></button>"+
@@ -333,8 +264,8 @@ function buscarCIE10() {
 	    	}
 	    	
 	    	//console.log(htmlTabla); 
-	    	 $('#idBodyListaCIEX').empty(); 
-	  	     $('#idBodyListaCIEX').html(htmlTabla);
+	    	 $('#idBodyListaExamenes').empty(); 
+	  	     $('#idBodyListaExamenes').html(htmlTabla);
 		    },error: function(xhr,status,er) {
 	         console.log("error: " + xhr + " status: " + status + " er:" + er);
 				    if(xhr.status==500) {
@@ -352,6 +283,5 @@ function buscarCIE10() {
 				//finBloqueo();
 			}
 	  });
-   }
 }
 </script>

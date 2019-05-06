@@ -32,7 +32,8 @@ import java.sql.Timestamp;
 					procedureName="[LABO].[TARIFARIO_LISTAR_X_FILTROS]",
 					resultClasses= Tarifario_laboratorio.class,
 					parameters={ 
-							@StoredProcedureParameter(mode = ParameterMode.IN, name ="TG1TIPOT", type = String.class) 
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="TG1TIPOT", type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="DESCRIPC", type = String.class) 
 					}),
 			@NamedStoredProcedureQuery(
 					name="tarifario.registro", 

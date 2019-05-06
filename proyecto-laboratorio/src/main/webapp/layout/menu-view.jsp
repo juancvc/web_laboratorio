@@ -111,10 +111,10 @@
 	</a>
 		<ul class="sidenav-third-level collapse" id="collapseLaboratorio">
 			<li><a
-				href="${pageContext.request.contextPath}/laboratorioController/orden">Registro</a>
+				href="${pageContext.request.contextPath}/ordenController/nuevo">Registro</a>
 			</li>
 			<li><a
-				href="${pageContext.request.contextPath}/bancoController/listadoPostulante">Listado</a>
+				href="${pageContext.request.contextPath}/ordenController/listado">Listado</a>
 			</li>
 		</ul></li>
 
@@ -134,7 +134,7 @@
 					href="${pageContext.request.contextPath}/maestraController/listado"><span
 						class="label_control_barra">Maestras</span></a></li>
 				 <li><a
-					href="${pageContext.request.contextPath}/laboratorioController/tarifarioGeneralModal"><span
+					href="${pageContext.request.contextPath}/tarifarioController/tarifarioGeneralModal"><span
 						class="label_control_barra">Tarifario</span></a></li> 
 				 <li><a
 					href="${pageContext.request.contextPath}/laboratorioController/tarifarioGeneralModal"><span

@@ -739,15 +739,7 @@ function buscarPacienteSISWebService() {
 				}	
 	
 	
-function nif(dni) {
-  numero = dni.substr(0,dni.length-1);
- // let = dni.substr(dni.length-1,1);
-  numero = numero % 23;
-  letra='TRWAGMYFPDXBNJZSQVHLCKET';
-  letra=letra.substring(numero,numero+1);
-  if (letra!=let) 
-    alert('Dni erroneo');
-}
+ 
 
 function ocultar(){
 	

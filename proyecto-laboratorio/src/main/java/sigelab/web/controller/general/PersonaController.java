@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import gob.hnch.systems.ws.hnch.client.imp.PersonaServiceImp; 
+import gob.hnch.systems.ws.hnch.client.imp.PersonaServiceImp;
+import sigelab.core.bean.asistencial.banco.PostulanteBean;
 import sigelab.core.bean.general.PersonaBean; 
 import sigelab.core.bean.general.UbigeoBean;
 import sigelab.core.entity.general.PacienteReniec;
@@ -271,6 +272,202 @@ public class PersonaController {
 		} 
 		
 	
+		return personaBean;
+	}
+	
+	
+	
+	
+	/*****************************************************************/
+	/************************** POSTULANTES **************************/
+	
+	@RequestMapping(value = "/consultarPersonaPorDocumentoLaboratorio", method = RequestMethod.GET)
+	public @ResponseBody PersonaBean consultarPorNroDocumentoLaboratorio(@RequestParam("tipoDocumento") String tipoDocumento,@RequestParam("numero") String numero)throws Exception {
+		this.setPersonaBean(new PersonaBean());  
+		personaBean = new PersonaBean();
+		PersonaBean prmPersona = new PersonaBean();
+		prmPersona.setNroDocumento(numero);
+		prmPersona.getTipoDocumento().setCodReg(tipoDocumento);
+		try {
+		/*	personaBean = this.getPersonaService().buscarxTipoDocumentoNumeroDocumento(prmPersona); 
+			if(personaBean!=null){ 
+			
+			}else{*/
+				personaBean = personaService.buscarxTipoDocumentoNumeroDocumentoSigeho(prmPersona);
+				if(personaBean!=null){  
+					System.out.println("persona existe en sigehov2gene");
+					System.out.println(personaBean.getNombreCompleto());
+					personaBean.setOrigenDatos("LABMED");
+					
+					System.out.println("personaBean.getCodigo() " + personaBean.getCodigo());
+					PostulanteBean postulante = new PostulanteBean();
+					postulante.setPersona(personaBean);
+					/*
+					try {
+						postulante = postulanteService.buscarUltimaDonacion(postulante);
+						if (postulante != null) {
+							System.out.println("postulante.getUltimaFechaDonacion() "  + postulante.getUltimaFechaDonacion());
+							personaBean.setUltimaFechaDonacion(postulante.getUltimaFechaDonacion());
+						}
+					} catch (Exception e) {
+						 
+					}
+				*/
+					
+					if (tipoDocumento.equals("000002")) {
+						PacienteReniec pacienteReniec = new PacienteReniec();
+						pacienteReniec.setNroDni(numero);
+						//System.out.println("personaaaa"+perso.toString());
+						List<PacienteReniec> lstPersona =  null; 	
+						try {
+							lstPersona = pacienteReniecService.pacienteReniecVerificacion(pacienteReniec) ;				
+						} catch (Exception e) {
+						}
+						//lstPersona.add(perso); 
+						if (lstPersona!= null ) {
+							String bphoto = Base64.encodeBase64String(lstPersona.get(0).getFotoPaciente()); 
+							personaBean.setFoto(lstPersona.get(0).getFotoPaciente());
+							personaBean.setFotoCadena(bphoto);
+							personaBean.setSwReniec(false);
+						}
+					}
+				
+					
+				}else{  
+					personaBean = new PersonaBean();
+					personaBean.getTipoDocumento().setCodReg("000002");
+					personaBean.setNroDocumento(numero);
+					personaBean.setOrigenDatos("");
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					PacienteReniec pacienteReniec = new PacienteReniec();
+					pacienteReniec.setNroDni(numero); 
+					List<PacienteReniec> lstPersona = null ; //new ArrayList<PacienteReniec>();
+					if (tipoDocumento.equals("000002")) {
+						try {
+							lstPersona = pacienteReniecService.pacienteReniecVerificacion(pacienteReniec) ;		
+							System.out.println("lstPersona.get(0).getCodigoRespuesta() " + lstPersona.get(0).getCodigoRespuesta());
+						} catch (Exception e) {
+							System.out.println("entro al catch");
+							lstPersona =  null;
+						}	
+					} 		
+					//lstPersona.add(perso); 
+					if (lstPersona!= null ) {
+						if (lstPersona.size() > 0) {
+							if (lstPersona.get(0).getCodigoRespuesta().equals("0000")) {
+								System.out.println("lstPersona size " + lstPersona.size());
+								personaBean = new PersonaBean();
+								personaBean.getTipoDocumento().setCodReg("000002");
+								personaBean.setNroDocumento(numero);
+								personaBean.setOrigenDatos("RENIEC");
+								personaBean.setSwReniec(true);
+								personaBean.setCodigoErrorReniec(lstPersona.get(0).getCodigoRespuesta());
+								System.out.println("personaBean RENIEC no es null " + lstPersona.get(0).getCodigoRespuesta());
+								personaBean.setApellidoMaterno(lstPersona.get(0).getApellidoMaterno());
+								personaBean.setApellidoPaterno(lstPersona.get(0).getApellidoPaterno());
+								personaBean.getNacionalidad().setCodReg("000114");
+								SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
+								String strFecha = lstPersona.get(0).getFechaNacimiento();
+								int ind = lstPersona.get(0).getNombres().indexOf(" ");
+								System.out.println("ind " + ind);
+								String primerNombre = "";
+								if (ind > 0) {
+									primerNombre = lstPersona.get(0).getNombres().substring(0, ind);
+									String segundoNombre = lstPersona.get(0).getNombres().substring(ind + 1, lstPersona.get(0).getNombres().length());
+									
+									personaBean.setPrimerNombre(primerNombre);
+									personaBean.setSegundoNombre(segundoNombre);
+								}else{
+									personaBean.setPrimerNombre(lstPersona.get(0).getNombres());
+									personaBean.setSegundoNombre("");
+								}
+								
+								if(lstPersona.get(0).getFotoPaciente() != null){
+									personaBean.setFoto(lstPersona.get(0).getFotoPaciente());
+								}
+								/**
+								personaBean.setUbiDepartamento(lstPersona.get(0).getUbiDepart());
+								personaBean.setUbiProvincia(lstPersona.get(0).getUbiProv());
+								personaBean.setUbiDistrito(lstPersona.get(0).getUbiDist());
+								*/
+								UbigeoBean oUbigeoBean = new UbigeoBean();
+								oUbigeoBean.setCodigoUbigeo(lstPersona.get(0).getUbiDepart()+
+															lstPersona.get(0).getUbiProv() + 
+															lstPersona.get(0).getUbiDist());
+								oUbigeoBean = ubigeoService.buscarEquivalenteReniecMinsa(oUbigeoBean);
+								personaBean.setUbigeoDireccion(oUbigeoBean);
+								
+								UbigeoBean oUbigeoNacimiemtoBean = new UbigeoBean();
+								oUbigeoNacimiemtoBean.setCodigoUbigeo(lstPersona.get(0).getUbiDepNac()+
+															lstPersona.get(0).getUbiProvNac() + 
+															lstPersona.get(0).getUbiDistNac());
+								oUbigeoNacimiemtoBean = ubigeoService.buscarEquivalenteReniecMinsa(oUbigeoNacimiemtoBean);
+								personaBean.setUbigeoNacimiento(oUbigeoNacimiemtoBean);
+								
+								Date fecha = null;
+								try {
+
+								fecha = formatoDelTexto.parse(strFecha);
+
+								} catch (ParseException ex) {
+
+								ex.printStackTrace();
+
+								}
+								personaBean.setDireccion(lstPersona.get(0).getDireccion());
+								personaBean.setFechaNac(fecha);
+								personaBean.setFechaNacStr(strFecha);
+								System.out.println("personaBean no es null " + personaBean.getNombreCompleto());
+								System.out.println("personaBean no es null " + personaBean.getFechaNac());
+								if (lstPersona.get(0).getSexo().equals("1")) {
+									personaBean.getSexo().setCodReg("000002"); 
+								}else{
+									personaBean.getSexo().setCodReg("000001"); 
+								}
+								
+								if (lstPersona.get(0).getEstCivil().equals("1")) {
+									personaBean.getEstadoCivil().setCodReg("000001"); 
+								}else if (lstPersona.get(0).getEstCivil().equals("2")){
+									personaBean.getEstadoCivil().setCodReg("000002"); 
+								} else if (lstPersona.get(0).getEstCivil().equals("3")) {
+									personaBean.getEstadoCivil().setCodReg("000003"); 
+								}else{
+									personaBean.getEstadoCivil().setCodReg("000006"); 
+								}
+								
+								System.out.println("tipoDocumento " + tipoDocumento);
+							}else{
+								System.out.println("no existe persona reniec");
+								personaBean  = null;	
+							}
+							 
+						}else{
+							System.out.println("no existe persona reniec");
+							personaBean  = null;
+						} 
+					}else{
+						System.out.println("no existe persona ó no hay servicio de reniec");
+						personaBean  = null;
+					//	personaBean  = new PersonaBean();
+					} 
+				} 
+		} catch (Exception e) {  
+		} 
+		
+	//    this.getPostulanteBean().setPersona(personaBean);
+	    this.setPersonaBean(personaBean);
 		return personaBean;
 	}
 	

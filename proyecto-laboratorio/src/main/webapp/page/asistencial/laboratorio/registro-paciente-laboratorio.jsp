@@ -304,15 +304,7 @@ td.cantidad, th.cantidad {
 										<i class="ft-search"></i> BUSCAR
 									</button>
 								</div>
-								<div class="col-md-2">
-									<label for="nombreCompleto" class="label_control">ORIGEN
-										DATOS </label>
-									<div class="controls">
-										<f:input type="text" class="form-control estilo_cajaOrigen"
-											id="origenDatos" path="persona.origenDatos" />
-
-									</div>
-								</div>
+								
 
 							
 							</div>
@@ -602,33 +594,12 @@ td.cantidad, th.cantidad {
 
 								</div>
 								<div class="col-md-5" id="listadoDetallePostulanteEstadoFisico">
-									<div class="label_title">ULTIMA ATENCION DEL
-										PACIENTE :</div>
+									
 									<div class="table-responsive">
-										<table class="table table-bordered" id="dataTable">
-											<thead class="tabla_th">
-												<tr>
-													<th>N° REGISTRO</th>
-													<th>RESULTADO</th>
-													<th>FECHA</th>
-													
-												
-												
-												</tr>
-											</thead>
-											<tbody id="idlistadoDetallePostulanteEstadoFisico"
-												class="label_control">
-
-											</tbody>
-										</table>
+										
 									</div>
 								</div>
-								<div class="col-md-2">
-									<label for="exampleInputName" id="lblcodigoFiliacionPaciente"
-										class="label_control">ULTIMA FECHA DE REGISTRO</label>
-									<f:input type="text" class="form-control" disabled="true"
-										id="ultimaFechaDonancion" path="persona.ultimaFechaDonacion" />
-								</div>
+								
 							</div>
 							<div class="text-right"
 								style="margin-top: 0px; margin-bottom: 0px;">
@@ -784,6 +755,10 @@ td.cantidad, th.cantidad {
 <script
 	src="${pageContext.request.contextPath}/assets/js/page/asistencial/banco.js"
 	type="text/javascript" charset="utf-8"></script>
+	
+<script
+			src="${pageContext.request.contextPath}/assets/js/page/general/persona.js"
+			type="text/javascript" charset="utf-8"></script>	
 <script
 	src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/toastr.min.js"
 	type="text/javascript"></script>
@@ -859,7 +834,8 @@ function printDiv(nombreDiv) {
 	function runScript(e) {
 		//See notes about 'which' and 'key'
 		if (e.keyCode == 13) {
-			buscarPersonaWebService();
+		//	buscarPersonaWebService();
+			buscarPersonaLaboratorio();
 			return false;
 		}
 	}
