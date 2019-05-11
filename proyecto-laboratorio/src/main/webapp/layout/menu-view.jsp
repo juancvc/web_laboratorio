@@ -95,10 +95,10 @@
 	</a>
 		<ul class="sidenav-third-level collapse" id="collapsePaciente">
 			<li><a
-				href="${pageContext.request.contextPath}/laboratorioController/nuevoPaciente">Registro</a>
+				href="${pageContext.request.contextPath}/personaController/nuevoPaciente">Registro</a>
 			</li>
 			<li><a
-				href="${pageContext.request.contextPath}/bancoController/listadoPostulante">Listado</a>
+				href="${pageContext.request.contextPath}/personaController/listadoPostulante">Listado</a>
 			</li>
 		</ul></li>
 

@@ -75,9 +75,12 @@ public class TarifarioController  extends BaseController {
 	List<UbigeoBean> lstUbigeoBean = new ArrayList<UbigeoBean>();
 	List<TablaBean> lstTipoExamen = new ArrayList<TablaBean>();
 	
+	List<TablaBean> lstAreasLab = new ArrayList<TablaBean>();
+	
 	PersonaBean personaBean = new PersonaBean();
 	PostulanteBean PostulanteBean = new PostulanteBean();
 	public UbigeoBean ubigeobean;
+	TarifarioBean tarifarioBean = new TarifarioBean();
 	 
 	private List<CampaniaBean> lstCampaniaBean ;
 	private List<TarifarioBean> lstTarifarioBean ;
@@ -131,6 +134,7 @@ public class TarifarioController  extends BaseController {
 	
 	private void cargarCombos(ModelAndView mav) {
 		try {
+			/*
 			lstSituacion =maestraBanc01Service.listarPorCodigoTabla("000034", 1);
 			lstDocumento = maestraAsis01Service.listarPorCodigoTabla("000003", 1);
 			lstSexo = maestraAsis01Service.listarPorCodigoTabla("000004", 1);
@@ -138,19 +142,23 @@ public class TarifarioController  extends BaseController {
 			lstOcupacion = maestraGene01Services.listarPorCodigoTabla("000007", 0);
 			lstNacionalidad = maestraGene01Services.listarPorCodigoTabla("000003", 0);
 			lstNivelInstrucion = maestraGene01Services.listarPorCodigoTabla("000006", 0);
+			*/
+			lstAreasLab = maestraGene01Services.listarPorCodigoTabla("000063", 0);
+			
 			
 		} catch (ServiceException e) {
 			System.out.println("printStackTrace");
 			e.printStackTrace();
 		}
-		
+		/*
 		mav.addObject("lstSituacion", lstSituacion);
 		mav.addObject("lstDocumento", lstDocumento); 
 		mav.addObject("lstSexo", lstSexo); 
 		mav.addObject("lstEstadoCivil", lstEstadoCivil); 
+		mav.addObject("lstAreasLab", lstAreasLab); 
 		mav.addObject("lstOcupacion", lstOcupacion); 
-		mav.addObject("lstNacionalidad", lstNacionalidad); 
-		mav.addObject("lstNivelInstrucion", lstNivelInstrucion); 
+		mav.addObject("lstNacionalidad", lstNacionalidad); */
+		mav.addObject("lstAreasLab", lstAreasLab); 
 	}
 	
 	private void cargarCombosCampania(ModelAndView mav) {
@@ -375,7 +383,7 @@ public class TarifarioController  extends BaseController {
 		if (this.getPostulanteBean().getPersona().getCodigo().equals("")) {
 			if(!postulanteBean.getPersona().getTipoDocumento().getCodReg().equals("000002") ){ // extranjero
 				this.setAuditoria(postulanteBean.getPersona(), request, true); 
-				this.personaService.insertarPersonaBanco(postulanteBean.getPersona());
+				this.personaService.insertarPersonaLaboratorio(postulanteBean.getPersona());
 				this.getPostulanteBean().setPersona(postulanteBean.getPersona());
 			}else{
 				if(this.getPersonaBean().getSwReniec()){
@@ -387,11 +395,11 @@ public class TarifarioController  extends BaseController {
 					this.getPostulanteBean().getPersona().getOcupacion().setCodReg(postulanteBean.getPersona().getOcupacion().getCodReg());
 					
 					this.setAuditoria(this.getPostulanteBean().getPersona(), request, true); 
-					this.personaService.insertarPersonaBanco(this.getPostulanteBean().getPersona());
+					this.personaService.insertarPersonaLaboratorio(this.getPostulanteBean().getPersona());
 					System.out.println("persona reniec");
 				}else{
 					this.setAuditoria(postulanteBean.getPersona(), request, true); 
-					this.personaService.insertarPersonaBanco(postulanteBean.getPersona());
+					this.personaService.insertarPersonaLaboratorio(postulanteBean.getPersona());
 					this.getPostulanteBean().setPersona(postulanteBean.getPersona());
 				}
 			}
@@ -406,7 +414,7 @@ public class TarifarioController  extends BaseController {
 				System.out.println("postulanteBean.getCodigoCorreo " + postulanteBean.getPersona().getCodigoCorreo());
 				System.out.println("postulanteBean.getCodigoDireccion " + postulanteBean.getPersona().getCodigoDireccion());
 				System.out.println("postulanteBean.getCodigoTelefono " + postulanteBean.getPersona().getCodigoTelefono());
-				this.personaService.actualizarPersonaBanco(postulanteBean.getPersona());
+				this.personaService.actualizarPersonaLaboratorio(postulanteBean.getPersona());
 			//	this.getPostulanteBean().setPersona(postulanteBean.getPersona());
 		 
 			
@@ -721,11 +729,11 @@ public class TarifarioController  extends BaseController {
 	@RequestMapping(value = "/nuevoTarifario", method = RequestMethod.GET)
 	public ModelAndView nuevoRegistroTarifario(HttpServletRequest request) {
 		TarifarioBean tarifarioBean = new TarifarioBean(); 
-		CampaniaBean campaniaBean = new CampaniaBean();
-		campaniaBean.getSituacion().setCodReg("000001");
+	
+		
 		ModelAndView mav = new ModelAndView("general/tarifario/registro-tarifario", "command", tarifarioBean); 
 		
-		 
+		this.cargarCombos(mav); 
 		return mav;
 	}
 	
@@ -884,28 +892,30 @@ public class TarifarioController  extends BaseController {
 		return mav;
 	}
  
-	@RequestMapping(value = "/grabarCampania", method = RequestMethod.POST)
-	public @ResponseBody String grabarCampania(@ModelAttribute("campaniaBean")CampaniaBean campaniaBean,
+	@RequestMapping(value = "/grabarTarifario", method = RequestMethod.POST)
+	public @ResponseBody String grabarTarifario(@ModelAttribute("tarifarioBean")TarifarioBean tarifarioBean,
 											 HttpServletRequest request) throws Exception {  
 		String codigo ="";   
-		if (campaniaBean.getCodigo()!=null && !campaniaBean.getCodigo().equals("")) {
-			this.setAuditoria(campaniaBean, request, false); 
-			System.out.println("actualiza campaniaBean " + campaniaBean.getCodigo());
-			if (campaniaService.actualizar(campaniaBean)) { 
-				System.out.println("campaniaBean " + campaniaBean.getCodigo());
-				codigo = campaniaBean.getCodigo();
+		if (tarifarioBean.getCodigo()!=null && !tarifarioBean.getCodigo().equals("")) {
+			this.setAuditoria(tarifarioBean, request, false); 
+			System.out.println("actualiza campaniaBean " + tarifarioBean.getCodigo());
+			if (tarifarioService.actualizar(tarifarioBean)) { 
+				System.out.println("campaniaBean " + tarifarioBean.getCodigo());
+				codigo = tarifarioBean.getCodigo();
 			}
 		} else {
-			this.setAuditoria(campaniaBean, request, true); 
-			System.out.println("insert campaniaBean " + campaniaBean.getCodigo());
-			if (campaniaService.insertar(campaniaBean)) { 
-				System.out.println("campaniaBean " + campaniaBean.getCodigo());
-				codigo = campaniaBean.getCodigo();
+			this.setAuditoria(tarifarioBean, request, true); 
+			System.out.println("insert tarifarioBean " + tarifarioBean.getCodigo());
+			if (tarifarioService.insertar(tarifarioBean)) { 
+				System.out.println("campaniaBean " + tarifarioBean.getCodigo());
+				codigo = tarifarioBean.getCodigo();
 			}
 			
 		}  
 		return codigo;
 	}
+	
+	
 	
 	@RequestMapping(value = "/eliminarCampania", method = RequestMethod.GET)
 	public @ResponseBody String doEliminar(@RequestParam("index") Integer index,

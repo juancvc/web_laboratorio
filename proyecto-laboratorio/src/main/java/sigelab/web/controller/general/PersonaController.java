@@ -4,28 +4,67 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList; 
 import java.util.Date;
-import java.util.List; 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller; 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import gob.hnch.systems.ws.hnch.client.imp.PersonaServiceImp;
+import sigelab.base.bean.BaseBean;
+import sigelab.core.bean.asistencial.banco.CampaniaBean;
+import sigelab.core.bean.asistencial.banco.DonanteBean;
+import sigelab.core.bean.asistencial.banco.EstadoFisicoBean;
 import sigelab.core.bean.asistencial.banco.PostulanteBean;
-import sigelab.core.bean.general.PersonaBean; 
+import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
+import sigelab.core.bean.general.PersonaBean;
+import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.UbigeoBean;
+import sigelab.core.bean.seguridad.UsuarioBean;
+import sigelab.core.entity.asistencial.banco.InterUAL;
 import sigelab.core.entity.general.PacienteReniec;
 import sigelab.core.service.exception.ServiceException;
+import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service;
+import sigelab.core.service.interfaces.general.Maestra1Service;
 import sigelab.core.service.interfaces.general.PacienteReniecService;
 import sigelab.core.service.interfaces.general.PersonaService;
-import sigelab.core.service.interfaces.general.UbigeoService; 
+import sigelab.core.service.interfaces.general.UbigeoService;
+import sigelab.web.utilitarios.NetUtil;
+import sigelab.web.utilitarios.VO; 
 
 @Controller
 @RequestMapping(value = "personaController")
 public class PersonaController {
+	
+	
+	
+	PostulanteBean postulanteBean = new PostulanteBean();
+	PersonaBean  opersonaBean = new PersonaBean();
+	PersonaBean personaBean = new PersonaBean(); 
+	
+	String nombreUser = "";
+	List<TablaBean> lstSituacion = new ArrayList<TablaBean>();
+	List<TablaBean> lstDocumento = new ArrayList<TablaBean>();
+	List<TablaBean> lstSexo = new ArrayList<TablaBean>();
+	List<TablaBean> lstEstadoCivil = new ArrayList<TablaBean>();
+	List<TablaBean> lstOcupacion = new ArrayList<TablaBean>();
+	List<TablaBean> lstNacionalidad = new ArrayList<TablaBean>();
+	List<TablaBean> lstNivelInstrucion = new ArrayList<TablaBean>();
+	List<UbigeoBean> lstUbigeoBean = new ArrayList<UbigeoBean>();
+	List<TablaBean> lstTipoExamen = new ArrayList<TablaBean>();
+	
+	@Autowired
+	private MaestraAsis01Service maestraAsis01Service;
+	
+	@Autowired
+	private PacienteReniecService pacienteReniecService; 
 	
 	@Autowired
 	private PersonaService personaService;
@@ -33,12 +72,35 @@ public class PersonaController {
 	@Autowired
 	private UbigeoService ubigeoService;
 	
-	private PersonaBean personaBean; 
-
+	
 	@Autowired
-	private PacienteReniecService pacienteReniecService; 
+	private Maestra1Service maestraGene01Services;
 	
 	
+
+	private void cargarCombos(ModelAndView mav) {
+		try {
+		//	lstSituacion =maestraBanc01Service.listarPorCodigoTabla("000034", 1);
+			lstDocumento = maestraAsis01Service.listarPorCodigoTabla("000003", 1);
+			lstSexo = maestraAsis01Service.listarPorCodigoTabla("000004", 1);
+			lstEstadoCivil = maestraGene01Services.listarPorCodigoTabla("000005", 0);
+			lstOcupacion = maestraGene01Services.listarPorCodigoTabla("000007", 0);
+			lstNacionalidad = maestraGene01Services.listarPorCodigoTabla("000003", 0);
+			lstNivelInstrucion = maestraGene01Services.listarPorCodigoTabla("000006", 0);
+			
+		} catch (ServiceException e) {
+			System.out.println("printStackTrace");
+			e.printStackTrace();
+		}
+		
+		mav.addObject("lstSituacion", lstSituacion);
+		mav.addObject("lstDocumento", lstDocumento); 
+		mav.addObject("lstSexo", lstSexo); 
+		mav.addObject("lstEstadoCivil", lstEstadoCivil); 
+		mav.addObject("lstOcupacion", lstOcupacion); 
+		mav.addObject("lstNacionalidad", lstNacionalidad); 
+		mav.addObject("lstNivelInstrucion", lstNivelInstrucion); 
+	}
 	
 	@RequestMapping(value = "/validapersona", method = RequestMethod.POST)
 	public @ResponseBody PersonaBean validaPersona(@RequestParam("tipodocumento") Integer tipoDocumento, @RequestParam("numerodocumento") String numeroDocumento) {
@@ -262,7 +324,8 @@ public class PersonaController {
 						} 
 					}else{
 						System.out.println("no existe persona ó no hay servicio de reniec");
-						personaBean  = null;
+					//	personaBean  = null;
+						personaBean = new PersonaBean();
 					}
 					
 				 
@@ -282,7 +345,9 @@ public class PersonaController {
 	/************************** POSTULANTES **************************/
 	
 	@RequestMapping(value = "/consultarPersonaPorDocumentoLaboratorio", method = RequestMethod.GET)
-	public @ResponseBody PersonaBean consultarPorNroDocumentoLaboratorio(@RequestParam("tipoDocumento") String tipoDocumento,@RequestParam("numero") String numero)throws Exception {
+	public @ResponseBody PersonaBean consultarPorNroDocumentoLaboratorio
+	(@RequestParam("tipoDocumento") String tipoDocumento,
+	 @RequestParam("numero") String numero)throws Exception {
 		this.setPersonaBean(new PersonaBean());  
 		personaBean = new PersonaBean();
 		PersonaBean prmPersona = new PersonaBean();
@@ -293,15 +358,17 @@ public class PersonaController {
 			if(personaBean!=null){ 
 			
 			}else{*/
-				personaBean = personaService.buscarxTipoDocumentoNumeroDocumentoSigeho(prmPersona);
+			//	personaBean = personaService.buscarxTipoDocumentoNumeroDocumentoSigeho(prmPersona);
+				personaBean = personaService.buscarxTipoDocumentoNumeroDocumento(prmPersona);
 				if(personaBean!=null){  
 					System.out.println("persona existe en sigehov2gene");
 					System.out.println(personaBean.getNombreCompleto());
-					personaBean.setOrigenDatos("LABMED");
+				//	personaBean.setOrigenDatos("LABMED");
 					
 					System.out.println("personaBean.getCodigo() " + personaBean.getCodigo());
 					PostulanteBean postulante = new PostulanteBean();
 					postulante.setPersona(personaBean);
+					setPersonaBean(personaBean);
 					/*
 					try {
 						postulante = postulanteService.buscarUltimaDonacion(postulante);
@@ -472,6 +539,101 @@ public class PersonaController {
 	}
 	
 	
+	@RequestMapping(value = "/grabarPersonaLaboratorio", method = RequestMethod.POST)
+	public @ResponseBody PersonaBean grabarPersonaLaboratorio(@ModelAttribute("personaBean")PersonaBean obpersonaBean,
+											 HttpServletRequest request) throws Exception {  
+	
+		if (personaBean==null) {
+			personaBean = new PersonaBean();
+		}
+		
+	//	this.getPersonaBean().setOrigenDeRegistro("Sistema Labmed Web");
+	// 	personaBean = new PersonaBean();
+	//	this.getPostulanteBean().getTipoPostulate().setCodReg("000001");
+		if (this.getPersonaBean().getCodigo().equals("")) {
+			if(!obpersonaBean.getTipoDocumento().getCodReg().equals("000002") ){ // extranjero
+				this.setAuditoria(obpersonaBean, request, true); 
+				this.personaService.insertarPersonaLaboratorio(obpersonaBean);
+				setPersonaBean(obpersonaBean);
+			}else{
+				setPersonaBean(new PersonaBean());
+				if(this.getPersonaBean().getSwReniec()){
+					
+					System.out.println("this.getPostulanteBean().getPersona(). " +this.getPersonaBean().getTipoDocumento().getCodReg());
+					System.out.println("this.getPostulanteBean().getPersona() ::" + this.getPersonaBean());
+					this.getPersonaBean().setTelefonoNumero(obpersonaBean.getTelefonoNumero());
+					this.getPersonaBean().setCorreo(obpersonaBean.getCorreo());
+					this.getPersonaBean().getNivelInstrucion().setCodReg(obpersonaBean.getNivelInstrucion().getCodReg());
+					this.getPersonaBean().getOcupacion().setCodReg(obpersonaBean.getOcupacion().getCodReg());
+					
+					this.setAuditoria(this.getPersonaBean(), request, true); 
+					this.personaService.insertarPersonaLaboratorio(this.getPersonaBean());
+					System.out.println("persona reniec");
+				}else{
+					this.getPersonaBean().setTelefonoNumero(obpersonaBean.getTelefonoNumero());
+					this.getPersonaBean().setCorreo(obpersonaBean.getCorreo());
+					this.getPersonaBean().getNivelInstrucion().setCodReg(obpersonaBean.getNivelInstrucion().getCodReg());
+					this.setAuditoria(obpersonaBean, request, true); 
+					this.personaService.insertarPersonaLaboratorio(obpersonaBean);
+					setPersonaBean(obpersonaBean);
+				}
+			}
+			
+			System.out.println("persona no existe");
+		//	this.personaService.insertarPersonaBanco(this.getPostulanteBean().getPersona());
+			
+		}else{ 
+			System.out.println("existe persona");
+			 
+				this.setAuditoria(postulanteBean.getPersona(), request, true); 
+				System.out.println("postulanteBean.getCodigoCorreo " + obpersonaBean.getCodigoCorreo());
+				System.out.println("postulanteBean.getCodigoDireccion " + obpersonaBean.getCodigoDireccion());
+				System.out.println("postulanteBean.getCodigoTelefono " + obpersonaBean.getCodigoTelefono());
+				this.personaService.actualizarPersonaLaboratorio(obpersonaBean);
+			//	this.getPostulanteBean().setPersona(postulanteBean.getPersona());
+		 
+			
+		} 
+		System.out.println("postulanteBean.getCodigo()::" + postulanteBean.getCodigo().trim());
+		
+		if (!personaBean.getCodigo().trim().equals("")) {
+			this.setAuditoria(this.getPersonaBean(), request, false); 
+			System.out.println("actualiza postulanteBean " + obpersonaBean.getCodigo());
+	
+		} else {
+			
+			/*
+			EstadoFisicoBean oeEstadoFisicoBean = new EstadoFisicoBean();
+			oeEstadoFisicoBean.setPersonaBean(this.getPersonaBean());
+			this.setAuditoria(oeEstadoFisicoBean, request, true); */
+			this.setAuditoria(this.getPersonaBean(), request, true); 
+			
+		//	this.setAuditoria(odDonanteBean, request, true); 
+		//	System.out.println("insert postulanteBean " + postulanteBean.getCodigo());
+			
+		//	odDonanteBean.getTipoRegistro().setCodReg("000003");
+		//	odDonanteBean.setPersona(this.getPostulanteBean().getPersona());
+
+		
+			
+		}  
+		nuevoPostulante(request,obpersonaBean);
+	//	return this.getPostulanteBean();
+		return this.getPersonaBean();
+	}
+	
+	
+	@RequestMapping(value = "/nuevo", method = RequestMethod.GET)
+	public ModelAndView nuevoPostulante(HttpServletRequest request, PersonaBean personaBean) {
+		OrdenBean objOrdenBean = new OrdenBean();  
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/registro-orden", "command", personaBean);  
+		this.cargarCombos(mav); 
+		return mav;
+	} 
+	
+	
+	
+	
 	
 	/*
 	private ModelAndView getLista(InstitucionBean institucionBean) {
@@ -504,6 +666,37 @@ public class PersonaController {
 	
 	*/
 	
+	/***NUEVA LINEA 19-04-2019****/
+	@RequestMapping(value = "/nuevoPaciente", method = RequestMethod.GET)
+	public ModelAndView nuevoPaciente(HttpServletRequest request) {
+		PersonaBean personaBean = new PersonaBean(); 
+	
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-paciente-laboratorio", "command", personaBean); 
+		
+		this.cargarCombos(mav);
+		return mav;
+	}
+	
+	protected void setAuditoria(BaseBean baseBean,HttpServletRequest request,boolean swInsert){
+		UsuarioBean usuario= (UsuarioBean) request.getSession().getAttribute("usuarioSesion");
+		String idUsuario= !VO.isNull(usuario) ? usuario.getCodigo() :"0";	
+		nombreUser = !VO.isNull(usuario) ? usuario.getNombreUsuario() :"0";	
+		this.setAuditoriaLocal(baseBean, idUsuario, request, swInsert);		
+	}
+	private void setAuditoriaLocal(BaseBean baseBean,String iddUsuario,HttpServletRequest request,boolean swInsert){
+		if (swInsert) {
+			baseBean.setCodigoUsuarioCreacion(iddUsuario);
+			baseBean.setNombreUsuarioCreacion(nombreUser);
+			baseBean.setIpCreacion(NetUtil.getClientIpAddr(request));			
+			
+		} else {
+			baseBean.setCodigoUsuarioModificacion(iddUsuario);
+			baseBean.setNombreUsuarioCreacion(nombreUser);
+			baseBean.setIpModificacion(NetUtil.getClientIpAddr(request));			
+		}
+
+	}
+	
 
 	public PersonaService getPersonaService() {
 		return personaService;
@@ -524,6 +717,12 @@ public class PersonaController {
 		this.personaBean = personaBean;
 	}
 
-	
+	public PostulanteBean getPostulanteBean() {
+		return postulanteBean;
+	}
+
+	public void setPostulanteBean(PostulanteBean PostulanteBean) {
+		this.postulanteBean = PostulanteBean;
+	}
 	
 }

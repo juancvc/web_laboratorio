@@ -390,7 +390,7 @@ public class BancoController  extends BaseController {
 		if (this.getPostulanteBean().getPersona().getCodigo().equals("")) {
 			if(!postulanteBean.getPersona().getTipoDocumento().getCodReg().equals("000002") ){ // extranjero
 				this.setAuditoria(postulanteBean.getPersona(), request, true); 
-				this.personaService.insertarPersonaBanco(postulanteBean.getPersona());
+				this.personaService.insertarPersonaLaboratorio(postulanteBean.getPersona());
 				this.getPostulanteBean().setPersona(postulanteBean.getPersona());
 			}else{
 				setPersonaBean(new PersonaBean());
@@ -404,14 +404,14 @@ public class BancoController  extends BaseController {
 					this.getPostulanteBean().getPersona().getOcupacion().setCodReg(postulanteBean.getPersona().getOcupacion().getCodReg());
 					
 					this.setAuditoria(this.getPostulanteBean().getPersona(), request, true); 
-					this.personaService.insertarPersonaBanco(this.getPostulanteBean().getPersona());
+					this.personaService.insertarPersonaLaboratorio(this.getPostulanteBean().getPersona());
 					System.out.println("persona reniec");
 				}else{
 					this.getPostulanteBean().getPersona().setTelefonoNumero(postulanteBean.getPersona().getTelefonoNumero());
 					this.getPostulanteBean().getPersona().setCorreo(postulanteBean.getPersona().getCorreo());
 					this.getPostulanteBean().getPersona().getNivelInstrucion().setCodReg(postulanteBean.getPersona().getNivelInstrucion().getCodReg());
 					this.setAuditoria(postulanteBean.getPersona(), request, true); 
-					this.personaService.insertarPersonaBanco(postulanteBean.getPersona());
+					this.personaService.insertarPersonaLaboratorio(postulanteBean.getPersona());
 					this.getPostulanteBean().setPersona(postulanteBean.getPersona());
 				}
 			}
@@ -426,7 +426,7 @@ public class BancoController  extends BaseController {
 				System.out.println("postulanteBean.getCodigoCorreo " + postulanteBean.getPersona().getCodigoCorreo());
 				System.out.println("postulanteBean.getCodigoDireccion " + postulanteBean.getPersona().getCodigoDireccion());
 				System.out.println("postulanteBean.getCodigoTelefono " + postulanteBean.getPersona().getCodigoTelefono());
-				this.personaService.actualizarPersonaBanco(postulanteBean.getPersona());
+				this.personaService.actualizarPersonaLaboratorio(postulanteBean.getPersona());
 			//	this.getPostulanteBean().setPersona(postulanteBean.getPersona());
 		 
 			

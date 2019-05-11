@@ -14,7 +14,7 @@
 <meta name="description"
 	content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
 <meta name="author" content="">
-<title>Registro de Postulantes</title>
+<title>Registro de pacientes</title>
 <!-- Bootstrap core CSS-->
 
 <link
@@ -246,23 +246,23 @@ td.cantidad, th.cantidad {
 		<div class="container-fluid">
 			<div class="tituloForm">REGISTRO DE PACIENTE PARA LABORATORIO</div>
 
-			<f:form id="frmGuardarDonante" class="form-horizontal" role="form"
+			<f:form id="frmGuardarPacienteLaboratorio" class="form-horizontal" role="form"
 				method="post" action="" onsubmit="return false">
 				<div class="card mb-3">
 					<f:input type="hidden" id="codigoPostulante" path="codigo" />
 					<f:input type="hidden" id="codigoCorreo"
-						path="persona.codigoCorreo" />
+						path="codigoCorreo" />
 					<f:input type="hidden" id="codigoDireccion"
-						path="persona.codigoDireccion" />
+						path="codigoDireccion" />
 					<f:input type="hidden" id="codigoTelefono"
-						path="persona.codigoTelefono" />
+						path="codigoTelefono" />
 
 					<input id="contextPath" type="hidden"
 						value="${pageContext.request.contextPath}">
 					<f:input type="hidden" class="form-control" id="personaCodigo"
-						path="persona.codigo" />
+						path="codigo" />
 					<f:input type="hidden" class="form-control"
-						id="personaCodigoSigeho" path="persona.codigoPersonaSigeho" />
+						id="personaCodigoSigeho" path="codigoPersonaSigeho" />
 					<div class="card-body">
 						<div class="form-group">
 							
@@ -275,7 +275,7 @@ td.cantidad, th.cantidad {
 									</label>
 									<div class="controls">
 										<f:select id="tipoDocumentoPaciente"
-											path="persona.tipoDocumento.codReg" required="required"
+											path="tipoDocumento.codReg" required="required"
 											class="form-control" onchange="limpiarPorTipo()">
 											<f:options items="${lstDocumento}" itemValue="codReg"
 												itemLabel="nombreCorto" />
@@ -292,7 +292,7 @@ td.cantidad, th.cantidad {
 										<div class="controls">
 											<f:input type="text" class="form-control" required="required"
 												maxlength="12" id="nroDocumentoPaciente"
-												path="persona.nroDocumento"
+												path="nroDocumento"
 												onkeypress="return runScript(event)" />
 										</div>
 									</div>
@@ -317,7 +317,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaApellidoPaterno" disabled="true"
-											path="persona.apellidoPaterno" />
+											path="apellidoPaterno" />
 
 									</div>
 								</div>
@@ -328,7 +328,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" class="form-control"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaApellidoMaterno" disabled="true"
-											path="persona.apellidoMaterno" />
+											path="apellidoMaterno" />
 
 									</div>
 								</div>
@@ -340,7 +340,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaPrimerNombre" disabled="true"
-											path="persona.primerNombre" />
+											path="primerNombre" />
 
 									</div>
 								</div>
@@ -351,7 +351,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" class="form-control"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaSegundoNombre" disabled="true"
-											path="persona.segundoNombre" />
+											path="segundoNombre" />
 									</div>
 								</div>
 							</div>
@@ -360,7 +360,7 @@ td.cantidad, th.cantidad {
 									<label for="situacion" class="label_control">SEXO <span
 										class="required">*</span></label>
 									<div class="controls">
-										<f:select id="sexoPaciente" path="persona.sexo.codReg"
+										<f:select id="sexoPaciente" path="sexo.codReg"
 											disabled="true" class="form-control" required="required">
 											<f:option value="" label="Seleccionar" selected="true"
 												disabled="disabled" />
@@ -375,7 +375,7 @@ td.cantidad, th.cantidad {
 									</label>
 									<div class="controls">
 										<f:select id="estadoCivilPersona"
-											path="persona.estadoCivil.codReg" disabled="true"
+											path="estadoCivil.codReg" disabled="true"
 											class="form-control" required="required">
 											<f:option value="" label="Seleccionar" selected="true"
 												disabled="disabled" />
@@ -392,7 +392,7 @@ td.cantidad, th.cantidad {
 										<fmt:formatDate value="${fechaHasta}" var="dateString"
 											pattern="dd/MM/yyyy" />
 										<f:input id="personaFechaNac" name="fecha" type="text"
-											class="form-control" path="persona.fechaNacStr"
+											class="form-control" path="fechaNacStr"
 											disabled="true" value="${dateString}" size="10"
 											maxlength="10" required="required"
 											onkeyup="this.value=formateafechaNacimiento(this.value);" />
@@ -405,7 +405,7 @@ td.cantidad, th.cantidad {
 									</label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
-											disabled="true" id="edadPersona" path="persona.edad" />
+											disabled="true" id="edadPersona" path="edad" />
 
 									</div>
 								</div>
@@ -417,7 +417,7 @@ td.cantidad, th.cantidad {
 										class="required"> *</span></label>
 									<div class="controls">
 										<f:select id="personaNacionalidad"
-											path="persona.nacionalidad.codReg" disabled="true"
+											path="nacionalidad.codReg" disabled="true"
 											class="form-control" required="required">
 											<f:option value="" label="Seleccionar" selected="true"
 												disabled="disabled" />
@@ -432,7 +432,7 @@ td.cantidad, th.cantidad {
 									</label>
 									<div class="controls">
 										<f:select id="personaNivelInstrucion"
-											path="persona.nivelInstrucion.codReg" class="form-control"
+											path="nivelInstrucion.codReg" class="form-control"
 											required="required">
 											<f:option value="" label="Seleccionar" selected="true"
 												disabled="disabled" />
@@ -446,7 +446,7 @@ td.cantidad, th.cantidad {
 										class="required"> *</span></label>
 									<div class="controls">
 										<f:select id="personaOcupacion"
-											path="persona.ocupacion.codReg" class="form-control"
+											path="ocupacion.codReg" class="form-control"
 											required="required">
 											<f:option value="" label="Seleccionar" selected="true"
 												disabled="disabled" />
@@ -462,7 +462,7 @@ td.cantidad, th.cantidad {
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											onKeyPress="return soloNumeros(event)" maxlength="9"
-											id="telefono" path="persona.telefonoNumero" />
+											id="telefono" path="telefonoNumero" />
 
 									</div>
 								</div>
@@ -477,10 +477,10 @@ td.cantidad, th.cantidad {
 										<f:input type="text" class="form-control" required="required"
 											disabled="true" onKeyPress="return soloNumeros(event)"
 											maxlength="6" id="ubigeoNacimientoCodigoUbigeo"
-											path="persona.ubigeoNacimiento.codigoUbigeo" />
+											path="ubigeoNacimiento.codigoUbigeo" />
 
 										<f:input type="hidden" id="codigoRegistroUbigeoNacimiento"
-											path="persona.ubigeoNacimiento.codigoRegistro" />
+											path="ubigeoNacimiento.codigoRegistro" />
 									</div>
 								</div>
 								<div class="col-md-1">
@@ -498,7 +498,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" disabled="true" value=""
 											class="form-control" required="required"
 											id="nombreUbigeoNacimiento"
-											path="persona.ubigeoNacimiento.nombreUbigeo" />
+											path="ubigeoNacimiento.nombreUbigeo" />
 
 									</div>
 								</div>
@@ -508,7 +508,7 @@ td.cantidad, th.cantidad {
 									</label>
 									<div class="controls">
 										<f:input type="email" class="form-control" id="correo"
-											path="persona.correo" />
+											path="correo" />
 
 									</div>
 								</div>
@@ -521,11 +521,11 @@ td.cantidad, th.cantidad {
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											disabled="true" id="ubigeoDireccion"
-											path="persona.ubigeoDireccion.codigoUbigeo"
+											path="ubigeoDireccion.codigoUbigeo"
 											onKeyPress="return soloNumeros(event)" maxlength="6" />
 
 										<f:input type="hidden" id="codigoRegistroUbigeoDireccion"
-											path="persona.ubigeoDireccion.codigoRegistro" />
+											path="ubigeoDireccion.codigoRegistro" />
 									</div>
 								</div>
 								<div class="col-md-1">
@@ -543,7 +543,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" disabled="true" value=""
 											class="form-control" required="required"
 											id="nombreUbigeoDireccion"
-											path="persona.ubigeoDireccion.nombreUbigeo" />
+											path="ubigeoDireccion.nombreUbigeo" />
 
 									</div>
 								</div>
@@ -554,14 +554,14 @@ td.cantidad, th.cantidad {
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											disabled="true" id="personaDireccion"
-											path="persona.direccion" />
+											path="direccion" />
 
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-2">
-									<f:input type="hidden" id="foto" path="persona.foto" />
+									<f:input type="hidden" id="foto" path="foto" />
 									<!-- <img id="imgFotoPostulante"  src="data:image/jpg;base64,${postulanteBean.persona.foto}" height="75%" width="55%" alt="Image"/> -->
 
 									<img id="imgFotoPaciente"
@@ -615,7 +615,7 @@ td.cantidad, th.cantidad {
 								</a>
 
 								<button id="btnGuardarPostulante" type="submit"
-									onclick="guardarPostulante()" class="btn btn-primary">
+									onclick="guardarPersonaLaboratorio()" class="btn btn-primary">
 									<i class="fa fa-floppy-o"></i> REGISTRAR
 								</button>
 							 
@@ -632,7 +632,7 @@ td.cantidad, th.cantidad {
 					        </tr>
 					        
 					        <tr> 
-					         <td class="producto centrado">${postulanteBean.persona.apellidoPaterno} ${postulanteBean.persona.apellidoMaterno} ${postulanteBean.persona.primerNombre}</td>
+					         <td class="producto centrado">${personaBean.apellidoPaterno} ${personaBean.apellidoMaterno} ${personaBean.primerNombre}</td>
 					        </tr> 
 					      </tbody>
 					    </table>

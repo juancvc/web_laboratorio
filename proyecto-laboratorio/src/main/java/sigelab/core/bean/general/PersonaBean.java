@@ -69,7 +69,8 @@ public class PersonaBean extends BaseBean {
 	
 	private String codigoDireccion; 
 	private String codigoTelefono; 
-	private String codigoCorreo; 
+	private String codigoCorreo;
+	
 	
 	private String tipo;
 	

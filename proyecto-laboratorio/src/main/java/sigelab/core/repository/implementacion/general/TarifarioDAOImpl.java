@@ -34,9 +34,9 @@ public class TarifarioDAOImpl implements TarifarioDAO {
 		Object nroPeriodo= null; 
 		boolean sw=false;
 		try {
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("Tarifario.registro");
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifario.registro");
 			spq.setParameter("TG1TIPOT", Tarifario.getTipo().getCodReg()); 
-			spq.setParameter("TIPO", Tarifario.getTipo()); 
+		//	spq.setParameter("TIPO", Tarifario.getTipo().getNombreCorto()); 
 			spq.setParameter("SUBTIPO", Tarifario.getSubtipo());  
 			spq.setParameter("NOMPRODU", Tarifario.getDescripcion()); 
 			spq.setParameter("PRECIO", Tarifario.getPrecio()); 

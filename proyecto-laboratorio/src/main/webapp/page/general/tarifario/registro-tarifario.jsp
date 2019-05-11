@@ -130,7 +130,7 @@
 		<div class="container-fluid">
 			<div class="tituloForm">REGISTRO DE PROCEDIMIENTOS Y TARIFAS</div>
 			<div class="card mb-3">
-				<f:form id="frmGuardarCampania" class="form-horizontal" role="form"
+				<f:form id="frmGuardarTarifario" class="form-horizontal" role="form"
 					method="post" action="" onsubmit="return false">
 					<input id="contextPath" type="hidden"
 						value="${pageContext.request.contextPath}">
@@ -152,10 +152,10 @@
 										<span class="required">*</span>
 									</label>
 									<div class="controls">
-										<f:select id="tipoDocumentoPaciente"
+										<f:select id="tipoTarifario"
 											path="tipo.codReg" required="required"
 											class="form-control" onchange="limpiarPorTipo()">
-											<f:options items="${lstDocumento}" itemValue="codReg"
+											<f:options items="${lstAreasLab}" itemValue="codReg"
 												itemLabel="nombreCorto" />
 										</f:select>
 									</div>
@@ -168,7 +168,7 @@
 											value="${pageContext.request.contextPath}">
 										<div class="controls">
 											<f:input type="text" class="form-control" required="required"
-												maxlength="12" id="nroDocumentoPaciente"
+												maxlength="12" id="tarifarioSubtipo"
 												path="subtipo"
 												onkeypress="return runScript(event)" />
 										</div>
@@ -184,7 +184,7 @@
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
-											id="personaApellidoPaterno" disabled="true"
+											id="tarifarioDescripcion" 
 											path="descripcion" />
 
 									</div>
@@ -196,21 +196,13 @@
 							<div class="row">
 							
 							
-								<div class="form-group col-md-3 mb-1">
-									<label for="nombreCompleto" class="label_control">EDAD
-									</label>
-									<div class="controls">
-										<f:input type="text" class="form-control" required="required"
-											disabled="true" id="edadPersona" path="precio" />
-
-									</div>
-								</div>
+							
 								<div class="form-group col-md-3 mb-2">
-									<label for="nombreCompleto" class="label_control">PRECIO
+									<label for="nombreCompleto" class="label_control">PRECIO S/.
 									</label>
 									<div class="controls">
-										<f:input type="text" class="form-control" required="required"
-											disabled="true" id="edadPersona" path="precio" />
+										<f:input type="number" min="1" class="form-control" required="required"
+											 id="tariarioPrecio" path="precio" />
 
 									</div>
 								</div>
@@ -222,12 +214,12 @@
 							<div class="form-group col-md-12 text-right"
 								style="margin-top: 15px;">
 								<a
-									href="${pageContext.request.contextPath}/bancoController/nuevaCampania"
+									href="${pageContext.request.contextPath}/tarifarioController/nuevoTarifario"
 									class="btn btn-secondary" title=""> <i class="fa icon-plus"></i>
 									NUEVO
 								</a> 
 
-								<button type="submit" onclick="grabarCampania()"
+								<button type="submit" onclick="grabarTarifario()"
 									class="btn btn-primary">
 									<i class="fa fa-floppy-o"></i> REGISTRAR
 								</button>
@@ -300,6 +292,9 @@
 
 		<script
 			src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
+			type="text/javascript" charset="utf-8"></script>
+			<script
+			src="${pageContext.request.contextPath}/assets/js/page/asistencial/tarifario.js"
 			type="text/javascript" charset="utf-8"></script>
 		<script
 			src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/toastr.min.js"

@@ -132,10 +132,10 @@ public class PersonaServiceImpl implements PersonaService {
 	}
 
 	@Override
-	public boolean insertarPersonaBanco(PersonaBean persona) throws ServiceException {
+	public boolean insertarPersonaLaboratorio(PersonaBean persona) throws ServiceException {
 		Boolean sw = false;
 		try {
-			sw =  personaDAO.insertarPersonaBanco(persona);
+			sw =  personaDAO.insertarPersonaLaboratorio(persona);
 			
 		} catch (DAOException e) { 
 			e.printStackTrace();
@@ -144,10 +144,10 @@ public class PersonaServiceImpl implements PersonaService {
 	}
 
 	@Override
-	public boolean actualizarPersonaBanco(PersonaBean persona) throws ServiceException {
+	public boolean actualizarPersonaLaboratorio(PersonaBean persona) throws ServiceException {
 		Boolean sw = false;
 		try {
-			sw =  personaDAO.actualizarPersonaBanco(persona);
+			sw =  personaDAO.actualizarPersonaLaboratorio(persona);
 			
 		} catch (DAOException e) { 
 			e.printStackTrace();

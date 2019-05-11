@@ -295,7 +295,7 @@ public class PersonaDAOImpl implements PersonaDAO {
 	}
 
 	@Override
-	public boolean insertarPersonaBanco(PersonaBean persona) throws DAOException {
+	public boolean insertarPersonaLaboratorio(PersonaBean persona) throws DAOException {
 		Object idPersona= null; 
 		//Object nroPeriodo= null; 
 		Object nroVersi = null;
@@ -349,16 +349,16 @@ public class PersonaDAOImpl implements PersonaDAO {
 			
 			idPersona = spq.getOutputParameterValue(1);
 		//	nroVersi = spq.getOutputParameterValue(5);
-			codigoCorreo = spq.getOutputParameterValue(16);
-			codigoDireccion = spq.getOutputParameterValue(18);
-			codigoTelefono = spq.getOutputParameterValue(21);
+		//	codigoCorreo = spq.getOutputParameterValue(16);
+			codigoDireccion = spq.getOutputParameterValue(17);
+		//	codigoTelefono = spq.getOutputParameterValue(21);
 			
 			if (idPersona != null) { 
 				persona.setCodigo(idPersona.toString());
 				//persona.setNumeroVersion(nroVersi.toString());
-				persona.setCodigoCorreo(codigoCorreo.toString());
+				//persona.setCodigoCorreo(codigoCorreo.toString());
 				persona.setCodigoDireccion(codigoDireccion.toString());
-				persona.setCodigoTelefono(codigoTelefono.toString());
+				//persona.setCodigoTelefono(codigoTelefono.toString());
 				sw=true;
 			}
 		} catch (Exception e) {
@@ -371,7 +371,7 @@ public class PersonaDAOImpl implements PersonaDAO {
 	}
 
 	@Override
-	public boolean actualizarPersonaBanco(PersonaBean persona) throws DAOException {
+	public boolean actualizarPersonaLaboratorio(PersonaBean persona) throws DAOException {
 		Object idPersona= null; 
 		//Object nroPeriodo= null; 
 		Object nroVersi = null;

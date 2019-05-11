@@ -418,15 +418,11 @@ function buscarPersonaLaboratorio() {
 	} else if (numeroDocumento == null || numeroDocumento.trim() == "") {
 		msg_advertencia("Ingrese número de documento");
 		return;
-	} else if (tipoDocumento == '000002' && numeroDocumento.trim().length != 8) {
+	} else if (tipoDocumento == '000001' && numeroDocumento.trim().length != 8) {
 		msg_advertencia("Número de dni debe contener 8 dígitos.")
 		return;
-		
-	} else if (tipoDocumento == '000006' && numeroDocumento.trim().length < 9) {
+	} else if (tipoDocumento == '000002' && numeroDocumento.trim().length < 9) {
 		msg_advertencia("Número de pasaporte incorrecto.")
-		return;
-	} else if (tipoDocumento == '000004' && numeroDocumento.trim().length < 9) {
-		msg_advertencia("Número de carnet de extranjería incorrecto.")
 		return;
 	} else {
 		// console.log("validarDni " + numeroDocumento );
@@ -676,6 +672,109 @@ function buscarPersonaLaboratorio() {
 		finBloqueo();
 	}
 }
+
+function guardarPersonaLaboratorio() {
+	// debugger;
+	var htmlTabla = "";
+	var contextPath = $('#contextPath').val();
+	var actionForm = $('#frmGuardarPacienteLaboratorio').attr("action");
+	var url = contextPath + "/personaController/grabarPersonaLaboratorio";
+	var myFormulario = $('#frmGuardarPacienteLaboratorio');
+	var telefono = $('#telefono').val();
+	var codigoRegistroUbigeoDireccion = $('#codigoRegistroUbigeoDireccion').val();
+	
+	// console.log("fechaIni " + fechaIni);
+	// console.log("fechaFin " + fechaFin);
+
+	if (!myFormulario[0].checkValidity()) {
+		msg_advertencia("Debe completar los campos requeridos(*) correctamente");
+
+	} else if(telefono.length < 7){
+		msg_advertencia("Ingrese número de celular correcto.");
+		
+	}else if(codigoRegistroUbigeoDireccion.length == 0){
+		msg_advertencia("Ingrese ubigeo de dirección.");
+		
+	}else {
+		iniciarBloqueo();
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : $('#frmGuardarPacienteLaboratorio').serialize(),
+			success : function(data) {
+				console.log("SUCCESS: ", data);
+				if (data == "") {
+					msg_error("Error al registrar persona");
+				} else {
+					msg_exito("Éxito al registrar persona");
+				 
+				 /**   const button = document.createElement('input');
+				    button.type = 'button';
+				    button.innerText = 'Haz Click';
+				    button.id ="btnLlamarModificar"; 
+				 //   button.attachEvent('onclick', 'javascript:modificarElementoGenerico(/bancoController/modificarPostulante,'+ data.index + ')');
+				    document.body.appendChild(button);
+				    if (button.addEventListener)
+
+				    {
+
+				    	button.addEventListener('click', mifuncion(data.index),false);
+
+				    } else { 
+
+				    	button.attachEvent('onclick', mifuncion(data.index));
+
+				    }
+				 //   agregarBoton('btnLlamarModificar','modificar','javascript:modificarElementoGenerico(/bancoController/modificarPostulante,'+ data.index + ')');
+				    */
+				    var inputTag = document.createElement("div");              
+				    inputTag.innerHTML = 
+				    	"<input type = 'button' id='btnLlamarModificar' value = 'oooh'"+
+				    	"onClick =javascript:modificarElementoGenerico(\'/bancoController/modificarPostulante\',\'"+ data.index +"\');>";    
+				    	
+				    document.body.appendChild(inputTag);
+				  //  "onclick=\"especialidadCargarModal('"+[objCIEX.codReg]+"');\""+
+					$("#btnLlamarModificar").trigger("click");
+					
+		/**			document.getElementById('btnGuardarPostulante').disabled = true;
+					document.getElementById('btnImprimirTicket').disabled = false;
+					// enviarListado();
+				//	$("#btnListado").trigger("click");
+					console.log("codigo data " + data.numeroPostulante);
+					
+					htmlTabla += "<tr>" + "<td class='centrado'  colspan='2'><img id='barcode1'/>"
+					+ "</td></tr>"
+					+ "<tr>" + 
+						"<td class='cantidad'>POSTULANTE</td>"+ 
+						"<td class='producto'>"+ data.persona.nombreCompleto+"</td>"
+					+ "</tr>"
+					+ "<tr>" + 
+					"<td class='cantidad'>N° DOCUMENTO</td>"+ 
+					"<td class='producto'>"+ data.persona.nroDocumento+"</td>"
+				+ "</tr>"
+					JsBarcode("#barcode1", data.numeroPostulante);
+					$('#idBodyTicket').empty();
+					$('#idBodyTicket').html(htmlTabla);
+					*/
+				}
+
+			},
+
+			error : function(xhr, status, er) {
+				console.log("error: " + xhr + " status: " + status + " er:"
+						+ er);
+				// msg_error();
+
+			},
+			complete : function() {
+				finBloqueo();
+			}
+		});
+	}
+}
+
+
+
 
 function foto(tipoDoc, dni){
 	var contextPath = $('#contextPath').val();
@@ -969,9 +1068,9 @@ function guardarPostulante() {
 			success : function(data) {
 				console.log("SUCCESS: ", data);
 				if (data == "") {
-					msg_error("Error al registrar postulante");
+					msg_error("Error al registrar persona Laboratorio");
 				} else {
-					msg_exito("Éxito al registrar postulante");
+					msg_exito("Éxito al registrar persona Laboratorio");
 				 
 				 /**   const button = document.createElement('input');
 				    button.type = 'button';
