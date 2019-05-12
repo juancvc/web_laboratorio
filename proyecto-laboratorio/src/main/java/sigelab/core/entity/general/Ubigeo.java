@@ -11,14 +11,14 @@ import javax.persistence.StoredProcedureParameter;
 
 @NamedStoredProcedureQueries({
 	@NamedStoredProcedureQuery(name = "ubigeo.equivalenciaReniecMinsa", 
-			procedureName = "[SIGEHOV2GENE].[GENE].[USP_UBIGEO_CODREGISQ]", 
+			procedureName = "[GENE].[USP_UBIGEO_CODREGISQ]", 
 			resultClasses = Ubigeo.class, 
 			parameters = {			
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODUBIGE", type = String.class),
 		}), 
 	
 	@NamedStoredProcedureQuery(name = "ubigeo.listaUbigeo", 
-			procedureName = "[SIGEHOV2GENE].[GENE].[USP_UBIGEO_MINSA_RENIEC_INEI]", 
+			procedureName = "[GENE].[USP_UBIGEO_MINSA_RENIEC_INEI]", 
 			resultClasses = Ubigeo.class, 
 			parameters = {			
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "INSTITUC", type = String.class),
