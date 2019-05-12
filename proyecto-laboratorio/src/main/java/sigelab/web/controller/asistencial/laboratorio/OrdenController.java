@@ -62,7 +62,7 @@ public class OrdenController  extends BaseController {
 	
 	PersonaBean personaBean = new PersonaBean();  
 	private List<TarifarioBean> lstTarifarioBean ; 
-	 
+	private List<OrdenDetalleBean> lstOrdenDetalleBean ;  
 	 
 	@Autowired
 	private MaestraAsis01Service maestraAsis01Service;
@@ -138,16 +138,7 @@ public class OrdenController  extends BaseController {
 	}
 	 
 	
-	
-	@RequestMapping(value = "/eliminarPostulante", method = RequestMethod.GET)
-	public @ResponseBody String doEliminarPostulante(@RequestParam("index") Integer index,
-			 HttpServletRequest request) {
-		String resultado = ""; 
-		 return resultado;
-	}
-	
-   
- 
+	 
 	@RequestMapping(value = "/nuevo", method = RequestMethod.GET)
 	public ModelAndView nuevoPostulante(HttpServletRequest request) {
 		OrdenBean objOrdenBean = new OrdenBean();  
@@ -235,7 +226,7 @@ public class OrdenController  extends BaseController {
 	} 
   
    @RequestMapping(value = "/refrescarListaOrden", method = RequestMethod.GET)
-	public @ResponseBody OrdenDetalleBean refrescarListaCIEXREF(@RequestParam("index") int index) throws Exception {
+	public @ResponseBody OrdenDetalleBean refrescarListaOrden(@RequestParam("index") int index) throws Exception {
 		System.out.println("index " + index);
 		OrdenDetalleBean objOrdenDetalleBean = new OrdenDetalleBean(); 
 		objOrdenDetalleBean.setExamen(lstTarifarioBean.get(index)); 
@@ -244,6 +235,7 @@ public class OrdenController  extends BaseController {
 		objOrdenDetalleBean.ejecutarImporte();
 		DecimalFormat df = new DecimalFormat("0.00"); 
 		objOrdenDetalleBean.setsImporte((df.format(objOrdenDetalleBean.getImporte()).replace(",", ".")));
+		//lstOrdenDetalleBean.add(objOrdenDetalleBean);
 		return objOrdenDetalleBean;
 	}
 
@@ -299,6 +291,14 @@ public class OrdenController  extends BaseController {
 		 
 	}
 
+	@RequestMapping(value = "/personaModal", method = RequestMethod.POST)
+	public ModelAndView personaModalPost() throws Exception {
+		
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/persona-registro-modal", "command", new PersonaBean());
+		this.cargarCombos(mav);
+		return mav;
+	} 
+	
 	public PersonaBean getPersonaBean() {
 		return personaBean;
 	}

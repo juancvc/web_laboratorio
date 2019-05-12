@@ -53,13 +53,6 @@
 	href="${pageContext.request.contextPath}/app-assets/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 <!-- Page level plugin CSS-->
-<link
-	href="${pageContext.request.contextPath}/app-assets/vendor/datatables/dataTables.bootstrap4.css"
-	rel="stylesheet">
-
-
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/app-assets/vendors/css/forms/selects/select2.min.css">
 <!-- Custom styles for this template-->
@@ -71,14 +64,6 @@
 	href="${pageContext.request.contextPath}/app-assets/fonts/feather/style.min.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/app-assets/fonts/font-awesome/css/font-awesome.min.css">
-
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
-
-
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
 
 
 </head>
@@ -93,7 +78,7 @@
 	cursor: pointer;
 }
 
-#txtCajaImporteTotal:disabled{
+#txtCajaImporteTotal:disabled {
 	font-color: #0A0A0A;
 	font-weight: plain;
 	font-family: Cambria;
@@ -101,7 +86,7 @@
 	background-color: #DCE8EC;
 	text-align: right;
 	valign: center;
-} 
+}
 </style>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
@@ -138,10 +123,11 @@
 					<f:input type="hidden" id="codigoSede" path="codigoSede" />
 					<f:input type="hidden" id="codigoInstitucion"
 						path="codigoInstitucion" />
-					<f:input type="hidden" id="personaCodigo" path="pacienteBean.persona.codigo" />
+					<f:input type="hidden" id="personaCodigo"
+						path="pacienteBean.persona.codigo" />
 					<div class="card-body">
 						<div class="form-group">
-							<div class="label_title">DATOS DE PACIENTE :</div>
+							<div class="label_title">DATOS DEL SOLICITANTE :</div>
 							<div class="row">
 								<div class="form-group col-md-3 mb-1">
 									<label for="situacion" class="label_control">TIPO
@@ -149,8 +135,9 @@
 									</label>
 									<div class="controls">
 										<f:select id="tipoDocumentoPaciente"
-											path="pacienteBean.persona.tipoDocumento.codReg" required="required"
-											class="form-control" onchange="limpiarPorTipo()">
+											path="pacienteBean.persona.tipoDocumento.codReg"
+											required="required" class="form-control"
+											onchange="limpiarPorTipo()">
 											<f:options items="${lstDocumento}" itemValue="codReg"
 												itemLabel="nombreCorto" />
 										</f:select>
@@ -174,17 +161,22 @@
 								<div class="col-md-3">
 									<button id="idBtnCargarPaciente" type="button"
 										style="margin-top: 30px;" onclick="buscarPersonaNroDoc()"
-										class="form-control btn btn-info">
+										class="form-control btn btn-outline-success">
 										<i class="ft-search"></i> BUSCAR
 									</button>
 								</div>
-
+								<div class="col-md-3">
+									<button id="idBtnCargarPaciente" type="button"
+										style="margin-top: 30px;" onclick="cargarPersonaModal()"
+										class="form-control btn btn-outline-primary">
+										<i class="fa icon-plus"></i> NUEVO
+									</button>
+								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-md-3 mb-1">
 									<label for="nombreCompleto" class="label_control">APELLIDO
-										PATERNO
-									</label>
+										PATERNO </label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
@@ -206,8 +198,7 @@
 								</div>
 								<div class="form-group col-md-3 mb-1">
 									<label for="nombreCompleto" class="label_control">PRIMER
-										NOMBRE
-									</label>
+										NOMBRE </label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
@@ -231,29 +222,33 @@
 								<div class="col-md-3 mb-1">
 									<label for="situacion" class="label_control">SEXO </label>
 									<div class="controls">
-										<f:select id="sexoPaciente" path="pacienteBean.persona.sexo.codReg"
-											disabled="true" class="form-control" required="required">
+										<f:select id="sexoPaciente"
+											path="pacienteBean.persona.sexo.codReg" disabled="true"
+											class="form-control" required="required">
 											<f:option value="" label="Seleccionar" selected="true"
 												disabled="disabled" />
 											<f:options items="${lstSexo}" itemValue="codReg"
 												itemLabel="nombreCorto" />
 										</f:select>
 									</div>
-								</div> 
+								</div>
 								<div class="form-group col-md-3 mb-1">
 									<label for="nombreCompleto" class="label_control">EDAD
 									</label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
-											disabled="true" id="edadPersona" path="pacienteBean.persona.edad" />
+											disabled="true" id="edadPersona"
+											path="pacienteBean.persona.edad" />
 
 									</div>
 								</div>
 								<div class="form-group col-md-6 mb-2">
-									<label for="nombreCompleto" class="label_control">DIRECCIÓN </label>
+									<label for="nombreCompleto" class="label_control">DIRECCIÓN
+									</label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
-											disabled="true" id="personaDireccion" path="pacienteBean.persona.direccion" />
+											disabled="true" id="personaDireccion"
+											path="pacienteBean.persona.direccion" />
 
 									</div>
 								</div>
@@ -308,8 +303,7 @@
 																			onclick='confirmar_eliminar(${ciex.diagnostico.valor4})'
 																			data-original-title='Eliminar' id='eliminarDX'>
 																			<i class='icon-trash'></i>
-																		</button>
-																		</td>
+																		</button></td>
 																</c:otherwise>
 															</c:choose>
 
@@ -320,23 +314,22 @@
 										</div>
 									</div>
 								</div>
-                             <div class="row">
-                               <div class="form-group col-md-9 text-right"
-								style="margin-top: 2px;"> 
+								<div class="row">
+									<div class="form-group col-md-9 text-right"
+										style="margin-top: 2px;"></div>
+									<div class="form-group col-md-3 text-right"
+										style="margin-top: 2px;">
+										<label for="nombreCompleto" class="label_control">IMPORTE
+											TOTAL S/. </label> <input type="text" value="0.00"
+											class="form-control" id="txtCajaImporteTotal"
+											disabled="disabled" maxlength="4" />
+										<f:input type="hidden" path="importeTotal"
+											id="txtCajaImporteTotalHidden" />
+									</div>
 								</div>
-							    <div class="form-group col-md-3 text-right"
-								style="margin-top: 2px;">
-									<label for="nombreCompleto" class="label_control">IMPORTE TOTAL S/.
-									</label>
-								<input type="text" value= "0.00" class="form-control" id="txtCajaImporteTotal"
-												disabled="disabled" 
-												maxlength="4" />
-								<f:input type="hidden" path="importeTotal" id="txtCajaImporteTotalHidden"  />				
-								</div>
-						</div>
 							</div>
 						</div>
-						
+
 						<div class="row">
 							<div class="form-group col-md-12 text-right"
 								style="margin-top: 15px;">
@@ -371,33 +364,40 @@
 				</div>
 			</div>
 
-<div class="modal fade text-xs-left" id="md_confirmacion"
-			tabindex="-1" role="dialog" aria-labelledby="myModalLabel19"
-			aria-hidden="true">
-			<div class="modal-dialog modal-sm" role="document">
-				<div class="modal-content">
-					<div class="label_title_modal modal-header">
+			<div class="modal fade text-xs-left" id="modalPersona" tabindex="-2"
+				role="dialog" aria-labelledby="myModalLabel35" data-dismiss="modal"
+				aria-hidden="true" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content" id="modalPersonaContent"></div>
+				</div>
+			</div>
+			
+			<div class="modal fade text-xs-left" id="md_confirmacion"
+				tabindex="-1" role="dialog" aria-labelledby="myModalLabel19"
+				aria-hidden="true">
+				<div class="modal-dialog modal-sm" role="document">
+					<div class="modal-content">
+						<div class="label_title_modal modal-header">
 
-						<h4 class="label_title" id="myModalLabel19">CONFIRMAR
-							ACCION</h4>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<p id="txt_confir" class="label_control">¿ESTÁ SEGURO DE
-							ELIMINAR REGISTRO SELECCIONADO?</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn grey btn-outline-secondary"
-							data-dismiss="modal">Cerrar</button>
-						<button id="btnConfirmarGeneric" type="button"
-							class="btn btn-outline-primary">Confirmar</button>
+							<h4 class="label_title" id="myModalLabel19">CONFIRMAR ACCION</h4>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p id="txt_confir" class="label_control">¿ESTÁ SEGURO DE
+								ELIMINAR REGISTRO SELECCIONADO?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn grey btn-outline-secondary"
+								data-dismiss="modal">Cerrar</button>
+							<button id="btnConfirmarGeneric" type="button"
+								class="btn btn-outline-primary">Confirmar</button>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 			<!-- Example DataTables Card-->
 
 		</div>
@@ -412,9 +412,6 @@
 		<!-- Page level plugin JavaScript-->
 		<!-- Custom scripts for all pages-->
 
-		<!-- Custom scripts for this page-->
-		<script
-			src="${pageContext.request.contextPath}/app-assets/js/sb-admin-datatables.min.js"></script>
 		<!-- Custom scripts for this page-->
 
 		<!-- Core plugin JavaScript-->
@@ -439,8 +436,6 @@
 		<script
 			src="${pageContext.request.contextPath}/app-assets/js/sb-admin.min.js"></script>
 		<!-- Custom scripts for this page-->
-		<script
-			src="${pageContext.request.contextPath}/app-assets/js/sb-admin-datatables.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
 
@@ -468,9 +463,9 @@
 		<script
 			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/locales/bootstrap-datepicker.es.min.js"></script>
 
- 
 
- <script type="text/javascript">  
+
+		<script type="text/javascript">  
  
 	function runScript(e) {
 		//See notes about 'which' and 'key'

@@ -841,9 +841,7 @@ function llenarEspecialidadREF(codCIEX,nombre,codReg){
 		var objCIEX = listadoCIEX[i]; 
 			$("#cboTipoDX"+objCIEX.valor4.trim()).val(objCIEX.valor7);
 		 
-	}
-	
-	 
+	}  
 }
 
 function eliminarCIEX(codigo){

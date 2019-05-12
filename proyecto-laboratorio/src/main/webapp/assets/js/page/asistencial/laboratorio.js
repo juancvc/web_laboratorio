@@ -99,9 +99,7 @@ function llenarExamenIndex(index){
 						    	 	" id='agregarEspecialidad'>"+
 						    	 	"<i class='icon-trash'></i></button> "+ 
 						    		"</td>"+
-			    		"</tr>";
-			    		   
-			    	
+			    		"</tr>";  
 			    		} 
 			    // console.log(htmlTabla);
 			    		$("#idBtnCerrarModalCIEX").trigger("click");
@@ -258,6 +256,15 @@ function grabarOrden(){
 			
 			
 			}  
+			
+			for (var i = 0; i < listadoExamenes.length; i++) {
+				var objExamen= listadoExamenes[i];
+				// console.log("objCIEX.codReg " + objCIEX.codReg);
+				if(objExamen.cantidad == '' || objExamen.cantidad == '0'){  
+					msg_advertencia("Ingrese cantidad mayor a 0");
+					return;
+				}
+			} 
 				iniciarBloqueo();
 				$.ajax({
 				contentType: "application/json",
@@ -345,56 +352,80 @@ function elimarExamen(codigo){
 }
 
 function cambiarCantidad(objeto){
+	//debugger;
 	var nombreObjet = "#"+objeto+""
 	console.log("nombreObjet "+ nombreObjet);
 	var cantidad = $(nombreObjet).val(); 
-	
+	var htmlTabla = "";
+	var item = 0; 
 	console.log("cantidad "+ cantidad);
+	
+	for (var i = 0; i < listadoExamenes.length; i++) {
+		var objExamen= listadoExamenes[i];
+		// console.log("objCIEX.codReg " + objCIEX.codReg);
+		if(objExamen.examen.codigo == objeto){ 
+			objExamen.cantidad = cantidad; 
+			objExamen.importe = (objExamen.precio * cantidad).toFixed(2);
+			objExamen.sImporte = (objExamen.precio * cantidad).toFixed(2);
+			console.log( "objExamen.importe:: " + objExamen.importe )
+		}
+	} 
+
+	for (var i = 0; i < listadoExamenes.length; i++) {
+		var objOrdenDetalle = listadoExamenes[i];
+		item = item + 1;
+		htmlTabla += 
+				"<tr>"+
+				"<td>"+item +"</td>"+
+				"<td>"+objOrdenDetalle.examen.descripcion +"</td>"+ 
+				"<td>"+objOrdenDetalle.examen.tipo.nombreCorto+"</td>"+ 
+				"<td> <input type='text' class='form-control' "+
+						"id="+[objOrdenDetalle.examen.codigo]+" required='required' "+
+						"value ='"+objOrdenDetalle.cantidad+"' " +
+						"maxlength='3' "+
+						"onkeypress= 'return soloNumeros(event);' "+
+						"oninput=\"cambiarCantidad('"+[objOrdenDetalle.examen.codigo]+"');\" /></td>"+ 
+				"<td>"+objOrdenDetalle.examen.sPrecio+"</td>"+ 
+				"<td>"+objOrdenDetalle.sImporte+"</td>"+ 
+				"<td>"+ 
+		    	 	"<button type='button'"+
+		    	 	" class='btn btn-outline-danger btn-sm' "+
+		    	 	" data-toggle='tooltip'  data-placement='top'  title='Eliminar'"+
+		    	 	"  onclick=\"confirmar_eliminar('"+[objOrdenDetalle.examen.codigo]+"','1');\""+
+		      	 	" data-original-title='Eliminar'"+
+		    	 	" id='agregarEspecialidad'>"+
+		    	 	"<i class='icon-trash'></i></button> "+ 
+		    		"</td>"+
+		"</tr>";
+	
+	}
+	$('#idbodyCIEXref').empty();  
+	$('#idbodyCIEXref').html(htmlTabla);
+	
+	var importe = 0.00;
+	for (var i = 0; i < listadoExamenes.length; i++) {
+		var objOrdenDetalle = listadoExamenes[i]; 
+		importe = importe + Number(objOrdenDetalle.importe); 
+		//	$("#cboTipoDX"+objOrdenDetalle.valor4.trim()).val(objOrdenDetalle.valor7);
+		 
+	}
+	 $('#txtCajaImporteTotal').val(importe.toFixed(2)); 
+	$('#txtCajaImporteTotalHidden').val(importe.toFixed(2));  
 }
 
-function cambio(){
-$("#dataTable tbody tr").each(function (index) 
-	    {
-	    	var asignado,input,idAcceso,idCompo;
-	    	
-	    	var objComponente = {
-		  		codigo : 0	
-		  	};
-		    	
-			var objAcceso = {
-				item 		: 0,
-				codigo		: 0,
-				flgAsignado : '0',
-				flgRead 	: false,
-				flgWrite 	: false,
-				flgDelete 	: false,
-				flgExport 	: false,
-				perfil		: objPerfil,
-				componente	: objComponente
-		  	};
-	    	
-	        $(this).children("td").each(function (index2) 
-	        {
-	        	if(index2 == 4 ){ // Columna Asignado
-	        		input    = $(this).children("input");
-	        		idAcceso = $(input).val();
-	  	   			idCompo  = $(input).attr("id");
-	  	   			
-	  	   			objComponente.codigo 	= idCompo;
-	  	   			
-	      	   		if($(input).is(':checked')) {
-	      	   			asignado = '1';
-	           	    }else {
-	           	    	asignado = '0';
-	           	    }
-	      	   		
-	          	  	objAcceso.item 			= index+1;
-	          	  	objAcceso.codigo 		= idAcceso;
-	          	  	objAcceso.flgAsignado	= asignado;
-	          	  	objAcceso.componente	= objComponente;
-	        	}
-	        })
-	        arrayMenus.push(objAcceso);
-	    })
+function cargarPersonaModal() {
+	var contextPath = $('#contextPath').val();
+	path = contextPath + "/ordenController/personaModal";
+		$.ajax({
+			type : "POST",
+			url : path,
+
+			success : function(data) {
+				$("#modalPersona").html(data);
+				$("#modalPersona").modal('show'); 
+			},
+			error : function(request, status, error) {
+				console.log("ERROR: " + error);
+			}
+		}); 
 }
-	    
