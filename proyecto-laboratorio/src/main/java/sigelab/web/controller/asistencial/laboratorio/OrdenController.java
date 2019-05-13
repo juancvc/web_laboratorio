@@ -371,9 +371,7 @@ public class OrdenController  extends BaseController {
 			System.out.println("actualiza postulanteBean " + obpersonaBean.getCodigo());
 	
 		} else {
-			 
-			this.setAuditoria(this.getPersonaBean(), request, true); 
-			 
+			  
 			
 		}   
 		return this.getPersonaBean();
