@@ -3,6 +3,62 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="f"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<style>
+* {
+	box-sizing: border-box;
+}
+
+body {
+font-family: Cambria;
+font-size: 13px;  
+}
+
+/*the container must be positioned relative:*/
+.autocomplete {
+	/*position: relative;*/
+	display: inline-block;
+}
+
+input {
+	border: 1px solid transparent; 
+	font-size: 13px;
+}
+
+input[type=text] {
+	width: 100%;
+}
+
+.autocomplete-items {
+	position: absolute;
+	border: 1px solid #d4d4d4;
+	border-bottom: none;
+	border-top: none;
+	z-index: 99;
+	/*position the autocomplete items to be the same width as the container:*/
+	top: 100%;
+	left: 0;
+	right: 0;
+}
+
+.autocomplete-items div {
+	padding: 10px;
+	cursor: pointer;
+	background-color: #fff;
+	border-bottom: 1px solid #d4d4d4;
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+	background-color: #e9e9e9;
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+	background-color: DodgerBlue !important;
+	color: #ffffff;
+}
+</style>
+
 <div class="modal-dialog modal-lg" role="document">
 	<div class="modal-content">
 		<div class="modal-header">
@@ -25,6 +81,9 @@
 
 			<f:input type="hidden" class="form-control" id="personaCodigo"
 				path="codigo" />
+			<f:input type="hidden" class="form-control" id="txtCodRegUbigeo"
+				path="ubigeoDireccion.codigoRegistro" />
+				
 			<f:input type="hidden" class="form-control" id="personaCodigoSigeho"
 				path="codigoPersonaSigeho" />
 			<div class="modal-body" id="buscaPaciente">
@@ -139,8 +198,7 @@
 						<label for="lbltipoSeguroPaciente" class="label_control">NACIONALIDAD<span
 							class="required"> *</span></label>
 						<div class="controls">
-							<f:select id="personaNacionalidad"
-								path="nacionalidad.codReg"
+							<f:select id="personaNacionalidad" path="nacionalidad.codReg"
 								class="form-control" required="required">
 								<f:option value="" label="Seleccionar" selected="true"
 									disabled="disabled" />
@@ -155,17 +213,16 @@
 							CIVIL<span class="required">*</span>
 						</label>
 						<div class="controls">
-							<f:select id="estadoCivilPersona"
-								path="estadoCivil.codReg"
+							<f:select id="estadoCivilPersona" path="estadoCivil.codReg"
 								class="form-control" required="required">
-								<f:option value="000006" label="Seleccionar" selected="true"
+								<f:option value="" label="Seleccionar" selected="true"
 									disabled="disabled" />
 								<f:options items="${lstEstadoCivil}" itemValue="codReg"
 									itemLabel="nombreCorto" />
 							</f:select>
 						</div>
 					</div>
-					<div class="form-group col-md-4 mb-1">
+					<div class="form-group col-md-4 mb-2">
 						<label for="nombreCompleto" class="label_control">TELEFONO
 							<span class="required">*</span>
 						</label>
@@ -178,10 +235,25 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-7 mb-1">
+						<label for="nombreCompleto" class="label_control">DEPARTAMENTO
+							/ PROVINCIA / DISTRITO </label>
+						<div class="controls">
+							<div class="autocomplete" style="width:100%;">   
+								<f:input type="text" value="" placeholder="Buscar..."
+									class="form-control" required="required"
+									id="myInput" name="myCountry"
+									path="ubigeoDireccion.nombreUbigeo" />
+							</div>
+
+
+						</div>
+					</div>
+					<div class="col-md-5">
 						<label for="nombreCompleto" class="label_control">DIRECCION
 							<span class="required">*</span>
 						</label>
+						
 						<div class="controls">
 							<f:input type="text" class="form-control" required="required"
 								id="personaDireccion" path="direccion" />
@@ -189,6 +261,7 @@
 						</div>
 					</div>
 				</div>
+				
 			</div>
 			<div class="modal-footer">
 				<button type="button" id="btnCerrarModalPaciente"
@@ -200,7 +273,7 @@
 					<i class="fa fa-eraser"></i> LIMPIAR
 				</button>
 
-				<button type="submit" onclick="enviarPaciente()"
+				<button type="submit" onclick="grabarPersona()"
 					class="btn btn-primary">
 					<i class="fa fa-floppy-o"></i> GRABAR
 				</button>
@@ -252,11 +325,8 @@
 		src="${pageContext.request.contextPath}/assets/js/page/util/utilitarios.js"
 		type="text/javascript" charset="utf-8"></script>
 
-	<script type="text/javascript">
-	/*	$(document).ready(function() {
-			habilitar();
-		});
-*/
+
+	<script>
 		function habilitar() {
 
 			document.getElementById('personaApellidoPaterno').disabled = true;
@@ -285,20 +355,155 @@
 			//See notes about 'which' and 'key'
 			if (e.keyCode == 13) {
 				iniciarBloqueo();
-				buscarPacienteSISWebService();
 				finBloqueo();
 				return false;
 			}
 		}
-
-		//	$(document).ready(function() {
-		//	$("#nroDocumentoPaciente").keyup(function(event) { 
-		//		if (event.keyCode === 13) { 
-		//			buscarPacienteSISWebService();
-		//		}
-		//		});
-		//	});
 	</script>
+
+
+	<script>
+		function autocomplete(inp, arr) {
+			/*the autocomplete function takes two arguments,
+			the text field element and an array of possible autocompleted values:*/
+			var currentFocus;
+			/*execute a function when someone writes in the text field:*/
+			inp
+					.addEventListener(
+							"input",
+							function(e) {
+								var a, b, i, val = this.value;
+								/*close any already open lists of autocompleted values*/
+								closeAllLists();
+								if (!val) {
+									return false;
+								}
+								currentFocus = -1;
+								/*create a DIV element that will contain the items (values):*/
+								a = document.createElement("DIV");
+								a.setAttribute("id", this.id
+										+ "autocomplete-list");
+								a.setAttribute("class", "autocomplete-items");
+								/*append the DIV element as a child of the autocomplete container:*/
+								this.parentNode.appendChild(a);
+								/*for each item in the array...*/
+								for (i = 0; i < arr.length; i++) {
+									/**console.log("arr[i].detalle:: " +arr[i].detalle.substr(0, val.length)
+											.toUpperCase());
+									console.log("val.toUpperCase():: " +arr[i].detalle.substr(0, val.length)
+											.toUpperCase());*/
+									/*check if the item starts with the same letters as the text field value:*/
+									if ( arr[i].detalle
+											.toUpperCase().includes(val.toUpperCase()) ) {
+										 $("#txtCodRegUbigeo").val(arr[i].codigoUbigeo);
+										/*create a DIV element for each matching element:*/
+										b = document.createElement("DIV");
+										/*make the matching letters bold:*/
+										b.innerHTML = "<strong>"
+												+ arr[i].detalle.substr(0, val.length)
+												+ "</strong>";
+										b.innerHTML += arr[i].detalle
+												.substr(val.length);
+										/*insert a input field that will hold the current array item's value:*/
+										b.innerHTML += "<input type='hidden' value='" + arr[i].detalle + "'>";
+										/*execute a function when someone clicks on the item value (DIV element):*/
+										b
+												.addEventListener(
+														"click",
+														function(e) {
+															/*insert the value for the autocomplete text field:*/
+															inp.value = this
+																	.getElementsByTagName("input")[0].value;
+															/*close the list of autocompleted values,
+															(or any other open lists of autocompleted values:*/
+															closeAllLists();
+														});
+										a.appendChild(b);
+									}
+								}
+							});
+			/*execute a function presses a key on the keyboard:*/
+			inp.addEventListener("keydown", function(e) {
+				var x = document.getElementById(this.id + "autocomplete-list");
+				if (x)
+					x = x.getElementsByTagName("div");
+				if (e.keyCode == 40) {
+					/*If the arrow DOWN key is pressed,
+					increase the currentFocus variable:*/
+					currentFocus++;
+					/*and and make the current item more visible:*/
+					addActive(x);
+				} else if (e.keyCode == 38) { //up
+					/*If the arrow UP key is pressed,
+					decrease the currentFocus variable:*/
+					currentFocus--;
+					/*and and make the current item more visible:*/
+					addActive(x);
+				} else if (e.keyCode == 13) {
+					/*If the ENTER key is pressed, prevent the form from being submitted,*/
+					e.preventDefault();
+					if (currentFocus > -1) {
+						/*and simulate a click on the "active" item:*/
+						if (x)
+							x[currentFocus].click();
+					}
+				}
+			});
+			function addActive(x) {
+				/*a function to classify an item as "active":*/
+				if (!x)
+					return false;
+				/*start by removing the "active" class on all items:*/
+				removeActive(x);
+				if (currentFocus >= x.length)
+					currentFocus = 0;
+				if (currentFocus < 0)
+					currentFocus = (x.length - 1);
+				/*add class "autocomplete-active":*/
+				x[currentFocus].classList.add("autocomplete-active");
+			}
+			function removeActive(x) {
+				/*a function to remove the "active" class from all autocomplete items:*/
+				for (var i = 0; i < x.length; i++) {
+					x[i].classList.remove("autocomplete-active");
+				}
+			}
+			function closeAllLists(elmnt) {
+				/*close all autocomplete lists in the document,
+				except the one passed as an argument:*/
+				var x = document.getElementsByClassName("autocomplete-items");
+				for (var i = 0; i < x.length; i++) {
+					if (elmnt != x[i] && elmnt != inp) {
+						x[i].parentNode.removeChild(x[i]);
+					}
+				}
+			}
+			/*execute a function when someone clicks in the document:*/
+			document.addEventListener("click", function(e) {
+				closeAllLists(e.target);
+			});
+		}
+		
+		var arrayMenus = [];
+		
+		
+		<c:forEach var="ubigeo" items="${lstUbigeoBean}"
+			varStatus="loop">
+		var objUbigeo = {
+				codigoRegistro : "",
+				detalle		: ""
+		  	};
+		objUbigeo.codigoRegistro ='${ubigeo.codigoRegistro}'; 
+		objUbigeo.detalle ='${ubigeo.detalle}'; 
+		  arrayMenus.push(objUbigeo);
+		</c:forEach>
+		
+		/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+		autocomplete(document.getElementById("myInput"), arrayMenus);
+	
+		
+		
+		</script>
 </div>
 
 

@@ -36,7 +36,8 @@ import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenService;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service; 
 import sigelab.core.service.interfaces.general.Maestra1Service; 
 import sigelab.core.service.interfaces.general.PersonaService;
-import sigelab.core.service.interfaces.general.TarifarioService; 
+import sigelab.core.service.interfaces.general.TarifarioService;
+import sigelab.core.service.interfaces.general.UbigeoService;
 import sigelab.web.controller.base.BaseController;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -61,6 +62,7 @@ public class OrdenController  extends BaseController {
 	List<TablaBean> lstTipoExamen = new ArrayList<TablaBean>();
 	
 	PersonaBean personaBean = new PersonaBean();  
+	private UbigeoBean ubigeobean;
 	private List<TarifarioBean> lstTarifarioBean ; 
 	private List<OrdenDetalleBean> lstOrdenDetalleBean ;  
 	 
@@ -79,7 +81,9 @@ public class OrdenController  extends BaseController {
 	@Autowired
 	private PersonaService personaService;
 	 
-	      
+	@Autowired
+	private UbigeoService ubigeoService;
+	
 	@PostConstruct
 	public void init() { 
 		
@@ -90,9 +94,9 @@ public class OrdenController  extends BaseController {
 			lstDocumento = maestraAsis01Service.listarPorCodigoTabla("000003", 1);
 			lstSexo = maestraAsis01Service.listarPorCodigoTabla("000004", 1);
 			lstEstadoCivil = maestraGene01Services.listarPorCodigoTabla("000005", 0);
-			lstOcupacion = maestraGene01Services.listarPorCodigoTabla("000007", 0);
+			//lstOcupacion = maestraGene01Services.listarPorCodigoTabla("000007", 0);
 			lstNacionalidad = maestraGene01Services.listarPorCodigoTabla("000003", 0);
-			lstNivelInstrucion = maestraGene01Services.listarPorCodigoTabla("000006", 0);
+			//lstNivelInstrucion = maestraGene01Services.listarPorCodigoTabla("000006", 0);
 			
 		} catch (ServiceException e) {
 			System.out.println("printStackTrace");
@@ -103,9 +107,9 @@ public class OrdenController  extends BaseController {
 		mav.addObject("lstDocumento", lstDocumento); 
 		mav.addObject("lstSexo", lstSexo); 
 		mav.addObject("lstEstadoCivil", lstEstadoCivil); 
-		mav.addObject("lstOcupacion", lstOcupacion); 
+		//mav.addObject("lstOcupacion", lstOcupacion); 
 		mav.addObject("lstNacionalidad", lstNacionalidad); 
-		mav.addObject("lstNivelInstrucion", lstNivelInstrucion); 
+		//mav.addObject("lstNivelInstrucion", lstNivelInstrucion); 
 	}
 	
  
@@ -293,11 +297,87 @@ public class OrdenController  extends BaseController {
 
 	@RequestMapping(value = "/personaModal", method = RequestMethod.POST)
 	public ModelAndView personaModalPost() throws Exception {
+		PersonaBean objPersona = new  PersonaBean();
+		objPersona.getNacionalidad().setCodReg("000114");
+		objPersona.getEstadoCivil().setCodReg("000006");
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/persona-registro-modal", "command",  objPersona);
+	//	ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/persona-registro-modal", "command",  objPersona);
 		
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/persona-registro-modal", "command", new PersonaBean());
+		ubigeobean = new UbigeoBean();
+		ubigeobean.setVariable("");
+		ubigeobean.setInstitucion("000003");
+		ubigeobean.setCategoria("000003");
+		lstUbigeoBean = new ArrayList<UbigeoBean>();
+		try {
+			
+			lstUbigeoBean = ubigeoService.getBuscarPorFiltros(ubigeobean);
+		} catch (Exception e) { 
+		}
+		mav.addObject("ubigeoBean", new UbigeoBean());
+		mav.addObject("lstUbigeoBean", lstUbigeoBean);
 		this.cargarCombos(mav);
 		return mav;
 	} 
+	
+	@RequestMapping(value = "/grabarPersonaLaboratorio", method = RequestMethod.POST)
+	public @ResponseBody PersonaBean grabarPersonaLaboratorio(@ModelAttribute("personaBean")PersonaBean obpersonaBean,
+											 HttpServletRequest request) throws Exception {  
+	
+		if (personaBean==null) {
+			personaBean = new PersonaBean();
+		} 
+		if (this.getPersonaBean().getCodigo().equals("")) {
+			if(!obpersonaBean.getTipoDocumento().getCodReg().equals("000002") ){ // extranjero
+				this.setAuditoria(obpersonaBean, request, true); 
+				this.personaService.insertarPersonaLaboratorio(obpersonaBean);
+				setPersonaBean(obpersonaBean);
+			}else{
+				setPersonaBean(new PersonaBean());
+				if(this.getPersonaBean().getSwReniec()){
+					
+					System.out.println("this.getPostulanteBean().getPersona(). " +this.getPersonaBean().getTipoDocumento().getCodReg());
+					System.out.println("this.getPostulanteBean().getPersona() ::" + this.getPersonaBean());
+					this.getPersonaBean().setTelefonoNumero(obpersonaBean.getTelefonoNumero());
+					this.getPersonaBean().setCorreo(obpersonaBean.getCorreo());
+					this.getPersonaBean().getNivelInstrucion().setCodReg(obpersonaBean.getNivelInstrucion().getCodReg());
+					this.getPersonaBean().getOcupacion().setCodReg(obpersonaBean.getOcupacion().getCodReg());
+					
+					this.setAuditoria(this.getPersonaBean(), request, true); 
+					this.personaService.insertarPersonaLaboratorio(this.getPersonaBean());
+					System.out.println("persona reniec");
+				}else{
+					this.getPersonaBean().setTelefonoNumero(obpersonaBean.getTelefonoNumero());
+					this.getPersonaBean().setCorreo(obpersonaBean.getCorreo());
+					this.getPersonaBean().getNivelInstrucion().setCodReg(obpersonaBean.getNivelInstrucion().getCodReg());
+					this.setAuditoria(obpersonaBean, request, true); 
+					this.personaService.insertarPersonaLaboratorio(obpersonaBean);
+					setPersonaBean(obpersonaBean);
+				}
+			} 
+			System.out.println("persona no existe"); 
+			
+		}else{ 
+			System.out.println("existe persona");
+			 
+				this.setAuditoria(this.getPersonaBean(), request, true); 
+				System.out.println("postulanteBean.getCodigoCorreo " + obpersonaBean.getCodigoCorreo());
+				System.out.println("postulanteBean.getCodigoDireccion " + obpersonaBean.getCodigoDireccion());
+				System.out.println("postulanteBean.getCodigoTelefono " + obpersonaBean.getCodigoTelefono());
+				this.personaService.actualizarPersonaLaboratorio(obpersonaBean); 
+			
+		}  
+		if (!personaBean.getCodigo().trim().equals("")) {
+			this.setAuditoria(this.getPersonaBean(), request, false); 
+			System.out.println("actualiza postulanteBean " + obpersonaBean.getCodigo());
+	
+		} else {
+			 
+			this.setAuditoria(this.getPersonaBean(), request, true); 
+			 
+			
+		}   
+		return this.getPersonaBean();
+	}
 	
 	public PersonaBean getPersonaBean() {
 		return personaBean;

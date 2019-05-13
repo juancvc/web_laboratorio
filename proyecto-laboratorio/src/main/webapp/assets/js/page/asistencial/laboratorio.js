@@ -198,11 +198,7 @@ function buscarPersonaNroDoc(){
 										$('#ubigeoDireccion').val(persona.ubigeoDireccion.codigoUbigeo);
 										$('#codigoRegistroUbigeoDireccion').val(persona.ubigeoDireccion.codigoRegistro);
 										$('#nombreUbigeoDireccion').val(persona.ubigeoDireccion.nombreUbigeo);
-									}else{
-										document
-										.getElementById('btnBuscarUbigeoDireccion').disabled = false;
-										document
-										.getElementById('personaDireccion').disabled = false;
+									}else{ 
 									}
 							
 								  
@@ -409,7 +405,7 @@ function cambiarCantidad(objeto){
 		//	$("#cboTipoDX"+objOrdenDetalle.valor4.trim()).val(objOrdenDetalle.valor7);
 		 
 	}
-	 $('#txtCajaImporteTotal').val(importe.toFixed(2)); 
+	$('#txtCajaImporteTotal').val(importe.toFixed(2)); 
 	$('#txtCajaImporteTotalHidden').val(importe.toFixed(2));  
 }
 
@@ -428,4 +424,54 @@ function cargarPersonaModal() {
 				console.log("ERROR: " + error);
 			}
 		}); 
+}
+
+function grabarPersona(){
+	var htmlTabla = "";
+	var contextPath = $('#contextPath').val();
+	var actionForm = $('#frmGuardarPersona').attr("action");
+	var url = contextPath + "/bancoController/grabarPostulante";
+	var myFormulario = $('#frmGuardarPersona');
+	var telefono = $('#telefono').val();
+	var codigoRegistroUbigeoDireccion = $('#codigoRegistroUbigeoDireccion').val();
+	
+	// console.log("fechaIni " + fechaIni);
+	// console.log("fechaFin " + fechaFin);
+
+	if (!myFormulario[0].checkValidity()) {
+		msg_advertencia("Debe completar los campos requeridos(*) correctamente");
+
+	} else if(telefono.length < 7){
+		msg_advertencia("Ingrese número de celular correcto.");
+		
+	}else if(codigoRegistroUbigeoDireccion.length == 0){
+		msg_advertencia("Ingrese ubigeo de dirección.");
+		
+	}else {
+		iniciarBloqueo();
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : $('#frmGuardarPersona').serialize(),
+			success : function(data) {
+				console.log("SUCCESS: ", data);
+				if (data == "") {
+					msg_error("Error al registrar persona");
+				} else {
+					msg_exito("Éxito al registrar persona");
+				 
+					$('#modalPersona').modal('hide');
+				}
+
+			},
+
+			error : function(xhr, status, er) {
+				console.log("error: " + xhr + " status: " + status + " er:"
+						+ er);  
+			},
+			complete : function() {
+				finBloqueo();
+			}
+		});
+	}
 }
