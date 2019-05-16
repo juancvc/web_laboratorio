@@ -55,7 +55,7 @@
 <div class="modal-dialog modal-lg" role="document">
 	<div class="modal-content">
 		<div class="modal-header">
-			<label class="modal-title text-text-bold-600" id="myModalLabel35"><b>LISTADO
+			<label class="modal-title text-text-bold-600" id="myModalLabel35"><b>LISTADO DE EXÁMENES
 			</b></label>
 			<button type="button" class="close" data-dismiss="modal"
 				aria-label="Close">
@@ -69,7 +69,12 @@
 				value="${pageContext.request.contextPath}">
 
 			<div class="modal-body" id="buscarCIE10">
-				<div class="row">
+				<div class="row"> 
+					<div class="col-md-8">
+						<label for="exampleInputName" class="label_control">DESCRIPCIÓN</label>
+						<f:input type="text" class="form-control" id="txtDescripcion" autofocus="true"
+							autocomplete="off" path="descripcion" />
+					</div>
 					<div class="col-md-4">
 						<label for="exampleInputName" class="label_control">TIPO</label>
 
@@ -83,12 +88,6 @@
 							</f:select>
 						</div>
 					</div>
-					<div class="col-md-8">
-						<label for="exampleInputName" class="label_control">DESCRIPCIÓN</label>
-						<f:input type="text" class="form-control" id="txtDescripcion"
-							path="descripcion" />
-					</div>
-
 				</div>
 				<div class="row">
 					<div class="form-group col-md-12 text-right"
@@ -203,21 +202,38 @@
 	src="${pageContext.request.contextPath}/app-assets/js/scripts/extensions/block-ui.js"
 	type="text/javascript"></script>
 <script src="http://malsup.github.io/jquery.blockUI.js"></script>
+
 <script> 
 
-$("#txtDescripcion").focus(); 
+
+$(document).ready(function(){
+	
+	//document.getElementById("txtDescripcion").focus();
+	
+  $("#txtDescripcion").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#idBodyListaExamenes tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  
+  document.getElementById("txtDescripcion").focus();
+});
+
 function  limpiarForm(){
 	$("#cboTipoExamen").val("");
 	$("#txtDescripcion").val(""); 
 	$("#idBodyListaExamenes tr").remove(); 
-	 $("#txtDescripcion").focus(); 
+	// $("#txtDescripcion").focus(); 
    	} 
-   	
+    
 $("#txtDescripcion").keyup(function(event) {
     if (event.keyCode === 13) {
     	buscarPorTipo();
     }
-});	  
+});	 
+
+
  
 function buscarPorTipo() {
 //debugger;
@@ -283,4 +299,5 @@ function buscarPorTipo() {
 			}
 	  });
 }
+
 </script>

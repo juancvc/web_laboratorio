@@ -19,18 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.ibm.icu.text.SimpleDateFormat;
-
+import org.springframework.web.servlet.ModelAndView; 
 import sigelab.core.bean.asistencial.banco.PostulanteBean; 
 import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.TarifarioBean;
-import sigelab.core.bean.general.UbigeoBean;
-import sigelab.core.bean.seguridad.AccesoBean;
+import sigelab.core.bean.general.UbigeoBean; 
 import sigelab.core.service.exception.ServiceException;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenService;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service; 
@@ -113,7 +109,18 @@ public class OrdenController  extends BaseController {
 	}
 	
  
-	 
+	@RequestMapping(value = "/listado", method = RequestMethod.GET)
+	public ModelAndView listado(@ModelAttribute("ordenBean") OrdenBean ordenBean, HttpServletRequest request) throws Exception {
+		return this.listadoPost(ordenBean, request) ;
+	}
+	@RequestMapping(value = "/listado", method = RequestMethod.POST)
+	public ModelAndView listadoPost(@ModelAttribute("ordenBean") OrdenBean ordenBean, HttpServletRequest request) throws Exception {
+		 
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/ordenlistado-orden/", "command", ordenBean); 
+  
+		mav.addObject("ordenBean", ordenBean); 
+		return mav;
+	}
 	
 	@RequestMapping(value = "/consultarPersonaPorDocumento", method = RequestMethod.GET)
 	public @ResponseBody PersonaBean consultarPorNroDocumento(

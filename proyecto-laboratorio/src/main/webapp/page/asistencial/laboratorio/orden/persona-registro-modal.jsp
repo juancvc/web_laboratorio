@@ -96,7 +96,7 @@ input[type=text] {
 							DOCUMENTO<span class="required">*</span>
 						</label>
 						<div class="controls">
-							<f:select id="tipoDocumentoPaciente" path="tipoDocumento.codReg"
+							<f:select id="tipoDocumentoPersona" path="tipoDocumento.codReg"
 								required="required" class="form-control">
 								<f:options items="${lstDocumento}" itemValue="codReg"
 									itemLabel="nombreCorto" />
@@ -114,7 +114,7 @@ input[type=text] {
 								value="${pageContext.request.contextPath}">
 							<div class="controls">
 								<f:input type="text" class="form-control" required="required"
-									maxlength="12" id="nroDocumentoPaciente" path="nroDocumento"
+									maxlength="12" id="nroDocumentoPersona" path="nroDocumento"
 									onkeypress="return runScript(event)" />
 							</div>
 						</div>
@@ -191,9 +191,9 @@ input[type=text] {
 						<label for="exampleInputName" class="label_control">FECHA
 							NACIMIENTO <span class="required">*</span>
 						</label>
-						<f:input class="form-control" id="date" name="date"
+						<f:input class="form-control" id="date" name="date" maxlength="10" 
 							required="required" placeholder="DD/MM/YYYY" type="text"
-							path="fechaNac" />
+							path="fechaNacStr" onkeyup="this.value=formateafechaNacimiento(this.value);"/> 
 					</div>
 				</div>
 				<div class="row">

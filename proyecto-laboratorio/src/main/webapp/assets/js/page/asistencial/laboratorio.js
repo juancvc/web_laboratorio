@@ -40,8 +40,9 @@ function cargarTarifarioModal() {
 
 			success : function(data) {
 				// console.log("SUCCESS: ", data);
-				$("#modalTarifario").html(data);
+				$("#modalTarifario").html(data); 
 				$("#modalTarifario").modal('show'); 
+				$("#txtDescripcion").focus(); 
 			},
 			error : function(request, status, error) {
 				console.log("ERROR: " + error);
@@ -204,10 +205,12 @@ function buscarPersonaNroDoc(){
 								  
 								}else {
 									msg_advertencia("¡La persona no se encuentra registrada!")
+									limpiarPersona();
 								}  
 
 							} else {
 								msg_advertencia("¡No se encontraron registros.!")
+								limpiarPersona();
 							}
 						}
 					},
@@ -227,6 +230,20 @@ function buscarPersonaNroDoc(){
 				});
 		finBloqueo();
 	}
+}
+
+function limpiarPersona(){  
+	$('#personaApellidoPaterno').val("");
+	$('#personaApellidoMaterno').val("");
+	$('#personaPrimerNombre').val("");
+	$('#personaSegundoNombre').val(""); 
+	$('#personaCodigo').val("");  
+	$('#ubigeoDireccion').val("");
+	$('#edadPersona').val(""); 
+	$('#sexoPaciente').val("");
+	$('#personaDireccion').val("");
+	$('#codigoRegistroUbigeoDireccion').val("");
+	$('#nombreUbigeoDireccion').val("");
 }
 
 function grabarOrden(){   
@@ -453,14 +470,21 @@ function grabarPersona(){
 			type : "POST",
 			url : url,
 			data : $('#frmGuardarPersona').serialize(),
-			success : function(data) {
-				console.log("SUCCESS: ", data);
+			success : function(data) { 
 				if (data == "") {
 					msg_error("Error al registrar persona");
 				} else {
 					msg_exito("Éxito al registrar persona");
-				 
+					
+					var numeroDocumento = $('#nroDocumentoPersona').val();
+					var tipoDocumento = $('#tipoDocumentoPersona').val();
+					
+					$('#nroDocumentoPaciente').val(numeroDocumento);
+					$('#tipoDocumentoPaciente').val(tipoDocumento);
+					buscarPersonaNroDoc();
 					$('#modalPersona').modal('hide');
+					
+					
 				}
 
 			},
