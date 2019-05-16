@@ -430,10 +430,10 @@ function grabarPersona(){
 	var htmlTabla = "";
 	var contextPath = $('#contextPath').val();
 	var actionForm = $('#frmGuardarPersona').attr("action");
-	var url = contextPath + "/bancoController/grabarPostulante";
+	var url = contextPath + "/ordenController/grabarPersonaLaboratorio";
 	var myFormulario = $('#frmGuardarPersona');
 	var telefono = $('#telefono').val();
-	var codigoRegistroUbigeoDireccion = $('#codigoRegistroUbigeoDireccion').val();
+	var codigoRegistroUbigeoDireccion = $('#txtCodRegUbigeo').val();
 	
 	// console.log("fechaIni " + fechaIni);
 	// console.log("fechaFin " + fechaFin);

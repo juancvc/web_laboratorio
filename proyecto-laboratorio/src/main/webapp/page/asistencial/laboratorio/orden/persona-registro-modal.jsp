@@ -83,9 +83,12 @@ input[type=text] {
 				path="codigo" />
 			<f:input type="hidden" class="form-control" id="txtCodRegUbigeo"
 				path="ubigeoDireccion.codigoRegistro" />
-				
+			 
+			
+					
 			<f:input type="hidden" class="form-control" id="personaCodigoSigeho"
 				path="codigoPersonaSigeho" />
+				
 			<div class="modal-body" id="buscaPaciente">
 				<div class="row">
 					<div class="form-group col-md-4 mb-2">
@@ -116,7 +119,7 @@ input[type=text] {
 							</div>
 						</div>
 					</div>
-
+ 
 					<div class="col-md-4">
 						<br>
 						<button id="idBtnCargarPaciente" type="button"
@@ -367,6 +370,7 @@ input[type=text] {
 			/*the autocomplete function takes two arguments,
 			the text field element and an array of possible autocompleted values:*/
 			var currentFocus;
+			var codigoRegistro;
 			/*execute a function when someone writes in the text field:*/
 			inp
 					.addEventListener(
@@ -394,8 +398,7 @@ input[type=text] {
 											.toUpperCase());*/
 									/*check if the item starts with the same letters as the text field value:*/
 									if ( arr[i].detalle
-											.toUpperCase().includes(val.toUpperCase()) ) {
-										 $("#txtCodRegUbigeo").val(arr[i].codigoUbigeo);
+											.toUpperCase().includes(val.toUpperCase()) ) { 
 										/*create a DIV element for each matching element:*/
 										b = document.createElement("DIV");
 										/*make the matching letters bold:*/
@@ -405,17 +408,22 @@ input[type=text] {
 										b.innerHTML += arr[i].detalle
 												.substr(val.length);
 										/*insert a input field that will hold the current array item's value:*/
-										b.innerHTML += "<input type='hidden' value='" + arr[i].detalle + "'>";
+										b.innerHTML += "<input type='hidden' id='" + arr[i].codigoRegistro + "' value='" + arr[i].detalle + "'>"; 
+									
 										/*execute a function when someone clicks on the item value (DIV element):*/
 										b
 												.addEventListener(
 														"click",
 														function(e) {
-															/*insert the value for the autocomplete text field:*/
+															 
+															$("#txtCodRegUbigeo").val(this
+																	.getElementsByTagName("input")[0].id)
 															inp.value = this
 																	.getElementsByTagName("input")[0].value;
 															/*close the list of autocompleted values,
 															(or any other open lists of autocompleted values:*/
+																	
+															//$("#txtCodRegUbigeo").val(arr[i].codigoRegistro);
 															closeAllLists();
 														});
 										a.appendChild(b);
