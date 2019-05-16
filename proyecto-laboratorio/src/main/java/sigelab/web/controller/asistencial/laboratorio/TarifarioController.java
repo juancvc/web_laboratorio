@@ -732,7 +732,7 @@ public class TarifarioController  extends BaseController {
 	
 		
 		ModelAndView mav = new ModelAndView("general/tarifario/registro-tarifario", "command", tarifarioBean); 
-		
+		mav.addObject("tarifarioBean", tarifarioBean);
 		this.cargarCombos(mav); 
 		return mav;
 	}
@@ -905,10 +905,11 @@ public class TarifarioController  extends BaseController {
 			}
 		} else {
 			this.setAuditoria(tarifarioBean, request, true); 
-			System.out.println("insert tarifarioBean " + tarifarioBean.getCodigo());
+			System.out.println("insert tarifarioBean " + tarifarioBean.getTipo().getCodReg());
 			if (tarifarioService.insertar(tarifarioBean)) { 
 				System.out.println("campaniaBean " + tarifarioBean.getCodigo());
 				codigo = tarifarioBean.getCodigo();
+
 			}
 			
 		}  
@@ -985,8 +986,13 @@ public class TarifarioController  extends BaseController {
 	}
 	
 	
-	@RequestMapping(value = "/tarifarioGeneralModal", method = RequestMethod.GET)
-	public ModelAndView tarifarioGeneralModal() throws Exception {
+	@RequestMapping(value = "/listadoTarifario", method = RequestMethod.GET)
+	public ModelAndView listadoTarifario() throws Exception {
+		return listadoTarifarioPOST();
+	}
+	
+	@RequestMapping(value = "/listadoTarifario", method = RequestMethod.POST)
+	public ModelAndView listadoTarifarioPOST() throws Exception {
 
 		ModelAndView mav = new ModelAndView("asistencial/laboratorio/listado-tarifario-general", "command", new TarifarioBean());
 		lstTarifarioBean = new ArrayList<TarifarioBean>();
@@ -1002,8 +1008,6 @@ public class TarifarioController  extends BaseController {
 		mav.addObject("lstTipoExamen", lstTipoExamen);
 		return mav;
 	}
-	
-	
  
 
 	public PersonaBean getPersonaBean() {

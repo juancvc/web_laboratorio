@@ -45,8 +45,9 @@ public class UsuarioDAOImp implements UsuarioDAO {
             spq.setParameter("PSWUSUAR", t.getPasswordUsuario());
             
             spq.setParameter("CODPERSO", t.getPersona()!=null? t.getPersona().getCodigo():null);
-            
-            spq.setParameter("CODIPERF", t.getPerfil().getCodigo());            
+            spq.setParameter("CODIPERF", t.getPerfil().getCodigo());
+            spq.setParameter("EMAIL", 	 t.getPersona().getCorreo());   
+            spq.setParameter("NUMECELU", t.getPersona().getTelfCelu());   
             spq.setParameter("AUCDUSCR", t.getCodigoUsuarioCreacion());
 			spq.setParameter("AUPCIPCR", t.getIpCreacion());
 
@@ -54,10 +55,10 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	        spq.execute();
 			
 			id = spq.getOutputParameterValue(1);
-			nroPeriodo = spq.getOutputParameterValue(2);
+		//	nroPeriodo = spq.getOutputParameterValue(2);
 			if (id != null) {
 			 	t.setCodigo(id.toString());
-			 	t.setNumeroPeriodo(nroPeriodo.toString());
+			// 	t.setNumeroPeriodo(nroPeriodo.toString());
 				sw=true;
 			}
 		} catch (Exception e) {
@@ -87,7 +88,9 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	            
 	            spq.setParameter("CODPERSO", t.getPersona()!=null? t.getPersona().getCodigo():null);
 	            
-	            spq.setParameter("CODIPERF", t.getPerfil().getCodigo());            
+	            spq.setParameter("CODIPERF", t.getPerfil().getCodigo()); 
+	            spq.setParameter("EMAIL", 	 t.getCorreo());   
+	            spq.setParameter("NUMECELU", t.getNroCelular());   
 	            spq.setParameter("AUCDUSMO", t.getCodigoUsuarioModificacion());
 				spq.setParameter("AUPCIPMO", t.getIpModificacion());
 	        

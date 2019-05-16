@@ -140,12 +140,49 @@ public class OrdenController  extends BaseController {
 	    this.setPersonaBean(personaBean);
 		return personaBean;
 	}
+	
+	
+	@RequestMapping(value = "/consultarPersonaPorDocumento", method = RequestMethod.POST)
+	public @ResponseBody PersonaBean consultarPorNroDocumentoPOST(
+			@RequestParam("tipoDocumento") String tipoDocumento,
+			@RequestParam("numero") String numero)throws Exception {
+		this.setPersonaBean(new PersonaBean());  
+		personaBean = new PersonaBean();
+		PersonaBean prmPersona = new PersonaBean();
+		prmPersona.setNroDocumento(numero);
+		prmPersona.getTipoDocumento().setCodReg(tipoDocumento);
+		try { 
+				personaBean = personaService.buscarxTipoDocumentoNumeroDocumento(prmPersona);
+				if(personaBean!=null){   
+					System.out.println(personaBean.getNombreCompleto());  
+					System.out.println("personaBean.getCodigo() " + personaBean.getCodigo());
+					PostulanteBean postulante = new PostulanteBean();
+					postulante.setPersona(personaBean);  
+					
+				}else{   
+				} 
+		} catch (Exception e) {  
+		} 
+		 
+	    this.setPersonaBean(personaBean);
+		return personaBean;
+	}
 	 
 	
 	 
 	@RequestMapping(value = "/nuevo", method = RequestMethod.GET)
 	public ModelAndView nuevoPostulante(HttpServletRequest request) {
 		OrdenBean objOrdenBean = new OrdenBean();  
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/registro-orden", "command", objOrdenBean);  
+		this.cargarCombos(mav); 
+		return mav;
+	} 
+	 
+	
+	@RequestMapping(value = "/nuevo", method = RequestMethod.POST)
+	public ModelAndView nuevoPostulantePOST(PersonaBean personaBean, HttpServletRequest request) {
+		OrdenBean objOrdenBean = new OrdenBean();  
+		objOrdenBean.getPacienteBean().setPersona(personaBean);
 		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/registro-orden", "command", objOrdenBean);  
 		this.cargarCombos(mav); 
 		return mav;

@@ -679,13 +679,20 @@ public class LaboratorioController  extends BaseController {
 	}
 	 
  
-	@RequestMapping(value = "/orden", method = RequestMethod.GET)
-	public ModelAndView nuevoPostulante(HttpServletRequest request) {
+	@RequestMapping(value ="/orden", method = RequestMethod.GET)
+	public ModelAndView nuevoRegistroOrden() throws Exception {
+		return nuevoRegistroOrdenPOST();
+	}
+	
+	@RequestMapping(value ="/orden", method = RequestMethod.POST)
+	public ModelAndView nuevoRegistroOrdenPOST() throws Exception {
 		OrdenBean objOrdenBean = new OrdenBean();  
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-orden", "command", objOrdenBean);  
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/registro-orden", "command", objOrdenBean);  
 		 
 		return mav;
 	}
+	
+	
 	
 	@RequestMapping(value = "/tarifarioRegModal", method = RequestMethod.POST)
 	public ModelAndView nuevoTarifario()throws Exception {

@@ -681,6 +681,8 @@ function guardarPersonaLaboratorio() {
 	var url = contextPath + "/personaController/grabarPersonaLaboratorio";
 	var myFormulario = $('#frmGuardarPacienteLaboratorio');
 	var telefono = $('#telefono').val();
+	var nroDocumentoPaciente = $('#nroDocumentoPaciente').val();
+	var tipoDocumentoPaciente = $('#tipoDocumentoPaciente').val();
 	var codigoRegistroUbigeoDireccion = $('#codigoRegistroUbigeoDireccion').val();
 	
 	// console.log("fechaIni " + fechaIni);
@@ -707,55 +709,85 @@ function guardarPersonaLaboratorio() {
 					msg_error("Error al registrar persona");
 				} else {
 					msg_exito("Éxito al registrar persona");
-				 
-				 /**   const button = document.createElement('input');
-				    button.type = 'button';
-				    button.innerText = 'Haz Click';
-				    button.id ="btnLlamarModificar"; 
-				 //   button.attachEvent('onclick', 'javascript:modificarElementoGenerico(/bancoController/modificarPostulante,'+ data.index + ')');
-				    document.body.appendChild(button);
-				    if (button.addEventListener)
-
-				    {
-
-				    	button.addEventListener('click', mifuncion(data.index),false);
-
-				    } else { 
-
-				    	button.attachEvent('onclick', mifuncion(data.index));
-
-				    }
-				 //   agregarBoton('btnLlamarModificar','modificar','javascript:modificarElementoGenerico(/bancoController/modificarPostulante,'+ data.index + ')');
-				    */
-				    var inputTag = document.createElement("div");              
-				    inputTag.innerHTML = 
-				    	"<input type = 'button' id='btnLlamarModificar' value = 'oooh'"+
-				    	"onClick =javascript:modificarElementoGenerico(\'/bancoController/modificarPostulante\',\'"+ data.index +"\');>";    
-				    	
-				    document.body.appendChild(inputTag);
-				  //  "onclick=\"especialidadCargarModal('"+[objCIEX.codReg]+"');\""+
-					$("#btnLlamarModificar").trigger("click");
+					$("#btnListado").trigger("click");
 					
-		/**			document.getElementById('btnGuardarPostulante').disabled = true;
-					document.getElementById('btnImprimirTicket').disabled = false;
-					// enviarListado();
-				//	$("#btnListado").trigger("click");
-					console.log("codigo data " + data.numeroPostulante);
+					/****llenamos datos paciente en orden***/
+					console.log("nroDocumentoPaciente : ", nroDocumentoPaciente);
+					$
+					.ajax({
+						type : "GET",
+						url : contextPath
+								+ "/ordenController/consultarPersonaPorDocumento?tipoDocumento="
+								+ tipoDocumentoPaciente + "&numero=" + nroDocumentoPaciente,
+
+						success : function(persona) {
+							if (numeroDocumento.length < 7) {
+								msg_advertencia("Número de documento incorrecto.");
+
+							} else {
+
+								if (persona != null) {
+									console.log("persona.length " + persona.length);
+									 
+									if (persona.length != 0) {
+										$('#personaApellidoPaterno').val(
+												persona.apellidoPaterno);
+										$('#personaApellidoMaterno').val(
+												persona.apellidoMaterno);
+										$('#personaPrimerNombre').val(
+												persona.primerNombre);
+										$('#personaSegundoNombre').val(
+												persona.segundoNombre); 
+										$('#personaCodigo').val(persona.codigo);    
+										var todate = new Date(persona.fechaNac);
+										var dia = todate.getDate();
+										var mes = todate.getMonth() + 1;
+										var anio = todate.getFullYear(); 
+										var fechaActual = new Date(); 
+										var anioActual = fechaActual.getFullYear();
+										var edad = anioActual - anio;
+										$('#edadPersona').val(edad);
+	 
+										$('#sexoPaciente').val(persona.sexo.codReg);
+										$('#personaDireccion').val(
+												persona.direccion);
+									 
+										if (persona.ubigeoDireccion.codigoUbigeo != "") {
+											$('#ubigeoDireccion').val(persona.ubigeoDireccion.codigoUbigeo);
+											$('#codigoRegistroUbigeoDireccion').val(persona.ubigeoDireccion.codigoRegistro);
+											$('#nombreUbigeoDireccion').val(persona.ubigeoDireccion.nombreUbigeo);
+										}else{ 
+										}
+								
+									  
+									}else {
+										msg_advertencia("¡La persona no se encuentra registrada!")
+									}  
+
+								} else {
+									msg_advertencia("¡No se encontraron registros.!")
+								}
+							}
+						},
+						error : function(xhr, status, er) {
+							console.log("error: " + xhr + " status: " + status
+									+ " er:" + er);
+							if (xhr.status == 500) {
+								console.log(er);
+								// Error_500(er);
+							}
+							if (xhr.status == 901) {
+								console.log(er);
+								// spire_session_901(er);
+							}
+
+						}
+					});
+			finBloqueo();
 					
-					htmlTabla += "<tr>" + "<td class='centrado'  colspan='2'><img id='barcode1'/>"
-					+ "</td></tr>"
-					+ "<tr>" + 
-						"<td class='cantidad'>POSTULANTE</td>"+ 
-						"<td class='producto'>"+ data.persona.nombreCompleto+"</td>"
-					+ "</tr>"
-					+ "<tr>" + 
-					"<td class='cantidad'>N° DOCUMENTO</td>"+ 
-					"<td class='producto'>"+ data.persona.nroDocumento+"</td>"
-				+ "</tr>"
-					JsBarcode("#barcode1", data.numeroPostulante);
-					$('#idBodyTicket').empty();
-					$('#idBodyTicket').html(htmlTabla);
-					*/
+					
+					
+					
 				}
 
 			},

@@ -642,8 +642,15 @@ td.cantidad, th.cantidad {
 			</f:form>
 			<f:form id="frmRegistro" class="form-horizontal" role="form"
 				method="POST"
-				action="${pageContext.request.contextPath}/bancoController/listadoPostulante"> 
+				action="${pageContext.request.contextPath}/ordenController/nuevo"> 
 				<button type="submit" style="display: none" id="btnListado">Click
+					me</button>
+			</f:form>
+			
+			<f:form id="frmRegistroOrdern" class="form-horizontal" role="form"
+				method="POST"
+				action="${pageContext.request.contextPath}/laboratorioController/orden"> 
+				<button type="submit" style="display: none" id="btnListadoOrden">Click
 					me</button>
 			</f:form>
 
@@ -784,7 +791,7 @@ function crearBoton(){
 	  var inputTag = document.createElement("div");              
 	    inputTag.innerHTML = 
 	    	"<input type = 'button' id='btnLlamarModificar' value = 'oooh'"+
-	    	"onClick =javascript:modificarElementoGenerico(\'/bancoController/modificarPostulante\',\'20\');>";    
+	    	"onClick =javascript:modificarElementoGenerico(\'/laboratorioController/orden\',\'20\');>";    
 	    	
 	    document.body.appendChild(inputTag);
 	  //  "onclick=\"especialidadCargarModal('"+[objCIEX.codReg]+"');\""+

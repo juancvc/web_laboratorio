@@ -78,23 +78,11 @@
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src='js_propio/cookies.js'></script>
-<script src='js_propio/funciones.js'></script>
-<script src='js_propio/eventos.js'></script>
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" type="text/css" href="assets/css/vendor.css">
-<link rel="stylesheet" type="text/css" href="assets/css/flat-admin.css">
-
 <!-- Theme -->
-<link rel="stylesheet" type="text/css"
-	href="assets/css/theme/blue-sky.css">
-<link rel="stylesheet" type="text/css" href="assets/css/theme/blue.css">
-<link rel="stylesheet" type="text/css" href="assets/css/theme/red.css">
-<link rel="stylesheet" type="text/css"
-	href="assets/css/theme/yellow.css">
 </head>
 
 <style>
@@ -147,21 +135,23 @@
 						<div class="form-group">
 						<div class="label_title">DATOS DE PROCEDIMIENTO :</div>
 						<div class="row">
-								<div class="form-group col-md-3 mb-1">
+								<div class="form-group col-md-4 mb-1">
 									<label for="situacion" class="label_control">TIPO
 										<span class="required">*</span>
 									</label>
 									<div class="controls">
 										<f:select id="tipoTarifario"
 											path="tipo.codReg" required="required"
-											class="form-control" onchange="limpiarPorTipo()">
+											class="form-control">
+											<f:option value="" label="Seleccionar" selected="true"
+												disabled="disabled" />
 											<f:options items="${lstAreasLab}" itemValue="codReg"
 												itemLabel="nombreCorto" />
 										</f:select>
 									</div>
 								</div>
-								<div class="form-group col-md-3 mb-1">
-									SUB-TIPO <span class="required">*</span>
+								<div class="form-group col-md-4 mb-1">
+									<label for="situacion" class="label_control">SUB TIPO</label> <span class="required">*</span>
 									
 									<div class="position-relative has-icon-left">
 										<input id="contextPath" type="hidden"
@@ -169,8 +159,7 @@
 										<div class="controls">
 											<f:input type="text" class="form-control" required="required"
 												maxlength="12" id="tarifarioSubtipo"
-												path="subtipo"
-												onkeypress="return runScript(event)" />
+												path="subtipo"/>
 										</div>
 									</div>
 								</div>
@@ -178,7 +167,7 @@
 								 
 							</div>
 							<div class="row">
-								<div class="form-group col-md-3 mb-1">
+								<div class="form-group col-md-8 mb-1">
 									<label for="nombreCompleto" class="label_control">DESCRIPCION <span class="required">*</span>
 									</label>
 									<div class="controls">
@@ -189,19 +178,16 @@
 
 									</div>
 								</div>
-					
-								
 								
 							</div>
 							<div class="row">
 							
-							
-							
-								<div class="form-group col-md-3 mb-2">
+								<div class="form-group col-md-4 mb-2">
 									<label for="nombreCompleto" class="label_control">PRECIO S/.
 									</label>
 									<div class="controls">
-										<f:input type="number" min="1" class="form-control" required="required"
+										<f:input type="text" min="1" maxlength="8" onkeypress="return decimales(event,this)" 
+										 class="form-control" required="required"
 											 id="tariarioPrecio" path="precio" />
 
 									</div>
@@ -230,7 +216,7 @@
 				</f:form>
 				<f:form id="frmRegistro" class="form-horizontal" role="form"
 					method="POST"
-					action="${pageContext.request.contextPath}/bancoController/listadoCampania">
+					action="${pageContext.request.contextPath}/tarifarioController/listadoTarifario">
 					<button type="submit" style="display: none" id="btnListado">Click
 						me</button>
 				</f:form>
@@ -309,56 +295,7 @@
 		<script src="${pageContext.request.contextPath}/assets/js/scripts.js"
 			type="text/javascript"></script>
 
-		<script type="text/javascript" src="assets/js/vendor.js"></script>
-		<script type="text/javascript" src="assets/js/app.js"></script>
-		<script src='js_propio/cookies.js'></script>
-
-		<!-- Include Date Range Picker -->
-
-		<script type="text/javascript"
-			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-		<script src="js/moment.min.js"></script>
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/locales/bootstrap-datepicker.es.min.js"></script>
-
-
-
-
-		<script>
-			$(document)
-					.ready(
-							function() {
-								var date_input = $('input[id="date"]'); //our date input has the name "date"
-								var container = $('.bootstrap-iso form').length > 0 ? $(
-										'.bootstrap-iso form').parent()
-										: "body";
-								date_input.datepicker({
-									format : 'dd/mm/yyyy',
-									container : container,
-									todayHighlight : true,
-									autoclose : true,
-									language : 'es'
-
-								})
-							})
-
-			$(document)
-					.ready(
-							function() {
-								var date_inputHasta = $('input[id="dateHasta"]'); //our date input has the name "date"
-								var containerHasta = $('.bootstrap-iso form').length > 0 ? $(
-										'.bootstrap-iso form').parent()
-										: "body";
-								date_inputHasta.datepicker({
-									format : 'dd/mm/yyyy',
-									container : containerHasta,
-									todayHighlight : true,
-									autoclose : true,
-									language : 'es'
-
-								})
-							})
-		</script>
+	
 	</div>
 </body>
 

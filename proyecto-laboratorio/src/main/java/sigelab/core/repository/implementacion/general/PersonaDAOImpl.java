@@ -210,6 +210,8 @@ public class PersonaDAOImpl implements PersonaDAO {
 			bean.setCodigoCorreo(entity.getCODCORXP());
 			bean.setCodigoDireccion(entity.getCODDIXPE());
 			bean.setCodigoTelefono(entity.getCODTEXPE());
+			bean.setCorreo(entity.getCorreope());
+			bean.setTelfCelu(entity.getTelfcelu());
 			
 		}
 		

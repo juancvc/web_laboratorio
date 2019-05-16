@@ -134,7 +134,7 @@
 					href="${pageContext.request.contextPath}/maestraController/listado"><span
 						class="label_control_barra">Maestras</span></a></li>
 				 <li><a
-					href="${pageContext.request.contextPath}/tarifarioController/tarifarioGeneralModal"><span
+					href="${pageContext.request.contextPath}/tarifarioController/listadoTarifario"><span
 						class="label_control_barra">Tarifario</span></a></li> 
 				 <li><a
 					href="${pageContext.request.contextPath}/laboratorioController/tarifarioGeneralModal"><span

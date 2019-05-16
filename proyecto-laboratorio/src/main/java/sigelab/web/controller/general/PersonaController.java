@@ -617,7 +617,7 @@ public class PersonaController {
 		
 			
 		}  
-		nuevoPostulante(request,obpersonaBean);
+	//	nuevoPostulante(request,obpersonaBean);
 	//	return this.getPostulanteBean();
 		return this.getPersonaBean();
 	}

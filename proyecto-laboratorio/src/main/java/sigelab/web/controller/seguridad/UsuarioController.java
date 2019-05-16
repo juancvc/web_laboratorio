@@ -9,6 +9,7 @@ import sigelab.core.bean.seguridad.UsuarioBean;
 import sigelab.core.bean.seguridad.UsuarioPerfilBean;
 import sigelab.core.bean.seguridad.UsuarioRenaesBean;
 import sigelab.core.service.exception.ServiceException;
+import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis14Service;
 import sigelab.core.service.interfaces.general.Maestra1Service;
 import sigelab.core.service.interfaces.general.PersonaService;
@@ -72,7 +73,7 @@ public class UsuarioController extends BaseController{
 	private PersonaService personaService;
 	
 	@Autowired
-	private Maestra1Service 	maestra1Service;
+	private MaestraAsis01Service maestraAsis01Service;
 	
 	@Autowired
 	PerfilService perfilService;
@@ -83,13 +84,19 @@ public class UsuarioController extends BaseController{
 	@Autowired
 	private RenaesService renaesService;
 	
+	@Autowired
+	private Maestra1Service maestraGene01Services;
+	
 	private PersonaBean personaBean; 
 	private UsuarioBean usuarioBean;
 	private PerfilBean perfilBean;
 	private List<TablaBean>	lstSituacion;
 	private List<TablaBean>	lstTipoDocumento;
+
 	private List<PerfilBean>	lstPerfiles;
 	List<TablaBean> lstDocumento = new ArrayList<TablaBean>();
+	List<TablaBean> tipoPerfil = new ArrayList<TablaBean>();
+	List<TablaBean> sedes = new ArrayList<TablaBean>();
 	private List<RenaesBean> lstRenaesBean;
 	private String tmpContrasena;
 	
@@ -100,6 +107,9 @@ public class UsuarioController extends BaseController{
 		this.perfilBean= new PerfilBean();
 		this.setLstRenaesBean(new ArrayList<RenaesBean>());
 	}
+	
+	
+	
 	
 	@RequestMapping(value = "/listado", method = RequestMethod.GET)
 	public ModelAndView doListado(@ModelAttribute("usuarioBean") UsuarioBean bean, HttpServletRequest request)throws Exception {
@@ -112,14 +122,19 @@ public class UsuarioController extends BaseController{
 		ModelAndView mav = new ModelAndView("seguridad/usuario/registro-usuario", "command",new UsuarioBean());
 		mav.addObject("usuarioBean", new UsuarioBean());
 		try {
-			lstDocumento = maestraAsis14Service.listarPorCodigoTabla("000003", 1);
+			lstDocumento = maestraAsis01Service.listarPorCodigoTabla("000003", 1);
+			tipoPerfil = maestraGene01Services.listarPorCodigoTabla("000064", 1);
+			sedes = maestraGene01Services.listarPorCodigoTabla("000065", 1);
 		} catch (ServiceException e) {
 			System.out.println("printStackTrace");
 			e.printStackTrace();
 		}
 		setPersonaBean(new PersonaBean());
 		mav.addObject("lstDocumento", lstDocumento); 
-		this.cargarComboPerfiles(mav);
+		mav.addObject("tipoPerfil", tipoPerfil); 
+		mav.addObject("sedes", sedes); 
+	//	this.cargarComboPerfiles(mav);
+	//	this.cargarCombos(mav);
 		return mav;
 	}
 	
@@ -135,7 +150,11 @@ public class UsuarioController extends BaseController{
 			personaBean = this.getPersonaService().buscarxTipoDocumentoNumeroDocumento(prmPersona); 
 			if(personaBean!=null){
 				System.out.println("persona existe en reco.persona");
+				System.out.println("persona"+personaBean.getNombreCompleto());
+				System.out.println("persona"+personaBean.getTelfCelu());
+				System.out.println("persona"+personaBean.getCorreo());
 				setPersonaBean(personaBean);
+				
 				 
 			}else{
 				personaBean = this.getPersonaService().buscarxTipoDocumentoNumeroDocumentoSigeho(prmPersona);
@@ -377,53 +396,48 @@ public class UsuarioController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/grabar", method = RequestMethod.POST)
-	public @ResponseBody UsuarioBean grabar(@ModelAttribute("usuarioBean") UsuarioBean usuarioBean, HttpServletRequest request) {
+	public @ResponseBody UsuarioBean grabar(@ModelAttribute("usuarioBean") UsuarioBean ousuarioBean, HttpServletRequest request) {
 		System.out.println("grabar(@ModelAttribut" );
 		UsuarioBean objUsuarioBean = new UsuarioBean() ; 
 		boolean sw = true;
 		String clave ="";
 		String nombreUsuario;
-		System.out.println("usuarioBean.getCodigoOrganizacion  " + usuarioBean.getCodigoOrganizacion());
-		System.out.println("usuarioBean.codigo " + usuarioBean.getCodigo());
-		System.out.println("usuarioBean.getNombreUsuario " + usuarioBean.getNombreUsuario());
-		System.out.println("usuarioBean.getPersona " + this.getPersonaBean());
+		System.out.println("ousuarioBean.getCodigoOrganizacion  " + ousuarioBean.getCodigoOrganizacion());
+		System.out.println("ousuarioBean.codigo " + ousuarioBean.getCodigo().toString());
+		System.out.println("ousuarioBean.getNombreUsuario " + ousuarioBean.getNombreUsuario());
+		System.out.println("ousuarioBean.getPersona " + this.getPersonaBean());
 		try {
-			if (!usuarioBean.getCodigo().trim().equals("")) {
-				System.out.println("método usuarioBean actualizar " + usuarioBean);
-				this.setAuditoria(usuarioBean, request, false);
-				clave = usuarioBean.getPasswordUsuario();
-				/**if (  VO.isEmpty(usuarioBean.getPasswordUsuario())  ) {			
-					usuarioBean.setPasswordUsuario(tmpContrasena); //Manteniendo la clave del usuario
-				}else{
-					Encrypt.init("KEY_ENCRYPT_PASS");
-					String passencrypt = Encrypt.encrypt(usuarioBean.getPasswordUsuario());
-					if(!tmpContrasena.equals(passencrypt)){
-						//Encriptando la clave principal
-						usuarioBean.setPasswordUsuario(passencrypt);
-					}
-				}*/
-				sw = (usuarioService.actualizar(usuarioBean));
+			
+			if (ousuarioBean.getCodigo()!=null && !ousuarioBean.getCodigo().equals("")) {
+		
+				System.out.println("ousuarioBean22.codigo " + ousuarioBean.getCodigo().toString());
+				System.out.println("método usuarioBean actualizar " + ousuarioBean);
+				this.setAuditoria(ousuarioBean, request, false);
+				clave = ousuarioBean.getPasswordUsuario();	
+				sw = (usuarioService.actualizar(ousuarioBean));
 			} else {
 				
 				if(this.getPersonaBean().getCodigo().trim().equals("")){
 					if (personaService.insertar(getPersonaBean())) {
 						System.out.println("getPersonaBean().getCodigo() nuevo " + getPersonaBean().getCodigo());
-						usuarioBean.getPersona().setCodigo(getPersonaBean().getCodigo());
+						ousuarioBean.getPersona().setCodigo(getPersonaBean().getCodigo());
 					}
 				}
 				nombreUsuario= getPersonaBean().getPrimerNombre()+"."+getPersonaBean().getApellidoPaterno()+ getPersonaBean().getApellidoMaterno().substring(0,1);
 				 
-				System.out.println("método usuarioBean insertar " + usuarioBean);
-				usuarioBean.setNombreUsuario(stripAccents(nombreUsuario));
+				System.out.println("método usuarioBean insertar " + ousuarioBean);
+				ousuarioBean.setNombreUsuario(stripAccents(nombreUsuario));
+			//	usuarioBean.setCodigoSede(getPersonaBean().getCodigoSede());
+				ousuarioBean.setPersona(getPersonaBean());
 				System.out.println("stripAccents(nombreUsuario); " + stripAccents(nombreUsuario));
 				 
 				System.out.println("nombreUsuario " + nombreUsuario);
-				this.setAuditoria(usuarioBean, request, true);
-				clave = usuarioBean.getPasswordUsuario();
+				this.setAuditoria(ousuarioBean, request, true);
+				clave = ousuarioBean.getPasswordUsuario();
 				//Encriptando la clave
 				Encrypt.init("KEY_ENCRYPT_PASS");
-				usuarioBean.setPasswordUsuario(Encrypt.encrypt(usuarioBean.getPasswordUsuario()));
-				sw =  (usuarioService.insertar(usuarioBean)); 
+				ousuarioBean.setPasswordUsuario(Encrypt.encrypt(ousuarioBean.getPasswordUsuario()));
+				sw =  (usuarioService.insertar(ousuarioBean)); 
 				
 			}
 
@@ -975,11 +989,19 @@ public static String stripAccents(String str) {
 	private void cargarCombos(ModelAndView mav){ 
  
 			try {
-				lstDocumento = maestraAsis14Service.listarPorCodigoTabla("000003", 1);  
+			//	lstDocumento = maestraAsis14Service.listarPorCodigoTabla("000003", 1);  
+				
+				 tipoPerfil = maestraAsis01Service.listarPorCodigoTabla("000064", 1);
+				 
+				 sedes  = maestraAsis01Service.listarPorCodigoTabla("000065", 1);
+				
+				
 			} catch (ServiceException e) {
 				e.printStackTrace();
 			}	 
-		mav.addObject("lstDocumento",lstDocumento);
+	
+		mav.addObject("tipoPerfil",tipoPerfil);
+		mav.addObject("sedes",sedes);
 	}  
 	
 	private void cargarComboPerfiles(ModelAndView mav){

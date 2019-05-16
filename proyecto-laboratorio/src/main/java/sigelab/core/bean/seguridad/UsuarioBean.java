@@ -6,6 +6,8 @@ import sigelab.core.bean.general.PersonaBean;
 
 import java.util.List;
 
+
+
 public class UsuarioBean extends BaseBean {
 
 	private String codigoUsuario;
@@ -39,6 +41,10 @@ public class UsuarioBean extends BaseBean {
 	private PerfilBean perfil;
 
 	private String oldPassword;
+	
+	private String correo;
+	
+	private String nroCelular;
 	
 	public UsuarioBean() {
 		super();
@@ -190,6 +196,23 @@ public class UsuarioBean extends BaseBean {
 
 	public void setOldPassword(String oldPassword) {
 		this.oldPassword = oldPassword;
+	}
+	
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getNroCelular() {
+		return nroCelular;
+	}
+
+	public void setNroCelular(String nroCelular) {
+		this.nroCelular = nroCelular;
 	}
 
 	@Override

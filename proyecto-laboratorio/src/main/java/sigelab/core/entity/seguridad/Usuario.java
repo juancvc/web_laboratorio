@@ -12,7 +12,7 @@ import java.util.Date;
 
 		@NamedStoredProcedureQuery(name = "usuario.insertar", procedureName = "SEGU.USP_USUARIO_INSERTAR", resultClasses = Usuario.class, parameters = {
 				@StoredProcedureParameter(mode = ParameterMode.OUT, name = "CODUSUAR", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.OUT, name = "NROPERIO", type = String.class),
+			//	@StoredProcedureParameter(mode = ParameterMode.OUT, name = "NROPERIO", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class),
@@ -20,6 +20,8 @@ import java.util.Date;
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "PSWUSUAR", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODPERSO", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODIPERF", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "EMAIL", 	  type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "NUMECELU", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSCR", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class) }),
 	
@@ -33,6 +35,8 @@ import java.util.Date;
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "PSWUSUAR", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODPERSO", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODIPERF", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "EMAIL", 	  type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "NUMECELU", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = String.class) }),
 		
@@ -94,6 +98,13 @@ public class Usuario implements Serializable {
 	@Column(name = "CODIPERF")
 	private String nCodperfil;
 
+	@Column(name = "EMAIL")
+	private String correo;
+	
+	@Column(name = "NUMECELU")
+	private String nroCelular;
+	
+	
 	@Column(name = "NROPERIO")
 	private String nroPerio;
 	
@@ -322,6 +333,26 @@ public class Usuario implements Serializable {
 
 	public void setNroVersi(String nroVersi) {
 		this.nroVersi = nroVersi;
+	}
+	
+	
+	
+	
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getNroCelular() {
+		return nroCelular;
+	}
+
+	public void setNroCelular(String nroCelular) {
+		this.nroCelular = nroCelular;
 	}
 
 	@Override

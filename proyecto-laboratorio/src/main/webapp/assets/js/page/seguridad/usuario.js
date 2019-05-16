@@ -163,21 +163,28 @@ function buscarPersona() {
 						if (numeroDocumento.length < 7) {
 							msg_advertencia("Número de documento incorrecto.");
 						} else {
-							document.getElementById("btnAgregarEstabUser").disabled = true;
-							document.getElementById("btnRestablecerClaveUser").disabled = true;
+					//		console.log("personaUsuarioNombreCompleto " + persona.nroDocumento );
+					//		document.getElementById("btnAgregarEstabUser").disabled = true;
+					//		document.getElementById("btnRestablecerClaveUser").disabled = true;
 							$('#codigoPersonaBean').val("");
 							$('#comboPerfil').val("");
 							$('#nombreUsuario').val("");
 							$('#idpasswordUsuario').val("");
 							$('#personaUsuarioNombreCompleto').val(""); 
+							$('#celularUsuario').val(""); 
+							$('#correoUsuario').val(""); 
 							$('#idTablaUsuarioRenaes').empty(); 
 							if (persona != null) {
 								// debugger;
 								$('#personaUsuarioNombreCompleto').val(
 										persona.nombreCompleto);
+								$('#celularUsuario').val(
+										persona.telfCelu);
+								$('#correoUsuario').val(
+										persona.correo);
 								$('#codigoPersonaBean').val(persona.codigo);
 								$('#idpasswordUsuario').val(persona.nroDocumento);
-								buscarUsuarioPersona(persona.codigo);
+							//	buscarUsuarioPersona(persona.codigo);
 								// console.log("personaUsuarioNombreCompleto "
 								// + persona.nombreCompleto);
 							} else {
@@ -302,10 +309,10 @@ function listUsuarioRenaesBean(codigoUsuario){
 function ocultarBotones() {
 	var codigo = $('#codigoUsuario').val(); 
 	if(codigo != "" ){
-		document.getElementById("btnAgregarEstabUser").disabled = false;
+	//	document.getElementById("btnAgregarEstabUser").disabled = false;
 		document.getElementById("btnRestablecerClaveUser").disabled = false;
 	}else{
-		document.getElementById("btnAgregarEstabUser").disabled = true;
+	//	document.getElementById("btnAgregarEstabUser").disabled = true;
 		document.getElementById("btnRestablecerClaveUser").disabled = true;
 	}
 }
@@ -406,7 +413,7 @@ function grabarUsuario(contextController, idForm){
 							// + persona.nombreCompleto);
 							document.getElementById("btnAgregarEstabUser").disabled = false;
 							document.getElementById("btnRestablecerClaveUser").disabled = false;
-							listUsuarioRenaesBean(usuario.codigo);
+					//		listUsuarioRenaesBean(usuario.codigo);
 						}else{
 							console.log("error al grabar ");
 							msg_error("Error al realizar proceso");  

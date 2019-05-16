@@ -146,12 +146,26 @@
 						</div>
 						<div class="form-group">
 							<div class="row">
-								<div class="col-md-8">
+								<div class="col-md-6">
 									<label for="exampleInputName" class="label_control">APELLIDOS Y NOMBRES <span class="required">*</span>
 									</label>
 									<f:input type="text" required="required" class="form-control"
 										id="personaUsuarioNombreCompleto"
 										path="persona.nombreCompleto" disabled="true" />
+								</div>
+									<div class="col-md-2">
+									<label for="exampleInputName" class="label_control">SEDE
+										<span class="required">*</span>
+									</label>
+									<div class="controls">
+										<f:select id="comboSedes" path="codigoSede"
+											required="required" class="form-control">
+											<f:option value="" label="Seleccionar" selected="true"
+												disabled="disabled" />
+											<f:options items="${sedes}" itemValue="codReg"
+												itemLabel="nombreCorto" />
+										</f:select>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -164,7 +178,7 @@
 										id="nombreUsuario" path="nombreUsuario" disabled="true" />
 									<f:input type="hidden" path="persona.codigo"
 										id="codigoPersonaBean" val="" />
-									<f:input type="hidden" path="codigo" id="codigoUsuario" val="" />
+									<f:input type="hidden" path="codigo" id="codigoUsuario" />
 									<f:input type="hidden" path="passwordUsuario"
 										id="idpasswordUsuario" val="" />
 								</div>
@@ -177,13 +191,39 @@
 											required="required" class="form-control">
 											<f:option value="" label="Seleccionar" selected="true"
 												disabled="disabled" />
-											<f:options items="${lstPerfiles}" itemValue="codigo"
-												itemLabel="nombrePerfil" />
+											<f:options items="${tipoPerfil}" itemValue="codReg"
+												itemLabel="nombreCorto" />
 										</f:select>
 									</div>
 								</div>
 							</div>
 						</div>
+						<div class="form-body">
+							<div class="row">
+								<div class="col-md-4">
+									<label for="exampleInputName" class="label_control">CORREO <span class="required">*</span>
+									</label>
+									<f:input type="text" required="required" class="form-control"
+										id="correoUsuario" path="persona.correo" disabled="true" />
+									<f:input type="hidden" path="persona.correo"
+										id="correoUsuario" val="" />
+									<f:input type="hidden" path="persona.correo" id="correoUsuario" val="" />
+									<f:input type="hidden" path="persona.correo"
+										id="correoUsuario"  disabled="true"  />
+								</div>
+								<div class="col-md-4">
+									<label for="exampleInputName2" class="label_control"> CELULAR <span class="required">*</span>
+									</label>
+									<f:input type="text" required="required" class="form-control"
+										id="celularUsuario" path="persona.telfCelu" disabled="true" />
+									<f:input type="hidden" path="persona.telfCelu"
+										id="celularUsuario" val="" />
+									<f:input type="hidden" path="persona.telfCelu" id="nroCelular" val="" />
+								
+								</div>
+							</div>
+						</div>
+						
 						<div class="row">
 							<div class="form-group col-md-8 text-right"
 								style="margin-top: 15px;">
@@ -204,56 +244,9 @@
 							</div>
 						</div>
 						<br>
-						<div class="row">
-							<div class="col-md-8 text-right ">
-								<button id="btnAgregarEstabUser" type="button" disabled="true"
-									class="btn btn-info" onclick="cargarEstablecimientoModal()">
-									<i class="fa fa-plus"></i> AGREGAR ESTABLECIMIENTO
-								</button> 
-							</div>
-						</div>
-						<br>
-						<div class="form-body">
-							<div class="row">
-								<div class="col-md-8" id="listEstablecimientoUser">
-									<table class="table table-bordered">
-										<thead class="tabla_th">
-											<tr>
-												<th>ITEM</th>
-												<th>CODIGO ESTABLECIMIENTO</th>
-												<th>NOMBRE ESTABLECIMIENTO</th>
-												<th>CATEGORIA</th>
-												<th>RED</th>
-												<th>ACCION</th>
-											</tr>
-										</thead>
-										<tbody id="idTablaUsuarioRenaes" class="label_control">
-											<c:forEach var="obj" items="${lstUsuarioRenaes}"
-												varStatus="loop">
-												<tr>
-													<td>${loop.count}</td>
-													<td>${obj.renaes.codRenaes}</td>
-													<td>${obj.renaes.nomRenaes}</td>
-													<td>${obj.renaes.categoria.nombreCorto}</td>
-													<td>${obj.renaes.red}</td>
-													<td><button type='button'
-															class='btn btn-outline-danger btn-sm'
-															data-toggle='tooltip' data-placement='top'
-															title='Eliminar'
-															onclick="confirmar_eliminar('${obj.codigo}','2')"
-															data-original-title='Eliminar' id='eliminarUserRenaes'>
-															<i class='icon-trash'></i>
-														</button></td>
-
-												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
-								</div>
-							</div>
-
-							<div class="row"></div>
-						</div>
+					
+					
+						
 					</div>
 				</f:form>
 				<f:form id="frmRegistro" class="form-horizontal" role="form"

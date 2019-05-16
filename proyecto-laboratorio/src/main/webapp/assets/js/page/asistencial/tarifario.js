@@ -31,7 +31,7 @@ function grabarTarifario(){
 			return;
 			
 		} */
-		console.log("codigo:: " + codigo) ; 
+		console.log("codigo  :: " + codigo) ; 
 		var myFormulario = $('#frmGuardarTarifario');  
 		
 		if(!myFormulario[0].checkValidity()) {
@@ -46,9 +46,8 @@ function grabarTarifario(){
 			}  */
 				iniciarBloqueo();
 				$.ajax({
-				contentType: "application/json",
 				type: "POST",
-			//	data: JSON.stringify(listadoExamenes),
+				data: $('#frmGuardarTarifario').serialize(),
 				url : contextPath+"/tarifarioController/grabarTarifario",  
 		       
 				success : function(data) {
@@ -58,7 +57,7 @@ function grabarTarifario(){
 						}else{
 						    msg_exito("Éxito al registrar Tarifario");  
 						    // enviarListado();
-							// $("#btnListado").trigger("click");
+							 $("#btnListado").trigger("click");
 						}
  
 				},
