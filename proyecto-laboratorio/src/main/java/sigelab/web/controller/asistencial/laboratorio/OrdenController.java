@@ -61,7 +61,8 @@ public class OrdenController  extends BaseController {
 	private UbigeoBean ubigeobean;
 	private List<TarifarioBean> lstTarifarioBean ; 
 	private List<OrdenDetalleBean> lstOrdenDetalleBean ;  
-	 
+	private List<OrdenBean> lstOrdenBean ;  
+	
 	@Autowired
 	private MaestraAsis01Service maestraAsis01Service;
 	 
@@ -115,11 +116,33 @@ public class OrdenController  extends BaseController {
 	}
 	@RequestMapping(value = "/listado", method = RequestMethod.POST)
 	public ModelAndView listadoPost(@ModelAttribute("ordenBean") OrdenBean ordenBean, HttpServletRequest request) throws Exception {
-		 
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/ordenlistado-orden/", "command", ordenBean); 
-  
+		lstOrdenBean = new ArrayList<OrdenBean>(); 
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/listado-orden", "command", ordenBean); 
+		lstOrdenBean = ordenService.getBuscarPorFiltros(ordenBean);
+		mav.addObject("lstOrdenBean", lstOrdenBean); 
 		mav.addObject("ordenBean", ordenBean); 
 		return mav;
+	}
+	
+	@RequestMapping(value = "/buscar", method = RequestMethod.POST)
+	public ModelAndView buscarPOST(@ModelAttribute("ordenBean") OrdenBean ordenBean,
+			HttpServletRequest request
+			)
+			throws Exception { 
+		lstOrdenBean = new ArrayList<OrdenBean>(); 
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/listado-orden", "command", ordenBean); 
+		lstOrdenBean = ordenService.getBuscarPorFiltros(ordenBean);
+		mav.addObject("lstOrdenBean", lstOrdenBean); 
+		mav.addObject("ordenBean", ordenBean); 
+		return mav;
+	}
+	
+	@RequestMapping(value = "/buscar", method = RequestMethod.GET)
+	public ModelAndView buscarGet(@ModelAttribute("ordenBean") OrdenBean ordenBean,
+			HttpServletRequest request
+			)
+			throws Exception { 
+		return this.buscarPOST(ordenBean, request) ;
 	}
 	
 	@RequestMapping(value = "/consultarPersonaPorDocumento", method = RequestMethod.GET)

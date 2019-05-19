@@ -350,7 +350,7 @@
 				</f:form>
 				<f:form id="frmRegistro" class="form-horizontal" role="form"
 					method="POST"
-					action="${pageContext.request.contextPath}/bancoController/listadoCampania">
+					action="${pageContext.request.contextPath}/ordenController/listado">
 					<button type="submit" style="display: none" id="btnListado">Click
 						me</button>
 				</f:form>

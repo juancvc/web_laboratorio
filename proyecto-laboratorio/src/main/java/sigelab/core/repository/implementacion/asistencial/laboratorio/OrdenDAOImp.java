@@ -1,5 +1,6 @@
 package sigelab.core.repository.implementacion.asistencial.laboratorio;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,9 +136,9 @@ public class OrdenDAOImp implements OrdenDAO {
 		List<Orden_laboratorio> lstOrden = null;	
 		List<OrdenBean> lstOrdenBean = null;
 		
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("Orden.buscarPorFiltros");   
-			spq.setParameter("SITUACRG", OrdenBean.getSituacion().getCodReg()); 
-			
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("orden.buscarPorFiltros");   
+			spq.setParameter("FECDESDE", OrdenBean.getFechaDesde()); 
+			spq.setParameter("FECHASTA", OrdenBean.getFechaHasta()); 
 			 if (spq.execute()) {
 				 lstOrden =  spq.getResultList(); 
 			 }
@@ -187,7 +188,21 @@ private List<OrdenBean> deListaObjetoAListaObjetoBean(List<Orden_laboratorio> ls
 			bean.setNumeroVersion(entity.getId().getNroversi());
 			bean.setNumeroPeriodo(entity.getId().getNroperio()); 
 			bean.getSituacion().setCodReg(entity.getSituacRg()); 
-			  
+			bean.setNroOrden(entity.getNroOrden());  
+			bean.setImporteTotal(entity.getImpTotal()); 
+			bean.setsImporteTotal((getTwoDecimals(entity.getImpTotal()).replace(",", ".")));
+			
+			bean.setStrFechaOrden(entity.getStrFechaOrd()); 
+			bean.setHoraOrden(entity.getHora()); 
+			bean.getPacienteBean().setPersona(new PersonaBean());
+			bean.getPacienteBean().getPersona().setCodigo(entity.getCodPerso()); 
+			bean.getPacienteBean().getPersona().setApellidoPaterno(entity.getAPEPATER()); 
+			bean.getPacienteBean().getPersona().setApellidoMaterno(entity.getAPEMATER()); 
+			bean.getPacienteBean().getPersona().setPrimerNombre(entity.getPRINOMBR()); 
+			bean.getPacienteBean().getPersona().setSegundoNombre(entity.getSEGNOMBR()); 
+			bean.getPacienteBean().getPersona().setNroDocumento(entity.getDETALLED()); 
+			
+			bean.setNombreUsuarioCreacion(entity.getNOMUSUAR());
 	 	}
 		
 		return bean;
@@ -201,6 +216,9 @@ private List<OrdenBean> deListaObjetoAListaObjetoBean(List<Orden_laboratorio> ls
 		return false;
 	}
 
-	 
+	private static String getTwoDecimals(double value){
+	      DecimalFormat df = new DecimalFormat("0.00"); 
+	      return df.format(value);
+	    }
 
 }

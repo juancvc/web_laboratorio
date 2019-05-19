@@ -1,5 +1,6 @@
 package sigelab.core.bean.asistencial.laboratorio;
  
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,9 @@ public class OrdenBean extends BaseBean{
 	
 	private PacienteBean pacienteBean;
 	private Date fechaOrden;
+	private String horaOrden;
+	private String nroOrden;  
+	private String strFechaOrden;  
 	private String observacion;  
 	private Float importeTotal;
 	
@@ -22,8 +26,40 @@ public class OrdenBean extends BaseBean{
 	private String cadenaCodigoTarifario;  
 	private String cadenaCantidad;  
 	
+	private String fechaDesde;  
+	private String fechaHasta;  
 	
  
+	public String getNroOrden() {
+		return nroOrden;
+	}
+	public void setNroOrden(String nroOrden) {
+		this.nroOrden = nroOrden;
+	}
+	public String getFechaDesde() {
+		if (fechaDesde == null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			
+			String strHora = sdf.format(new Date());
+			fechaDesde = strHora;
+		} 
+		return fechaDesde; 
+	}
+	public void setFechaDesde(String fechaDesde) {
+		this.fechaDesde = fechaDesde;
+	}
+	public String getFechaHasta() {
+		if (fechaHasta == null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			
+			String strHora = sdf.format(new Date());
+			fechaHasta = strHora;
+		} 
+		return fechaHasta;
+	}
+	public void setFechaHasta(String fechaHasta) {
+		this.fechaHasta = fechaHasta;
+	}
 	public int getCantidadItems() {
 		return cantidadItems;
 	}
@@ -95,6 +131,18 @@ public class OrdenBean extends BaseBean{
 		}
 		System.out.println("tmpImporte " + tmpImporte);
 		this.setImporteTotal(tmpImporte);
+	}
+	public String getStrFechaOrden() {
+		return strFechaOrden;
+	}
+	public void setStrFechaOrden(String strFechaOrden) {
+		this.strFechaOrden = strFechaOrden;
+	}
+	public String getHoraOrden() {
+		return horaOrden;
+	}
+	public void setHoraOrden(String horaOrden) {
+		this.horaOrden = horaOrden;
 	}
  
 }

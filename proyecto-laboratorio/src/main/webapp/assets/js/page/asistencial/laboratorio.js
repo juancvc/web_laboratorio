@@ -292,7 +292,7 @@ function grabarOrden(){
 						}else{
 						    msg_exito("Éxito al registrar Orden");  
 						    // enviarListado();
-							// $("#btnListado").trigger("click");
+							 $("#btnListado").trigger("click");
 						}
  
 				},

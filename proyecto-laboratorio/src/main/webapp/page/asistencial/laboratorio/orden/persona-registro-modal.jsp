@@ -58,7 +58,9 @@ input[type=text] {
 	color: #ffffff;
 }
 </style>
-
+	
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/assets/css/datepicker.css">	
 <div class="modal-dialog modal-lg" role="document">
 	<div class="modal-content">
 		<div class="modal-header">
@@ -286,11 +288,18 @@ input[type=text] {
 
 		</f:form>
 	</div>
-	<script type="text/javascript"
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/locales/bootstrap-datepicker.es.min.js"></script>
-
+		<script
+			src="${pageContext.request.contextPath}/assets/js/page/util/datepicker.js"
+			type="text/javascript" charset="utf-8"></script>
+			
+		<script
+			src="${pageContext.request.contextPath}/assets/js/page/util/datepicker.es.min.js"
+			type="text/javascript" charset="utf-8"></script>	
+			
+		<script
+			src="${pageContext.request.contextPath}/assets/js/page/util/utilitarios.js"
+			type="text/javascript" charset="utf-8"></script>
+			
 	<script>
 		$(document).ready(
 				function() {
@@ -324,11 +333,7 @@ input[type=text] {
 							})
 						})
 	</script>
-	<script
-		src="${pageContext.request.contextPath}/assets/js/page/util/utilitarios.js"
-		type="text/javascript" charset="utf-8"></script>
-
-
+  
 	<script>
 		function habilitar() {
 
