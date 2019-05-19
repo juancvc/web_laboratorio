@@ -109,8 +109,8 @@ public class OrdenDAOImp implements OrdenDAO {
 			spq.setParameter("NROPERIO", OrdenBean.getNumeroPeriodo()); 
 			spq.setParameter("CODORDEN", OrdenBean.getCodigo());
 		
-			spq.setParameter("TG1TPANU", OrdenBean.getNumeroPeriodo()); 
-			spq.setParameter("MOTIVOAN", OrdenBean.getNumeroPeriodo()); 
+			spq.setParameter("TG1TPANU", OrdenBean.getMotivoAnular().getCodReg()); 
+			spq.setParameter("MOTIVOAN", OrdenBean.getDetalleMotivoAnular()); 
 			spq.setParameter("AUCDUSMO", OrdenBean.getCodigoUsuarioModificacion());
 			spq.setParameter("AUPCIPMO", OrdenBean.getIpModificacion()); 
 			
@@ -141,6 +141,7 @@ public class OrdenDAOImp implements OrdenDAO {
 			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("orden.buscarPorFiltros");   
 			spq.setParameter("FECDESDE", OrdenBean.getFechaDesde()); 
 			spq.setParameter("FECHASTA", OrdenBean.getFechaHasta()); 
+			spq.setParameter("SITUACRG", OrdenBean.getSituacion().getCodReg()); 
 			 if (spq.execute()) {
 				 lstOrden =  spq.getResultList(); 
 			 }
@@ -190,6 +191,7 @@ private List<OrdenBean> deListaObjetoAListaObjetoBean(List<Orden_laboratorio> ls
 			bean.setNumeroVersion(entity.getId().getNroversi());
 			bean.setNumeroPeriodo(entity.getId().getNroperio()); 
 			bean.getSituacion().setCodReg(entity.getSituacRg()); 
+			bean.getSituacion().setNombreCorto(entity.getNOMBSITU()); 
 			bean.setNroOrden(entity.getNroOrden());  
 			bean.setImporteTotal(entity.getImpTotal()); 
 			bean.setsImporteTotal((getTwoDecimals(entity.getImpTotal()).replace(",", ".")));

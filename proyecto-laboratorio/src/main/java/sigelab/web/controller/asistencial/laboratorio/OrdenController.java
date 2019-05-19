@@ -98,7 +98,7 @@ public class OrdenController  extends BaseController {
 			lstDocumento = maestraAsis01Service.listarPorCodigoTabla("000003", 1);
 			lstSexo = maestraAsis01Service.listarPorCodigoTabla("000004", 1);
 			lstEstadoCivil = maestraGene01Services.listarPorCodigoTabla("000005", 0);
-			//lstOcupacion = maestraGene01Services.listarPorCodigoTabla("000007", 0);
+			lstSituacion = maestraAsis01Service.listarPorCodigoTabla("000015", 1);
 			lstNacionalidad = maestraGene01Services.listarPorCodigoTabla("000003", 0);
 			//lstNivelInstrucion = maestraGene01Services.listarPorCodigoTabla("000006", 0);
 			
@@ -123,9 +123,13 @@ public class OrdenController  extends BaseController {
 	}
 	@RequestMapping(value = "/listado", method = RequestMethod.POST)
 	public ModelAndView listadoPost(@ModelAttribute("ordenBean") OrdenBean ordenBean, HttpServletRequest request) throws Exception {
+		ordenBean.getSituacion().setCodReg("000001");
 		lstOrdenBean = new ArrayList<OrdenBean>(); 
 		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/listado-orden", "command", ordenBean); 
 		lstOrdenBean = ordenService.getBuscarPorFiltros(ordenBean);
+		lstSituacion = maestraAsis01Service.listarPorCodigoTabla("000015", 1);
+		
+		mav.addObject("lstSituacion", lstSituacion);
 		mav.addObject("lstOrdenBean", lstOrdenBean); 
 		mav.addObject("ordenBean", ordenBean); 
 		return mav;
@@ -469,6 +473,40 @@ public class OrdenController  extends BaseController {
 		this.cargarCombos(mav);
 		return mav;
 	}
+	
+	
+	@RequestMapping(value = "/modalAnularOrden", method = RequestMethod.POST)
+	public ModelAndView modalAnularOrden(@RequestParam("index") Integer index) throws Exception {
+
+		List<TablaBean> lstMotivos = maestraAsis01Service.listarPorCodigoTabla("000014", 1);
+ 
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/anular-orden", "command",lstOrdenBean.get(index));
+
+		mav.addObject("lstMotivos", lstMotivos);
+		mav.addObject("ordenBean", lstOrdenBean.get(index));
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/anularOrden", method = RequestMethod.GET)
+	@ResponseBody
+	public String anularOrden( 
+			@ModelAttribute("ordenBean") OrdenBean ordenBean) throws Exception {
+
+		System.out.println("referenciaBean descartar::" + ordenBean.getCodigo());
+		 
+		String valida = "";
+		try {
+			  this.ordenService.eliminar(ordenBean);
+			valida = "1";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return valida; 
+
+	}
+	
 	public PersonaBean getPersonaBean() {
 		return personaBean;
 	}

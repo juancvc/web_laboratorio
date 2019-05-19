@@ -6,6 +6,7 @@ import java.util.List;
 
 import sigelab.base.bean.BaseBean;
 import sigelab.core.bean.general.PacienteBean;
+import sigelab.core.bean.general.TablaBean;
 
 public class OrdenBean extends BaseBean{
 	
@@ -28,8 +29,25 @@ public class OrdenBean extends BaseBean{
 	
 	private String fechaDesde;  
 	private String fechaHasta;  
+	private TablaBean motivoAnular;
+	private String detalleMotivoAnular;  
 	
  
+	public TablaBean getMotivoAnular() {
+		if (motivoAnular == null) {
+			motivoAnular = new TablaBean();
+		}
+		return motivoAnular;
+	}
+	public void setMotivoAnular(TablaBean motivoAnular) {
+		this.motivoAnular = motivoAnular;
+	}
+	public String getDetalleMotivoAnular() {
+		return detalleMotivoAnular;
+	}
+	public void setDetalleMotivoAnular(String detalleMotivoAnular) {
+		this.detalleMotivoAnular = detalleMotivoAnular;
+	}
 	public String getNroOrden() {
 		return nroOrden;
 	}

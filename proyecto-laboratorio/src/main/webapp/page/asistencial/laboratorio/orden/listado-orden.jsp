@@ -66,12 +66,12 @@
 
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/app-assets/fonts/feather/style.min.css">
-	
+
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/app-assets/fonts/font-awesome/css/font-awesome.min.css">
-	
+
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/assets/css/datepicker.css">	
+	href="${pageContext.request.contextPath}/assets/css/datepicker.css">
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -118,33 +118,46 @@
 					<div class="card-body">
 						<div class="form-group">
 							<div class="row">
-								<div class="col-md-3">
+								<div class="col-md-4">
 									<label for="exampleInputName" class="label_control">FECHA
 										ORDEN DESDE </label>
-									<div class="position-relative has-icon-left"> 
+									<div class="position-relative has-icon-left">
 										<input id="contextPath" type="hidden"
 											value="${pageContext.request.contextPath}">
 										<div class="controls">
 											<f:input class="form-control" id="date" name="date"
-												maxlength="10"  placeholder="DD/MM/YYYY"
-												type="text" value="${fechaDesde}" path="fechaDesde"
+												maxlength="10" placeholder="DD/MM/YYYY" type="text"
+												value="${fechaDesde}" path="fechaDesde"
 												onkeyup="this.value=formateafecha(this.value);" />
 
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-4">
 									<label for="exampleInputName" class="label_control">FECHA
 										ORDEN HASTA </label>
-									<div class="controls"> 
+									<div class="controls">
 										<f:input class="form-control" id="dateHasta" name="dateHasta"
-												maxlength="10"  placeholder="DD/MM/YYYY"
-												type="text" value="${fechaDesde}" path="fechaHasta"
-												onkeyup="this.value=formateafecha(this.value);" />
+											maxlength="10" placeholder="DD/MM/YYYY" type="text"
+											value="${fechaDesde}" path="fechaHasta"
+											onkeyup="this.value=formateafecha(this.value);" />
+									</div>
+								</div>
+								<div class="col-md-4">
+									<label for="situacion" class="label_control">SITUACION
+									</label>
+									<div class="controls">
+										<f:select id="documento" path="situacion.codReg"
+											class="form-control">
+											<f:option value="" label="Seleccionar" selected="true"
+												disabled="disabled" />
+											<f:options items="${lstSituacion}" itemValue="codReg"
+												itemLabel="nombreCorto" />
+										</f:select>
 									</div>
 								</div>
 							</div>
-							 
+
 							<div class="row">
 								<div class="form-group col-md-12 text-right"
 									style="margin-top: 15px;">
@@ -187,7 +200,8 @@
 												<th>NRO DE ORDEN</th>
 												<th>PERSONA ORDEN</th>
 												<th>FECHA ORDEN</th>
-												<th>IMPORTE S/.</th> 
+												<th>IMPORTE S/.</th>
+												<th>SITUACIÓN</th>
 												<th>USUARIO REGISTRO</th>
 												<th>ACCIONES</th>
 											</tr>
@@ -199,22 +213,40 @@
 													<td>${loop.count}</td>
 													<td>${orden.nroOrden}</td>
 													<td>${orden.pacienteBean.persona.nombreCompleto}</td>
-													<td>${orden.strFechaOrden}   ${orden.horaOrden}   </td>
+													<td>${orden.strFechaOrden}${orden.horaOrden}</td>
 													<td>${orden.sImporteTotal}</td>
+													<td>${orden.situacion.nombreCorto}</td>
 													<td>${orden.nombreUsuarioCreacion}</td>
-													<td><a title="Ver detalle" data-placement="top"
-														data-toggle="tooltip"
-														class="btn btn-outline-success btn-sm"
-														onclick="javascript:modificarElementoGenerico('/ordenController/modificar','${loop.index}')"
-														href="#"><i class="ft-search"></i></a> 
-														<button type="button"
-															class="btn btn-outline-danger btn-sm eliminarPerfil"
-															data-toggle="tooltip" data-placement="top" title=""
-															onclick="confirmar_accion('${loop.index}')"
-															data-original-title="Anular"
-															id="eliminarPerfil${loop.index}">
-															<i class="icon-trash"></i>
-														</button></td>
+													<td><c:choose>
+															<c:when test="${orden.situacion.codReg =='000003'}">
+																<a title="Ver detalle" data-placement="top"
+																	data-toggle="tooltip"
+																	class="btn btn-outline-success btn-sm"
+																	onclick="javascript:modificarElementoGenerico('/ordenController/modificar','${loop.index}')"
+																	href="#"><i class="ft-search"> Ver</i></a>
+															</c:when>
+															<c:otherwise>
+																<a title="Resultado de la Orden" data-placement="top"
+																	data-toggle="tooltip"
+																	class="btn btn-outline-warning btn-sm"
+																	onclick="javascript:modificarElementoGenerico('/ordenController/modificar','${loop.index}')"
+																	href="#"><i class="icon-pencil"> Resultado</i></a>
+																<a title="Ver detalle" data-placement="top"
+																	data-toggle="tooltip"
+																	class="btn btn-outline-success btn-sm"
+																	onclick="javascript:modificarElementoGenerico('/ordenController/modificar','${loop.index}')"
+																	href="#"><i class="ft-search"> Ver</i></a>
+
+																<button type="button"
+																	class="btn btn-outline-danger btn-sm eliminarPerfil"
+																	data-toggle="tooltip" data-placement="top" title=""
+																	onclick="anularCargarModal('${loop.index}')"
+																	data-original-title="Anular"
+																	id="eliminarPerfil${loop.index}">
+																	<i class="icon-trash"> Anular</i>
+																</button>
+															</c:otherwise>
+														</c:choose></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -331,16 +363,15 @@
 		<script
 			src="${pageContext.request.contextPath}/assets/js/page/util/datepicker.js"
 			type="text/javascript" charset="utf-8"></script>
-			
+
 		<script
 			src="${pageContext.request.contextPath}/assets/js/page/util/datepicker.es.min.js"
-			type="text/javascript" charset="utf-8"></script>	
-					
+			type="text/javascript" charset="utf-8"></script>
+
 		<!-- Custom scripts for all pages-->
 	</div>
-	<div class="modal fade text-xs-left" id="md_descartar-referencia"
-		tabindex="-1" role="dialog" aria-labelledby="myModalLabel19"
-		aria-hidden="true"></div>
+	<div class="modal fade text-xs-left" id="md_anular-orden" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel19" aria-hidden="true"></div>
 
 	<script>
 		function limpiarForm() {

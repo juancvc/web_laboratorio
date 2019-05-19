@@ -1,5 +1,6 @@
 var accionRealizar = "";
 var codigoRegistro = "";
+
 function confirmar_eliminar(codigo,accion) {
 	codigoRegistro = codigo;
 	accionRealizar = accion;
@@ -18,7 +19,7 @@ $(document).ready(function() {
 		if( accionRealizar == "1" ){
 			elimarExamen(codigoRegistro);
 			$('#md_confirmacion').modal('hide');
-		}else if(accionRealizar == "2" ){ 
+		}else if(accionRealizar == "2" ){  
 			$('#md_confirmacion').modal('hide');
 		}else if(accionRealizar == "3" ){ 
 			$('#md_confirmacion').modal('hide');
@@ -114,7 +115,7 @@ function llenarExamenIndex(index){
 				  			 
 				  		}
 				  		 $('#txtCajaImporteTotal').val(importe.toFixed(2)); 
-				  		//$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
+				  		$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
 		    		}
 		    	}
 		    
@@ -361,7 +362,7 @@ function elimarExamen(codigo){
 			 
 		}
 		 $('#txtCajaImporteTotal').val(importe.toFixed(2)); 
-		//$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
+		$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
 }
 
 function cambiarCantidad(objeto){
@@ -423,7 +424,7 @@ function cambiarCantidad(objeto){
 		 
 	}
 	$('#txtCajaImporteTotal').val(importe.toFixed(2)); 
-	//$('#txtCajaImporteTotalHidden').val(importe.toFixed(2));  
+	$('#txtCajaImporteTotalHidden').val(importe.toFixed(2));  
 }
 
 function cargarPersonaModal() {
@@ -497,5 +498,74 @@ function grabarPersona(){
 				finBloqueo();
 			}
 		});
+	}
+}
+
+function anularCargarModal(index) {
+	var contextPath = $('#contextPath').val();
+	// var codigoLengua = $('#codigoLengua').val(); //
+	// document.getElementById("codigoLengua").value;
+
+	path = contextPath + "/ordenController/modalAnularOrden?index=" +index;
+	// alert("path " + path)
+		$.ajax({
+			type : "POST",
+			url : path,
+
+			success : function(data) {
+				// console.log("SUCCESS: ", data);
+				$("#md_anular-orden").html(data);
+				$("#md_anular-orden").modal('show'); 
+			},
+			error : function(request, status, error) {
+				console.log("ERROR: " + error);
+			}
+		}); 
+}
+
+
+function anularOrden(){
+	// debugger;
+	var htmlTabla = "";
+	var item = 0; 
+	var myFormulario = $('#frmAnularOrden');  
+	
+	var contextPath = $('#contextPath').val();
+	if(!myFormulario[0].checkValidity()) {
+		 msg_advertencia("Debe completar los campos requeridos(*) correctamente");
+		 
+	}else{
+		var url = contextPath + "/ordenController/anularOrden";
+	// iniciarBloqueo();
+		$.ajax({
+		type : "GET",
+		url : url,
+		data: $('#frmAnularOrden').serialize(),
+		success : function(data) {
+			   // console.log("SUCCESS: ", data);
+			    if (data =! null) {
+			    	 msg_exito("Éxito al realizar proceso");
+			    	 $("#idBtnCerrarDescartar").trigger("click"); 
+			    	 $("#btnListado").trigger("click");
+			    	 
+			    	// enviarListado();
+				}else{
+				    msg_error("Error al realizar proceso");  
+				    // enviarListado();
+					
+				} 
+		},
+		
+		error : function(xhr, status, er) { 
+		        console.log("error: " + xhr + " status: " + status + " er:" + er);
+					// msg_error();
+	
+				},
+	  			complete: function()
+			{
+			// finBloqueo();
+	
+			}
+			});
 	}
 }

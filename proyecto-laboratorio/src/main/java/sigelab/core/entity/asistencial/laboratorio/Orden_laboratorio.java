@@ -51,8 +51,9 @@ import java.sql.Timestamp;
  }),
 @NamedStoredProcedureQuery(name = "orden.buscarPorFiltros", procedureName = "LABO.USP_ORDEN_LISTAR_X_FILTROS", resultClasses = Orden_laboratorio.class, parameters = {
 		
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECDESDE", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHASTA", type = String.class) 
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECDESDE", type = String.class) ,
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHASTA", type = String.class) ,
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "SITUACRG", type = String.class) 
  }),
 @NamedStoredProcedureQuery(name = "orden.buscarPorObjeto", procedureName = "[SIGEHOV2BANC].[BANC].[POSTULANTE_CAMPANIA_LISTA_X_OBJETO]", resultClasses = Orden_laboratorio.class, parameters = {
 		
@@ -63,42 +64,10 @@ import java.sql.Timestamp;
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPOST", type = String.class) 
 		
 }),
-@NamedStoredProcedureQuery(name = "postulante.buscarUltimaDonacion", procedureName = "[SIGEHOV2BANC].[GENE].[ADMISION_FECHA_ULTIMA_DONACION]", resultClasses = Orden_laboratorio.class, parameters = {
-		
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODPERSO", type = String.class) 
- }),
-
-@NamedStoredProcedureQuery(name = "postulante.estadoFisicoBuscarPorFiltros", procedureName = "[SIGEHOV2BANC].[BANC].[POSTULANTE_ESTADOFISICO_CAMPANIA_LISTA_X_FILTRO]", resultClasses = Orden_laboratorio.class, parameters = {
-		
-		@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHADES", type = String.class) ,
-		@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHAHAS", type = String.class) ,
-		@StoredProcedureParameter(mode = ParameterMode.IN, name = "ESTADOEV", type = String.class)  
-}),
-
-@NamedStoredProcedureQuery(name = "postulante.estadoFisicoBuscarPorObjeto", procedureName = "[SIGEHOV2BANC]. [BANC].[POSTULANTE_ESTADOFISICO_CAMPANIA_LISTA_X_OBJETO]", resultClasses = Orden_laboratorio.class, parameters = {
-	
-	@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class) ,
-	@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class) ,
-	@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class) ,
-	@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPERIO", type = String.class) ,
-	@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPOST", type = String.class) 
-	
-}),
-
-
-@NamedStoredProcedureQuery(name = "postulante.preDonantesBuscarPorFiltros", procedureName = "[SIGEHOV2BANC].BANC.[PREDONANTES_ENTREVISTA_LISTA_X_FILTRO]", resultClasses = Orden_laboratorio.class, parameters = {
-		
-		@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHA", type = String.class)  
-}),
-	
-@NamedStoredProcedureQuery(name = "postulante.litarEstadoFisicaPorPerso", procedureName = "[SIGEHOV2BANC].[GENE].[ADMISION_ULTIMA_EVALUACION_FISICA_V_WEB]", resultClasses = Orden_laboratorio.class, parameters = {
-		
-		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODPERSO", type = String.class) })
-
  
 
 })
-
+ 
 
 @Entity
 public class Orden_laboratorio implements Serializable {
@@ -146,8 +115,17 @@ public class Orden_laboratorio implements Serializable {
 	private String TG1SEXOP;
 	private String EDAD;
 	private String DIRECCIO;
+	private String NOMBSITU;
 	
 	
+	public String getNOMBSITU() {
+		return NOMBSITU;
+	}
+
+	public void setNOMBSITU(String nOMBSITU) {
+		NOMBSITU = nOMBSITU;
+	}
+
 	public String getTG1SEXOP() {
 		return TG1SEXOP;
 	}
