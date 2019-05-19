@@ -102,13 +102,15 @@ public class OrdenDAOImp implements OrdenDAO {
 
 		boolean sw=false;
 		try {
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("Orden.eliminar"); 
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("orden.eliminar"); 
 			spq.setParameter("CODORGAN", OrdenBean.getCodigoOrganizacion());
 			spq.setParameter("CODINSTI", OrdenBean.getCodigoInstitucion());
 			spq.setParameter("CODSEDEI", OrdenBean.getCodigoSede()); 
-			spq.setParameter("CODCAMPA", OrdenBean.getCodigo());
 			spq.setParameter("NROPERIO", OrdenBean.getNumeroPeriodo()); 
-			
+			spq.setParameter("CODORDEN", OrdenBean.getCodigo());
+		
+			spq.setParameter("TG1TPANU", OrdenBean.getNumeroPeriodo()); 
+			spq.setParameter("MOTIVOAN", OrdenBean.getNumeroPeriodo()); 
 			spq.setParameter("AUCDUSMO", OrdenBean.getCodigoUsuarioModificacion());
 			spq.setParameter("AUPCIPMO", OrdenBean.getIpModificacion()); 
 			
@@ -201,7 +203,9 @@ private List<OrdenBean> deListaObjetoAListaObjetoBean(List<Orden_laboratorio> ls
 			bean.getPacienteBean().getPersona().setPrimerNombre(entity.getPRINOMBR()); 
 			bean.getPacienteBean().getPersona().setSegundoNombre(entity.getSEGNOMBR()); 
 			bean.getPacienteBean().getPersona().setNroDocumento(entity.getDETALLED()); 
-			
+			bean.getPacienteBean().getPersona().setEdad(entity.getEDAD());
+			bean.getPacienteBean().getPersona().setDireccion(entity.getDIRECCIO());
+			bean.getPacienteBean().getPersona().getSexo().setCodReg(entity.getTG1SEXOP());
 			bean.setNombreUsuarioCreacion(entity.getNOMUSUAR());
 	 	}
 		

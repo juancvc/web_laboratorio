@@ -1,5 +1,6 @@
 package sigelab.core.repository.implementacion.asistencial.laboratorio;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
 import sigelab.core.bean.general.PersonaBean;
+import sigelab.core.bean.general.TablaBean;
+import sigelab.core.bean.general.TarifarioBean;
 import sigelab.core.entity.asistencial.laboratorio.Orden_detalle_laboratorio;
 import sigelab.core.repository.DAOException;
 import sigelab.core.repository.interfaces.asistencial.laboratorio.OrdenDetalleDAO; 
@@ -132,8 +135,13 @@ public class OrdenDetalleDAOImp implements OrdenDetalleDAO {
 		List<Orden_detalle_laboratorio> lstOrdenDetalle = null;	
 		List<OrdenDetalleBean> lstOrdenDetalleBean = null;
 		
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("OrdenDetalle.buscarPorFiltros");   
-			spq.setParameter("SITUACRG", OrdenDetalleBean.getSituacion().getCodReg()); 
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("ordenDetalle.buscarPorFiltros");   
+			spq.setParameter("CODORGAN", OrdenDetalleBean.getOrdenBean().getCodigoOrganizacion());
+			spq.setParameter("CODINSTI", OrdenDetalleBean.getOrdenBean().getCodigoInstitucion());
+			spq.setParameter("CODSEDEI", OrdenDetalleBean.getOrdenBean().getCodigoSede()); 
+			spq.setParameter("CODORDEN", OrdenDetalleBean.getOrdenBean().getCodigo()); 
+			spq.setParameter("NROVEORD", OrdenDetalleBean.getOrdenBean().getNumeroVersion()); 
+			spq.setParameter("NROPEORD", OrdenDetalleBean.getOrdenBean().getNumeroPeriodo()); 
 			
 			 if (spq.execute()) {
 				 lstOrdenDetalle =  spq.getResultList(); 
@@ -185,12 +193,27 @@ private List<OrdenDetalleBean> deListaObjetoAListaObjetoBean(List<Orden_detalle_
 			bean.setNumeroPeriodo(entity.getId().getNroperio());
 			 
 			bean.getSituacion().setCodReg(entity.getSituacRg()); 
+			bean.setCantidad(entity.getCantidad());
+			bean.setImporte(entity.getImporte());
+			bean.setPrecio(entity.getPrecio());
+			bean.setExamen(new TarifarioBean());
+			bean.getExamen().setDescripcion(entity.getNOMPRODU());
+			bean.getExamen().setCodigo(entity.getCodTarif());
+			bean.getExamen().setPrecio(entity.getPrecio());
+			bean.getExamen().setTipo(new TablaBean());
+			bean.getExamen().getTipo().setNombreCorto(entity.getNOMTPEXA());
+			bean.getExamen().setsPrecio((getTwoDecimals(entity.getPrecio()).replace(",", ".")));
+			bean.setsImporte((getTwoDecimals(entity.getImporte()).replace(",", ".")));
+			
 	 	}
 		
 		return bean;
 	}
 
-	
+	private static String getTwoDecimals(double value){
+	      DecimalFormat df = new DecimalFormat("0.00"); 
+	      return df.format(value);
+	    }
 	
 	@Override
 	public boolean existe(OrdenDetalleBean t) throws DAOException {

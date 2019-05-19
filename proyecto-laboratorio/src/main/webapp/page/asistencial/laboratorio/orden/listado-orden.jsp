@@ -158,7 +158,7 @@
 										<i class="fa fa-eraser"></i> LIMPIAR
 									</button>
 									<a
-										href="${pageContext.request.contextPath}/bancoController/nuevoPostulante"
+										href="${pageContext.request.contextPath}/ordenController/nuevo"
 										class="btn btn-secondary" title=""> <i class="icon-plus"></i>
 										NUEVO
 									</a>
@@ -202,18 +202,16 @@
 													<td>${orden.strFechaOrden}   ${orden.horaOrden}   </td>
 													<td>${orden.sImporteTotal}</td>
 													<td>${orden.nombreUsuarioCreacion}</td>
-													<td><a title="Modificar" data-placement="top"
+													<td><a title="Ver detalle" data-placement="top"
 														data-toggle="tooltip"
 														class="btn btn-outline-success btn-sm"
-														onclick="javascript:modificarElementoGenerico('/bancoController/modificarPostulante','${loop.index}')"
-														href="#"><i class="icon-pencil"></i></a> <!--   <a title="Eliminar" data-placement="top" data-toggle="tooltip"
-                                                         class="btn btn-outline-danger btn-sm" href="eliminar?codigo=${lenguaBean.codigo}"><i class="icon-trash"></i></a> -->
-
+														onclick="javascript:modificarElementoGenerico('/ordenController/modificar','${loop.index}')"
+														href="#"><i class="ft-search"></i></a> 
 														<button type="button"
 															class="btn btn-outline-danger btn-sm eliminarPerfil"
 															data-toggle="tooltip" data-placement="top" title=""
-															onclick="confirmar_accion(3,'${loop.index}')"
-															data-original-title="Eliminar"
+															onclick="confirmar_accion('${loop.index}')"
+															data-original-title="Anular"
 															id="eliminarPerfil${loop.index}">
 															<i class="icon-trash"></i>
 														</button></td>

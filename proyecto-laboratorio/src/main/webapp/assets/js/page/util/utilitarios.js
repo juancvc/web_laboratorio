@@ -289,4 +289,35 @@ function soloNumeros(e){
 	return (key >= 48 && key <= 57 )
 
 }
+
+function modificarElementoGenerico(url, idElemento) {
+	var contextPath = $('#contextPath').val();
+	var urlComplete = contextPath + url;
+	doPost(urlComplete, {
+		index : idElemento
+	});
+}
+
+function doPost(path, params, method) {
+	method = method || "post";
+
+	var form = document.createElement("form");
+
+	form._submit_function_ = form.submit;
+
+	form.setAttribute("method", method);
+	form.setAttribute("action", path);
+
+	for ( var key in params) {
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("name", key);
+		hiddenField.setAttribute("value", params[key]);
+
+		form.appendChild(hiddenField);
+	}
+
+	document.body.appendChild(form);
+	form._submit_function_();
+}
  

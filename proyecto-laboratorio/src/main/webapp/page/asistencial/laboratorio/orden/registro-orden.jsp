@@ -160,6 +160,13 @@
 								</div>
 								<div class="col-md-3">
 									<button id="idBtnCargarPaciente" type="button"
+										<c:choose>
+									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
+									</c:when>
+									<c:otherwise>
+										disabled ="true"
+									</c:otherwise>
+								</c:choose>
 										style="margin-top: 30px;" onclick="buscarPersonaNroDoc()"
 										class="form-control btn btn-outline-success">
 										<i class="ft-search"></i> BUSCAR
@@ -167,6 +174,13 @@
 								</div>
 								<div class="col-md-3">
 									<button id="idBtnCargarPaciente" type="button"
+										<c:choose>
+									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
+									</c:when>
+									<c:otherwise>
+										disabled ="true"
+									</c:otherwise>
+								</c:choose>
 										style="margin-top: 30px;" onclick="cargarPersonaModal()"
 										class="form-control btn btn-outline-primary">
 										<i class="fa icon-plus"></i> NUEVO
@@ -261,6 +275,13 @@
 								<div class="row">
 									<div class="col-md-12 text-right " style="margin-bottom: 20px;">
 										<button id="btn-save-reg" type="button" class="btn btn-info"
+											<c:choose>
+									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
+									</c:when>
+									<c:otherwise>
+										disabled ="true"
+									</c:otherwise>
+								</c:choose>
 											onclick="cargarTarifarioModal()">
 											<i class="fa fa-plus"></i> AGREGAR EXAMEN
 										</button>
@@ -283,14 +304,15 @@
 													</tr>
 												</thead>
 												<tbody id="idbodyCIEXref" class="label_control">
-													<c:forEach var="ciex"
-														items="${lstReferenciaDiagnosticoBean}" varStatus="loop">
+													<c:forEach var="orden" items="${lstOrdenDetalleBean}"
+														varStatus="loop">
 														<tr>
 															<td>${loop.count}</td>
-															<td>${ciex.diagnostico.valor4}</td>
-															<td>${ciex.diagnostico.nombreCorto}</td>
-															<td></td>
-															<td>${ciex.especialidad.nombreCorto}</td>
+															<td>${orden.examen.descripcion}</td>
+															<td>${orden.examen.tipo.nombreCorto}</td>
+															<td>${orden.cantidad}</td>
+															<td>${orden.examen.sPrecio}</td>
+															<td>${orden.sImporte}</td>
 															<c:choose>
 																<c:when test="${codigo==null || codigo==''}">
 																	<td></td>
@@ -300,7 +322,7 @@
 																			class='btn btn-outline-danger btn-sm'
 																			data-toggle='tooltip' data-placement='top'
 																			title='Eliminar'
-																			onclick='confirmar_eliminar(${ciex.diagnostico.valor4})'
+																			onclick='confirmar_eliminar(${ciex.examen.codigo})'
 																			data-original-title='Eliminar' id='eliminarDX'>
 																			<i class='icon-trash'></i>
 																		</button></td>
@@ -320,9 +342,10 @@
 									<div class="form-group col-md-3 text-right"
 										style="margin-top: 2px;">
 										<label for="nombreCompleto" class="label_control">IMPORTE
-											TOTAL S/. </label> <input type="text" value="0.00"
-											class="form-control" id="txtCajaImporteTotal"
-											disabled="disabled" maxlength="4" />
+											TOTAL S/. </label>
+										<f:input type="text" path="sImporteTotal" class="form-control"
+											id="txtCajaImporteTotal" readonly="true" maxlength="10" />
+
 										<f:input type="hidden" path="importeTotal"
 											id="txtCajaImporteTotalHidden" />
 									</div>
@@ -340,6 +363,13 @@
 								</a>
 
 								<button type="submit" onclick="grabarOrden()"
+									<c:choose>
+									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
+									</c:when>
+									<c:otherwise>
+										disabled ="true"
+									</c:otherwise>
+								</c:choose>
 									class="btn btn-primary">
 									<i class="fa fa-floppy-o"></i> GUARDAR
 								</button>
@@ -371,7 +401,7 @@
 					<div class="modal-content" id="modalPersonaContent"></div>
 				</div>
 			</div>
-			
+
 			<div class="modal fade text-xs-left" id="md_confirmacion"
 				tabindex="-1" role="dialog" aria-labelledby="myModalLabel19"
 				aria-hidden="true">
@@ -469,8 +499,13 @@
  
 	function runScript(e) {
 		//See notes about 'which' and 'key'
+		console.log(${ordenBean.codigo});
 		if (e.keyCode == 13) {
-			buscarPersonaNroDoc();
+			<c:if test="${ordenBean.codigo==null || ordenBean.codigo==''}">
+			buscarPersonaNroDoc(); 
+			
+			</c:if>
+			
 			return false;
 		}
 	}

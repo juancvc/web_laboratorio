@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView; 
+import org.springframework.web.servlet.ModelAndView;
+
+import sigelab.core.bean.asistencial.banco.CampaniaBean;
 import sigelab.core.bean.asistencial.banco.PostulanteBean; 
 import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
@@ -28,6 +30,7 @@ import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.TarifarioBean;
 import sigelab.core.bean.general.UbigeoBean; 
 import sigelab.core.service.exception.ServiceException;
+import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenDetalleService;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenService;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service; 
 import sigelab.core.service.interfaces.general.Maestra1Service; 
@@ -80,6 +83,10 @@ public class OrdenController  extends BaseController {
 	 
 	@Autowired
 	private UbigeoService ubigeoService;
+	
+	@Autowired
+	private OrdenDetalleService ordenDetalleService;
+	
 	
 	@PostConstruct
 	public void init() { 
@@ -337,8 +344,6 @@ public class OrdenController  extends BaseController {
 		try {
 
 			if (ordenBean.getCodigo().equals("")) {
-				System.out.println("referenciaForm.getReferenciaBean().getPaciente().getTipoSeguro().getCodReg() "
-						+ ordenBean.getPacienteBean().getPersona().getCodigo());
 				this.setAuditoria(ordenBean, request, true);
 				  
 				sw = (this.ordenService.insertar(ordenBean));
@@ -444,6 +449,26 @@ public class OrdenController  extends BaseController {
 		return this.getPersonaBean();
 	}
 	
+	@RequestMapping(value = "/modificar", method = RequestMethod.POST)
+	public ModelAndView doModificar(@RequestParam("index") Integer index, HttpServletRequest request) {
+
+		System.out.println("modificar codigo: " + index); 
+		OrdenBean objOrdenBean = new OrdenBean(); 
+		objOrdenBean = this.lstOrdenBean.get(index);
+		System.out.println("modificar objOrdenBean: " + objOrdenBean.getCodigo());
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/registro-orden", "command", objOrdenBean); 
+		OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
+		objOrdenDetalle.setOrdenBean(objOrdenBean);
+		try {
+			lstOrdenDetalleBean = ordenDetalleService.getBuscarPorFiltros(objOrdenDetalle);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+		mav.addObject("lstOrdenDetalleBean", lstOrdenDetalleBean); 
+		mav.addObject("ordenBean", objOrdenBean); 
+		this.cargarCombos(mav);
+		return mav;
+	}
 	public PersonaBean getPersonaBean() {
 		return personaBean;
 	}

@@ -66,9 +66,13 @@ import java.sql.Timestamp;
 		    @StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = String.class),
  }),
-@NamedStoredProcedureQuery(name = "postulante.buscarPorFiltros", procedureName = "[SIGEHOV2BANC].[BANC].[POSTULANTE_CAMPANIA_LISTA_X_FILTRO]", resultClasses = Orden_detalle_laboratorio.class, parameters = {
-		
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODCAMPA", type = String.class) 
+@NamedStoredProcedureQuery(name = "ordenDetalle.buscarPorFiltros", procedureName = "LABO.USP_ORDEN_DETALLE_LISTAR_X_FILTROS", resultClasses = Orden_detalle_laboratorio.class, parameters = {
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class), 
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDEN", type = String.class) ,
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROVEORD", type = String.class) ,
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPEORD", type = String.class) 
  }),
 @NamedStoredProcedureQuery(name = "postulante.buscarPorObjeto", procedureName = "[SIGEHOV2BANC].[BANC].[POSTULANTE_CAMPANIA_LISTA_X_OBJETO]", resultClasses = Orden_detalle_laboratorio.class, parameters = {
 		
@@ -129,14 +133,37 @@ public class Orden_detalle_laboratorio implements Serializable {
 	@Column(name = "AUFECHCR")
 	private Timestamp aufechcr;
 
-	@Column(name = "CODPERSO")
-	private String codPerso;
+	@Column(name = "CODORDEN")
+	private String codOrden;
 	
 	@Column(name="AUCDUSCR")
 	private String aucduscr;
 	
 	@Column(name = "AUFECHMO")
 	private Timestamp aufechmo;
+
+	@Column(name = "CANTIDAD")
+	private int cantidad;
+	
+	@Column(name = "IMPORTE")
+	private Float importe; 
+	
+	@Column(name = "PRECIO")
+	private Float precio;
+
+	@Column(name="CODTARIF")
+	private String codTarif;
+	
+	private String NOMPRODU;
+	private String NOMTPEXA;
+	
+	public String getNOMTPEXA() {
+		return NOMTPEXA;
+	}
+
+	public void setNOMTPEXA(String nOMTPEXA) {
+		NOMTPEXA = nOMTPEXA;
+	}
 
 	public Orden_detalle_laboratorioPK getId() {
 		return id;
@@ -162,12 +189,12 @@ public class Orden_detalle_laboratorio implements Serializable {
 		this.aufechcr = aufechcr;
 	}
 
-	public String getCodPerso() {
-		return codPerso;
+	public String getCodOrden() {
+		return codOrden;
 	}
 
-	public void setCodPerso(String codPerso) {
-		this.codPerso = codPerso;
+	public void setCodOrden(String codOrden) {
+		this.codOrden = codOrden;
 	}
 
 	public String getAucduscr() {
@@ -185,7 +212,46 @@ public class Orden_detalle_laboratorio implements Serializable {
 	public void setAufechmo(Timestamp aufechmo) {
 		this.aufechmo = aufechmo;
 	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public Float getImporte() {
+		return importe;
+	}
+
+	public void setImporte(Float importe) {
+		this.importe = importe;
+	}
+
+	public Float getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(Float precio) {
+		this.precio = precio;
+	}
+
+	public String getCodTarif() {
+		return codTarif;
+	}
+
+	public void setCodTarif(String codTarif) {
+		this.codTarif = codTarif;
+	}
+
+	public String getNOMPRODU() {
+		return NOMPRODU;
+	}
+
+	public void setNOMPRODU(String nOMPRODU) {
+		NOMPRODU = nOMPRODU;
+	}
 	
-	 
-	 
+	
 }

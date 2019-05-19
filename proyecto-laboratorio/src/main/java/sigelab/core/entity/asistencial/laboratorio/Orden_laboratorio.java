@@ -35,18 +35,19 @@ import java.sql.Timestamp;
 		    @StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = String.class),
  }),
-@NamedStoredProcedureQuery(name = "orden.eliminar", procedureName = "[SIGEHOV2BANC].[BANC].[POSTULANTE_DELETE]", resultClasses = Orden_laboratorio.class, parameters = {
+@NamedStoredProcedureQuery(name = "orden.eliminar", procedureName = "[LABO].[USP_ORDEN_ANULAR]", resultClasses = Orden_laboratorio.class, parameters = {
 			
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class), 
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROVERSI", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class),  
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPERIO", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDEN", type = String.class),
 			
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPOST", type = String.class),
-			
-		    @StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = String.class),
+		    @StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1TPANU", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "MOTIVOAN", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = String.class),
+			
  }),
 @NamedStoredProcedureQuery(name = "orden.buscarPorFiltros", procedureName = "LABO.USP_ORDEN_LISTAR_X_FILTROS", resultClasses = Orden_laboratorio.class, parameters = {
 		
@@ -142,7 +143,35 @@ public class Orden_laboratorio implements Serializable {
 	private String SEGNOMBR;
 	private String DETALLED;
 	private String NOMUSUAR;
+	private String TG1SEXOP;
+	private String EDAD;
+	private String DIRECCIO;
 	
+	
+	public String getTG1SEXOP() {
+		return TG1SEXOP;
+	}
+
+	public void setTG1SEXOP(String tG1SEXOP) {
+		TG1SEXOP = tG1SEXOP;
+	}
+
+	public String getEDAD() {
+		return EDAD;
+	}
+
+	public void setEDAD(String eDAD) {
+		EDAD = eDAD;
+	}
+
+	public String getDIRECCIO() {
+		return DIRECCIO;
+	}
+
+	public void setDIRECCIO(String dIRECCIO) {
+		DIRECCIO = dIRECCIO;
+	}
+
 	
 	public String getNOMUSUAR() {
 		return NOMUSUAR;

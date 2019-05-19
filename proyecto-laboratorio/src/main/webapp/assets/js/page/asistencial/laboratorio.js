@@ -114,7 +114,7 @@ function llenarExamenIndex(index){
 				  			 
 				  		}
 				  		 $('#txtCajaImporteTotal').val(importe.toFixed(2)); 
-				  		$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
+				  		//$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
 		    		}
 		    	}
 		    
@@ -361,7 +361,7 @@ function elimarExamen(codigo){
 			 
 		}
 		 $('#txtCajaImporteTotal').val(importe.toFixed(2)); 
-		$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
+		//$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
 }
 
 function cambiarCantidad(objeto){
@@ -423,7 +423,7 @@ function cambiarCantidad(objeto){
 		 
 	}
 	$('#txtCajaImporteTotal').val(importe.toFixed(2)); 
-	$('#txtCajaImporteTotalHidden').val(importe.toFixed(2));  
+	//$('#txtCajaImporteTotalHidden').val(importe.toFixed(2));  
 }
 
 function cargarPersonaModal() {
