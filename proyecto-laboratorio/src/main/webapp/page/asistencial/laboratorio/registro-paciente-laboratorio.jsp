@@ -242,14 +242,13 @@ td.cantidad, th.cantidad {
 		</div>
 	</nav>
 
-	<div class="content-wrapper">
+	<div class="content-wrapper">   
 		<div class="container-fluid">
 			<div class="tituloForm">REGISTRO DE PACIENTE PARA LABORATORIO</div>
 
 			<f:form id="frmGuardarPacienteLaboratorio" class="form-horizontal" role="form"
 				method="post" action="" onsubmit="return false">
 				<div class="card mb-3">
-					<f:input type="hidden" id="codigoPostulante" path="codigo" />
 					<f:input type="hidden" id="codigoCorreo"
 						path="codigoCorreo" />
 					<f:input type="hidden" id="codigoDireccion"
@@ -259,7 +258,7 @@ td.cantidad, th.cantidad {
 
 					<input id="contextPath" type="hidden"
 						value="${pageContext.request.contextPath}">
-					<f:input type="hidden" class="form-control" id="personaCodigo"
+					<f:input type="text" class="form-control" id="personaCodigo"
 						path="codigo" />
 					<f:input type="hidden" class="form-control"
 						id="personaCodigoSigeho" path="codigoPersonaSigeho" />

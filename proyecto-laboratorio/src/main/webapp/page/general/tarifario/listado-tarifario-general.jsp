@@ -13,7 +13,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Listado de Usuario</title>
+<title>Listado de Tarifario</title>
 <!-- Bootstrap core CSS-->
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i"
@@ -95,16 +95,15 @@
 
 	<div class="content-wrapper">
 		<div class="container-fluid">
-			<!-- Breadcrumbs
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="#">Seguridad / Usuario</a></li>
-				<li class="breadcrumb-item active">Listado de usuario</li>
-			</ol>-->
 			<div class="tituloForm">LISTADO DE TARIFARIO</div>
-			<!-- Icon Cards--> 
+			<!-- Icon Cards-->
 			<!-- Area Chart Example-->
 			<div class="card mb-3">
-				<div class="divCabeceraPanel"><img id ="imgFotoPaciente" src="${pageContext.request.contextPath}/assets/img/busqueda.png" > FILTROS</div>
+				<div class="divCabeceraPanel">
+					<img id="imgFotoPaciente"
+						src="${pageContext.request.contextPath}/assets/img/busqueda.png">
+					FILTROS
+				</div>
 				<f:form id="frmListadoPerfil" class="form-horizontal" role="form"
 					enctype="multipart/form-data" method="post"
 					action="${pageContext.request.contextPath}/usuarioController/buscar">
@@ -151,8 +150,8 @@
 										href="${pageContext.request.contextPath}/tarifarioController/nuevoTarifario"
 										class="btn btn-secondary" title=""> <i class="icon-plus"></i>
 										NUEVO
-									</a> 
-										
+									</a>
+
 								</div>
 							</div>
 						</div>
@@ -160,49 +159,51 @@
 				</f:form>
 
 			</div>
-		<div class="card mb-3">
-				<div class="divCabeceraPanel"><img id ="imgFotoPaciente" src="${pageContext.request.contextPath}/assets/img/listado.png" > LISTADO</div>
-				<div class="row">
-					<div class="card-body">
+			<div class="card mb-3">
+				<div class="divCabeceraPanel">
+					<img id="imgFotoPaciente"
+						src="${pageContext.request.contextPath}/assets/img/listado.png">
+					LISTADO
+				</div>
+				<div class="card-body">
+					<div class="form-group">
 						<div class="table-responsive">
-							<div id="div1">
-								<table class="table table-bordered" id="dataTable"
-									style="overflow-y: scroll">
-									<thead class="tabla_th">
+							<table class="table table-bordered" id="dataTable">
+								<thead class="tabla_th">
+									<tr>
+										<th width="50">ITEM</th>
+										<th>DESCRIPCION</th>
+										<th>TIPO</th>
+										<th>SUBTIPO</th>
+										<th width="90">PRECIO (S/.)</th>
+										<th width="45">ACCION</th>
+									</tr>
+								</thead>
+								<tbody id="idBodyListaCIEX" class="label_control">
+									<c:forEach var="ciex" items="${lstTarifarioBean}"
+										varStatus="loop">
 										<tr>
-											<th width="50">ITEM</th> 
-											<th>DESCRIPCION</th>
-											<th>TIPO</th>
-											<th>SUBTIPO</th>
-											<th width="90">PRECIO (S/.)</th>
-											<th width="45">ACCION</th>
+											<td>${loop.count}</td>
+											<td>${ciex.descripcion}</td>
+											<td>${ciex.tipo.nombreCorto}</td>
+											<td>${ciex.subtipo}</td>
+											<td>${ciex.sPrecio}</td>
+											<td><button type="button"
+													class="btn btn-outline-success btn-sm"
+													data-toggle="tooltip" data-placement="top" title=""
+													data-original-title="Seleccionar"
+													onclick="llenarDxIndex(${loop.index})"
+													id="agregarEspecialidad">
+													<i class="icon-check"></i>
+												</button></td>
 										</tr>
-									</thead>
-									<tbody id="idBodyListaCIEX" class="label_control">
-										<c:forEach var="ciex" items="${lstTarifarioBean}" varStatus="loop">
-											<tr>
-												<td>${loop.count}</td> 
-												<td>${ciex.descripcion}</td>
-												<td>${ciex.tipo.nombreCorto}</td>
-												<td>${ciex.subtipo}</td>
-												<td>${ciex.sPrecio}</td>
-												<td><button type="button"
-														class="btn btn-outline-success btn-sm"
-														data-toggle="tooltip" data-placement="top" title=""
-														data-original-title="Seleccionar"
-														onclick="llenarDxIndex(${loop.index})"
-														id="agregarEspecialidad">
-														<i class="icon-check"></i>
-													</button></td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
+									</c:forEach>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
-					</div>
+			</div>
 			<!-- Example DataTables Card-->
 
 		</div>
@@ -214,19 +215,21 @@
 				<div class="modal-content">
 					<div class="label_title_modal modal-header">
 
-						<h4 class="label_title" id="myModalLabel19">CONFIRMA
-							ACCION</h4>
+						<h4 class="label_title" id="myModalLabel19">CONFIRMA ACCION</h4>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<p id="txt_confir" class="label_control">¿ESTÁ SEGURO DE ELIMINAR REGISTRO SELECCIONADO?</p>
+						<p id="txt_confir" class="label_control">¿ESTÁ SEGURO DE
+							ELIMINAR REGISTRO SELECCIONADO?</p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn grey btn-outline-secondary"
-							data-dismiss="modal"><i class="fa fa-close"></i> CERRAR</button>
+							data-dismiss="modal">
+							<i class="fa fa-close"></i> CERRAR
+						</button>
 						<button id="btnConfirmarGeneric" type="button"
 							class="btn btn-outline-primary">CONFIRMAR</button>
 					</div>
@@ -301,13 +304,13 @@
 	type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/assets/js/scripts.js"
 	type="text/javascript"></script>
-		<script
-			src="${pageContext.request.contextPath}/assets/js/page/asistencial/tarifario.js"
-			type="text/javascript" charset="utf-8"></script>
-	
-		<script
-			src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
-			type="text/javascript" charset="utf-8"></script>
+<script
+	src="${pageContext.request.contextPath}/assets/js/page/asistencial/tarifario.js"
+	type="text/javascript" charset="utf-8"></script>
+
+<script
+	src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
+	type="text/javascript" charset="utf-8"></script>
 
 <script>
 	function limpiarForm() {

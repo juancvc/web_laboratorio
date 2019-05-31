@@ -109,9 +109,7 @@ input[type=text] {
 						<label for="exampleInputName" class="label_control">N°
 							DOCUMENTO <span class="required">*</span>
 						</label>
-						<div class="position-relative has-icon-left">
-							<f:input type="hidden" path="codigo" id="codigoReferenciaBean"
-								val="" />
+						<div class="position-relative has-icon-left"> 
 							<input id="contextPath" type="hidden"
 								value="${pageContext.request.contextPath}">
 							<div class="controls">
@@ -120,16 +118,7 @@ input[type=text] {
 									onkeypress="return runScript(event)" />
 							</div>
 						</div>
-					</div>
- 
-					<div class="col-md-4">
-						<br>
-						<button id="idBtnCargarPaciente" type="button"
-							style="margin-top: 5px;" onclick="buscarPacienteSISWebService()"
-							class="form-control btn btn-info">
-							<i class="ft-search"></i> BUSCAR
-						</button>
-					</div>
+					</div> 
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4 mb-2">
@@ -255,8 +244,7 @@ input[type=text] {
 						</div>
 					</div>
 					<div class="col-md-5">
-						<label for="nombreCompleto" class="label_control">DIRECCION
-							<span class="required">*</span>
+						<label for="nombreCompleto" class="label_control">DIRECCION 
 						</label>
 						
 						<div class="controls">

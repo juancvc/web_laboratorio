@@ -431,13 +431,16 @@ public class OrdenController  extends BaseController {
 		if (personaBean==null) {
 			personaBean = new PersonaBean();
 		} 
-		if (this.getPersonaBean().getCodigo().equals("")) {
+		
+		System.out.println("obpersonaBean.getCodigo() " + obpersonaBean.getCodigo());
+		
+		if (obpersonaBean.getCodigo().equals("")) {
 			if(!obpersonaBean.getTipoDocumento().getCodReg().equals("000002") ){ // extranjero
 				this.setAuditoria(obpersonaBean, request, true); 
 				this.personaService.insertarPersonaLaboratorio(obpersonaBean);
 				setPersonaBean(obpersonaBean);
 			}else{
-				setPersonaBean(new PersonaBean());
+				setPersonaBean(obpersonaBean);
 				if(this.getPersonaBean().getSwReniec()){
 					
 					System.out.println("this.getPostulanteBean().getPersona(). " +this.getPersonaBean().getTipoDocumento().getCodReg());

@@ -508,8 +508,7 @@
 			
 			return false;
 		}
-	}
-	
+	} 
 		var  listadoExamenes= []; 
  </script>
 

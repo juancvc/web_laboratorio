@@ -995,7 +995,7 @@ public class TarifarioController  extends BaseController {
 	@RequestMapping(value = "/listadoTarifario", method = RequestMethod.POST)
 	public ModelAndView listadoTarifarioPOST() throws Exception {
 
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/listado-tarifario-general", "command", new TarifarioBean());
+		ModelAndView mav = new ModelAndView("general/tarifario/listado-tarifario-general", "command", new TarifarioBean());
 		lstTarifarioBean = new ArrayList<TarifarioBean>();
 		lstTipoExamen = new ArrayList<TablaBean>();
 		try {
