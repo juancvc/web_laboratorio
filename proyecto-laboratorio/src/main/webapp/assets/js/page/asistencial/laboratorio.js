@@ -51,6 +51,35 @@ function cargarTarifarioModal() {
 		}); 
 }
 
+
+
+function cargarAnalisisModal() {
+	var contextPath = $('#contextPath').val();
+	// var codigoLengua = $('#codigoLengua').val(); //
+	// document.getElementById("codigoLengua").value;
+
+	path = contextPath + "/ordenController/analisisModal";
+	// alert("path " + path)
+		$.ajax({
+			type : "POST",
+			url : path,
+
+			success : function(data) {
+				// console.log("SUCCESS: ", data);
+				$("#modalAnalisis").html(data); 
+				$("#modalAnalisis").modal('show'); 
+			//	$("#txtDescripcion").focus(); 
+			},
+			error : function(request, status, error) {
+				console.log("ERROR: " + error);
+			}
+		}); 
+}
+
+
+
+
+
 function llenarExamenIndex(index){
 	var contextPath = $('#contextPath').val();
 	var htmlTabla = "";

@@ -138,7 +138,11 @@
 						class="label_control_barra">Tarifario</span></a></li> 
 				 <li><a
 					href="${pageContext.request.contextPath}/laboratorioController/tarifarioGeneralModal"><span
-						class="label_control_barra">Resultados</span></a></li> 		
+						class="label_control_barra">Resultados</span></a></li> 	
+						
+					 <li><a
+					href="${pageContext.request.contextPath}/laboratorioController/tarifarioGeneralModal"><span
+						class="label_control_barra">formulas</span></a></li> 					
 			</ul></li>
 	</c:if>
 

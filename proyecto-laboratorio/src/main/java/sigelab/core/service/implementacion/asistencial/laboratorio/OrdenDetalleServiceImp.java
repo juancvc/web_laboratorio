@@ -78,6 +78,19 @@ public class OrdenDetalleServiceImp implements OrdenDetalleService {
 	
 		return false;
 	}
+
+	@Override
+	public boolean resultadoModificar(OrdenDetalleBean ordenDetalleBean) throws ServiceException {
+		// TODO Auto-generated method stub
+		Boolean sw = false;
+		try {
+			sw =  OrdenDetalleDAO.resultadoModificar(ordenDetalleBean);
+			
+		} catch (DAOException e) { 
+			e.printStackTrace();
+		}
+		return sw;
+	}
  
 
 }

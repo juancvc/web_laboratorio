@@ -40,6 +40,9 @@ public class TarifarioDAOImpl implements TarifarioDAO {
 			spq.setParameter("SUBTIPO", Tarifario.getSubtipo());  
 			spq.setParameter("NOMPRODU", Tarifario.getDescripcion()); 
 			spq.setParameter("PRECIO", Tarifario.getPrecio()); 
+			spq.setParameter("TIPOUNID", Tarifario.getUnidades()); 
+			spq.setParameter("VALREFIN", Tarifario.getValoresRefIni()); 
+			spq.setParameter("VALREFFI", Tarifario.getValoresRefFin()); 
 			spq.setParameter("AUDUSUCR", Tarifario.getCodigoUsuarioCreacion());  
 			
 			spq.execute();

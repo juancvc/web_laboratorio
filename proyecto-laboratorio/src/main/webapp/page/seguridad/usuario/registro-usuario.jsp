@@ -261,7 +261,8 @@
 
 		</div>
 		<div class="modal fade text-xs-left" id="md_confirmacion"
-			tabindex="-1" role="dialog" aria-labelledby="myModalLabel19"
+			tabindex="-1" role="dialog" aria-labelledby="myMo
+			dalLabel19"
 			aria-hidden="true">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">

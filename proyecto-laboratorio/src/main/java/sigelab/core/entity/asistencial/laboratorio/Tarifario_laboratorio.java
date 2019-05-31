@@ -46,6 +46,9 @@ import java.sql.Timestamp;
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "SUBTIPO",  type = 	String.class),						
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMPRODU", type = 	String.class),
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "PRECIO",   type =    Float.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPOUNID", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALREFIN", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALREFFI", type = 	String.class),
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUDUSUCR", type = 	String.class)
 					}),
 			@NamedStoredProcedureQuery(
@@ -53,14 +56,15 @@ import java.sql.Timestamp;
 					procedureName="[LABO].[TARIFARIO_ITEM_UPDATE]",
 					resultClasses= Tarifario_laboratorio.class,
 					parameters={ 
-							@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODTARIF", type = 	String.class),
-							
+							@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODTARIF", type = 	String.class),			
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1TIPOT", type = 	String.class),
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPO",  	  type =	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "SUBTIPO",  type = 	String.class),
-							
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "SUBTIPO",  type = 	String.class),	
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMPRODU", type = 	String.class),
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "PRECIO",   type =    Float.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPOUNID", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALREFIN", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALREFFI", type = 	String.class),
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUDUSUCR", type = 	String.class) 
 					}),
 			
@@ -140,7 +144,14 @@ public class Tarifario_laboratorio implements Serializable {
 	@Column(name="TG1TIPOT")
 	private String TG1TIPOT;
 	
-	 
+	@Column(name="TIPOUNID")
+	private String unidades;
+	
+	@Column(name="VALREFIN")
+	private String valoresRefIni;
+	
+	@Column(name="VALREFFI")
+	private String valoresRefFin; 
 
 	public Tarifario_laboratorio() {
 	}
@@ -420,6 +431,44 @@ public class Tarifario_laboratorio implements Serializable {
 	public void setTG1TIPOT(String tG1TIPOT) {
 		TG1TIPOT = tG1TIPOT;
 	}
+
+
+
+	public String getUnidades() {
+		return unidades;
+	}
+
+
+
+	public void setUnidades(String unidades) {
+		this.unidades = unidades;
+	}
+
+
+
+	public String getValoresRefIni() {
+		return valoresRefIni;
+	}
+
+
+
+	public void setValoresRefIni(String valoresRefIni) {
+		this.valoresRefIni = valoresRefIni;
+	}
+
+
+
+	public String getValoresRefFin() {
+		return valoresRefFin;
+	}
+
+
+
+	public void setValoresRefFin(String valoresRefFin) {
+		this.valoresRefFin = valoresRefFin;
+	}
+	
+	
  
 
 }

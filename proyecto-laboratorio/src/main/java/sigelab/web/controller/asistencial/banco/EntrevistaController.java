@@ -439,6 +439,11 @@ public class EntrevistaController  extends BaseController {
 		final OutputStream outStream = response.getOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	}
+	
+	
+	
+	
+	
 	 
 	@RequestMapping(value = "rptFichaPostulanteGrabar", method = RequestMethod.GET)
 	@ResponseBody

@@ -229,12 +229,12 @@
 																<a title="Resultado de la Orden" data-placement="top"
 																	data-toggle="tooltip"
 																	class="btn btn-outline-warning btn-sm"
-																	onclick="javascript:modificarElementoGenerico('/ordenController/modificar','${loop.index}')"
+																	onclick="cargarAnalisisModal()"
 																	href="#"><i class="icon-pencil"> Resultado</i></a>
 																<a title="Ver detalle" data-placement="top"
 																	data-toggle="tooltip"
 																	class="btn btn-outline-success btn-sm"
-																	onclick="javascript:modificarElementoGenerico('/ordenController/modificar','${loop.index}')"
+																	onclick="javascript:modificarElementoGenerico('/ordenController/registroResultado','${loop.index}')"
 																	href="#"><i class="ft-search"> Ver</i></a>
 
 																<button type="button"
@@ -263,6 +263,14 @@
 			<!-- Example DataTables Card-->
 
 		</div>
+		
+		<div class="modal fade text-xs-left" id="modalAnalisis" tabindex="-2"
+				role="dialog" aria-labelledby="myModalLabel35" data-dismiss="modal"
+				aria-hidden="true" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content" id="modalAnalisisContent"></div>
+				</div>
+			</div>
 
 
 		<div class="modal fade text-xs-left" id="md_confirmacion"

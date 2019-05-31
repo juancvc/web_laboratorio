@@ -184,7 +184,7 @@ function buscarPersona() {
 										persona.correo);
 								$('#codigoPersonaBean').val(persona.codigo);
 								$('#idpasswordUsuario').val(persona.nroDocumento);
-							//	buscarUsuarioPersona(persona.codigo);
+								buscarUsuarioPersona(persona.codigo);
 								// console.log("personaUsuarioNombreCompleto "
 								// + persona.nombreCompleto);
 							} else {
@@ -227,9 +227,9 @@ function buscarUsuarioPersona(codigoPersona) {
 					$('#idpasswordUsuario').val(usuario.passwordUsuario);
 					// console.log("personaUsuarioNombreCompleto "
 					// + persona.nombreCompleto);
-					document.getElementById("btnAgregarEstabUser").disabled = false;
+				//	document.getElementById("btnAgregarEstabUser").disabled = false;
 					document.getElementById("btnRestablecerClaveUser").disabled = false;
-					listUsuarioRenaesBean(usuario.codigo);
+				//	listUsuarioRenaesBean(usuario.codigo);
 				} 
 		},
 		error : function(xhr, status, er) {

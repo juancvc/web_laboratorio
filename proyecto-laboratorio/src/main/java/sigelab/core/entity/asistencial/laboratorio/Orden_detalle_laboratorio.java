@@ -37,19 +37,17 @@ import java.sql.Timestamp;
 		    @StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSCR", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class),
  }),
-@NamedStoredProcedureQuery(name = "postulante.modificar", procedureName = "[SIGEHOV2BANC].BANC.CAMPANIA_UPDATE", resultClasses = Orden_detalle_laboratorio.class, parameters = {
-				
+@NamedStoredProcedureQuery(name = "ordenDetalleResultado.modificar", procedureName = "[LABO].[USP_ORDEN_DET_RESULTADOS_UPDATE]", resultClasses = Orden_detalle_laboratorio.class, parameters = {
+			
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDDE", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPERIO", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class),
-
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODCAMPA", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPERIO", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMCAMPA", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "LUGCAMPA", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHAINI", type = String.class), 
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHAFIN", type = String.class),
-		    @StoredProcedureParameter(mode = ParameterMode.IN, name = "SITUACRG", type = String.class),
+	
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "RESULTADO", type = String.class),
+			
+	
 		    @StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = String.class),
  }),
@@ -154,6 +152,9 @@ public class Orden_detalle_laboratorio implements Serializable {
 	@Column(name="CODTARIF")
 	private String codTarif;
 	
+	@Column(name="RESULTADO")
+	private String resultado;
+	
 	private String NOMPRODU;
 	private String NOMTPEXA;
 	
@@ -252,6 +253,16 @@ public class Orden_detalle_laboratorio implements Serializable {
 	public void setNOMPRODU(String nOMPRODU) {
 		NOMPRODU = nOMPRODU;
 	}
+
+	public String getResultado() {
+		return resultado;
+	}
+
+	public void setResultado(String resultado) {
+		this.resultado = resultado;
+	}
+	
+	
 	
 	
 }

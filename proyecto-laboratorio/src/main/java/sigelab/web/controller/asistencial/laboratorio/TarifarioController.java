@@ -904,6 +904,7 @@ public class TarifarioController  extends BaseController {
 				codigo = tarifarioBean.getCodigo();
 			}
 		} else {
+			
 			this.setAuditoria(tarifarioBean, request, true); 
 			System.out.println("insert tarifarioBean " + tarifarioBean.getTipo().getCodReg());
 			if (tarifarioService.insertar(tarifarioBean)) { 

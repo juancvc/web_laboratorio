@@ -306,6 +306,35 @@ public class OrdenController  extends BaseController {
 		mav.addObject("lstTipoExamen", lstTipoExamen);
 		return mav;
 	} 
+	
+	@RequestMapping(value = "/analisisModal", method = RequestMethod.POST)
+	public ModelAndView AnalisisModalPost() throws Exception {
+		System.out.println("modal analisis");
+		PersonaBean objPersona = new  PersonaBean();
+		objPersona.getNacionalidad().setCodReg("000114");
+		objPersona.getEstadoCivil().setCodReg("000006");
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/analisis-registro-modal", "command",  objPersona);
+	//	ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/persona-registro-modal", "command",  objPersona);
+		
+		ubigeobean = new UbigeoBean();
+		ubigeobean.setVariable("");
+		ubigeobean.setInstitucion("000003");
+		ubigeobean.setCategoria("000003");
+		lstUbigeoBean = new ArrayList<UbigeoBean>();
+		try {
+			
+			lstUbigeoBean = ubigeoService.getBuscarPorFiltros(ubigeobean);
+		} catch (Exception e) { 
+		}
+		mav.addObject("ubigeoBean", new UbigeoBean());
+		mav.addObject("lstUbigeoBean", lstUbigeoBean);
+		this.cargarCombos(mav);
+		return mav;
+	} 
+	
+	
+	
+	
   
    @RequestMapping(value = "/refrescarListaOrden", method = RequestMethod.GET)
 	public @ResponseBody OrdenDetalleBean refrescarListaOrden(@RequestParam("index") int index) throws Exception {
@@ -473,6 +502,29 @@ public class OrdenController  extends BaseController {
 		this.cargarCombos(mav);
 		return mav;
 	}
+	
+	
+	@RequestMapping(value = "/registroResultado", method = RequestMethod.POST)
+	public ModelAndView doListaOrdenes(@RequestParam("index") Integer index, HttpServletRequest request) {
+
+		System.out.println("modificar codigo: " + index); 
+		OrdenBean objOrdenBean = new OrdenBean(); 
+		objOrdenBean = this.lstOrdenBean.get(index);
+		System.out.println("modificar objOrdenBean: " + objOrdenBean.getCodigo());
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/registro-orden-analisis", "command", objOrdenBean); 
+		OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
+		objOrdenDetalle.setOrdenBean(objOrdenBean);
+		try {
+			lstOrdenDetalleBean = ordenDetalleService.getBuscarPorFiltros(objOrdenDetalle);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+		mav.addObject("lstOrdenDetalleBean", lstOrdenDetalleBean); 
+		mav.addObject("ordenBean", objOrdenBean); 
+		this.cargarCombos(mav);
+		return mav;
+	}
+	
 	
 	
 	@RequestMapping(value = "/modalAnularOrden", method = RequestMethod.POST)

@@ -158,7 +158,7 @@
 											value="${pageContext.request.contextPath}">
 										<div class="controls">
 											<f:input type="text" class="form-control" required="required"
-												maxlength="12" id="tarifarioSubtipo"
+												maxlength="20" id="tarifarioSubtipo"
 												path="subtipo"/>
 										</div>
 									</div>
@@ -191,10 +191,42 @@
 											 id="tariarioPrecio" path="precio" />
 
 									</div>
+								
 								</div>
+									<div class="form-group col-md-4 mb-2">
+									<label for="nombreCompleto" class="label_control">UNIDADES
+									</label>
+									<div class="controls">
+										<f:input type="text" min="1" maxlength="20" 
+										 class="form-control" required="required"
+											 id="tarifarioUnidades" path="unidades" />
+
+									</div>
 								</div>
 						  
 					 
+						</div>
+						<div class="row">
+						<div class="form-group col-md-4 mb-2">
+									<label for="nombreCompleto" class="label_control">VALOR INICIAL
+									</label>
+									<div class="controls">
+										<f:input type="text"  maxlength="30" 
+										 class="form-control" required="required"
+											 id="tarifarioValorInicial" path="valoresRefIni" />
+
+									</div>
+								</div>
+								<div class="form-group col-md-4 mb-2">
+									<label for="nombreCompleto" class="label_control">VALOR FINAL
+									</label>
+									<div class="controls">
+										<f:input type="text"  maxlength="30" 
+										 class="form-control" required="required"
+											 id="tarifarioValorFinal" path="valoresRefFin" />
+
+									</div>
+								</div>
 						</div>
 						<div class="row">
 							<div class="form-group col-md-12 text-right"

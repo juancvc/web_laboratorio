@@ -14,6 +14,7 @@ public class OrdenDetalleBean extends BaseBean{
 	private Float precio;
 	private TarifarioBean examen;
 	private String sImporte; 
+	private String resultado;
 	
 	public String getsImporte() {
 		return sImporte;
@@ -61,4 +62,12 @@ public class OrdenDetalleBean extends BaseBean{
 	public void ejecutarImporte(){   
 		this.setImporte(this.getCantidad() * this.getPrecio()); 
 	}
+	public String getResultado() {
+		return resultado;
+	}
+	public void setResultado(String resultado) {
+		this.resultado = resultado;
+	}
+	
+	
 }

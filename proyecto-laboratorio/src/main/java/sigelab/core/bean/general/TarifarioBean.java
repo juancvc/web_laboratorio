@@ -11,7 +11,9 @@ public class TarifarioBean extends BaseBean{
 	private String descripcion;
 	private float precio; 
 	private String sPrecio; 
-	
+	private String unidades; 
+	private String valoresRefIni;
+	private String valoresRefFin; 
 	public TarifarioBean() {
 		super();
 	}
@@ -61,6 +63,32 @@ public class TarifarioBean extends BaseBean{
 	public void setsPrecio(String sPrecio) {
 		this.sPrecio = sPrecio;
 	}
-	   
+
+	public String getUnidades() {
+		return unidades;
+	}
+
+	public void setUnidades(String unidades) {
+		this.unidades = unidades;
+	}
+
+	public String getValoresRefIni() {
+		return valoresRefIni;
+	}
+
+	public void setValoresRefIni(String valoresRefIni) {
+		this.valoresRefIni = valoresRefIni;
+	}
+
+	public String getValoresRefFin() {
+		return valoresRefFin;
+	}
+
+	public void setValoresRefFin(String valoresRefFin) {
+		this.valoresRefFin = valoresRefFin;
+	}
+	  
+	
+	
 	 
 }

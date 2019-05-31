@@ -221,6 +221,34 @@ private List<OrdenDetalleBean> deListaObjetoAListaObjetoBean(List<Orden_detalle_
 		return false;
 	}
 
+	@Override
+	public boolean resultadoModificar(OrdenDetalleBean ordenDetalleBean) throws DAOException {
+		boolean sw=false;
+		try {
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("ordenDetalleResultado.modificar");
+			spq.setParameter("CODORDDE", ordenDetalleBean.getCodigo());
+			spq.setParameter("NROPERIO", ordenDetalleBean.getNumeroPeriodo()); 
+			spq.setParameter("CODORGAN", ordenDetalleBean.getCodigoOrganizacion());
+			spq.setParameter("CODINSTI", ordenDetalleBean.getCodigoInstitucion());
+			spq.setParameter("CODSEDEI", ordenDetalleBean.getCodigoSede()); 
+	
+			spq.setParameter("RESULTADO", ordenDetalleBean.getResultado()); 
+			
+			spq.setParameter("AUCDUSMO", ordenDetalleBean.getCodigoUsuarioModificacion());
+			spq.setParameter("AUPCIPMO", ordenDetalleBean.getIpModificacion()); 
+			
+			spq.execute();  
+			sw=true;
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+			sw=false; 
+		}finally{
+			em.close();
+		}
+		return sw;
+	}
+
 	 
 
 }
