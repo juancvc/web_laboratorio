@@ -1,6 +1,8 @@
 //package pe.gob.procalidad.natigu.core.bean.bean.generico;
 package sigelab.core.bean.general;
 
+import java.util.List;
+
 import sigelab.base.bean.BaseBean;
 
 public class TarifarioBean extends BaseBean{
@@ -10,10 +12,10 @@ public class TarifarioBean extends BaseBean{
 	private String subtipo;
 	private String descripcion;
 	private float precio; 
-	private String sPrecio; 
-	private String unidades; 
-	private String valoresRefIni;
-	private String valoresRefFin; 
+	private String sPrecio;  
+	private List<TarifarioDetalleBean> lstTarifarioDetalleBean;
+	
+	
 	public TarifarioBean() {
 		super();
 	}
@@ -64,31 +66,12 @@ public class TarifarioBean extends BaseBean{
 		this.sPrecio = sPrecio;
 	}
 
-	public String getUnidades() {
-		return unidades;
+	public List<TarifarioDetalleBean> getLstTarifarioDetalleBean() {
+		return lstTarifarioDetalleBean;
 	}
 
-	public void setUnidades(String unidades) {
-		this.unidades = unidades;
+	public void setLstTarifarioDetalleBean(List<TarifarioDetalleBean> lstTarifarioDetalleBean) {
+		this.lstTarifarioDetalleBean = lstTarifarioDetalleBean;
 	}
-
-	public String getValoresRefIni() {
-		return valoresRefIni;
-	}
-
-	public void setValoresRefIni(String valoresRefIni) {
-		this.valoresRefIni = valoresRefIni;
-	}
-
-	public String getValoresRefFin() {
-		return valoresRefFin;
-	}
-
-	public void setValoresRefFin(String valoresRefFin) {
-		this.valoresRefFin = valoresRefFin;
-	}
-	  
-	
-	
-	 
+ 
 }

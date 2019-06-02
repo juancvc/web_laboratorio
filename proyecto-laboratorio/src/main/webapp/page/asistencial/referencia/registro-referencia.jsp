@@ -834,7 +834,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="table-responsive_">
-										<table class="table table-bordered">
+										<table id ="tabla" class="table table-bordered">
 											<thead class="tabla_th">
 												<tr>
 													<th width="70">ITEM</th>

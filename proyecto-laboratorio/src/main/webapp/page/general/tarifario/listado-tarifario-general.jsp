@@ -180,22 +180,29 @@
 									</tr>
 								</thead>
 								<tbody id="idBodyListaCIEX" class="label_control">
-									<c:forEach var="ciex" items="${lstTarifarioBean}"
+									<c:forEach var="tarifario" items="${lstTarifarioBean}"
 										varStatus="loop">
 										<tr>
 											<td>${loop.count}</td>
-											<td>${ciex.descripcion}</td>
-											<td>${ciex.tipo.nombreCorto}</td>
-											<td>${ciex.subtipo}</td>
-											<td>${ciex.sPrecio}</td>
-											<td><button type="button"
-													class="btn btn-outline-success btn-sm"
-													data-toggle="tooltip" data-placement="top" title=""
-													data-original-title="Seleccionar"
-													onclick="llenarDxIndex(${loop.index})"
-													id="agregarEspecialidad">
-													<i class="icon-check"></i>
-												</button></td>
+											<td>${tarifario.descripcion}</td>
+											<td>${tarifario.tipo.nombreCorto}</td>
+											<td>${tarifario.subtipo}</td>
+											<td>${tarifario.sPrecio}</td>
+											<td><a title="Modificar" data-placement="top"
+											data-toggle="tooltip"
+											class="btn btn-outline-success btn-sm"
+											onclick="javascript:modificarElementoGenerico('/tarifarioController/modificar','${loop.index}')"
+											href="#"><i class="icon-pencil"></i></a> <!--   <a title="Eliminar" data-placement="top" data-toggle="tooltip"
+                                                      class="btn btn-outline-danger btn-sm" href="eliminar?codigo=${lenguaBean.codigo}"><i class="icon-trash"></i></a> -->
+
+											<button type="button"
+												class="btn btn-outline-danger btn-sm eliminarPerfil"
+												data-toggle="tooltip" data-placement="top" title=""
+												onclick="confirmar_accion('${loop.index}')"
+												data-original-title="Eliminar"
+												id="eliminarPerfil${loop.index}">
+												<i class="icon-trash"></i>
+											</button></td>
 										</tr>
 									</c:forEach>
 								</tbody>

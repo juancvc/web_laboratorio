@@ -14,7 +14,7 @@
 <meta name="description"
 	content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
 <meta name="author" content="">
-<title>Registro de Orden</title>
+<title>Registro de Tarifario</title>
 <!-- Bootstrap core CSS-->
 
 <link
@@ -133,16 +133,15 @@
 
 					<div class="card-body">
 						<div class="form-group">
-						<div class="label_title">DATOS DE PROCEDIMIENTO :</div>
-						<div class="row">
+							<div class="label_title">DATOS DE PROCEDIMIENTO :</div>
+							<div class="row">
 								<div class="form-group col-md-4 mb-1">
-									<label for="situacion" class="label_control">TIPO
-										<span class="required">*</span>
+									<label for="situacion" class="label_control">TIPO <span
+										class="required">*</span>
 									</label>
 									<div class="controls">
-										<f:select id="tipoTarifario"
-											path="tipo.codReg" required="required"
-											class="form-control">
+										<f:select id="tipoTarifario" path="tipo.codReg"
+											required="required" class="form-control">
 											<f:option value="" label="Seleccionar" selected="true"
 												disabled="disabled" />
 											<f:options items="${lstAreasLab}" itemValue="codReg"
@@ -151,100 +150,136 @@
 									</div>
 								</div>
 								<div class="form-group col-md-4 mb-1">
-									<label for="situacion" class="label_control">SUB TIPO</label> <span class="required">*</span>
-									
+									<label for="situacion" class="label_control">SUB TIPO</label> <span
+										class="required">*</span>
+
 									<div class="position-relative has-icon-left">
 										<input id="contextPath" type="hidden"
 											value="${pageContext.request.contextPath}">
 										<div class="controls">
 											<f:input type="text" class="form-control" required="required"
-												maxlength="20" id="tarifarioSubtipo"
-												path="subtipo"/>
+												maxlength="20" id="tarifarioSubtipo" path="subtipo" />
 										</div>
 									</div>
 								</div>
-								
-								 
+								<div class="form-group col-md-4 mb-2">
+									<label for="nombreCompleto" class="label_control">PRECIO
+										S/. </label>
+									<div class="controls">
+										<f:input type="text" min="1" maxlength="8"
+											onkeypress="return decimales(event,this)"
+											class="form-control" required="required" id="tariarioPrecio"
+											path="precio" />
+
+									</div>
+								</div>
 							</div>
 							<div class="row">
-								<div class="form-group col-md-8 mb-1">
-									<label for="nombreCompleto" class="label_control">DESCRIPCION <span class="required">*</span>
+								<div class="form-group col-md-12 mb-3">
+									<label for="nombreCompleto" class="label_control">DESCRIPCION
+										<span class="required">*</span>
 									</label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
-											id="tarifarioDescripcion" 
-											path="descripcion" />
-
+											id="tarifarioDescripcion" path="descripcion" />
 									</div>
 								</div>
-								
+							</div>
+							<div class="label_title">
+								DETALLE <span class="required">*</span>:
+							</div>
+							<div id="panelCEX" class="panel_style col-md-12">
+								<div class="row">
+									<div class="col-md-12 text-right " style="margin-bottom: 20px;">
+										<button id="btn-save-reg" type="button" class="btn btn-info"
+											onclick="llenarDetalleTarifario()">
+											<i class="fa fa-plus"></i> AGREGAR
+										</button>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="table-responsive_">
+											<table id ="tabla"  class="table table-bordered">
+												<thead class="tabla_th">
+													<tr>
+														<th width="70">ITEM</th>
+														<th>UNIDAD</th>
+														<th>VALOR INICIAL</th>
+														<th>VALOR FINAL</th>
+														<th width="60">ACCION</th>
+													</tr>
+												</thead>
+												<tbody id="idbodyCIEXref" class="label_control">
+													<c:forEach var="ciex" items="${lstDetalleTarifarioBean}"
+														varStatus="loop">
+														<tr>
+															<td>${loop.count}</td>
+															<td><div class="controls">
+																	<f:input type="text" min="1" maxlength="20"
+																		class="form-control" required="required"
+																		id="tarifarioUnidades" path="unidades" />
+
+																</div></td>
+															<td><div class="controls">
+																	<f:input type="text" maxlength="30"
+																		class="form-control" required="required"
+																		id="tarifarioValorInicial" path="valoresRefIni" />
+
+																</div></td>
+															<td><div class="controls">
+																	<f:input type="text" maxlength="30"
+																		class="form-control" required="required"
+																		id="tarifarioValorFinal" path="valoresRefFin" />
+
+																</div></td>
+															<c:choose>
+																<c:when test="${codigo==null || codigo==''}">
+																	<td></td>
+																</c:when>
+																<c:otherwise>
+																	<td><button type='button'
+																			class='btn btn-outline-danger btn-sm'
+																			data-toggle='tooltip' data-placement='top'
+																			title='Eliminar'
+																			onclick='confirmar_eliminar(${ciex.diagnostico.valor4})'
+																			data-original-title='Eliminar' id='eliminarDX'>
+																			<i class='icon-trash'></i>
+																		</button>
+																		<button id="btn-save-reg" type="button"
+																			class="btn btn-info"
+																			onclick="especialidadCargarModal()">
+																			<i class="fa fa-plus"></i>ESPECIALIDAD
+																		</button></td>
+																</c:otherwise>
+															</c:choose>
+
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="row">
-							
-								<div class="form-group col-md-4 mb-2">
-									<label for="nombreCompleto" class="label_control">PRECIO S/.
-									</label>
-									<div class="controls">
-										<f:input type="text" min="1" maxlength="8" onkeypress="return decimales(event,this)" 
-										 class="form-control" required="required"
-											 id="tariarioPrecio" path="precio" />
+								<div class="form-group col-md-12 text-right"
+									style="margin-top: 15px;">
+									<a
+										href="${pageContext.request.contextPath}/tarifarioController/nuevoTarifario"
+										class="btn btn-secondary" title=""> <i
+										class="fa icon-plus"></i> NUEVO
+									</a>
 
-									</div>
-								
+									<button type="submit" onclick="grabarTarifario()"
+										class="btn btn-primary">
+										<i class="fa fa-floppy-o"></i> GUARDAR
+									</button>
 								</div>
-									<div class="form-group col-md-4 mb-2">
-									<label for="nombreCompleto" class="label_control">UNIDADES
-									</label>
-									<div class="controls">
-										<f:input type="text" min="1" maxlength="20" 
-										 class="form-control" required="required"
-											 id="tarifarioUnidades" path="unidades" />
-
-									</div>
-								</div>
-						  
-					 
-						</div>
-						<div class="row">
-						<div class="form-group col-md-4 mb-2">
-									<label for="nombreCompleto" class="label_control">VALOR INICIAL
-									</label>
-									<div class="controls">
-										<f:input type="text"  maxlength="30" 
-										 class="form-control" required="required"
-											 id="tarifarioValorInicial" path="valoresRefIni" />
-
-									</div>
-								</div>
-								<div class="form-group col-md-4 mb-2">
-									<label for="nombreCompleto" class="label_control">VALOR FINAL
-									</label>
-									<div class="controls">
-										<f:input type="text"  maxlength="30" 
-										 class="form-control" required="required"
-											 id="tarifarioValorFinal" path="valoresRefFin" />
-
-									</div>
-								</div>
-						</div>
-						<div class="row">
-							<div class="form-group col-md-12 text-right"
-								style="margin-top: 15px;">
-								<a
-									href="${pageContext.request.contextPath}/tarifarioController/nuevoTarifario"
-									class="btn btn-secondary" title=""> <i class="fa icon-plus"></i>
-									NUEVO
-								</a> 
-
-								<button type="submit" onclick="grabarTarifario()"
-									class="btn btn-primary">
-									<i class="fa fa-floppy-o"></i> REGISTRAR
-								</button>
 							</div>
 						</div>
 					</div>
-
 				</f:form>
 				<f:form id="frmRegistro" class="form-horizontal" role="form"
 					method="POST"
@@ -252,16 +287,16 @@
 					<button type="submit" style="display: none" id="btnListado">Click
 						me</button>
 				</f:form>
+
 			</div>
-		
-	<div class="modal fade text-xs-left" id="modalTarifario"
-			tabindex="-1" role="dialog" aria-labelledby="myModalLabel35"
-			data-dismiss="modal" aria-hidden="true" aria-hidden="true">
-			<div class="modal-dialog modal-lg" role="document">
-				<div class="modal-content" id="modalEstablecimientoContent"></div>
+			<div class="modal fade text-xs-left" id="modalTarifario"
+				tabindex="-1" role="dialog" aria-labelledby="myModalLabel35"
+				data-dismiss="modal" aria-hidden="true" aria-hidden="true">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content" id="modalEstablecimientoContent"></div>
+				</div>
 			</div>
-		</div>
-		
+
 			<!-- Example DataTables Card-->
 
 		</div>
@@ -306,12 +341,8 @@
 		<script
 			src="${pageContext.request.contextPath}/app-assets/js/sb-admin-datatables.min.js"></script>
 		<!-- Custom scripts for all pages-->
-		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
-
+		<script src="http://malsup.github.io/jquery.blockUI.js"></script> 
 		<script
-			src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
-			type="text/javascript" charset="utf-8"></script>
-			<script
 			src="${pageContext.request.contextPath}/assets/js/page/asistencial/tarifario.js"
 			type="text/javascript" charset="utf-8"></script>
 		<script
@@ -327,10 +358,14 @@
 		<script src="${pageContext.request.contextPath}/assets/js/scripts.js"
 			type="text/javascript"></script>
 
-	
+
 	</div>
 </body>
 
+<script type="text/javascript">  
+	  
+		var  listadoDetalleTarifario= []; 
+ </script>
 </html>
 
 
