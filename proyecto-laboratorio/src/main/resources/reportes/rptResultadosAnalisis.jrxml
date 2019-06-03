@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptResultadosAnalisis" language="groovy" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="20" bottomMargin="20" uuid="c0c22776-99b2-43c0-ab8f-c3544c0861a7">
-	<property name="ireport.zoom" value="3.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptResultadosAnalisis" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="20" bottomMargin="20" uuid="c0c22776-99b2-43c0-ab8f-c3544c0861a7">
+	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="215"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -29,71 +29,11 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="nombreCompleto" class="java.lang.String">
-		<fieldDescription><![CDATA[empleado.nombreCompleto]]></fieldDescription>
-	</field>
-	<field name="horaInic" class="java.lang.String">
-		<fieldDescription><![CDATA[horaInic]]></fieldDescription>
-	</field>
-	<field name="horaFin" class="java.lang.String">
-		<fieldDescription><![CDATA[horaFin]]></fieldDescription>
-	</field>
-	<field name="cantAdic" class="java.lang.Integer">
-		<fieldDescription><![CDATA[cantAdic]]></fieldDescription>
-	</field>
-	<field name="cantProg" class="java.lang.Integer">
-		<fieldDescription><![CDATA[cantProg]]></fieldDescription>
-	</field>
-	<field name="cantFuas" class="java.lang.Integer">
-		<fieldDescription><![CDATA[cantFuas]]></fieldDescription>
-	</field>
-	<field name="cantHistorias" class="java.lang.Integer">
-		<fieldDescription><![CDATA[cantHistorias]]></fieldDescription>
-	</field>
-	<field name="centRegisPaci" class="java.lang.Integer">
-		<fieldDescription><![CDATA[centRegisPaci]]></fieldDescription>
-	</field>
-	<field name="usuario" class="java.lang.String">
-		<fieldDescription><![CDATA[auditoria.usuarioReg.usuario]]></fieldDescription>
-	</field>
-	<field name="total" class="java.lang.Integer">
-		<fieldDescription><![CDATA[total]]></fieldDescription>
-	</field>
-	<field name="cantCall" class="java.lang.Integer">
-		<fieldDescription><![CDATA[cantCall]]></fieldDescription>
-	</field>
-	<field name="fechaProg" class="java.util.Date">
-		<fieldDescription><![CDATA[fechaProg]]></fieldDescription>
-	</field>
 	<variable name="ITEM" class="java.lang.Integer" calculation="Count">
-		<variableExpression><![CDATA[$F{usuario}]]></variableExpression>
-	</variable>
-	<variable name="SumTotal" class="java.lang.Integer">
-		<variableExpression><![CDATA[$F{cantProg}+$F{cantCall}+$F{cantAdic}+$F{cantHistorias}+$F{cantFuas}+$F{centRegisPaci}]]></variableExpression>
-	</variable>
-	<variable name="SumFooter" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{cantProg}]]></variableExpression>
-	</variable>
-	<variable name="Totalto" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$V{SumTotal}]]></variableExpression>
-	</variable>
-	<variable name="SumCall" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{cantCall}]]></variableExpression>
-	</variable>
-	<variable name="SumAdi" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{cantAdic}]]></variableExpression>
-	</variable>
-	<variable name="SumHist" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{cantHistorias}]]></variableExpression>
-	</variable>
-	<variable name="SumFuas" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{cantFuas}]]></variableExpression>
-	</variable>
-	<variable name="sumPacientes" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{centRegisPaci}]]></variableExpression>
+		<variableExpression><![CDATA[]]></variableExpression>
 	</variable>
 	<group name="Usuario">
-		<groupExpression><![CDATA[$F{usuario}]]></groupExpression>
+		<groupExpression><![CDATA[]]></groupExpression>
 		<groupHeader>
 			<band height="13"/>
 		</groupHeader>
@@ -126,9 +66,9 @@
 					</graphicElement>
 				</rectangle>
 			</frame>
-			<image>
-				<reportElement x="0" y="0" width="198" height="27" uuid="eda0561b-9fd2-4a45-88bd-921c0f20005c"/>
-				<imageExpression><![CDATA[this.class.getResourceAsStream("/sigelab/web/reportes/laboratorios_labmed.jpg")]]></imageExpression>
+			<image hAlign="Left">
+				<reportElement x="0" y="0" width="285" height="36" uuid="eda0561b-9fd2-4a45-88bd-921c0f20005c"/>
+				<imageExpression><![CDATA["/sigelab/web/reportes/logo_labmed_grande.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement positionType="Float" x="1" y="79" width="18" height="16" forecolor="#FFFFFF" uuid="8ee8b97f-de39-4d61-bdef-15c94d7f2cad"/>

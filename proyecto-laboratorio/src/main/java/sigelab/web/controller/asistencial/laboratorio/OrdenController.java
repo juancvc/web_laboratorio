@@ -69,6 +69,8 @@ public class OrdenController  extends BaseController {
 	private List<OrdenDetalleBean> lstOrdenDetalleBean ;  
 	private List<OrdenBean> lstOrdenBean ;  
 	
+	private OrdenBean ordenBean;
+	
 	@Autowired
 	private MaestraAsis01Service maestraAsis01Service;
 	 
@@ -527,7 +529,7 @@ public class OrdenController  extends BaseController {
 
 				System.out.println("codigo detalle: " + ord.getCodigo()); 
 			}
-		
+		setOrdenBean(objOrdenBean);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -589,6 +591,77 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 			//lstOrdenDetalleBean.add(objOrdenDetalleBean);
 			return resultados;
 		}
+    @RequestMapping(value = "rptFichaREsultados", method = RequestMethod.GET)
+	@ResponseBody
+	public void rptFichaREsultados(//@RequestParam("ordenBean") OrdenBean ordenBean,
+				//@ModelAttribute("ordenBean")OrdenBean ordenBean,
+						HttpServletResponse response, 
+						HttpServletRequest request) throws JRException, IOException {
+		InputStream jasperStream = this.getClass().getResourceAsStream("/reportes/rptResultadosAnalisis.jasper");
+		
+	//	OrdenBean ordenBean = new OrdenBean();
+		
+		/*
+		lstPreDonanteEntrevistaBean = new ArrayList<PreDonanteEntrevistaBean>();
+		PreDonanteBean objPreDonanteBean = new PreDonanteBean();
+		PreDonanteEntrevistaBean prmPreDonanteEntrevistaBean = new PreDonanteEntrevistaBean();
+		try {
+			objPreDonanteBean = preDonanteService.getBuscarPorObjecto(lstPreDonanteBean.get(index));
+			if (objPreDonanteBean != null) {
+				if (objPreDonanteBean.getPostulanteBean().getPersona().getTipoDocumento().getNombreCorto().equals("DNI")) {
+					PacienteReniec pacienteReniec = new PacienteReniec();
+					pacienteReniec.setNroDni(objPreDonanteBean.getPostulanteBean().getPersona().getNroDocumento()); 
+					List<PacienteReniec> lstPersona =  null; 	
+			
+				}else{
+					objPreDonanteBean.getPostulanteBean().getPersona().setFoto(null); 
+				}
+				System.out.println(objPreDonanteBean.getPostulanteBean().getCodigo());
+				System.out.println(objPreDonanteBean.getPostulanteBean().getNumeroPeriodo());
+				System.out.println(objPreDonanteBean.getPostulanteBean().getPersona().getCodigo());
+				prmPreDonanteEntrevistaBean.setPostulanteBean(objPreDonanteBean.getPostulanteBean());
+				lstPreDonanteEntrevistaBean = preDonanteEntrevistaService.getBuscarPorFiltros(prmPreDonanteEntrevistaBean);
+				if (lstPreDonanteEntrevistaBean != null) {
+					System.out.println("lstPreDonanteEntrevistaBean " + lstPreDonanteEntrevistaBean.size());
+					objPreDonanteBean.setLstPreDonanteEntrevistaBean(lstPreDonanteEntrevistaBean);
+				}else{
+					System.out.println("lstPreDonanteEntrevistaBean is null");
+				}
+			}else{
+				System.out.println("objPreDonanteBeanis null");
+			}
+		} catch (Exception e) {
+			 
+		}*/
+		Map<String, Object> parametro = new HashMap<String, Object>();
+		System.out.println("ordenBean.getCodigo()"+getOrdenBean().getCodigo());
+		parametro.put("usuario", getUsuarioSesion(request).getNombreUsuario()); 
+		parametro.put("nroAnalisis",getOrdenBean().getCodigo()); 
+		parametro.put("paciente",getOrdenBean().getPacienteBean().getPersona().getApellidoPaterno()+" "+getOrdenBean().getPacienteBean().getPersona().getApellidoMaterno()
+				+" "+getOrdenBean().getPacienteBean().getPersona().getPrimerNombre()+" "+getOrdenBean().getPacienteBean().getPersona().getSegundoNombre()); 
+		parametro.put("edad",getOrdenBean().getPacienteBean().getPersona().getEdad()+" años"); 
+		parametro.put("dni",getOrdenBean().getPacienteBean().getPersona().getNroDocumento()); 
+	/*	if (ordenBean.getPacienteBean().getPersona().getSexo().getCodReg().equals("000001")) {
+			parametro.put("sexo","femenino"); 	
+		} else {
+			parametro.put("sexo","masculino"); 	
+		}
+		*/
+		System.out.println("jasperStream " + jasperStream);
+		List<OrdenBean> oLSTOrdenBean = new ArrayList<OrdenBean>();
+		oLSTOrdenBean.add(getOrdenBean());//((OrdenDetalleBean) ordenBean.getLstOrdenDetalleBean());
+		
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(oLSTOrdenBean);
+		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametro, dataSource);
+
+		response.setContentType("application/x-pdf");
+		response.setHeader("Content-disposition",
+				"inline; filename="+getOrdenBean().getCodigo()+".pdf");
+
+		final OutputStream outStream = response.getOutputStream();
+		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+	}
 	   
 	   
 	public PersonaBean getPersonaBean() {
@@ -605,6 +678,14 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 
 	public void setLstTarifarioBean(List<TarifarioBean> lstTarifarioBean) {
 		this.lstTarifarioBean = lstTarifarioBean;
+	}
+
+	public OrdenBean getOrdenBean() {
+		return ordenBean;
+	}
+
+	public void setOrdenBean(OrdenBean ordenBean) {
+		this.ordenBean = ordenBean;
 	}
 
 }

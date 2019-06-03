@@ -372,10 +372,11 @@
 								</a>
 								
 									<a
-									href="${pageContext.request.contextPath}/ordenController/nuevo"
+									href="${pageContext.request.contextPath}/ordenController/rptFichaREsultados"
 									class="btn btn-secondary" title=""> <i class="fa fa-print"></i>
 									IMPRIMIR
 								</a>
+							
 
 							
 							</div>
