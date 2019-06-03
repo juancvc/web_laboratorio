@@ -26,11 +26,8 @@ function grabarTarifario(){
 		var contextPath = $('#contextPath').val(); 
 		var actionForm = $('#frmGuardarTarifario').attr("action");
 		
-	/*	if (personaCodigo =="") {
-			msg_advertencia("Debe ingresar una persona para lo Orden."); 
-			return;
-			
-		} */
+	
+		
 		console.log("codigo  :: " + codigo) ; 
 		var myFormulario = $('#frmGuardarTarifario');  
 		
@@ -80,6 +77,22 @@ function grabarTarifario(){
 
 function llenarDetalleTarifario(){
 	//debugger; 
+	
+	var cboTipoResultado = $('#cboTipoResultado').val();
+	var contextPath = $('#contextPath').val();
+	$.ajax({
+		url : contextPath + "/tarifarioController/agregarDetalle",
+		type : 'GET',
+		data: $('#frmGuardarTarifario').serialize(),
+		success : function(data) {
+			//console.log("SUCCESS: ", data);
+			$('#tblListaDetalle').html(data);
+		},
+		error : function() {
+			//console.log("ERROR: ");
+		}
+	});
+	/***
 var nuevaFila ="";
 var fila = $("#tabla tbody tr").length ;
 var nfila = Number(fila) + 1;
@@ -89,11 +102,11 @@ var nfila = Number(fila) + 1;
             
             	"<td>"+nfila+"</td>" +
             		"<td><input type='text' class='form-control' "+ 
-    										"value = '' ></td>" +
+    										"value = '' required='required'></td>" +
             		"<td><input type='text' class='form-control' "+ 
-    										"value = ''/></td>" +
+    										"value = '' required='required'/></td>" +
             		"<td><input type='text' class='form-control' "+ 
-    										"value = ''/></td>" +
+    										"value = '' required='required'/></td>" +
     				"<td>"+ 
     		    	 	"<button type='button'"+
     		    	 	" class='btn btn-outline-danger btn-sm' "+
@@ -108,6 +121,7 @@ var nfila = Number(fila) + 1;
          
 
     $("#tabla tbody").append(nuevaFila);
+    */
 }
 
 

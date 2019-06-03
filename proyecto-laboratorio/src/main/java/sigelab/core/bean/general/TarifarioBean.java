@@ -1,6 +1,7 @@
 //package pe.gob.procalidad.natigu.core.bean.bean.generico;
 package sigelab.core.bean.general;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sigelab.base.bean.BaseBean;
@@ -67,11 +68,20 @@ public class TarifarioBean extends BaseBean{
 	}
 
 	public List<TarifarioDetalleBean> getLstTarifarioDetalleBean() {
+		if (lstTarifarioDetalleBean == null ) {
+			lstTarifarioDetalleBean = new ArrayList<TarifarioDetalleBean>();
+		}
 		return lstTarifarioDetalleBean;
 	}
 
 	public void setLstTarifarioDetalleBean(List<TarifarioDetalleBean> lstTarifarioDetalleBean) {
 		this.lstTarifarioDetalleBean = lstTarifarioDetalleBean;
+	}
+
+	@Override
+	public String toString() {
+		return "TarifarioBean [tipo=" + tipo + ", subtipo=" + subtipo + ", descripcion=" + descripcion + ", precio="
+				+ precio + ", sPrecio=" + sPrecio + ", lstTarifarioDetalleBean=" + lstTarifarioDetalleBean + "]";
 	}
  
 }

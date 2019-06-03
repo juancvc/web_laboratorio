@@ -33,6 +33,7 @@ import sigelab.core.bean.asistencial.banco.LugarCampaniaBean;
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.TarifarioBean;
+import sigelab.core.bean.general.TarifarioDetalleBean;
 import sigelab.core.bean.general.UbigeoBean;
 import sigelab.core.bean.seguridad.UsuarioBean;
 import sigelab.core.entity.asistencial.banco.InterUAL;
@@ -45,11 +46,13 @@ import sigelab.core.service.interfaces.asistencial.banco.LugarCampaniaService;
 import sigelab.core.service.interfaces.asistencial.banco.PostulanteService;
 import sigelab.core.service.interfaces.asistencial.banco.PreDonanteService;
 import sigelab.core.service.interfaces.asistencial.banco.SeropositivoService;
+import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenDetalleService;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraBanc01Service; 
 import sigelab.core.service.interfaces.general.Maestra1Service;
 import sigelab.core.service.interfaces.general.PacienteReniecService;
 import sigelab.core.service.interfaces.general.PersonaService;
+import sigelab.core.service.interfaces.general.TarifarioDetalleService;
 import sigelab.core.service.interfaces.general.TarifarioService;
 import sigelab.core.service.interfaces.general.UbigeoService;
 import sigelab.web.controller.base.BaseController;
@@ -84,11 +87,7 @@ public class TarifarioController  extends BaseController {
 	 
 	private List<CampaniaBean> lstCampaniaBean ;
 	private List<TarifarioBean> lstTarifarioBean ;
-	private List<PostulanteBean> lstPostulanteBean ;
-	private List<SeropositivoBean> lstSeropositivoBean ;
-	
-	@Autowired
-	private MaestraBanc01Service maestraBanc01Service; 
+	private List<TarifarioDetalleBean> lstTarifarioDetalleBean ;
 	 
 	@Autowired
 	private MaestraAsis01Service maestraAsis01Service;
@@ -98,6 +97,9 @@ public class TarifarioController  extends BaseController {
 	
 	@Autowired
 	private TarifarioService tarifarioService;
+	
+	@Autowired
+	private TarifarioDetalleService tarifarioDetalleService; 
 	
 	@Autowired
 	private Maestra1Service maestraGene01Services;
@@ -140,9 +142,9 @@ public class TarifarioController  extends BaseController {
 	  
 	@RequestMapping(value = "/nuevoTarifario", method = RequestMethod.GET)
 	public ModelAndView nuevoRegistroTarifario(HttpServletRequest request) {
-		TarifarioBean tarifarioBean = new TarifarioBean(); 
-	
-		
+	    tarifarioBean = new TarifarioBean(); 
+		//lstTarifarioDetalleBean = new ArrayList<TarifarioDetalleBean>();
+		tarifarioBean.setLstTarifarioDetalleBean(lstTarifarioDetalleBean);
 		ModelAndView mav = new ModelAndView("general/tarifario/registro-tarifario", "command", tarifarioBean); 
 		mav.addObject("tarifarioBean", tarifarioBean);
 		this.cargarCombos(mav); 
@@ -171,13 +173,21 @@ public class TarifarioController  extends BaseController {
  
 	@RequestMapping(value = "/modificar", method = RequestMethod.POST)
 	public ModelAndView doModificar(@RequestParam("index") Integer index, HttpServletRequest request) {
-
+		lstTarifarioDetalleBean = new ArrayList<TarifarioDetalleBean>();
 		System.out.println("modificar codigo: " + index); 
-		TarifarioBean otarifarioBean = new TarifarioBean(); 
-		otarifarioBean = this.lstTarifarioBean.get(index);
-		System.out.println("modificar otarifarioBean: " + otarifarioBean.getCodigo());
-		ModelAndView mav = new ModelAndView("general/tarifario/registro-tarifario", "command", otarifarioBean);
-		mav.addObject("tarifarioBean", otarifarioBean); 
+		//TarifarioBean otarifarioBean = new TarifarioBean(); 
+		tarifarioBean = this.lstTarifarioBean.get(index);
+		System.out.println("modificar otarifarioBean: " + tarifarioBean.getCodigo());
+		ModelAndView mav = new ModelAndView("general/tarifario/registro-tarifario", "command", tarifarioBean);
+		TarifarioDetalleBean objTarifarioDetalleBean = new TarifarioDetalleBean();
+		try {
+			tarifarioDetalleService.getBuscarPorFiltros(objTarifarioDetalleBean);
+			tarifarioBean.setLstTarifarioDetalleBean(lstTarifarioDetalleBean);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		mav.addObject("tarifarioBean", tarifarioBean); 
+		mav.addObject("lstTarifarioDetalleBean", lstTarifarioDetalleBean); 
 		this.cargarCombos(mav);
 		return mav;
 	}
@@ -186,11 +196,12 @@ public class TarifarioController  extends BaseController {
 	public @ResponseBody String grabarTarifario(@ModelAttribute("tarifarioBean")TarifarioBean tarifarioBean,
 											 HttpServletRequest request) throws Exception {  
 		String codigo ="";   
+		System.out.println("tarifarioBean lista " + tarifarioBean.getLstTarifarioDetalleBean().size());
 		if (tarifarioBean.getCodigo()!=null && !tarifarioBean.getCodigo().equals("")) {
 			this.setAuditoria(tarifarioBean, request, false); 
-			System.out.println("actualiza campaniaBean " + tarifarioBean.getCodigo());
+			System.out.println("actualiza tarifarioBean " + tarifarioBean.getCodigo());
 			if (tarifarioService.actualizar(tarifarioBean)) { 
-				System.out.println("campaniaBean " + tarifarioBean.getCodigo());
+				System.out.println("tarifarioBean " + tarifarioBean.getCodigo());
 				codigo = tarifarioBean.getCodigo();
 			}
 		} else {
@@ -198,8 +209,14 @@ public class TarifarioController  extends BaseController {
 			this.setAuditoria(tarifarioBean, request, true); 
 			System.out.println("insert tarifarioBean " + tarifarioBean.getTipo().getCodReg());
 			if (tarifarioService.insertar(tarifarioBean)) { 
-				System.out.println("campaniaBean " + tarifarioBean.getCodigo());
+				System.out.println("tarifarioBean " + tarifarioBean.getCodigo());
 				codigo = tarifarioBean.getCodigo();
+				
+				for (TarifarioDetalleBean objTarifarioDetalleBean : tarifarioBean.getLstTarifarioDetalleBean()) {
+					objTarifarioDetalleBean.setTarifarioBean(tarifarioBean);
+					this.setAuditoria(objTarifarioDetalleBean, request, false); 
+					tarifarioDetalleService.insertar(objTarifarioDetalleBean);
+				}
 
 			}
 			
@@ -272,6 +289,29 @@ public class TarifarioController  extends BaseController {
 		return mav;
 	}
  
+	@RequestMapping(value = "/agregarDetalle", method = RequestMethod.GET)
+	public ModelAndView agregarDetalle( HttpServletRequest request)
+			throws Exception {
+		System.out.println("getCodigo:::"+ tarifarioBean.getCodigo());
+		System.out.println("tarifarioBean.getLstTarifarioDetalleBean():::"+ tarifarioBean.getLstTarifarioDetalleBean().size());
+		TarifarioDetalleBean objTarifarioDetalleBean = new TarifarioDetalleBean();
+		objTarifarioDetalleBean.setCodigo("");
+		objTarifarioDetalleBean.setValoresRefFin("");
+		objTarifarioDetalleBean.setValoresRefIni("");
+		objTarifarioDetalleBean.setUnidades("");
+		lstTarifarioDetalleBean.add(objTarifarioDetalleBean);
+		try {
+			tarifarioBean.getLstTarifarioDetalleBean().add(objTarifarioDetalleBean);
+			//tarifarioBean.setLstTarifarioDetalleBean(lstTarifarioDetalleBean);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		ModelAndView mav = new ModelAndView("general/tarifario/ajax/listado-tarifario-detalle", "command",tarifarioBean);  
+	
+		mav.addObject("lstTarifarioDetalleBean", tarifarioBean.getLstTarifarioDetalleBean()); 
+		mav.addObject("tarifarioBean", tarifarioBean); 
+		return mav;
+	}
 
 	public PersonaBean getPersonaBean() {
 		return personaBean;
@@ -287,6 +327,14 @@ public class TarifarioController  extends BaseController {
 
 	public void setPostulanteBean(PostulanteBean PostulanteBean) {
 		this.PostulanteBean = PostulanteBean;
+	}
+
+	public List<TarifarioDetalleBean> getLstTarifarioDetalleBean() {
+		return lstTarifarioDetalleBean;
+	}
+
+	public void setLstTarifarioDetalleBean(List<TarifarioDetalleBean> lstTarifarioDetalleBean) {
+		this.lstTarifarioDetalleBean = lstTarifarioDetalleBean;
 	}
 
 }

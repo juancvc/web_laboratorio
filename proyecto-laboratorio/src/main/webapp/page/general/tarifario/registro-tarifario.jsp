@@ -199,7 +199,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-12">
+									<div class="col-md-12" id="tblListaDetalle">
 										<div class="table-responsive_">
 											<table id ="tabla"  class="table table-bordered">
 												<thead class="tabla_th">
@@ -212,49 +212,36 @@
 													</tr>
 												</thead>
 												<tbody id="idbodyCIEXref" class="label_control">
-													<c:forEach var="ciex" items="${lstDetalleTarifarioBean}"
+													<c:forEach var="ciex" items="${lstTarifarioDetalleBean}"
 														varStatus="loop">
 														<tr>
 															<td>${loop.count}</td>
 															<td><div class="controls">
 																	<f:input type="text" min="1" maxlength="20"
 																		class="form-control" required="required"
-																		id="tarifarioUnidades" path="unidades" />
+																		id="tarifarioUnidades" path="lstTarifarioDetalleBean[${loop.index}].unidades" />
 
 																</div></td>
 															<td><div class="controls">
 																	<f:input type="text" maxlength="30"
 																		class="form-control" required="required"
-																		id="tarifarioValorInicial" path="valoresRefIni" />
+																		id="tarifarioValorInicial" path="lstTarifarioDetalleBean[${loop.index}].valoresRefIni" />
 
 																</div></td>
 															<td><div class="controls">
 																	<f:input type="text" maxlength="30"
 																		class="form-control" required="required"
-																		id="tarifarioValorFinal" path="valoresRefFin" />
+																		id="tarifarioValorFinal" path="lstTarifarioDetalleBean[${loop.index}].valoresRefFin" />
 
 																</div></td>
-															<c:choose>
-																<c:when test="${codigo==null || codigo==''}">
-																	<td></td>
-																</c:when>
-																<c:otherwise>
-																	<td><button type='button'
+															<td><button type='button'
 																			class='btn btn-outline-danger btn-sm'
 																			data-toggle='tooltip' data-placement='top'
 																			title='Eliminar'
-																			onclick='confirmar_eliminar(${ciex.diagnostico.valor4})'
+																			onclick='confirmar_eliminar(${loop.index})'
 																			data-original-title='Eliminar' id='eliminarDX'>
 																			<i class='icon-trash'></i>
-																		</button>
-																		<button id="btn-save-reg" type="button"
-																			class="btn btn-info"
-																			onclick="especialidadCargarModal()">
-																			<i class="fa fa-plus"></i>ESPECIALIDAD
-																		</button></td>
-																</c:otherwise>
-															</c:choose>
-
+																		</button></td> 
 														</tr>
 													</c:forEach>
 												</tbody>

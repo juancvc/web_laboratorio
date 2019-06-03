@@ -16,6 +16,9 @@ public class TarifarioDetalleBean extends BaseBean{
 	}
  
 	public TarifarioBean getTarifarioBean() {
+		if (tarifarioBean == null) {
+			tarifarioBean = new TarifarioBean();
+		}
 		return tarifarioBean;
 	}
 
@@ -46,8 +49,11 @@ public class TarifarioDetalleBean extends BaseBean{
 	public void setValoresRefFin(String valoresRefFin) {
 		this.valoresRefFin = valoresRefFin;
 	}
-	  
-	
-	
+
+	@Override
+	public String toString() {
+		return "TarifarioDetalleBean [tarifarioBean=" + tarifarioBean + ", unidades=" + unidades + ", valoresRefIni="
+				+ valoresRefIni + ", valoresRefFin=" + valoresRefFin + "]";
+	} 
 	 
 }

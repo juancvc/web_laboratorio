@@ -10,20 +10,16 @@ import java.sql.Timestamp;
 		{
 				
 			@NamedStoredProcedureQuery(name = "tarifarioUnidad.insertar",
-					procedureName = "[RECO].REFAPOYO_INSERT", 
+					procedureName = "LABO.USP_UNIDVALO_INSERT", 
 					resultClasses = Tarifario_unidadValor.class, parameters = {
-					@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODAPOYO", type = String.class),
+					@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODUNVAL", type = String.class),
 					
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODREFCB",  type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPERCB",  type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROVERCB",  type = String.class),
+					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTARIF",  type = String.class),
+					@StoredProcedureParameter(mode = ParameterMode.IN, name = "UNIDADES",  type = String.class),
+					@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALORINI",  type = String.class),
 					
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class), 
+					@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALORFIN", type = String.class), 
 					
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG14TPAP",  type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTARCB",  type = String.class),
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSCR", type = String.class),
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class)
 					}), 
