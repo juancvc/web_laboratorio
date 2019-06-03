@@ -111,7 +111,7 @@
 		<div class="container-fluid">
 			<div class="tituloForm">REGISTRO DE ORDEN</div>
 			<div class="card mb-3">
-				<f:form id="frmGuardarOrden" class="form-horizontal" role="form"
+				<f:form id="frmActualizarResultadoOrden" class="form-horizontal" role="form"
 					method="post" action="" onsubmit="return false">
 					<input id="contextPath" type="hidden"
 						value="${pageContext.request.contextPath}">
@@ -246,22 +246,7 @@
 								ORDEN(ES) <span class="required">*</span>:
 							</div>
 							<div id="panelCEX" class="panel_style col-md-12">
-								<div class="row">
-									<div class="col-md-12 text-right " style="margin-bottom: 20px;">
-										<button id="btn-save-reg" type="button" class="btn btn-info"
-											<c:choose>
-									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
-									</c:when>
-									<c:otherwise>
-										disabled ="true"
-									</c:otherwise>
-								</c:choose>
-											onclick="cargarTarifarioModal()">
-											<i class="fa fa-plus"></i> AGREGAR EXAMEN
-										</button>
-
-									</div>
-								</div>
+						
 								<div class="row">
 									<div class="col-md-12">
 										<div class="table-responsive">
@@ -281,6 +266,13 @@
 												<tbody id="idbodyCIEXref" class="label_control">
 													<c:forEach var="orden" items="${lstOrdenDetalleBean}"
 														varStatus="loop">
+					<f:input type="hidden" id="codigo" value="${orden.codigo}" path="lstOrdenDetalleBean[${loop.index}].codigo" />
+					
+					<f:input type="hidden" id="numeroVersion" value="${orden.numeroVersion}" path="lstOrdenDetalleBean[${loop.index}].numeroVersion" />
+					<f:input type="hidden" id="numeroPeriodo" value="${orden.numeroPeriodo}" path="lstOrdenDetalleBean[${loop.index}].numeroPeriodo" />
+					<f:input type="hidden" id="codigoOrganizacion" value="${orden.codigoOrganizacion}" path="lstOrdenDetalleBean[${loop.index}].codigoOrganizacion" />
+					<f:input type="hidden" id="codigoSede" value="${orden.codigoSede}" path="lstOrdenDetalleBean[${loop.index}].codigoSede" />
+					<f:input type="hidden" id="codigoInstitucion" value="${orden.codigoInstitucion}" path="lstOrdenDetalleBean[${loop.index}].codigoInstitucion" />
 														<tr>
 															<td>${loop.count}</td>
 															<td>${orden.examen.descripcion}</td>
@@ -288,10 +280,37 @@
 															<td>${orden.cantidad}</td>
 															<td>${orden.examen.sPrecio}</td>
 															<td>${orden.sImporte}</td>
-															<td>${orden.sImporte}</td>
+															<td>
 															<c:choose>
-																<c:when test="${codigo==null || codigo==''}">
-																	<td></td>
+															<c:when test="${orden.resultado==null || orden.resultado==''}">
+															
+																	<f:input type="text" min="1" maxlength="50"
+																		class="form-control" required="required"
+																		id="tarifarioUnidades" path="lstOrdenDetalleBean[${loop.index}].resultado" />
+																
+																
+																</c:when> 
+																<c:otherwise>
+																${orden.resultado}
+																</c:otherwise>
+																</c:choose>
+															</td>
+															
+															
+															
+															<c:choose>
+																<c:when test="${orden.resultado==null || orden.resultado==''}">
+																	<td>
+																	<button type='button'
+																			class='btn btn-outline-danger btn-sm'
+																			data-toggle='tooltip' data-placement='top'
+																			title='Agregar Resultado'
+																			onclick=''
+																			data-original-title='Agregar' id='agregarResultado'>
+																			<i class='icon-plus'></i>
+																		</button>
+																	
+																	</td>
 																</c:when> 
 																<c:otherwise>
 																	<td><button type='button'
@@ -300,13 +319,9 @@
 																			title='Elminar'
 																			onclick='confirmar_eliminar(${ciex.examen.codigo})'
 																			data-original-title='Eliminar' id='eliminarDX'>
-																			<i class='icon-trash'></i>
+																			<i class='icon-plus'></i>
 																		</button></td>
-																			<a title="Resultado de la Orden" data-placement="top"
-																	data-toggle="tooltip"
-																	class="btn btn-outline-warning btn-sm"
-																	onclick="cargarAnalisisModal()"
-																	href="#"><i class="icon-pencil">Resultado</i></a>
+																		
 																</c:otherwise>
 															</c:choose>
 
@@ -316,7 +331,9 @@
 											</table>
 										</div>
 									</div>
+									
 								</div>
+							
 								<div class="row">
 									<div class="form-group col-md-9 text-right"
 										style="margin-top: 2px;"></div>
@@ -331,7 +348,13 @@
 											id="txtCajaImporteTotalHidden" />
 									</div>
 								</div>
+								
 							</div>
+								<button type="submit" onclick="actualizarResultadoOrdenDetalle()"
+								
+									class="btn btn-primary">
+									<i class="fa fa-floppy-o"></i> GUARDAR RESULTADOS
+								</button>
 						</div>
 
 						<div class="row">
@@ -342,18 +365,19 @@
 									class="btn btn-secondary" title=""> <i class="fa icon-plus"></i>
 									NUEVO
 								</a>
+									<a
+									href="${pageContext.request.contextPath}/ordenController/nuevo"
+									class="btn btn-secondary" title=""> <i class="fa fa-envelope-open-o"></i>
+									CORREO
+								</a>
+								
+									<a
+									href="${pageContext.request.contextPath}/ordenController/nuevo"
+									class="btn btn-secondary" title=""> <i class="fa fa-print"></i>
+									IMPRIMIR
+								</a>
 
-								<button type="submit" onclick="grabarOrden()"
-									<c:choose>
-									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
-									</c:when>
-									<c:otherwise>
-										disabled ="true"
-									</c:otherwise>
-								</c:choose>
-									class="btn btn-primary">
-									<i class="fa fa-floppy-o"></i> GUARDAR
-								</button>
+							
 							</div>
 						</div>
 					</div>

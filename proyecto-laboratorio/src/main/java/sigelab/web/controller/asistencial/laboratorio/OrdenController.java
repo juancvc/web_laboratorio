@@ -22,13 +22,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import sigelab.core.bean.asistencial.banco.CampaniaBean;
-import sigelab.core.bean.asistencial.banco.PostulanteBean; 
+import sigelab.core.bean.asistencial.banco.PostulanteBean;
+import sigelab.core.bean.asistencial.banco.PreDonanteBean;
+import sigelab.core.bean.asistencial.banco.PreDonanteEntrevistaBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.TarifarioBean;
-import sigelab.core.bean.general.UbigeoBean; 
+import sigelab.core.bean.general.UbigeoBean;
+import sigelab.core.entity.general.PacienteReniec;
 import sigelab.core.service.exception.ServiceException;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenDetalleService;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenService;
@@ -519,6 +522,12 @@ public class OrdenController  extends BaseController {
 		objOrdenDetalle.setOrdenBean(objOrdenBean);
 		try {
 			lstOrdenDetalleBean = ordenDetalleService.getBuscarPorFiltros(objOrdenDetalle);
+			for (OrdenDetalleBean ord : lstOrdenDetalleBean) {
+				System.out.println("resultados: " + ord.getResultado());	
+
+				System.out.println("codigo detalle: " + ord.getCodigo()); 
+			}
+		
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -527,6 +536,10 @@ public class OrdenController  extends BaseController {
 		this.cargarCombos(mav);
 		return mav;
 	}
+	
+	
+
+	
 	
 	
 	
@@ -562,6 +575,22 @@ public class OrdenController  extends BaseController {
 
 	}
 	
+	
+	  
+    @RequestMapping(value = "/actualizarResultado", method = RequestMethod.GET)
+		public @ResponseBody String actualizarResultado(
+			@ModelAttribute("ordenBean")OrdenBean ordenBean,HttpServletRequest request) throws Exception {
+		   String resultados="";
+for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
+	this.setAuditoria(objOrdenDetalleBean, request, false);
+	ordenDetalleService.resultadoModificar(objOrdenDetalleBean);
+	
+}
+			//lstOrdenDetalleBean.add(objOrdenDetalleBean);
+			return resultados;
+		}
+	   
+	   
 	public PersonaBean getPersonaBean() {
 		return personaBean;
 	}
