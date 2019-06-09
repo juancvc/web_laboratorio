@@ -78,7 +78,28 @@ function cargarAnalisisModal() {
 }
 
 
+function cargarEmailModal() {
+	var contextPath = $('#contextPath').val();
+	// var codigoLengua = $('#codigoLengua').val(); //
+	// document.getElementById("codigoLengua").value;
 
+	path = contextPath + "/ordenController/emailModal";
+	// alert("path " + path)
+		$.ajax({
+			type : "POST",
+			url : path,
+
+			success : function(data) {
+				// console.log("SUCCESS: ", data);
+				$("#modalEmail").html(data); 
+				$("#modalEmail").modal('show'); 
+			//	$("#txtDescripcion").focus(); 
+			},
+			error : function(request, status, error) {
+				console.log("ERROR: " + error);
+			}
+		}); 
+}
 
 
 function llenarExamenIndex(index){

@@ -55,6 +55,7 @@ public class TarifarioDetalleBean extends BaseBean{
 		return observacion;
 	}
 
+
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
 	}
@@ -65,5 +66,6 @@ public class TarifarioDetalleBean extends BaseBean{
 				+ valoresRefIni + ", valoresRefFin=" + valoresRefFin + ", observacion=" + observacion + "]";
 	}
 
- 
+	
+	
 }
