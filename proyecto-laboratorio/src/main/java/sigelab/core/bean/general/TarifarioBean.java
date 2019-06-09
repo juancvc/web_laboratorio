@@ -14,7 +14,7 @@ public class TarifarioBean extends BaseBean{
 	private float precio; 
 	private String sPrecio;  
 	private List<TarifarioDetalleBean> lstTarifarioDetalleBean;
-	
+	private TarifarioDetalleBean tarifarioDetalleBean;
 	
 	public TarifarioBean() {
 		super();
@@ -73,5 +73,14 @@ public class TarifarioBean extends BaseBean{
 	public void setLstTarifarioDetalleBean(List<TarifarioDetalleBean> lstTarifarioDetalleBean) {
 		this.lstTarifarioDetalleBean = lstTarifarioDetalleBean;
 	}
+
+	public TarifarioDetalleBean getTarifarioDetalleBean() {
+		return tarifarioDetalleBean;
+	}
+
+	public void setTarifarioDetalleBean(TarifarioDetalleBean tarifarioDetalleBean) {
+		this.tarifarioDetalleBean = tarifarioDetalleBean;
+	}
+	
  
 }

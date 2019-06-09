@@ -234,7 +234,8 @@ public class UsuarioDAOImp implements UsuarioDAO {
 			bean.getPersona().setTipoDocumento(new TablaBean());
 			bean.getPersona().getTipoDocumento().setCodReg(entity.getTg1TpDoc());
 			bean.getPersona().setNroDocumento(entity.getNroDocum()); 
-
+			bean.setCorreo(entity.getCorreo());
+			bean.setNroCelular(entity.getNroCelular());
 			bean.setPerfil(new PerfilBean());
 			bean.getPerfil().setCodigo(entity.getnCodperfil());
 			bean.getPerfil().setNombrePerfil(entity.getNomPerfil());

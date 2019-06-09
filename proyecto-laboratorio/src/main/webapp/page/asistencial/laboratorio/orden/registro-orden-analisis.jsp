@@ -350,23 +350,22 @@
 								</div>
 								
 							</div>
-								<button type="submit" onclick="actualizarResultadoOrdenDetalle()"
+					
+						<div class="row">
+							<div class="form-group col-md-12 text-right"
+								style="margin-top: 15px;">
+										<button type="submit" onclick="actualizarResultadoOrdenDetalle()"
 								
 									class="btn btn-primary">
 									<i class="fa fa-floppy-o"></i> GUARDAR RESULTADOS
 								</button>
-						</div>
-
-						<div class="row">
-							<div class="form-group col-md-12 text-right"
-								style="margin-top: 15px;">
 								<a
 									href="${pageContext.request.contextPath}/ordenController/nuevo"
 									class="btn btn-secondary" title=""> <i class="fa icon-plus"></i>
 									NUEVO
 								</a>
 									<a
-									href="${pageContext.request.contextPath}/ordenController/nuevo"
+									href="#" onclick="cargarEmailModal()"
 									class="btn btn-secondary" title=""> <i class="fa fa-envelope-open-o"></i>
 									CORREO
 								</a>
@@ -413,6 +412,13 @@
 				aria-hidden="true" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content" id="modalPersonaContent"></div>
+				</div>
+			</div>
+				<div class="modal fade text-xs-left" id="modalEmail" tabindex="-2"
+				role="dialog" aria-labelledby="myModalLabel35" data-dismiss="modal"
+				aria-hidden="true" aria-hidden="true">
+				<div class="modal-dialog-centered" role="document">
+					<div class="modal-content" id="modalEmailContent"></div>
 				</div>
 			</div>
 

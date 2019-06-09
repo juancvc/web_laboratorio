@@ -72,6 +72,14 @@ import java.sql.Timestamp;
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROVEORD", type = String.class) ,
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPEORD", type = String.class) 
  }),
+@NamedStoredProcedureQuery(name = "ordenDetalle.buscarPorFiltrosReporte", procedureName = "LABO.USP_ORDEN_DETALLE_LISTAR_X_FILTROS_REPORTE", resultClasses = Orden_detalle_laboratorio.class, parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class), 
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDEN", type = String.class) ,
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROVEORD", type = String.class) ,
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPEORD", type = String.class) 
+}),
 @NamedStoredProcedureQuery(name = "postulante.buscarPorObjeto", procedureName = "[SIGEHOV2BANC].[BANC].[POSTULANTE_CAMPANIA_LISTA_X_OBJETO]", resultClasses = Orden_detalle_laboratorio.class, parameters = {
 		
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class) ,
@@ -157,6 +165,11 @@ public class Orden_detalle_laboratorio implements Serializable {
 	
 	private String NOMPRODU;
 	private String NOMTPEXA;
+	private String OBSERVAC;
+	private String UNIDADES;
+	private String VALORINI;
+	private String VALORFIN;
+
 	
 	public String getNOMTPEXA() {
 		return NOMTPEXA;
@@ -260,6 +273,38 @@ public class Orden_detalle_laboratorio implements Serializable {
 
 	public void setResultado(String resultado) {
 		this.resultado = resultado;
+	}
+
+	public String getOBSERVAC() {
+		return OBSERVAC;
+	}
+
+	public void setOBSERVAC(String oBSERVAC) {
+		OBSERVAC = oBSERVAC;
+	}
+
+	public String getUNIDADES() {
+		return UNIDADES;
+	}
+
+	public void setUNIDADES(String uNIDADES) {
+		UNIDADES = uNIDADES;
+	}
+
+	public String getVALORINI() {
+		return VALORINI;
+	}
+
+	public void setVALORINI(String vALORINI) {
+		VALORINI = vALORINI;
+	}
+
+	public String getVALORFIN() {
+		return VALORFIN;
+	}
+
+	public void setVALORFIN(String vALORFIN) {
+		VALORFIN = vALORFIN;
 	}
 	
 	

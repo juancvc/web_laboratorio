@@ -91,6 +91,18 @@ public class OrdenDetalleServiceImp implements OrdenDetalleService {
 		}
 		return sw;
 	}
+
+	@Override
+	public List<OrdenDetalleBean> getBuscarPorFiltrosReporte(OrdenDetalleBean ordenDetalleBean)
+			throws ServiceException {
+		List<OrdenDetalleBean> lstOrdenDetalleBean = null;
+		try {
+			lstOrdenDetalleBean = OrdenDetalleDAO.getBuscarPorFiltrosReporte(ordenDetalleBean);
+		} catch (Exception e) {
+
+		}
+		return lstOrdenDetalleBean;
+	}
  
 
 }

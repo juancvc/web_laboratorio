@@ -16,6 +16,7 @@ import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.TarifarioBean;
+import sigelab.core.bean.general.TarifarioDetalleBean;
 import sigelab.core.entity.asistencial.laboratorio.Orden_detalle_laboratorio;
 import sigelab.core.repository.DAOException;
 import sigelab.core.repository.interfaces.asistencial.laboratorio.OrdenDetalleDAO; 
@@ -203,6 +204,11 @@ private List<OrdenDetalleBean> deListaObjetoAListaObjetoBean(List<Orden_detalle_
 			bean.getExamen().setPrecio(entity.getPrecio());
 			bean.getExamen().setTipo(new TablaBean());
 			bean.getExamen().getTipo().setNombreCorto(entity.getNOMTPEXA());
+			bean.getExamen().setTarifarioDetalleBean(new TarifarioDetalleBean());
+			bean.getExamen().getTarifarioDetalleBean().setObservacion(entity.getOBSERVAC());
+			bean.getExamen().getTarifarioDetalleBean().setUnidades(entity.getUNIDADES());
+			bean.getExamen().getTarifarioDetalleBean().setValoresRefIni(entity.getVALORINI());
+			bean.getExamen().getTarifarioDetalleBean().setValoresRefFin(entity.getVALORFIN());
 			bean.getExamen().setsPrecio((getTwoDecimals(entity.getPrecio()).replace(",", ".")));
 			bean.setsImporte((getTwoDecimals(entity.getImporte()).replace(",", ".")));
 			
@@ -248,6 +254,34 @@ private List<OrdenDetalleBean> deListaObjetoAListaObjetoBean(List<Orden_detalle_
 			em.close();
 		}
 		return sw;
+	}
+
+	@Override
+	public List<OrdenDetalleBean> getBuscarPorFiltrosReporte(OrdenDetalleBean ordenDetalleBean) throws DAOException {
+		// TODO Auto-generated method stub
+		List<Orden_detalle_laboratorio> lstOrdenDetalle = null;	
+		List<OrdenDetalleBean> lstOrdenDetalleBean = null;
+		
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("ordenDetalle.buscarPorFiltrosReporte");   
+			spq.setParameter("CODORGAN", ordenDetalleBean.getOrdenBean().getCodigoOrganizacion());
+			spq.setParameter("CODINSTI", ordenDetalleBean.getOrdenBean().getCodigoInstitucion());
+			spq.setParameter("CODSEDEI", ordenDetalleBean.getOrdenBean().getCodigoSede()); 
+			spq.setParameter("CODORDEN", ordenDetalleBean.getOrdenBean().getCodigo()); 
+			spq.setParameter("NROVEORD", ordenDetalleBean.getOrdenBean().getNumeroVersion()); 
+			spq.setParameter("NROPEORD", ordenDetalleBean.getOrdenBean().getNumeroPeriodo()); 
+			
+			 if (spq.execute()) {
+				 lstOrdenDetalle =  spq.getResultList(); 
+			 }
+			 
+			if (lstOrdenDetalle != null && lstOrdenDetalle.size() > 0) {
+				lstOrdenDetalleBean = deListaObjetoAListaObjetoBean(lstOrdenDetalle);
+			 }
+			
+			em.close();
+			
+		   
+		return lstOrdenDetalleBean;
 	}
 
 	 

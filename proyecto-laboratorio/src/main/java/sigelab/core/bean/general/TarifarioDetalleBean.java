@@ -10,6 +10,7 @@ public class TarifarioDetalleBean extends BaseBean{
 	private String unidades; 
 	private String valoresRefIni;
 	private String valoresRefFin; 
+	private String observacion; 
 	
 	public TarifarioDetalleBean() {
 		super();
@@ -45,6 +46,14 @@ public class TarifarioDetalleBean extends BaseBean{
 
 	public void setValoresRefFin(String valoresRefFin) {
 		this.valoresRefFin = valoresRefFin;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String obvservacion) {
+		this.observacion = obvservacion;
 	}
 	  
 	

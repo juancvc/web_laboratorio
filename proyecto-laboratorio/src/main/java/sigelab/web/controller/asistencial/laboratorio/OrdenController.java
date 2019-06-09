@@ -1,16 +1,35 @@
 package sigelab.web.controller.asistencial.laboratorio;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
-import java.util.ArrayList; 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map; 
+import java.util.Map;
+import java.util.Properties;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.annotation.PostConstruct;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse; 
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.JFileChooser;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,17 +40,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import sigelab.core.bean.asistencial.banco.CampaniaBean;
 import sigelab.core.bean.asistencial.banco.PostulanteBean;
-import sigelab.core.bean.asistencial.banco.PreDonanteBean;
-import sigelab.core.bean.asistencial.banco.PreDonanteEntrevistaBean;
+
 import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.TarifarioBean;
 import sigelab.core.bean.general.UbigeoBean;
-import sigelab.core.entity.general.PacienteReniec;
 import sigelab.core.service.exception.ServiceException;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenDetalleService;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenService;
@@ -63,10 +79,45 @@ public class OrdenController  extends BaseController {
 	List<UbigeoBean> lstUbigeoBean = new ArrayList<UbigeoBean>();
 	List<TablaBean> lstTipoExamen = new ArrayList<TablaBean>();
 	
+	private Byte archivoPDF;
+	private String emailDestinatario;
+	private String asunto;
+	private String msg;
+	private String archivooPDF="";
+	
+
+	
+	public String getEmailDestinatario() {
+		return emailDestinatario;
+	}
+
+	public void setEmailDestinatario(String emailDestinatario) {
+		this.emailDestinatario = emailDestinatario;
+	}
+
+	public String getAsunto() {
+		return asunto;
+	}
+
+	public void setAsunto(String asunto) {
+		this.asunto = asunto;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
 	PersonaBean personaBean = new PersonaBean();  
 	private UbigeoBean ubigeobean;
 	private List<TarifarioBean> lstTarifarioBean ; 
 	private List<OrdenDetalleBean> lstOrdenDetalleBean ;  
+	private List<OrdenDetalleBean> lstOrdenDetalleBeanReporte ;  
+	
+	
 	private List<OrdenBean> lstOrdenBean ;  
 	
 	private OrdenBean ordenBean;
@@ -338,6 +389,36 @@ public class OrdenController  extends BaseController {
 	} 
 	
 	
+	@RequestMapping(value = "/emailModal", method = RequestMethod.POST)
+	public ModelAndView emailModalPost(	HttpServletRequest request)
+			throws Exception {
+	
+		System.out.println("modal analisis");
+		PersonaBean objPersona = new  PersonaBean();
+		objPersona.getNacionalidad().setCodReg("000114");
+		objPersona.getEstadoCivil().setCodReg("000006");
+		System.out.println("getUsuarioBean().getCorreo();"+getUsuarioBean().getCorreo());
+		
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/email-modal", "command",  getUsuarioSesion(request));
+	//	ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/persona-registro-modal", "command",  objPersona);
+		
+		ubigeobean = new UbigeoBean();
+		ubigeobean.setVariable("");
+		ubigeobean.setInstitucion("000003");
+		ubigeobean.setCategoria("000003");
+		lstUbigeoBean = new ArrayList<UbigeoBean>();
+		try {
+			
+			lstUbigeoBean = ubigeoService.getBuscarPorFiltros(ubigeobean);
+		} catch (Exception e) { 
+		}
+		mav.addObject("ubigeoBean", new UbigeoBean());
+		mav.addObject("lstUbigeoBean", lstUbigeoBean);
+		mav.addObject("lstUbigeoBean", lstUbigeoBean);
+		this.cargarCombos(mav);
+		return mav;
+	} 
+	
 	
 	
   
@@ -519,11 +600,15 @@ public class OrdenController  extends BaseController {
 		OrdenBean objOrdenBean = new OrdenBean(); 
 		objOrdenBean = this.lstOrdenBean.get(index);
 		System.out.println("modificar objOrdenBean: " + objOrdenBean.getCodigo());
+	    setOrdenBean(objOrdenBean);
 		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/registro-orden-analisis", "command", objOrdenBean); 
 		OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
 		objOrdenDetalle.setOrdenBean(objOrdenBean);
 		try {
 			lstOrdenDetalleBean = ordenDetalleService.getBuscarPorFiltros(objOrdenDetalle);
+			lstOrdenDetalleBeanReporte = ordenDetalleService.getBuscarPorFiltrosReporte(objOrdenDetalle);
+			setLstOrdenDetalleBean(lstOrdenDetalleBean);
+			setLstOrdenDetalleBeanReporte(lstOrdenDetalleBeanReporte);
 			for (OrdenDetalleBean ord : lstOrdenDetalleBean) {
 				System.out.println("resultados: " + ord.getResultado());	
 
@@ -599,69 +684,134 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 						HttpServletRequest request) throws JRException, IOException {
 		InputStream jasperStream = this.getClass().getResourceAsStream("/reportes/rptResultadosAnalisis.jasper");
 		
-	//	OrdenBean ordenBean = new OrdenBean();
-		
-		/*
-		lstPreDonanteEntrevistaBean = new ArrayList<PreDonanteEntrevistaBean>();
-		PreDonanteBean objPreDonanteBean = new PreDonanteBean();
-		PreDonanteEntrevistaBean prmPreDonanteEntrevistaBean = new PreDonanteEntrevistaBean();
-		try {
-			objPreDonanteBean = preDonanteService.getBuscarPorObjecto(lstPreDonanteBean.get(index));
-			if (objPreDonanteBean != null) {
-				if (objPreDonanteBean.getPostulanteBean().getPersona().getTipoDocumento().getNombreCorto().equals("DNI")) {
-					PacienteReniec pacienteReniec = new PacienteReniec();
-					pacienteReniec.setNroDni(objPreDonanteBean.getPostulanteBean().getPersona().getNroDocumento()); 
-					List<PacienteReniec> lstPersona =  null; 	
-			
-				}else{
-					objPreDonanteBean.getPostulanteBean().getPersona().setFoto(null); 
-				}
-				System.out.println(objPreDonanteBean.getPostulanteBean().getCodigo());
-				System.out.println(objPreDonanteBean.getPostulanteBean().getNumeroPeriodo());
-				System.out.println(objPreDonanteBean.getPostulanteBean().getPersona().getCodigo());
-				prmPreDonanteEntrevistaBean.setPostulanteBean(objPreDonanteBean.getPostulanteBean());
-				lstPreDonanteEntrevistaBean = preDonanteEntrevistaService.getBuscarPorFiltros(prmPreDonanteEntrevistaBean);
-				if (lstPreDonanteEntrevistaBean != null) {
-					System.out.println("lstPreDonanteEntrevistaBean " + lstPreDonanteEntrevistaBean.size());
-					objPreDonanteBean.setLstPreDonanteEntrevistaBean(lstPreDonanteEntrevistaBean);
-				}else{
-					System.out.println("lstPreDonanteEntrevistaBean is null");
-				}
-			}else{
-				System.out.println("objPreDonanteBeanis null");
-			}
-		} catch (Exception e) {
-			 
-		}*/
 		Map<String, Object> parametro = new HashMap<String, Object>();
-		System.out.println("ordenBean.getCodigo()"+getOrdenBean().getCodigo());
 		parametro.put("usuario", getUsuarioSesion(request).getNombreUsuario()); 
 		parametro.put("nroAnalisis",getOrdenBean().getCodigo()); 
 		parametro.put("paciente",getOrdenBean().getPacienteBean().getPersona().getApellidoPaterno()+" "+getOrdenBean().getPacienteBean().getPersona().getApellidoMaterno()
 				+" "+getOrdenBean().getPacienteBean().getPersona().getPrimerNombre()+" "+getOrdenBean().getPacienteBean().getPersona().getSegundoNombre()); 
 		parametro.put("edad",getOrdenBean().getPacienteBean().getPersona().getEdad()+" años"); 
 		parametro.put("dni",getOrdenBean().getPacienteBean().getPersona().getNroDocumento()); 
-	/*	if (ordenBean.getPacienteBean().getPersona().getSexo().getCodReg().equals("000001")) {
+		if (getOrdenBean().getPacienteBean().getPersona().getSexo().getCodReg().equals("000001")) {
 			parametro.put("sexo","femenino"); 	
 		} else {
 			parametro.put("sexo","masculino"); 	
 		}
-		*/
+		
 		System.out.println("jasperStream " + jasperStream);
 		List<OrdenBean> oLSTOrdenBean = new ArrayList<OrdenBean>();
 		oLSTOrdenBean.add(getOrdenBean());//((OrdenDetalleBean) ordenBean.getLstOrdenDetalleBean());
 		
-		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(oLSTOrdenBean);
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(getLstOrdenDetalleBeanReporte());
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametro, dataSource);
-
+		
+		
 		response.setContentType("application/x-pdf");
 		response.setHeader("Content-disposition",
 				"inline; filename="+getOrdenBean().getCodigo()+".pdf");
-
+		
+	//	Date fechaActual = new Date();
+		JFileChooser chooser = new JFileChooser("D:\\labmed\\reportes\\"+getOrdenBean().getCodigo()+".pdf");
+		archivooPDF = "C:\\Users\\user\\Downloads"+getOrdenBean().getCodigo()+".pdf";
 		final OutputStream outStream = response.getOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	}
+    
+    
+    /****Enviar EMAIL ****/
+    @RequestMapping(value = "/enviarEmail", method = RequestMethod.POST)
+
+    public @ResponseBody
+     boolean enviarEmail(	final HttpServletRequest request ,
+    		 @RequestParam("mensaje") String mensaje,
+    		 @RequestParam("pdf") File pdf,
+    		 @RequestParam("correoDestino") String correoDestino
+    		 )
+			throws Exception {
+        boolean retorno = false;
+        //Get the session object  
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        Session s = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+
+                        return new PasswordAuthentication("informatica.hch.2018@gmail.com", "Hnch2012");//email e senha usuário 
+                    }
+                });
+
+        //compose message  
+         if (archivooPDF=="") {
+        	 archivooPDF = "C:\\Users\\user\\Downloads\\"+getOrdenBean().getCodigo()+".pdf"; 
+         }
+        
+        try {
+        	String text = mensaje;
+        	String to = correoDestino;
+        	
+        	
+        	MimeMessage message = new MimeMessage(s);
+        	message.setFrom(new InternetAddress("informatica.hch.2018@gmail.com"));
+        	message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+        	message.setSubject("Attachment");
+        	// message.setText(text, "utf-8", "html");
+
+        	MimeBodyPart textPart = new MimeBodyPart();
+        	textPart.setContent(text, "text/html; charset=utf-8");
+        	textPart.setText("Resultado de Analisis del paciente "+getOrdenBean().getPacienteBean().getPersona().getApellidoPaterno());
+        	DataSource source = new FileDataSource(archivooPDF);
+        	MimeBodyPart messageBodyPart = new MimeBodyPart();
+        	messageBodyPart = new MimeBodyPart();
+        	messageBodyPart.setDataHandler(new DataHandler(source));
+        	 String filename=archivooPDF;
+        	 messageBodyPart.setFileName(filename);
+        	//messageBodyPart.setFileName(pdf.getAbsolutePath().toString());
+        	Multipart multipart = new MimeMultipart("mixed");
+        	multipart.addBodyPart(textPart);
+        	multipart.addBodyPart(messageBodyPart);
+        	message.setContent(multipart);
+
+        	Transport.send(message);
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	/*
+            MimeMessage message = new MimeMessage(s);
+            message.setFrom(new InternetAddress("informatica.hch.2018@gmail.com"));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(correoDestino));
+
+            message.setSubject(mensaje);
+            message.setFileName(pdf.getAbsolutePath());
+            
+       //     message.setContent(this.msg, "text/html; charset=utf-8");
+            message.setContent(this.msg,"multipart/mixed; charset=utf-8");
+            //send message  
+            Transport.send(message);*/
+
+            retorno = true;
+
+        } catch (MessagingException e) {
+            retorno = false;
+            e.printStackTrace();
+        }
+        return retorno;
+    }
+    
+    
+    
+    
+    
 	   
 	   
 	public PersonaBean getPersonaBean() {
@@ -687,6 +837,24 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 	public void setOrdenBean(OrdenBean ordenBean) {
 		this.ordenBean = ordenBean;
 	}
+
+	public List<OrdenDetalleBean> getLstOrdenDetalleBean() {
+		return lstOrdenDetalleBean;
+	}
+
+	public void setLstOrdenDetalleBean(List<OrdenDetalleBean> lstOrdenDetalleBean) {
+		this.lstOrdenDetalleBean = lstOrdenDetalleBean;
+	}
+
+	public List<OrdenDetalleBean> getLstOrdenDetalleBeanReporte() {
+		return lstOrdenDetalleBeanReporte;
+	}
+
+	public void setLstOrdenDetalleBeanReporte(List<OrdenDetalleBean> lstOrdenDetalleBeanReporte) {
+		this.lstOrdenDetalleBeanReporte = lstOrdenDetalleBeanReporte;
+	}
+	
+	
 
 }
 
