@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 					
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTARIF",  type = String.class),
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "UNIDADES",  type = String.class),
+					@StoredProcedureParameter(mode = ParameterMode.IN, name = "OBSERVAC",  type = String.class),
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALORINI",  type = String.class),
 					
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALORFIN", type = String.class), 

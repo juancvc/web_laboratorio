@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView; 
 import sigelab.core.bean.asistencial.banco.PostulanteBean;
 import sigelab.core.bean.asistencial.banco.SeropositivoBean;
+import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.banco.CampaniaBean;
 import sigelab.core.bean.asistencial.banco.DonanteBean;
 import sigelab.core.bean.asistencial.banco.EstadoFisicoBean;
@@ -38,6 +39,7 @@ import sigelab.core.bean.general.UbigeoBean;
 import sigelab.core.bean.seguridad.UsuarioBean;
 import sigelab.core.entity.asistencial.banco.InterUAL;
 import sigelab.core.entity.general.PacienteReniec;
+import sigelab.core.entity.seguridad.Auditoria;
 import sigelab.core.service.exception.ServiceException;
 import sigelab.core.service.interfaces.asistencial.banco.CampaniaService;
 import sigelab.core.service.interfaces.asistencial.banco.DonanteService;
@@ -143,8 +145,8 @@ public class TarifarioController  extends BaseController {
 	@RequestMapping(value = "/nuevoTarifario", method = RequestMethod.GET)
 	public ModelAndView nuevoRegistroTarifario(HttpServletRequest request) {
 	    tarifarioBean = new TarifarioBean(); 
-		//lstTarifarioDetalleBean = new ArrayList<TarifarioDetalleBean>();
-		tarifarioBean.setLstTarifarioDetalleBean(lstTarifarioDetalleBean);
+		lstTarifarioDetalleBean = new ArrayList<TarifarioDetalleBean>();
+	//	tarifarioBean.setLstTarifarioDetalleBean(lstTarifarioDetalleBean);
 		ModelAndView mav = new ModelAndView("general/tarifario/registro-tarifario", "command", tarifarioBean); 
 		mav.addObject("tarifarioBean", tarifarioBean);
 		this.cargarCombos(mav); 
@@ -226,17 +228,18 @@ public class TarifarioController  extends BaseController {
 	
 	
 	
-	@RequestMapping(value = "/eliminarCampania", method = RequestMethod.GET)
+	@RequestMapping(value = "/eliminar", method = RequestMethod.GET)
 	public @ResponseBody String doEliminar(@RequestParam("index") Integer index,
 			 HttpServletRequest request) {
 		String resultado = "";
-		CampaniaBean oCampaniaBean = new CampaniaBean(); 
-		oCampaniaBean = this.lstCampaniaBean.get(index);
+		TarifarioBean oTarifarioBean = new TarifarioBean(); 
+		oTarifarioBean = this.lstTarifarioBean.get(index);
 		
-		System.out.println("oCampaniaBean.getCodigo " + oCampaniaBean.getCodigo());
-		System.out.println("oCampaniaBean " + oCampaniaBean);
+		System.out.println("oCampaniaBean.getCodigo " +oTarifarioBean .getCodigo());
+		System.out.println("oCampaniaBean " + oTarifarioBean);
 		try {
-			if (campaniaService.eliminar(oCampaniaBean)) {
+			this.setAuditoria(oTarifarioBean, request, false);
+			if (tarifarioService.eliminar(oTarifarioBean)) { 
 				System.out.println("Se eliminó el registro ");
 				resultado  ="1";
 			} 
@@ -246,7 +249,35 @@ public class TarifarioController  extends BaseController {
 		 return resultado;
 	}
 	 
- 
+	
+	@RequestMapping(value = "/listarTarifario", method = RequestMethod.GET)
+	public ModelAndView listarPostulantes()
+			throws Exception {
+		System.out.println("/listarTarifario");
+		ModelAndView mav = new ModelAndView("general/tarifario/ajax/listado-tarifario");
+		lstTarifarioBean = new ArrayList<TarifarioBean>(); 
+		try {
+			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(new TarifarioBean()); 
+		} catch (ServiceException e) { 
+			e.printStackTrace();
+		} 
+		mav.addObject("lstTarifarioBean", lstTarifarioBean); 
+		return mav;
+	}
+	
+	@RequestMapping(value = "/refrescarLista", method = RequestMethod.GET)
+	public @ResponseBody List<TarifarioBean> refrescarLista()throws Exception {   
+		try {
+			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(new TarifarioBean()); 
+		
+		} catch (ServiceException e) {
+			
+			e.printStackTrace();
+		}
+		 
+			return lstTarifarioBean; 
+	}
+	
 	@RequestMapping(value = "/tarifarioModal", method = RequestMethod.POST)
 	public ModelAndView tarifarioModal() throws Exception {
 
@@ -286,9 +317,29 @@ public class TarifarioController  extends BaseController {
 		
 		mav.addObject("lstTarifarioBean", lstTarifarioBean);
 		mav.addObject("lstTipoExamen", lstTipoExamen);
+		cargarCombos(mav);
 		return mav;
 	}
  
+	@RequestMapping(value = "/buscar", method = RequestMethod.POST)
+	public ModelAndView buscarPOST(@ModelAttribute("tarifarioBean") TarifarioBean tarifarioBean,
+			HttpServletRequest request
+			)
+			throws Exception { 
+		ModelAndView mav = new ModelAndView("general/tarifario/listado-tarifario-general", "command",tarifarioBean);
+		lstTarifarioBean = new ArrayList<TarifarioBean>(); 
+		try {
+			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(new TarifarioBean());   
+		} catch (ServiceException e) { 
+			e.printStackTrace();
+		}
+		
+		mav.addObject("lstTarifarioBean", lstTarifarioBean);
+		mav.addObject("lstTipoExamen", lstTipoExamen);
+		cargarCombos(mav);
+		return mav;
+	}
+	
 	@RequestMapping(value = "/agregarDetalle", method = RequestMethod.GET)
 	public ModelAndView agregarDetalle( HttpServletRequest request)
 			throws Exception {

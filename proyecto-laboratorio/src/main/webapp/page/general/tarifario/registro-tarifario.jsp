@@ -206,6 +206,7 @@
 													<tr>
 														<th width="70">ITEM</th>
 														<th>UNIDAD</th>
+														<th>OBSERVACION</th>
 														<th>VALOR INICIAL</th>
 														<th>VALOR FINAL</th>
 														<th width="60">ACCION</th>
@@ -222,6 +223,12 @@
 																		id="tarifarioUnidades" path="lstTarifarioDetalleBean[${loop.index}].unidades" />
 
 																</div></td>
+															<td><div class="controls">
+																	<f:input type="text" min="1" maxlength="20"
+																		class="form-control" value="${tabla.observacion}"
+																		id="tarifarioUnidades${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].observacion" />
+
+																</div></td>	
 															<td><div class="controls">
 																	<f:input type="text" maxlength="30"
 																		class="form-control" required="required"

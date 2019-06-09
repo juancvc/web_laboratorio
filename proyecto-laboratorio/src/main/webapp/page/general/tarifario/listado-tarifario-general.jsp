@@ -104,7 +104,7 @@
 						src="${pageContext.request.contextPath}/assets/img/busqueda.png">
 					FILTROS
 				</div>
-				<f:form id="frmListadoPerfil" class="form-horizontal" role="form"
+				<f:form id="frmListadoTarifario" class="form-horizontal" role="form"
 					enctype="multipart/form-data" method="post"
 					action="${pageContext.request.contextPath}/usuarioController/buscar">
 					<input id="contextPath" type="hidden"
@@ -167,6 +167,7 @@
 				</div>
 				<div class="card-body">
 					<div class="form-group">
+					 <div class="col-md-12" id="listadoDetallePostulante">
 						<div class="table-responsive">
 							<table class="table table-bordered" id="dataTable">
 								<thead class="tabla_th">
@@ -209,6 +210,7 @@
 							</table>
 						</div>
 					</div>
+				  </div>
 				</div>
 			</div>
 			<!-- Example DataTables Card-->
@@ -292,10 +294,7 @@
 			src="${pageContext.request.contextPath}/app-assets/js/sb-admin.min.js"></script>
 		<!-- Custom scripts for this page-->
 		<script
-			src="${pageContext.request.contextPath}/app-assets/js/sb-admin-datatables.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/assets/js/page/seguridad/usuario.js"
-			type="text/javascript" charset="utf-8"></script>
+			src="${pageContext.request.contextPath}/app-assets/js/sb-admin-datatables.min.js"></script> 
 		<!-- Custom scripts for all pages-->
 	</div>
 </body>
@@ -314,10 +313,7 @@
 <script
 	src="${pageContext.request.contextPath}/assets/js/page/asistencial/tarifario.js"
 	type="text/javascript" charset="utf-8"></script>
-
-<script
-	src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
-	type="text/javascript" charset="utf-8"></script>
+ 
 
 <script>
 	function limpiarForm() {

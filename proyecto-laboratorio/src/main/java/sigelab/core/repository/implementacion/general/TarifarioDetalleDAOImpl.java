@@ -35,9 +35,10 @@ public class TarifarioDetalleDAOImpl implements TarifarioDetalleDAO {
 		Object nroPeriodo= null; 
 		boolean sw=false;
 		try {
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifario.insert");
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifarioUnidad.insertar");
 			spq.setParameter("CODTARIF", Tarifario.getTarifarioBean().getCodigo());  
-			spq.setParameter("UNIDADES", Tarifario.getUnidades() );  
+			spq.setParameter("UNIDADES", Tarifario.getUnidades());  
+			spq.setParameter("OBSERVAC", Tarifario.getObservacion());  
 			spq.setParameter("VALORINI", Tarifario.getValoresRefIni()); 
 			spq.setParameter("VALORFIN", Tarifario.getValoresRefFin());  
 			spq.setParameter("AUPCIPCR", Tarifario.getCodigoUsuarioCreacion()); 

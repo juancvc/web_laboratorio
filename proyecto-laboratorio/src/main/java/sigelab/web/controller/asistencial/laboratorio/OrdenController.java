@@ -150,6 +150,7 @@ public class OrdenController  extends BaseController {
 		lstOrdenBean = ordenService.getBuscarPorFiltros(ordenBean);
 		mav.addObject("lstOrdenBean", lstOrdenBean); 
 		mav.addObject("ordenBean", ordenBean); 
+		cargarCombos(mav);
 		return mav;
 	}
 	

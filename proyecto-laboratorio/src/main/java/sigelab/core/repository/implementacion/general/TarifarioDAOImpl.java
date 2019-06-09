@@ -91,9 +91,28 @@ public class TarifarioDAOImpl implements TarifarioDAO {
 	}
 
 	@Override
-	public boolean eliminar(TarifarioBean t) throws DAOException {
+	public boolean eliminar(TarifarioBean Tarifario) throws DAOException {
 		
-		return false;
+
+		boolean sw=false;
+		try {
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifario.eliminar");
+			
+			spq.setParameter("CODTARIF", Tarifario.getCodigo());  
+			spq.setParameter("AUCDUSMO", Tarifario.getCodigoUsuarioModificacion());
+			spq.setParameter("AUPCIPMO", Tarifario.getIpModificacion());
+
+			
+			spq.execute();
+			
+			sw=true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			sw=false; 
+		}finally{
+			em.close();
+		}
+		return sw;
 	}
 
 	@Override

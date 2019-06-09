@@ -1,3 +1,113 @@
+var idTabla = "";
+var codReg = "";
+function confirmar_accion(codigo) { 
+	codReg = codigo;
+	$('#md_confirmacion').modal('show');
+
+}
+
+$(document).ready(function() {
+	$("#btnConfirmarGeneric").click(function() {
+		eliminarRegistro(codReg);
+	});
+});
+
+function eliminarRegistro(codReg) { 
+	var contextPath = $('#contextPath').val();
+	$
+			.ajax({
+				url :  contextPath+"/tarifarioController/eliminar?index="
+						+ codReg,
+				type : 'GET',
+				success : function(data) {
+					$('#md_confirmacion').modal('hide');
+					msg_exito();
+					refrescarListadoTarifario();
+					},
+				error : function(request, status, error) {
+					alert(error);
+				}
+			});
+
+};
+
+
+function refrescarListadoTarifario() {
+	var contextPath = $('#contextPath').val();
+	$.ajax({
+		url : contextPath + "/tarifarioController/listarTarifario",
+		type : 'GET',
+	
+		success : function(data) {
+			//console.log("SUCCESS: ", data);
+			$('#listadoDetallePostulante').html(data);
+		},
+		error : function() {
+			//console.log("ERROR: ");
+		}
+	});
+}
+
+function refrescarListado() {
+	var contextPath = $('#contextPath').val();
+	var item = 0; 
+	var htmlTabla = "";
+	$
+			.ajax({
+				url :  contextPath+"/tarifarioController/refrescarLista",
+				type : 'GET',
+				data: $('#frmListadoTarifario').serialize(),
+				success : function(data) {
+					if (data != null) {
+
+						for (var i = 0; i < data.length; i++) {
+							var objeto = data[i];
+							item = item + 1;
+							htmlTabla += "<tr>" + "<td>"
+									+ item
+									+ "</td>"
+									+ "<td>"
+									+ objeto.descripcion
+									+ "</td>"
+									+ "<td>"
+									+ objeto.tipo.nombreCorto
+									+ "</td>"
+									+ "<td>"
+									+ objeto.subtipo
+									+ "</td>"
+									+ "<td>"
+									+ objeto.sPrecio
+									+ "</td>"
+									+ "<td>"
+									+ "<a title='Modificar' data-placement='top'"
+									+ "data-toggle='tooltip' class='btn btn-outline-success btn-sm'"
+									+ "onclick=\"javascript:modificarElementoGenerico('/tarifarioController/modificar','"+ [item] + "'');\"'"
+									+ "href='#'><i class='icon-pencil'></i></a>"
+									
+									+ "<button type='button'"
+									+ " class='btn btn-outline-danger btn-sm' "
+									+ " data-toggle='tooltip'  data-placement='top'  title='Eliminar'"
+									+ " onclick=\"confirmar_accion('"+ item + "');\""
+									+ " data-original-title='Eliminar'"
+									+ " id='eliminarReferencia'"
+									+ [ objeto.codigo] + ">"
+									+ "<i class='icon-trash'></i></button>"
+									+ "</td>" + "</tr>";
+
+						}
+						// console.log(htmlTabla);
+					}
+					// console.log("SUCCESS: ", data);
+					$('#idBodyListaCIEX').empty();
+					$('#idBodyListaCIEX').html(htmlTabla);
+				},
+				error : function() {
+					console.log("ERROR: ");
+				}
+			});
+}
+
+
 function cargarRegistroTarifarioModal() {
 	var contextPath = $('#contextPath').val();
 	// var codigoLengua = $('#codigoLengua').val(); //

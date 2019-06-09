@@ -10,6 +10,7 @@ public class TarifarioDetalleBean extends BaseBean{
 	private String unidades; 
 	private String valoresRefIni;
 	private String valoresRefFin; 
+	private String observacion; 
 	
 	public TarifarioDetalleBean() {
 		super();
@@ -50,10 +51,19 @@ public class TarifarioDetalleBean extends BaseBean{
 		this.valoresRefFin = valoresRefFin;
 	}
 
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
+
 	@Override
 	public String toString() {
 		return "TarifarioDetalleBean [tarifarioBean=" + tarifarioBean + ", unidades=" + unidades + ", valoresRefIni="
-				+ valoresRefIni + ", valoresRefFin=" + valoresRefFin + "]";
-	} 
-	 
+				+ valoresRefIni + ", valoresRefFin=" + valoresRefFin + ", observacion=" + observacion + "]";
+	}
+
+ 
 }

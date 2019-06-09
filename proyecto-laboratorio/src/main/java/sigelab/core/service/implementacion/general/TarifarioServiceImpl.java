@@ -35,14 +35,26 @@ public class TarifarioServiceImpl implements TarifarioService {
 
 	@Override
 	public boolean actualizar(TarifarioBean t) throws ServiceException {
-		// TODO Auto-generated method stub
-		return false;
+		Boolean sw = false;
+		try {
+			sw =  TarifarioDAO.actualizar(t);
+			
+		} catch (DAOException e) { 
+			e.printStackTrace();
+		}
+		return sw;
 	}
 
 	@Override
 	public boolean eliminar(TarifarioBean t) throws ServiceException {
-		// TODO Auto-generated method stub
-		return false;
+		Boolean sw = false;
+		try {
+			sw =  TarifarioDAO.eliminar(t);
+			
+		} catch (DAOException e) { 
+			e.printStackTrace();
+		}
+		return sw;
 	}
 
 	@Override

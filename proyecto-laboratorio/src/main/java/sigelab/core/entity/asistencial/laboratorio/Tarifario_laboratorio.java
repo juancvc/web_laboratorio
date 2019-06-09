@@ -7,26 +7,7 @@ import java.sql.Timestamp;
 
 
 @NamedStoredProcedureQueries(
-		{
-				
-			@NamedStoredProcedureQuery(name = "referenciaApoyoDX.insertar",
-					procedureName = "[RECO].REFAPOYO_INSERT", 
-					resultClasses = Tarifario_laboratorio.class, parameters = {
-					@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODAPOYO", type = String.class),
-					
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODREFCB",  type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPERCB",  type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROVERCB",  type = String.class),
-					
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class), 
-					
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG14TPAP",  type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTARCB",  type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSCR", type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class)
-					}), 
+		{ 
 			@NamedStoredProcedureQuery(
 					name="tarifario.listarPorFiltros", 
 					procedureName="[LABO].[TARIFARIO_LISTAR_X_FILTROS]",
@@ -68,6 +49,15 @@ import java.sql.Timestamp;
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUDUSUCR", type = 	String.class) 
 					}),
 			
+			@NamedStoredProcedureQuery(
+					name="tarifario.eliminar", 
+					procedureName="[LABO].[TARIFARIO_ITEM_DELETE]",
+					resultClasses= Tarifario_laboratorio.class,
+					parameters={ 
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTARIF", type = 	String.class),			
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = 	String.class), 
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = 	String.class) 
+					}),
 		}
 		)
 @Entity 
