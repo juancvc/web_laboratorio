@@ -195,6 +195,7 @@ private List<OrdenDetalleBean> deListaObjetoAListaObjetoBean(List<Orden_detalle_
 			bean.getSituacion().setCodReg(entity.getSituacRg()); 
 			bean.setCantidad(entity.getCantidad());
 			bean.setImporte(entity.getImporte());
+			bean.setResultado(entity.getResultado());
 			bean.setPrecio(entity.getPrecio());
 			bean.setExamen(new TarifarioBean());
 			bean.getExamen().setDescripcion(entity.getNOMPRODU());

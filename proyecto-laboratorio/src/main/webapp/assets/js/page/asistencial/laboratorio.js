@@ -53,6 +53,7 @@ function cargarTarifarioModal() {
 
 
 
+
 function cargarAnalisisModal() {
 	var contextPath = $('#contextPath').val();
 	// var codigoLengua = $('#codigoLengua').val(); //
@@ -576,6 +577,98 @@ function anularOrden(){
 			    	 msg_exito("Éxito al realizar proceso");
 			    	 $("#idBtnCerrarDescartar").trigger("click"); 
 			    	 $("#btnListado").trigger("click");
+			    	 
+			    	// enviarListado();
+				}else{
+				    msg_error("Error al realizar proceso");  
+				    // enviarListado();
+					
+				} 
+		},
+		
+		error : function(xhr, status, er) { 
+		        console.log("error: " + xhr + " status: " + status + " er:" + er);
+					// msg_error();
+	
+				},
+	  			complete: function()
+			{
+			// finBloqueo();
+	
+			}
+			});
+	}
+}
+function actualizarResultadoOrdenDetalle(){
+	// debugger;
+	var htmlTabla = "";
+	var item = 0; 
+	var myFormulario = $('#frmActualizarResultadoOrden');  
+	
+	var contextPath = $('#contextPath').val();
+	if(!myFormulario[0].checkValidity()) {
+	//	 msg_advertencia("Debe completar los campos requeridos(*) correctamente");
+		 
+	}else{
+		var url = contextPath + "/ordenController/actualizarResultado";
+	// iniciarBloqueo();
+		$.ajax({
+		type : "GET",
+		url : url,
+		data: $('#frmActualizarResultadoOrden').serialize(),
+		success : function(data) {
+			   // console.log("SUCCESS: ", data);
+			    if (data =! null) {
+			    	 msg_exito("Éxito al registrar resultados");
+			   // 	 $("#idBtnCerrarDescartar").trigger("click"); 
+			  //  	 $("#btnListado").trigger("click");
+			    	 
+			    	// enviarListado();
+				}else{
+				    msg_error("Error al realizar proceso");  
+				    // enviarListado();
+					
+				} 
+		},
+		
+		error : function(xhr, status, er) { 
+		        console.log("error: " + xhr + " status: " + status + " er:" + er);
+					// msg_error();
+	
+				},
+	  			complete: function()
+			{
+			// finBloqueo();
+	
+			}
+			});
+	}
+}
+
+
+function enviarRpt(){
+	// debugger;
+	var htmlTabla = "";
+	var item = 0; 
+	var myFormulario = $('#frmActualizarResultadoOrden');  
+	
+	var contextPath = $('#contextPath').val();
+	if(!myFormulario[0].checkValidity()) {
+	//	 msg_advertencia("Debe completar los campos requeridos(*) correctamente");
+		 
+	}else{
+		var url = contextPath + "/ordenController/rptFichaREsultados";
+	// iniciarBloqueo();
+		$.ajax({
+		type : "GET",
+		url : url,
+		data: $('#frmActualizarResultadoOrden').serialize(),
+		success : function(data) {
+			   // console.log("SUCCESS: ", data);
+			    if (data =! null) {
+			    	 msg_exito("Éxito al registrar resultados");
+			   // 	 $("#idBtnCerrarDescartar").trigger("click"); 
+			  //  	 $("#btnListado").trigger("click");
 			    	 
 			    	// enviarListado();
 				}else{
