@@ -128,8 +128,8 @@
 											class="form-control">
 											<f:option value="" label="Todos" selected="true"
 												disabled="disabled" />
-											<f:options items="${lstPerfiles}" itemValue="codigo"
-												itemLabel="nombrePerfil" />
+											<f:options items="${lstAreasLab}" itemValue="codReg"
+												itemLabel="nombreCorto" />
 										</f:select>
 									</div>
 								</div>

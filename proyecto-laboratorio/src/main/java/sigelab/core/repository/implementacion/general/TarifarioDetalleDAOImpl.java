@@ -41,7 +41,7 @@ public class TarifarioDetalleDAOImpl implements TarifarioDetalleDAO {
 			spq.setParameter("OBSERVAC", Tarifario.getObservacion());  
 			spq.setParameter("VALORINI", Tarifario.getValoresRefIni()); 
 			spq.setParameter("VALORFIN", Tarifario.getValoresRefFin());  
-			spq.setParameter("AUPCIPCR", Tarifario.getCodigoUsuarioCreacion()); 
+			spq.setParameter("AUCDUSCR", Tarifario.getCodigoUsuarioCreacion()); 
 			spq.setParameter("AUPCIPCR", Tarifario.getIpCreacion());  
 			
 			spq.execute();
@@ -63,18 +63,19 @@ public class TarifarioDetalleDAOImpl implements TarifarioDetalleDAO {
 	}
 
 	@Override
-	public boolean actualizar(TarifarioDetalleBean Tarifario) throws DAOException {
-		//LenguaBean lengua= this.getLenguaBean(objeto);
-		System.out.println("em :: " + em);
-		System.out.println("Tarifario DAO "+Tarifario);
+	public boolean actualizar(TarifarioDetalleBean Tarifario) throws DAOException {  
  
 		boolean sw=false;
 		try {
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("Tarifario.actualizar");
-			
-			spq.setParameter("p_codperso", Tarifario.getCodigo());  
-			spq.setParameter("p_codusumod", Integer.valueOf(String.valueOf(Tarifario.getCodigoUsuarioCreacion())));
-			spq.setParameter("p_hostmod", Tarifario.getIpCreacion());
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifarioUnidad.actualizar");
+			spq.setParameter("CODUNVAL", Tarifario.getCodigo());  
+			spq.setParameter("CODTARIF", Tarifario.getTarifarioBean().getCodigo());  
+			spq.setParameter("UNIDADES", Tarifario.getUnidades());  
+			spq.setParameter("OBSERVAC", Tarifario.getObservacion());  
+			spq.setParameter("VALORINI", Tarifario.getValoresRefIni()); 
+			spq.setParameter("VALORFIN", Tarifario.getValoresRefFin());  
+			spq.setParameter("AUCDUSMO", Tarifario.getCodigoUsuarioModificacion()); 
+			spq.setParameter("AUPCIPMO", Tarifario.getIpModificacion());  
 
 			
 			spq.execute();
@@ -90,9 +91,27 @@ public class TarifarioDetalleDAOImpl implements TarifarioDetalleDAO {
 	}
 
 	@Override
-	public boolean eliminar(TarifarioDetalleBean t) throws DAOException {
+	public boolean eliminar(TarifarioDetalleBean Tarifario) throws DAOException {
 		
-		return false;
+		boolean sw=false;
+		try {
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifarioUnidad.eliminar");
+			spq.setParameter("CODUNVAL", Tarifario.getCodigo());  
+			spq.setParameter("CODTARIF", Tarifario.getTarifarioBean().getCodigo());   
+			spq.setParameter("AUCDUSMO", Tarifario.getCodigoUsuarioModificacion()); 
+			spq.setParameter("AUPCIPMO", Tarifario.getIpModificacion());  
+
+			
+			spq.execute();
+			
+			sw=true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			sw=false; 
+		}finally{
+			em.close();
+		}
+		return sw;
 	}
 
 	@Override
@@ -108,7 +127,8 @@ public class TarifarioDetalleDAOImpl implements TarifarioDetalleDAO {
 		List<Tarifario_unidadValor> lstMaestra = null;	
 		List<TarifarioDetalleBean> lstTablaBean = null;
 		
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifario.listarPorFiltros"); 
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifarioUnidad.listarPorFiltros"); 
+			spq.setParameter("CODTARIF", TarifarioDetalleBean.getTarifarioBean().getCodigo());
 			if (spq.execute()) {
 				lstMaestra =  spq.getResultList(); 
 			} 
@@ -157,6 +177,7 @@ public class TarifarioDetalleDAOImpl implements TarifarioDetalleDAO {
 			bean.setUnidades(entity.getUnidades());
 			bean.setValoresRefFin(entity.getValoresRefFin());
 			bean.setValoresRefIni(entity.getValoresRefIni());
+			bean.setObservacion(entity.getObservacion());
 		}
 		
 		return bean;

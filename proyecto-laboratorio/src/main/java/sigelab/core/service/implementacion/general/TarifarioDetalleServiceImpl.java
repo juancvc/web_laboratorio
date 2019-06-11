@@ -33,12 +33,26 @@ public class TarifarioDetalleServiceImpl implements TarifarioDetalleService {
 
 	@Override
 	public boolean actualizar(TarifarioDetalleBean t) throws ServiceException { 
-		return false;
+		Boolean sw = false;
+		try {
+			sw =  TarifarioDAO.actualizar(t);
+			
+		} catch (DAOException e) { 
+			e.printStackTrace();
+		}
+		return sw;
 	}
 
 	@Override
 	public boolean eliminar(TarifarioDetalleBean t) throws ServiceException { 
-		return false;
+		Boolean sw = false;
+		try {
+			sw =  TarifarioDAO.eliminar(t);
+			
+		} catch (DAOException e) { 
+			e.printStackTrace();
+		}
+		return sw;
 	}
 
 	@Override

@@ -17,24 +17,21 @@ import java.sql.Timestamp;
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTARIF",  type = String.class),
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "UNIDADES",  type = String.class),
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "OBSERVAC",  type = String.class),
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALORINI",  type = String.class),
-					
-					@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALORFIN", type = String.class), 
-					
+					@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALORINI",  type = String.class), 
+					@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALORFIN", type = String.class),  
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSCR", type = String.class),
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class)
 					}), 
 			@NamedStoredProcedureQuery(
 					name="tarifarioUnidad.listarPorFiltros", 
-					procedureName="[LABO].[TARIFARIO_LISTAR_X_FILTROS]",
+					procedureName="[LABO].[USP_UNIDVALO_LISTAR_X_FILTROS] ",
 					resultClasses= Tarifario_unidadValor.class,
 					parameters={ 
-							@StoredProcedureParameter(mode = ParameterMode.IN, name ="TG1TIPOT", type = String.class) ,
-							@StoredProcedureParameter(mode = ParameterMode.IN, name ="DESCRIPC", type = String.class) 
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="CODTARIF", type = String.class) 
 					}),
 			@NamedStoredProcedureQuery(
 					name="tarifarioUnidad.registro", 
-					procedureName="[LABO].[TARIFARIO_ITEM_INSERT]",
+					procedureName="[LABO].USP_UNIDVALO_INSERT",
 					resultClasses= Tarifario_unidadValor.class,
 					parameters={ 
 							@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODTARIF", type = 	String.class),			
@@ -50,22 +47,29 @@ import java.sql.Timestamp;
 					}),
 			@NamedStoredProcedureQuery(
 					name="tarifarioUnidad.actualizar", 
-					procedureName="[LABO].[TARIFARIO_ITEM_UPDATE]",
+					procedureName="[LABO].[USP_UNIDVALO_UPDATE]",
 					resultClasses= Tarifario_unidadValor.class,
 					parameters={ 
-							@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODTARIF", type = 	String.class),			
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1TIPOT", type = 	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPO",  	  type =	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "SUBTIPO",  type = 	String.class),	
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMPRODU", type = 	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "PRECIO",   type =    Float.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPOUNID", type = 	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALREFIN", type = 	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALREFFI", type = 	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUDUSUCR", type = 	String.class) 
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODUNVAL", type = 	String.class),			
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTARIF", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "UNIDADES", type =	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "OBSERVAC", type = 	String.class),	
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALORINI", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALORFIN", type =    String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = 	String.class)
 					}),
-			
-		}
+			@NamedStoredProcedureQuery(
+					name="tarifarioUnidad.eliminar", 
+					procedureName="[LABO].[USP_UNIDVALO_DELETE]",
+					resultClasses= Tarifario_unidadValor.class,
+					parameters={ 
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODUNVAL", type = 	String.class),			
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTARIF", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = 	String.class)
+					}),
+				}
 		)
 @Entity 
 public class Tarifario_unidadValor implements Serializable {
@@ -117,6 +121,19 @@ public class Tarifario_unidadValor implements Serializable {
 	@Column(name="SWMIGRAD")
 	private short swmigrad; 
 	
+	@Column(name="OBSERVAC")
+	private String observacion;
+
+	
+	public String getObservacion() {
+		return observacion;
+	}
+
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
+
 
 	public Tarifario_unidadValor() {
 	}

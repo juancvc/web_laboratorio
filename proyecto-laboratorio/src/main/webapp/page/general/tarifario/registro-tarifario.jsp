@@ -203,8 +203,7 @@
 										<div class="table-responsive_">
 											<table id ="tabla"  class="table table-bordered">
 												<thead class="tabla_th">
-													<tr>
-														<th width="70">ITEM</th>
+													<tr> 
 														<th>UNIDAD</th>
 														<th>OBSERVACION</th>
 														<th>VALOR INICIAL</th>
@@ -213,14 +212,14 @@
 													</tr>
 												</thead>
 												<tbody id="idbodyCIEXref" class="label_control">
-													<c:forEach var="ciex" items="${lstTarifarioDetalleBean}"
+													<c:forEach var="tabla" items="${lstTarifarioDetalleBean}"
 														varStatus="loop">
-														<tr>
-															<td>${loop.count}</td>
-															<td><div class="controls">
-																	<f:input type="text" min="1" maxlength="20"
-																		class="form-control" required="required"
-																		id="tarifarioUnidades" path="lstTarifarioDetalleBean[${loop.index}].unidades" />
+														<f:input type="text"    value="${tabla.codigo}" path="lstTarifarioDetalleBean[${loop.index}].codigo" />
+														<tr id='anterior${loop.index}'> 
+															<td><div class="controls"> 
+																	<f:input type="hidden" min="1" maxlength="20"  required="required"
+																		class="form-control" value="${tabla.unidades}"
+																		id="tarifarioUnidades${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].unidades" />
 
 																</div></td>
 															<td><div class="controls">
@@ -228,24 +227,24 @@
 																		class="form-control" value="${tabla.observacion}"
 																		id="tarifarioUnidades${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].observacion" />
 
-																</div></td>	
+																</div></td>
 															<td><div class="controls">
 																	<f:input type="text" maxlength="30"
-																		class="form-control" required="required"
-																		id="tarifarioValorInicial" path="lstTarifarioDetalleBean[${loop.index}].valoresRefIni" />
+																		class="form-control" required="required" value="${tabla.valoresRefIni}"
+																		id="tarifarioValorInicial${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].valoresRefIni" />
 
 																</div></td>
 															<td><div class="controls">
 																	<f:input type="text" maxlength="30"
-																		class="form-control" required="required"
-																		id="tarifarioValorFinal" path="lstTarifarioDetalleBean[${loop.index}].valoresRefFin" />
+																		class="form-control" required="required" value="${tabla.valoresRefFin}"
+																		id="tarifarioValorFinal${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].valoresRefFin" />
 
-																</div></td>
-															<td><button type='button'
+																</div></td> 
+																	<td><button type='button'
 																			class='btn btn-outline-danger btn-sm'
 																			data-toggle='tooltip' data-placement='top'
 																			title='Eliminar'
-																			onclick='confirmar_eliminar(${loop.index})'
+																			onclick='confirmar_eliminar(1,${loop.index})'
 																			data-original-title='Eliminar' id='eliminarDX'>
 																			<i class='icon-trash'></i>
 																		</button></td> 
@@ -269,7 +268,7 @@
 									<button type="submit" onclick="grabarTarifario()"
 										class="btn btn-primary">
 										<i class="fa fa-floppy-o"></i> GUARDAR
-									</button>
+									</button>  
 								</div>
 							</div>
 						</div>
@@ -355,10 +354,37 @@
 
 	</div>
 </body>
+<div class="modal fade text-xs-left" id="md_confirmacion"
+			tabindex="-1" role="dialog" aria-labelledby="myModalLabel19"
+			aria-hidden="true">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="label_title_modal modal-header">
 
+						<h4 class="label_title" id="myModalLabel19">CONFIRMA ACCION</h4>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p id="txt_confir" class="label_control">¿ESTÁ SEGURO DE
+							ELIMINAR REGISTRO SELECCIONADO?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn grey btn-outline-secondary"
+							data-dismiss="modal">
+							<i class="fa fa-close"></i> CERRAR
+						</button>
+						<button id="btnConfirmarGeneric" type="button"
+							class="btn btn-outline-primary">CONFIRMAR</button>
+					</div>
+				</div>
+			</div>
+		</div>
 <script type="text/javascript">  
 	  
-		var  listadoDetalleTarifario= []; 
+		var  listadoDetalleTarifario= [];  
  </script>
 </html>
 

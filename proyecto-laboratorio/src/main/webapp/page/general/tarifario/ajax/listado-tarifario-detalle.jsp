@@ -29,7 +29,7 @@
 														<tr>
 															<td>${loop.count}</td>
 															<td><div class="controls">
-																	<f:input type="text" min="1" maxlength="20"
+																	<f:input type="text" min="1" maxlength="20"  required="required"
 																		class="form-control" value="${tabla.unidades}"
 																		id="tarifarioUnidades${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].unidades" />
 
@@ -48,7 +48,7 @@
 																</div></td>
 															<td><div class="controls">
 																	<f:input type="text" maxlength="30"
-																		class="form-control" required="required" value="${tabla.valoresRefFin}"
+																		class="form-control" required="required" value="alicia"
 																		id="tarifarioValorFinal${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].valoresRefFin" />
 
 																</div></td> 

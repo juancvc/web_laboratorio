@@ -65,22 +65,31 @@ public class TarifarioDAOImpl implements TarifarioDAO {
 
 	@Override
 	public boolean actualizar(TarifarioBean Tarifario) throws DAOException {
-		//LenguaBean lengua= this.getLenguaBean(objeto);
-		System.out.println("em :: " + em);
-		System.out.println("Tarifario DAO "+Tarifario);
- 
+		Object idTarifario= null; 
+	//	Object nroPeriodo= null; 
 		boolean sw=false;
 		try {
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("Tarifario.actualizar");
-			
-			spq.setParameter("p_codperso", Tarifario.getCodigo());  
-			spq.setParameter("p_codusumod", Integer.valueOf(String.valueOf(Tarifario.getCodigoUsuarioCreacion())));
-			spq.setParameter("p_hostmod", Tarifario.getIpCreacion());
-
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifario.actualizar");
+			spq.setParameter("CODTARIF", Tarifario.getCodigo()); 
+			spq.setParameter("TG1TIPOT", Tarifario.getTipo().getCodReg()); 
+			spq.setParameter("TIPO", ""); 
+			spq.setParameter("SUBTIPO", Tarifario.getSubtipo());  
+			spq.setParameter("NOMPRODU", Tarifario.getDescripcion()); 
+			spq.setParameter("PRECIO", Tarifario.getPrecio()); 
+			spq.setParameter("TIPOUNID", ""); 
+			spq.setParameter("VALREFIN", ""); 
+			spq.setParameter("VALREFFI", ""); 
+			spq.setParameter("AUCDUSCR", Tarifario.getCodigoUsuarioCreacion());  
 			
 			spq.execute();
 			
-			sw=true;
+		//	idTarifario = spq.getOutputParameterValue(1);
+		//	nroPeriodo = spq.getOutputParameterValue(16);
+			//if (idTarifario != null) {
+				//Tarifario.setCodigo(idTarifario.toString());
+			//	Tarifario.setNumeroPeriodo(nroPeriodo.toString());
+				sw=true;
+			//}
 		} catch (Exception e) {
 			e.printStackTrace();
 			sw=false; 

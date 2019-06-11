@@ -749,7 +749,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 
         //compose message  
          if (archivooPDF=="") {
-        	 archivooPDF = "C:\\Users\\user\\Downloads\\"+getOrdenBean().getCodigo()+".pdf"; 
+        	 archivooPDF = "C:\\Users\\user}\\Downloads\\"+getOrdenBean().getCodigo()+".pdf"; 
          }
         
         try {

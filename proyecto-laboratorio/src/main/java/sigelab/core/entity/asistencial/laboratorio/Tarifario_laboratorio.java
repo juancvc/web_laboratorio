@@ -37,7 +37,7 @@ import java.sql.Timestamp;
 					procedureName="[LABO].[TARIFARIO_ITEM_UPDATE]",
 					resultClasses= Tarifario_laboratorio.class,
 					parameters={ 
-							@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODTARIF", type = 	String.class),			
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="CODTARIF", type = 	String.class),			
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1TIPOT", type = 	String.class),
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPO",  	  type =	String.class),
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "SUBTIPO",  type = 	String.class),	
@@ -46,7 +46,7 @@ import java.sql.Timestamp;
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPOUNID", type = 	String.class),
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALREFIN", type = 	String.class),
 							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALREFFI", type = 	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUDUSUCR", type = 	String.class) 
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSCR", type = 	String.class) 
 					}),
 			
 			@NamedStoredProcedureQuery(
