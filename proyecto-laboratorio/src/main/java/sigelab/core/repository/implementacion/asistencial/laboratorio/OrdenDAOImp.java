@@ -206,6 +206,7 @@ private List<OrdenBean> deListaObjetoAListaObjetoBean(List<Orden_laboratorio> ls
 			bean.getPacienteBean().getPersona().setSegundoNombre(entity.getSEGNOMBR()); 
 			bean.getPacienteBean().getPersona().setNroDocumento(entity.getDETALLED()); 
 			bean.getPacienteBean().getPersona().setEdad(entity.getEDAD());
+			bean.getPacienteBean().getPersona().setCorreo(entity.getCORREOPE());
 			bean.getPacienteBean().getPersona().setDireccion(entity.getDIRECCIO());
 			bean.getPacienteBean().getPersona().getSexo().setCodReg(entity.getTG1SEXOP());
 			bean.setNombreUsuarioCreacion(entity.getNOMUSUAR());

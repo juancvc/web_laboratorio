@@ -1,5 +1,8 @@
 package sigelab.web.controller.general;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList; 
@@ -7,8 +10,21 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,16 +35,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import gob.hnch.systems.ws.hnch.client.imp.PersonaServiceImp;
 import sigelab.base.bean.BaseBean;
-import sigelab.core.bean.asistencial.banco.CampaniaBean;
-import sigelab.core.bean.asistencial.banco.DonanteBean;
-import sigelab.core.bean.asistencial.banco.EstadoFisicoBean;
 import sigelab.core.bean.asistencial.banco.PostulanteBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.UbigeoBean;
 import sigelab.core.bean.seguridad.UsuarioBean;
-import sigelab.core.entity.asistencial.banco.InterUAL;
 import sigelab.core.entity.general.PacienteReniec;
 import sigelab.core.service.exception.ServiceException;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service;
@@ -59,6 +71,8 @@ public class PersonaController {
 	List<TablaBean> lstNivelInstrucion = new ArrayList<TablaBean>();
 	List<UbigeoBean> lstUbigeoBean = new ArrayList<UbigeoBean>();
 	List<TablaBean> lstTipoExamen = new ArrayList<TablaBean>();
+	private List<PersonaBean> lstPersonaBean ;  
+	private List<PersonaBean> lstPersonaBeanRpt ;  
 	
 	@Autowired
 	private MaestraAsis01Service maestraAsis01Service;
@@ -134,6 +148,48 @@ public class PersonaController {
 		
 		return personaBean;
 	}
+	
+	@RequestMapping(value = "/listado", method = RequestMethod.GET)
+	public ModelAndView listado(@ModelAttribute("personaBean") PersonaBean personaBean, HttpServletRequest request) throws Exception {
+		return this.listadoPost(personaBean, request) ;
+	}
+	@RequestMapping(value = "/listado", method = RequestMethod.POST)
+	public ModelAndView listadoPost(@ModelAttribute("personaBean") PersonaBean personaBean, HttpServletRequest request) throws Exception {
+	//	personaBean.getSituacion().setCodReg("000001");
+		lstPersonaBean = new ArrayList<PersonaBean>(); 
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/persona/listado-persona", "command", personaBean); 
+		lstPersonaBean = personaService.getBuscarPorFiltros(personaBean);
+		setLstPersonaBeanRpt(lstPersonaBean);
+		lstSituacion = maestraAsis01Service.listarPorCodigoTabla("000016", 1);
+		
+		mav.addObject("lstSituacion", lstSituacion);
+		mav.addObject("lstPersonaBean", lstPersonaBean); 
+		mav.addObject("personaBean", personaBean); 
+		return mav;
+	}
+	
+	@RequestMapping(value = "/buscar", method = RequestMethod.POST)
+	public ModelAndView buscarPOST(@ModelAttribute("personaBean") PersonaBean personaBean,
+			HttpServletRequest request
+			)
+			throws Exception { 
+		lstPersonaBean = new ArrayList<PersonaBean>(); 
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/persona/listado-persona", "command", personaBean); 
+		lstPersonaBean = personaService.getBuscarPorFiltros(personaBean);
+		setLstPersonaBeanRpt(lstPersonaBean);
+		mav.addObject("lstPersonaBean", lstPersonaBean); 
+		mav.addObject("personaBean", personaBean); 
+		return mav;
+	}
+	
+	@RequestMapping(value = "/buscar", method = RequestMethod.GET)
+	public ModelAndView buscarGet(@ModelAttribute("ordenBean") PersonaBean personaBean,
+			HttpServletRequest request
+			)
+			throws Exception { 
+		return this.buscarPOST(personaBean, request) ;
+	}
+	
 
 	@RequestMapping(value = "/buscarPersonaReniec", method = RequestMethod.GET)
 	public ModelAndView doBuscarListado(@RequestParam("dni") String dni )
@@ -677,6 +733,200 @@ public class PersonaController {
 		return mav;
 	}
 	
+	   @RequestMapping(value = "/descargarExcel", method = RequestMethod.GET, produces = "application/vnd.ms-excel")
+	    public @ResponseBody void descargarExcel(HttpServletResponse response) throws IOException {
+	    	 try {
+	    		 Workbook wb = generarExcel();
+	    		 response.setHeader("Content-disposition", "attachment; filename=reporteExcel.xls");
+	    		 wb.write( response.getOutputStream() );
+	         } catch (Exception e) {
+	             e.printStackTrace();
+	         }
+	    }
+	   
+	   public HSSFWorkbook generarExcel() {
+	        try {
+	            HSSFWorkbook workbook = new HSSFWorkbook();
+	            //Hoja
+	            HSSFSheet    sheet    = workbook.createSheet("SEGUIMIENTO DE PACIENTES");
+	            /**** color ***/
+	            HSSFColor lightGray =  setColor(workbook,(byte) 0xE0, (byte)0xE0,(byte) 0xE0);
+	            /**estilos**/
+	            //estilo para el titulo
+	            HSSFFont headerFont = workbook.createFont();
+	            CellStyle titleStyle = workbook.createCellStyle();
+	            //titleStyle.setFillForegroundColor(lightGray.getIndex());
+	            titleStyle.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+	            titleStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	            titleStyle.setFont(headerFont);
+	            //estilo para el cabecera
+	            HSSFCellStyle headerStyle = workbook.createCellStyle();
+	            headerStyle.setFillForegroundColor(lightGray.getIndex());
+	            headerStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	            headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	            headerStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+	            //estilo para el cuerpo
+	         	HSSFCellStyle bodyStyle = workbook.createCellStyle();
+	         	//bodyStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	         	bodyStyle.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+	         	bodyStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	         	bodyStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+	            /*** tamaÃ¯Â¿Â½o de la columnas ***/
+	            sheet.setColumnWidth(0, 2500); 
+	            sheet.setColumnWidth(1, 2500);
+	            sheet.setColumnWidth(2, 10000);
+	            sheet.setColumnWidth(3, 10000); 
+	            sheet.setColumnWidth(4, 10000);
+	            sheet.setColumnWidth(5, 8000);
+	            
+	            sheet.setColumnWidth(6, 8000);
+//	            sheet.setColumnWidth(7, 5000);
+//	            sheet.setColumnWidth(8, 3000);
+//	            sheet.setColumnWidth(9, 3000);
+//	            sheet.setColumnWidth(7, 5000);
+//	            sheet.setColumnWidth(8, 5000);
+	            sheet.setColumnWidth(7, 5000);
+	            /**** fuente ***/
+	            //titulo
+	            HSSFFont fontTitulo = workbook.createFont();
+	            fontTitulo.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	            fontTitulo.setFontHeightInPoints((short) 14);
+	            
+	            titleStyle.setFont(fontTitulo);
+	            //cabecera
+	            HSSFFont fontCabecera = workbook.createFont();
+	            fontCabecera.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	            fontCabecera.setFontHeightInPoints((short) 9);
+	            
+	            headerStyle.setFont(fontCabecera); 	
+	            
+	            /*** contenido del excel ***/
+	            int rowIndex  = 0;
+	            HSSFCell headerCell = null;
+	            sheet.createRow( rowIndex++ );
+	            sheet.createRow( rowIndex++ );
+	            HSSFRow   headerRow    = sheet.createRow( rowIndex++ );
+	            sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 7));
+	            headerCell = headerRow.createCell(1);
+	            headerCell.setCellValue("LISTADO DE PACIENTES");
+	            headerCell.setCellStyle(titleStyle);
+	            sheet.createRow( rowIndex++ );
+	            //Fila
+	            HSSFRow      bodyRow    = sheet.createRow( rowIndex++ );
+	            
+	            
+	           
+	            
+	            /************************* cabecera *****************************/
+		            
+	            headerCell = bodyRow.createCell(1);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("N°");
+	            headerCell = bodyRow.createCell(2);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("SEDE REGISTRO");
+	            headerCell = bodyRow.createCell(3);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("PACIENTE");
+	            headerCell = bodyRow.createCell(4);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("FECHA REGISTRO");
+	            headerCell = bodyRow.createCell(5);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("PROCEDENCIA");
+	            headerCell = bodyRow.createCell(6);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("USUARIO REGISTRO");
+//	            headerCell = bodyRow.createCell(7);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("NIVEL");
+//	            headerCell = bodyRow.createCell(8);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("CICLO");
+//	            headerCell = bodyRow.createCell(9);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("AÃ¯Â¿Â½O");
+//	            headerCell = bodyRow.createCell(7);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("FECHA INICIO");
+//	            headerCell = bodyRow.createCell(8);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("FECHA TERMINO");
+	            headerCell = bodyRow.createCell(7);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("SITUACION");
+	            /******************* Contenido *************************/
+	    		HSSFRow  contentRow  = null;
+	    		HSSFCell contentCell = null;
+	    		
+	    		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
+	    	
+	            for (int i = 0; i < this.getLstPersonaBeanRpt().size(); i++) {
+	            	
+//	            	personaBean personaBean = this.lstpersonaBean.get(i);
+	            	PersonaBean personaBean = this.getLstPersonaBeanRpt().get(i);
+	            	contentRow = sheet.createRow( rowIndex++ );
+	            	contentCell = contentRow.createCell(1);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(String.valueOf((i+1)));
+	            	contentCell = contentRow.createCell(2);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(personaBean.getCodigoSede());
+	            	contentCell = contentRow.createCell(3);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(personaBean.getNombreCompleto());
+	            	contentCell = contentRow.createCell(4);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(personaBean.getStrFechaCreacion());
+	            	contentCell = contentRow.createCell(5);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(personaBean.getUbigeoDireccion().getNombreUbigeo());
+	            	contentCell = contentRow.createCell(6);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(personaBean.getNombreUsuarioCreacion());
+
+	            	contentCell = contentRow.createCell(7);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(personaBean.getSituacion().getNombreCorto());
+	            }
+	            workbook.write(new FileOutputStream("reporteExcel.xls"));
+
+	            //return workbook.getBytes();
+	            return workbook;
+	        } catch (FileNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        return null;
+	    }
+	   
+
+	    public HSSFColor setColor(HSSFWorkbook workbook, byte r,byte g, byte b){
+	        HSSFPalette palette = workbook.getCustomPalette();
+	        HSSFColor hssfColor = null;
+	        try {
+	            hssfColor= palette.findColor(r, g, b); 
+	            if (hssfColor == null ){
+	                palette.setColorAtIndex(HSSFColor.LAVENDER.index, r, g,b);
+	                hssfColor = palette.getColor(HSSFColor.LAVENDER.index);
+	            }
+	        } catch (Exception e) {
+	        	e.printStackTrace();
+	        }
+
+	        return hssfColor;
+	    }
+		
+	   
+	
+	
 	protected void setAuditoria(BaseBean baseBean,HttpServletRequest request,boolean swInsert){
 		UsuarioBean usuario= (UsuarioBean) request.getSession().getAttribute("usuarioSesion");
 		String idUsuario= !VO.isNull(usuario) ? usuario.getCodigo() :"0";	
@@ -724,5 +974,16 @@ public class PersonaController {
 	public void setPostulanteBean(PostulanteBean PostulanteBean) {
 		this.postulanteBean = PostulanteBean;
 	}
+
+	public List<PersonaBean> getLstPersonaBeanRpt() {
+		return lstPersonaBeanRpt;
+	}
+
+	public void setLstPersonaBeanRpt(List<PersonaBean> lstPersonaBeanRpt) {
+		this.lstPersonaBeanRpt = lstPersonaBeanRpt;
+	}
+	
+	
+	
 	
 }

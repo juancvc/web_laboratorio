@@ -84,7 +84,7 @@ public class OrdenController  extends BaseController {
 	private String asunto;
 	private String msg;
 	private String archivooPDF="";
-	
+	String usuarioWindows = System.getProperty("user.name");
 
 	
 	public String getEmailDestinatario() {
@@ -713,12 +713,14 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 		
 	//	Date fechaActual = new Date();
 		JFileChooser chooser = new JFileChooser("D:\\labmed\\reportes\\"+getOrdenBean().getCodigo()+".pdf");
-		archivooPDF = "C:\\Users\\user\\Downloads"+getOrdenBean().getCodigo()+".pdf";
+
+		archivooPDF = "C:\\Users\\"+usuarioWindows+"\\Downloads"+getOrdenBean().getCodigo()+".pdf";
 		final OutputStream outStream = response.getOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	}
     
     
+
     /****Enviar EMAIL ****/
     @RequestMapping(value = "/enviarEmail", method = RequestMethod.POST)
 
@@ -749,7 +751,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 
         //compose message  
          if (archivooPDF=="") {
-        	 archivooPDF = "C:\\Users\\user}\\Downloads\\"+getOrdenBean().getCodigo()+".pdf"; 
+        	 archivooPDF = "C:\\Users\\"+usuarioWindows+"\\Downloads\\"+getOrdenBean().getCodigo()+".pdf"; 
          }
         
         try {
@@ -760,18 +762,20 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
         	MimeMessage message = new MimeMessage(s);
         	message.setFrom(new InternetAddress("informatica.hch.2018@gmail.com"));
         	message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-        	message.setSubject("Attachment");
+        	message.setSubject("LABMED-Resultados analisis de laboratorio del paciente "+getOrdenBean().getPacienteBean().getPersona().getNombreCompleto());
+      
         	// message.setText(text, "utf-8", "html");
 
         	MimeBodyPart textPart = new MimeBodyPart();
         	textPart.setContent(text, "text/html; charset=utf-8");
-        	textPart.setText("Resultado de Analisis del paciente "+getOrdenBean().getPacienteBean().getPersona().getApellidoPaterno());
+        	textPart.setText(mensaje);
         	DataSource source = new FileDataSource(archivooPDF);
         	MimeBodyPart messageBodyPart = new MimeBodyPart();
         	messageBodyPart = new MimeBodyPart();
         	messageBodyPart.setDataHandler(new DataHandler(source));
         	 String filename=archivooPDF;
-        	 messageBodyPart.setFileName(filename);
+        	 messageBodyPart.setFileName(new File(filename).getName());
+        	 
         	//messageBodyPart.setFileName(pdf.getAbsolutePath().toString());
         	Multipart multipart = new MimeMultipart("mixed");
         	multipart.addBodyPart(textPart);
@@ -808,7 +812,6 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
         }
         return retorno;
     }
-    
     
     
     

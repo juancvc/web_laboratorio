@@ -98,7 +98,7 @@
 				href="${pageContext.request.contextPath}/personaController/nuevoPaciente">Registro</a>
 			</li>
 			<li><a
-				href="${pageContext.request.contextPath}/personaController/listadoPostulante">Listado</a>
+				href="${pageContext.request.contextPath}/personaController/listado">Listado</a>
 			</li>
 		</ul></li>
 
@@ -187,16 +187,16 @@
 	</c:if>
 
 	<c:if test="${accesoMenu.menu_Estadisticos}">
-		<li style="display: none" class="nav-item" data-toggle="tooltip"
+		<li  class="nav-item" data-toggle="tooltip"
 			data-placement="right" title="Menu Levels"><a
 			class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 			href="#collapseMulti" data-parent="#exampleAccordion"> <i
-				class="fa fa-fw fa-sitemap"></i> <span class="nav-link-text">Otros</span>
+				class="fa fa-fw fa-sitemap"></i> <span class="nav-link-text">Reportes</span>
 		</a>
 			<ul class="sidenav-second-level collapse" id="collapseMulti">
-				<li><a href="#">Second Level Item</a></li>
-				<li><a href="#">Second Level Item</a></li>
-				<li><a href="#">Second Level Item</a></li>
+				<li><a href="#">Indicadores</a></li>
+				<li><a href="#">Productividad</a></li>
+				<li><a href="#">Campañas</a></li>
 				<li><a class="nav-link-collapse collapsed"
 					data-toggle="collapse" href="#collapseMulti2">Third Level</a>
 					<ul class="sidenav-third-level collapse" id="collapseMulti2">

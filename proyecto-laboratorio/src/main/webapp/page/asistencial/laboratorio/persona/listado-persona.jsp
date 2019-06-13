@@ -12,7 +12,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Listado de Orden</title>
+<title>Listado de Pacientes</title>
 <!-- Bootstrap core CSS-->
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i"
@@ -44,7 +44,7 @@
 	rel="stylesheet">
 
 <link rel="shortcut icon" type="image/x-icon"
-	href="${pageContext.request.contextPath}/app-assets/images/ico/iconHNCH.ico">
+	href="${pageContext.request.contextPath}/app-assets/images/ico/logoLabico.ico">
 <!-- Custom fonts for this template-->
 <link
 	href="${pageContext.request.contextPath}/app-assets/vendor/font-awesome/css/font-awesome.min.css"
@@ -101,7 +101,7 @@
 				<li class="breadcrumb-item active">Listado de Referencia</li>
 			</ol>-->
 
-			<div class="tituloForm">LISTADO DE ORDENES</div>
+			<div class="tituloForm">LISTADO DE PACIENTES</div>
 			<!-- Area Chart Example-->
 			<div class="card mb-3">
 				<div class="divCabeceraPanel">
@@ -111,7 +111,7 @@
 				</div>
 
 				<f:form id="frmlistadoReferencia" role="form"
-					action="${pageContext.request.contextPath}/ordenController/buscar">
+					action="${pageContext.request.contextPath}/personaController/buscar">
 
 					<input id="contextPath" type="hidden"
 						value="${pageContext.request.contextPath}">
@@ -120,7 +120,7 @@
 							<div class="row">
 								<div class="col-md-4">
 									<label for="exampleInputName" class="label_control">FECHA
-										ORDEN DESDE </label>
+										 DESDE </label>
 									<div class="position-relative has-icon-left">
 										<input id="contextPath" type="hidden"
 											value="${pageContext.request.contextPath}">
@@ -135,7 +135,7 @@
 								</div>
 								<div class="col-md-4">
 									<label for="exampleInputName" class="label_control">FECHA
-										ORDEN HASTA </label>
+										 HASTA </label>
 									<div class="controls">
 										<f:input class="form-control" id="dateHasta" name="dateHasta"
 											maxlength="10" placeholder="DD/MM/YYYY" type="text"
@@ -171,10 +171,12 @@
 										<i class="fa fa-eraser"></i> LIMPIAR
 									</button>
 									<a
-										href="${pageContext.request.contextPath}/ordenController/nuevo"
+										href="${pageContext.request.contextPath}/personaController/nuevo"
 										class="btn btn-secondary" title=""> <i class="icon-plus"></i>
 										NUEVO
 									</a>
+									  <a id="idDescargarExcel" class="btn btn-outline-secondary  mt-2" target="_Blank" href="<c:url value='/personaController/descargarExcel'/>">
+                                                 <i class="fa fa-file-excel-o"></i> Descargar Excel</a>
 								</div>
 							</div>
 						</div>
@@ -197,28 +199,28 @@
 										<thead class="tabla_th">
 											<tr>
 												<th width="30">ITEM</th>
-												<th>NRO DE ORDEN</th>
-												<th>PERSONA ORDEN</th>
-												<th>FECHA ORDEN</th>
-												<th>IMPORTE S/.</th>
+												<th>CODIGO</th>
+												<th>PACIENTE</th>
+												<th>NRO DOC</th>
+												<th>FECHA REG.</th>											
 												<th>SITUACIÓN</th>
-												<th>USUARIO REGISTRO</th>
+												<th>USUARIO REG.</th>
 												<th>ACCIONES</th>
 											</tr>
 										</thead>
 										<tbody id="idBodyListaPostulante">
-											<c:forEach var="orden" items="${lstOrdenBean}"
+											<c:forEach var="persona" items="${lstPersonaBean}"
 												varStatus="loop">
 												<tr>
 													<td>${loop.count}</td>
-													<td>${orden.nroOrden}</td>
-													<td>${orden.pacienteBean.persona.nombreCompleto}</td>
-													<td>${orden.strFechaOrden}${orden.horaOrden}</td>
-													<td>${orden.sImporteTotal}</td>
-													<td>${orden.situacion.nombreCorto}</td>
-													<td>${orden.nombreUsuarioCreacion}</td>
+													<td>${persona.codigo}</td>
+													<td>${persona.nombreCompleto}</td>
+													<td>${persona.nroDocumento}</td>
+													<td>${persona.strFechaCreacion}</td>
+													<td>${persona.situacion.nombreCorto}</td>
+													<td>${persona.nombreUsuarioCreacion}</td>
 													<td><c:choose>
-															<c:when test="${orden.situacion.codReg =='000003'}">
+															<c:when test="${persona.situacion.codReg =='000001'}">
 																<a title="Ver detalle" data-placement="top"
 																	data-toggle="tooltip"
 																	class="btn btn-outline-success btn-sm"
@@ -227,20 +229,9 @@
 															</c:when>
 															<c:otherwise>
 														
-																<a title="Ver detalle" data-placement="top"
-																	data-toggle="tooltip"
-																	class="btn btn-outline-success btn-sm"
-																	onclick="javascript:modificarElementoGenerico('/ordenController/registroResultado','${loop.index}')"
-																	href="#"><i class="ft-search"> Ver</i></a>
+													
 
-																<button type="button"
-																	class="btn btn-outline-danger btn-sm eliminarPerfil"
-																	data-toggle="tooltip" data-placement="top" title=""
-																	onclick="anularCargarModal('${loop.index}')"
-																	data-original-title="Anular"
-																	id="eliminarPerfil${loop.index}">
-																	<i class="icon-trash"> Anular</i>
-																</button>
+													
 															</c:otherwise>
 														</c:choose></td>
 												</tr>

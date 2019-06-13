@@ -2,7 +2,7 @@ package sigelab.core.entity.general;
 
 import java.io.Serializable;
 import javax.persistence.*;
- 
+
 
 import java.sql.Timestamp;
 
@@ -131,7 +131,15 @@ import java.sql.Timestamp;
 									@StoredProcedureParameter(mode=ParameterMode.IN,name="TIPO", type=String.class )
 							}					
 					),
-			
+				@NamedStoredProcedureQuery(name ="persona.buscarPorFiltros", 
+				procedureName = "[LABO].[USP_PACIENTE_LISTAR_X_FILTROS]",
+				resultClasses = Persona.class,
+				parameters = {
+						
+						@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECDESDE", type = String.class) ,
+						@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHASTA", type = String.class) ,
+						@StoredProcedureParameter(mode = ParameterMode.IN, name = "SITUACRG", type = String.class) 
+			      }),
 			
 			
 				@NamedStoredProcedureQuery(
@@ -321,8 +329,9 @@ public class Persona implements Serializable {
 	private String NOMBTPOC;
 	private String NOMBTPSX;
 	private String NOMBTPDO;
-	
-	
+	private String NOMBSITU;
+	private String NOMUSUAR;
+	private String SFECHREG;
 	public Persona() {
 	}
 
@@ -855,5 +864,47 @@ public class Persona implements Serializable {
 		UBINAREG = uBINAREG;
 	}
 
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+
+	public String getNOMBSITU() {
+		return NOMBSITU;
+	}
+
+
+	public void setNOMBSITU(String nOMBSITU) {
+		NOMBSITU = nOMBSITU;
+	}
+
+
+	public String getNOMUSUAR() {
+		return NOMUSUAR;
+	}
+
+
+	public void setNOMUSUAR(String nOMUSUAR) {
+		NOMUSUAR = nOMUSUAR;
+	}
+
+
+	public String getSFECHREG() {
+		return SFECHREG;
+	}
+
+
+	public void setSFECHREG(String sFECHREG) {
+		SFECHREG = sFECHREG;
+	}
+
+	
+	
  
 }

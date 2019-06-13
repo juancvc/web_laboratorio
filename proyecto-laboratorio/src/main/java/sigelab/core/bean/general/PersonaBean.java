@@ -31,6 +31,10 @@ public class PersonaBean extends BaseBean {
 	private TablaBean religion;
 	private byte[] foto;
 	private String fotoCadena; 
+	private TablaBean situacion;
+	private String fechaDesde;  
+	private String fechaHasta;  
+	
 	public String getFotoCadena() {
 		return fotoCadena;
 	}
@@ -430,6 +434,27 @@ public class PersonaBean extends BaseBean {
 	}
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+	public String getFechaDesde() {
+		return fechaDesde;
+	}
+	public void setFechaDesde(String fechaDesde) {
+		this.fechaDesde = fechaDesde;
+	}
+	public String getFechaHasta() {
+		return fechaHasta;
+	}
+	public void setFechaHasta(String fechaHasta) {
+		this.fechaHasta = fechaHasta;
+	}
+	public TablaBean getSituacion() {
+		if (situacion==null) {
+			situacion = new TablaBean();
+		}
+		return situacion;
+	}
+	public void setSituacion(TablaBean situacion) {
+		this.situacion = situacion;
 	}
 	
  

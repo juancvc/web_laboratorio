@@ -1,5 +1,6 @@
 package sigelab.core.service.implementacion.general;
 
+
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.repository.DAOException;
 import sigelab.core.repository.interfaces.general.PersonaDAO;
@@ -68,10 +69,16 @@ public class PersonaServiceImpl implements PersonaService {
 	}
 
 	@Override
-	public List<PersonaBean> getBuscarPorFiltros(PersonaBean t)
+	public List<PersonaBean> getBuscarPorFiltros(PersonaBean personaBean)
 			throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		List<PersonaBean> lstPersonaBean = null;
+		 System.out.println("pasa SERVICE");
+		try {
+			lstPersonaBean = personaDAO.getBuscarPorFiltros(personaBean);
+		} catch (Exception e) {
+
+		}
+		return lstPersonaBean;
 	}
 
 	@Override

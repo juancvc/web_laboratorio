@@ -116,7 +116,7 @@ public class Orden_laboratorio implements Serializable {
 	private String EDAD;
 	private String DIRECCIO;
 	private String NOMBSITU;
-	
+	private String CORREOPE;
 	
 	public String getNOMBSITU() {
 		return NOMBSITU;
@@ -287,5 +287,15 @@ public class Orden_laboratorio implements Serializable {
 	public void setNroOrden(String nroOrden) {
 		this.nroOrden = nroOrden;
 	}
+
+	public String getCORREOPE() {
+		return CORREOPE;
+	}
+
+	public void setCORREOPE(String cORREOPE) {
+		CORREOPE = cORREOPE;
+	}
+	
+	
 	  
 }

@@ -1,10 +1,13 @@
 package sigelab.core.repository.implementacion.general;
 
+
 import sigelab.core.bean.general.PersonaBean;
+
 import sigelab.core.entity.general.Persona;
 import sigelab.core.repository.DAOException;
 import sigelab.core.repository.interfaces.general.PersonaDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -120,10 +123,28 @@ public class PersonaDAOImpl implements PersonaDAO {
 	}
 
 	@Override
-	public List<PersonaBean> getBuscarPorFiltros(PersonaBean t)
+	public List<PersonaBean> getBuscarPorFiltros(PersonaBean personaBean)
 			throws DAOException {
+		List<Persona> lstPersona = null;	
+		List<PersonaBean> lstPersonaBean = null;
 		
-		return null;
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("persona.buscarPorFiltros");   
+			spq.setParameter("FECDESDE", personaBean.getFechaDesde()); 
+			spq.setParameter("FECHASTA", personaBean.getFechaHasta()); 
+			spq.setParameter("SITUACRG", personaBean.getSituacion().getCodReg()); 
+			 if (spq.execute()) {
+				 lstPersona =  spq.getResultList(); 
+			 }
+			 System.out.println("pasa 33");
+			if (lstPersona != null && lstPersona.size() > 0) {
+				System.out.println("pasa 0");
+				lstPersonaBean = deListaObjetoAListaObjetoBean(lstPersona);
+			 }
+			
+			em.close();
+			
+		   
+		return lstPersonaBean;
 	}
 
 	@Override
@@ -161,6 +182,26 @@ public class PersonaDAOImpl implements PersonaDAO {
 		return oPersonaBean;
 	}
 	
+private List<PersonaBean> deListaObjetoAListaObjetoBean(List<Persona> lstPersona) {
+		
+		List<PersonaBean> lstPersonaBean = null;
+		
+		if (lstPersona != null && lstPersona.size() > 0) {
+			System.out.println("pasa 1");
+			lstPersonaBean = new ArrayList<PersonaBean>();
+			
+			for (int i = 0; i < lstPersona.size(); i++) { 
+				Persona entity = lstPersona.get(i);
+				PersonaBean bean = dePersonaAPersonaBean(entity);
+				
+				lstPersonaBean.add(bean);
+			}
+		}
+		
+		return lstPersonaBean;
+	}
+	
+	
 	private PersonaBean dePersonaAPersonaBean(Persona entity) {
 		
 		PersonaBean bean = null;
@@ -181,7 +222,7 @@ public class PersonaDAOImpl implements PersonaDAO {
 			bean.setApellidoMaterno(entity.getApemater());
 			bean.getTipoDocumento().setCodReg(entity.getTg1TpDoc());
 			bean.getTipoDocumento().setNombreCorto(entity.getNOMBTPDO());
-			
+			bean.setStrFechaCreacion(entity.getSFECHREG());
 			bean.setNroDocumento(entity.getNroDocum()); 
 			bean.getSexo().setCodReg(entity.getTg1sexop());
 			bean.getSexo().setNombreCorto(entity.getNOMBTPSX());
@@ -192,7 +233,7 @@ public class PersonaDAOImpl implements PersonaDAO {
 			bean.getEstadoCivil().setCodReg(entity.getTg1esciv());
 			bean.getNacionalidad().setCodReg(entity.getTg1nacio());
 			bean.getNacionalidad().setNombreCorto(entity.getNOMBTPNA());
-			
+			bean.getSituacion().setNombreCorto(entity.getNOMBSITU());
 			bean.getOcupacion().setCodReg(entity.getTg1ocupa());
 			bean.getOcupacion().setNombreCorto(entity.getNOMBTPOC());
 			bean.getNivelInstrucion().setCodReg(entity.getTg1niins());
@@ -200,7 +241,7 @@ public class PersonaDAOImpl implements PersonaDAO {
 			bean.getUbigeoDireccion().setCodigoRegistro(entity.getUBIDIREG());
 			bean.getUbigeoDireccion().setCodigoUbigeo(entity.getTgUbigeo());
 			bean.getUbigeoDireccion().setNombreUbigeo(entity.getNOMLARGO());
-			
+			bean.setNombreUsuarioCreacion(entity.getNOMUSUAR());
 			bean.getUbigeoNacimiento().setCodigoRegistro(entity.getUBINAREG());
 			bean.getUbigeoNacimiento().setNombreUbigeo(entity.getNOMLUGNAC());
 			bean.getUbigeoNacimiento().setCodigoUbigeo(entity.getCODUBINA());
