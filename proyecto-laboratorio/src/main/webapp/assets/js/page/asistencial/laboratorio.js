@@ -642,7 +642,7 @@ function actualizarResultadoOrdenDetalle(){
 			    if (data =! null) {
 			    	 msg_exito("Éxito al registrar resultados");
 			   // 	 $("#idBtnCerrarDescartar").trigger("click"); 
-			  //  	 $("#btnListado").trigger("click");
+			    	 $("#btnListado").trigger("click");
 			    	 
 			    	// enviarListado();
 				}else{

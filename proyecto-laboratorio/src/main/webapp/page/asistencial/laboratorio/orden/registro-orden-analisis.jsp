@@ -352,10 +352,16 @@
 							</div>
 					
 						<div class="row">
-							<div class="form-group col-md-12 text-right"
+							<div class="form-group col-md-12 text-right" 
 								style="margin-top: 15px;">
 										<button type="submit" onclick="actualizarResultadoOrdenDetalle()"
-								
+										<c:choose>
+										   <c:when test="${ordenBean.situacion.codReg=='000001'}"> 
+										</c:when>
+										<c:otherwise>
+											disabled ="true"
+										</c:otherwise>
+									</c:choose>
 									class="btn btn-primary">
 									<i class="fa fa-floppy-o"></i> GUARDAR RESULTADOS
 								</button>
