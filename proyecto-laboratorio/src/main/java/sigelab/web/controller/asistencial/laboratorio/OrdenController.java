@@ -677,6 +677,23 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 			//lstOrdenDetalleBean.add(objOrdenDetalleBean);
 			return resultados;
 		}
+    
+    @RequestMapping(value = "/validarArchivoExiste", method = RequestMethod.GET)
+		public @ResponseBody String validarArchivoExiste(
+			@ModelAttribute("valor")String  valor,HttpServletRequest request) throws Exception {
+		   String resultados="";
+		   String sFichero = "C:\\Users\\"+usuarioWindows+"\\Downloads"+getOrdenBean().getCodigo()+".pdf";
+		   File fichero = new File(sFichero);
+
+		   if (fichero.exists())
+			   valor="1";
+		   else
+			   valor="0";
+		
+			return valor;
+		} 
+    
+    
     @RequestMapping(value = "rptFichaREsultados", method = RequestMethod.GET)
 	@ResponseBody
 	public void rptFichaREsultados(//@RequestParam("ordenBean") OrdenBean ordenBean,
