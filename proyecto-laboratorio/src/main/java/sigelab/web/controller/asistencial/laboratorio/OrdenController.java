@@ -272,6 +272,23 @@ public class OrdenController  extends BaseController {
 	public ModelAndView nuevoPostulante(HttpServletRequest request) {
 		OrdenBean objOrdenBean = new OrdenBean();  
 		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/registro-orden", "command", objOrdenBean);  
+		
+		TarifarioBean prmTarifarioBean = new TarifarioBean(); 
+		prmTarifarioBean.setTipo(new TablaBean());
+		prmTarifarioBean.getTipo().setCodReg("");
+		prmTarifarioBean.setDescripcion(""); 
+		lstTarifarioBean = new ArrayList<TarifarioBean>();
+		lstTipoExamen = new ArrayList<TablaBean>();
+		try {
+			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(prmTarifarioBean);  
+			System.out.println("lstTarifarioBean.size() " + lstTarifarioBean.size());
+			lstTipoExamen = maestraAsis01Service.listarPorCodigoTabla("000013", 1);
+		} catch (ServiceException e) { 
+			e.printStackTrace();
+		}
+		
+		mav.addObject("lstTarifarioBean", lstTarifarioBean);
+		mav.addObject("lstTipoExamen", lstTipoExamen);
 		this.cargarCombos(mav); 
 		return mav;
 	} 
