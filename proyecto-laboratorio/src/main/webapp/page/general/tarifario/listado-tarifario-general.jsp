@@ -95,7 +95,7 @@
 
 	<div class="content-wrapper">
 		<div class="container-fluid">
-			<div class="tituloForm">LISTADO DE TARIFARIO</div>
+			<div class="tituloForm">LISTADO DE ANALISIS Y TARIFAS</div>
 			<!-- Icon Cards-->
 			<!-- Area Chart Example-->
 			<div class="card mb-3">
@@ -106,7 +106,7 @@
 				</div>
 				<f:form id="frmListadoTarifario" class="form-horizontal" role="form"
 					enctype="multipart/form-data" method="post"
-					action="${pageContext.request.contextPath}/usuarioController/buscar">
+					action="${pageContext.request.contextPath}/tarifarioController/listadoTarifario">
 					<input id="contextPath" type="hidden"
 						value="${pageContext.request.contextPath}">
 
