@@ -395,7 +395,7 @@
 					<button type="submit" style="display: none" id="btnListado">Click
 						me</button>
 				</f:form>
-			</div>
+			</div>   
 				
 		<div class="modal fade text-xs-left" id="modalAnalisis" tabindex="-2"
 				role="dialog" aria-labelledby="myModalLabel35" data-dismiss="modal"

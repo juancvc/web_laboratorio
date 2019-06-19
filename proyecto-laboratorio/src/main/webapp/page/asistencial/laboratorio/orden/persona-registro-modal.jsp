@@ -99,7 +99,7 @@ input[type=text] {
 						</label>
 						<div class="controls">
 							<f:select id="tipoDocumentoPersona" path="tipoDocumento.codReg"
-								required="required" class="form-control">
+								required="required" class="form-control"  onchange="CambiarPorTipo()">
 								<f:options items="${lstDocumento}" itemValue="codReg"
 									itemLabel="nombreCorto" />
 							</f:select>
@@ -115,7 +115,7 @@ input[type=text] {
 							<div class="controls">
 								<f:input type="text" class="form-control" required="required"
 									maxlength="12" id="nroDocumentoPersona" path="nroDocumento"
-									onkeypress="return runScript(event)" />
+									onkeypress="return runScript(event),soloNumeros(event)" />
 							</div>
 						</div>
 					</div> 
