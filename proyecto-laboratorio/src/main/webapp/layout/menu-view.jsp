@@ -130,9 +130,7 @@
 				class="nav-link-text label_control_barra">Herramientas</span>
 		</a>
 			<ul class="sidenav-second-level collapse" id="collapseComponents">
-				<li><a
-					href="${pageContext.request.contextPath}/maestraController/listado"><span
-						class="label_control_barra">Maestras</span></a></li>
+				
 				 <li><a
 					href="${pageContext.request.contextPath}/tarifarioController/listadoTarifario"><span
 						class="label_control_barra">Tarifario</span></a></li> 

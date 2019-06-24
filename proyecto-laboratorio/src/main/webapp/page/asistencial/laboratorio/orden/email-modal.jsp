@@ -138,7 +138,14 @@ input[type=text] {
 			</div>
 			<br>
 			<button type="submit" class="btn btn-lg btn-success btn-block"
-				onclick="enviarEmail()" id="btnContactUs">ENVIAR</button>
+				onclick="validarExisteArchivo()" id="btnContactUs">ENVIAR</button>
+				
+				
+					<a id="imprimir"
+									href="${pageContext.request.contextPath}/ordenController/rptFichaREsultados"
+									class="btn btn-secondary" style="display: none" title=""> <i class="fa fa-print"></i>
+									IMPRIMIR
+								</a>
 				
 				<button type="button" id="btnCerrarModalEmail" style="display: none"
 					class="btn btn-secondary" data-dismiss="modal">
@@ -286,6 +293,42 @@ input[type=text] {
 	</script>
 
 	<script>
+	function validarExisteArchivo() {
+		var contextPath = $('#contextPath').val();
+		var email = $('#email').val();
+		var mensaje = $('#message').val();
+		var pdf = $('#pdf').val();
+		iniciarBloqueo();
+		$
+				.ajax({
+					type : "GET",
+					url : contextPath
+							+ "/ordenController/validarArchivoExiste",
+
+					success : function(data) {
+						if (data == "0") {
+							document.getElementById('imprimir').click();
+						//	$('#imprimir').trigger("click");
+							enviarEmail();
+						}else{
+							enviarEmail();
+						}
+
+					},
+
+					error : function(xhr, status, er) {
+						console.log("error: " + xhr + " status: " + status
+								+ " er:" + er);
+					},
+					complete : function() {
+						finBloqueo();
+					}
+				});
+		
+		
+		
+		}
+	
 		function enviarEmail() {
 			var contextPath = $('#contextPath').val();
 			var email = $('#email').val();
@@ -306,6 +349,7 @@ input[type=text] {
 							} else {
 								msg_exito("El correo fue enviado con exito");
 								$('#btnCerrarModalEmail').trigger("click");
+								
 							}
 
 						},
