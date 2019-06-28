@@ -347,11 +347,9 @@ input[type=text] {
 										<div class="controls">
 											<div class="autocomplete" style="width:100%;">   
 												<input type="text" value="" placeholder="Buscar..."
-													class="form-control" required="required" onkeypress="return runIngresarExamen(event)" 
+													class="form-control"  onkeypress="return runIngresarExamen(event)" 
 													id="txtExamenNombre" name="txtExamenNombre"  />
-											</div>
-				
-				
+											</div> 
 										</div>
 									</div>
 									<div class="col-md-4 mb-3" style="margin-top: 30px;" >

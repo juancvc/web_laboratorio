@@ -539,9 +539,12 @@ public class OrdenController  extends BaseController {
 		System.out.println("obpersonaBean.getCodigo() " + obpersonaBean.getCodigo());
 		
 		if (obpersonaBean.getCodigo().equals("")) {
-			if(!obpersonaBean.getTipoDocumento().getCodReg().equals("000002") ){ // extranjero
+			if(!obpersonaBean.getTipoDocumento().getCodReg().equals("000002") ){  
+				System.out.println("SIN SERVICIO DE RENIEC" ); 
+				
 				this.setAuditoria(obpersonaBean, request, true); 
 				this.personaService.insertarPersonaLaboratorio(obpersonaBean);
+				System.out.println("SIN SERVICIO DE RENIEC getNroDocumento"  + obpersonaBean.getNroDocumento()); 
 				setPersonaBean(obpersonaBean);
 			}else{
 				setPersonaBean(obpersonaBean);
@@ -558,34 +561,23 @@ public class OrdenController  extends BaseController {
 					this.personaService.insertarPersonaLaboratorio(this.getPersonaBean());
 					System.out.println("persona reniec");
 				}else{
-					this.getPersonaBean().setTelefonoNumero(obpersonaBean.getTelefonoNumero());
-					this.getPersonaBean().setCorreo(obpersonaBean.getCorreo());
-					this.getPersonaBean().getNivelInstrucion().setCodReg(obpersonaBean.getNivelInstrucion().getCodReg());
+					System.out.println("SIN SERVICIO DE RENIEC" ); 
 					this.setAuditoria(obpersonaBean, request, true); 
 					this.personaService.insertarPersonaLaboratorio(obpersonaBean);
+					System.out.println("SIN SERVICIO DE RENIEC getNroDocumento"  + obpersonaBean.getNroDocumento()); 
 					setPersonaBean(obpersonaBean);
 				}
 			} 
-			System.out.println("persona no existe"); 
+			System.out.println("persona no existe es nuevo"); 
 			
 		}else{ 
 			System.out.println("existe persona");
 			 
-				this.setAuditoria(this.getPersonaBean(), request, true); 
-				System.out.println("postulanteBean.getCodigoCorreo " + obpersonaBean.getCodigoCorreo());
-				System.out.println("postulanteBean.getCodigoDireccion " + obpersonaBean.getCodigoDireccion());
-				System.out.println("postulanteBean.getCodigoTelefono " + obpersonaBean.getCodigoTelefono());
+				this.setAuditoria(this.getPersonaBean(), request, true);  
 				this.personaService.actualizarPersonaLaboratorio(obpersonaBean); 
 			
-		}  
-		if (!personaBean.getCodigo().trim().equals("")) {
-			this.setAuditoria(this.getPersonaBean(), request, false); 
-			System.out.println("actualiza postulanteBean " + obpersonaBean.getCodigo());
-	
-		} else {
-			  
-			
-		}   
+		}     
+		
 		return this.getPersonaBean();
 	}
 	

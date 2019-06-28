@@ -81,15 +81,11 @@ input[type=text] {
 				id="pacienteNombreCompleto" path="nombreCompleto" />
 
 
-			<f:input type="hidden" class="form-control" id="personaCodigo"
+			<f:input type="hidden" class="form-control" id="personaCodigoModal"
 				path="codigo" />
 			<f:input type="hidden" class="form-control" id="txtCodRegUbigeo"
 				path="ubigeoDireccion.codigoRegistro" />
-			 
-			
-					
-			<f:input type="hidden" class="form-control" id="personaCodigoSigeho"
-				path="codigoPersonaSigeho" />
+			  
 				
 			<div class="modal-body" id="buscaPaciente">
 				<div class="row">
@@ -99,7 +95,7 @@ input[type=text] {
 						</label>
 						<div class="controls">
 							<f:select id="tipoDocumentoPersona" path="tipoDocumento.codReg"
-								required="required" class="form-control"  onchange="CambiarPorTipo()">
+								required="required" class="form-control"  onchange="CambiarPorTipoModal()">
 								<f:options items="${lstDocumento}" itemValue="codReg"
 									itemLabel="nombreCorto" />
 							</f:select>
@@ -235,7 +231,7 @@ input[type=text] {
 						<div class="controls">
 							<div class="autocomplete" style="width:100%;">   
 								<f:input type="text" value="" placeholder="Buscar..."
-									class="form-control" required="required"
+									class="form-control" 
 									id="myInput" name="myCountry"
 									path="ubigeoDireccion.nombreUbigeo" />
 							</div>
@@ -505,6 +501,24 @@ input[type=text] {
 		
 		
 		</script>
+<script>
+		
+		function CambiarPorTipoModal(){
+			
+		var contextPath = $('#contextPath').val();
+		var tipoDocumentoPersona = $('#tipoDocumentoPersona').val();
+		if(tipoDocumentoPersona == "000005"){
+			$('#nroDocumentoPersona').val("NE00000#");
+			document.getElementById('nroDocumentoPersona').disabled = true; 
+		}else{nroDocumentoPersona
+			$('#nroDocumentoPersona').val("");
+			document.getElementById('nroDocumentoPersona').disabled = false; 
+		}
+		var actionForm = $('#frmGuardarPersona').attr("action");
+		}
+
+</script>
+	 
 </div>
 
 

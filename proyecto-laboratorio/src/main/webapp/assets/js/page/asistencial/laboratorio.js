@@ -495,6 +495,8 @@ function cargarPersonaModal() {
 		}); 
 }
 
+
+
 function grabarPersona(){
 	var htmlTabla = "";
 	var contextPath = $('#contextPath').val();
@@ -513,8 +515,8 @@ function grabarPersona(){
 	} else if(telefono.length < 7){
 		msg_advertencia("Ingrese número de celular correcto.");
 		
-	}else if(codigoRegistroUbigeoDireccion.length == 0){
-		msg_advertencia("Ingrese ubigeo de dirección.");
+/*	}else if(codigoRegistroUbigeoDireccion.length == 0){
+		msg_advertencia("Ingrese ubigeo de dirección.");*/
 		
 	}else {
 		iniciarBloqueo();
@@ -522,18 +524,45 @@ function grabarPersona(){
 			type : "POST",
 			url : url,
 			data : $('#frmGuardarPersona').serialize(),
-			success : function(data) { 
-				if (data == "") {
+			success : function(persona) { 
+				if (persona == "") {
 					msg_error("Error al registrar persona");
 				} else {
 					msg_exito("Éxito al registrar persona");
 					
-					var numeroDocumento = $('#nroDocumentoPersona').val();
+					/** var numeroDocumento = $('#nroDocumentoPersona').val();
 					var tipoDocumento = $('#tipoDocumentoPersona').val();
 					
 					$('#nroDocumentoPaciente').val(numeroDocumento);
-					$('#tipoDocumentoPaciente').val(tipoDocumento);
-					buscarPersonaNroDoc();
+					$('#tipoDocumentoPaciente').val(tipoDocumento);*/
+				//	buscarPersonaNroDoc();
+								$('#nroDocumentoPaciente').val(persona.nroDocumento);
+								$('#tipoDocumentoPaciente').val(persona.tipoDocumento.codReg);
+								$('#personaApellidoPaterno').val(persona.apellidoPaterno);
+								$('#personaApellidoMaterno').val( persona.apellidoMaterno);
+								$('#personaPrimerNombre').val(persona.primerNombre);
+								$('#personaSegundoNombre').val(persona.segundoNombre); 
+								$('#personaCodigo').val(persona.codigo);    
+								var todate = new Date(persona.fechaNac);
+								var dia = todate.getDate();
+								var mes = todate.getMonth() + 1;
+								var anio = todate.getFullYear(); 
+								var fechaActual = new Date(); 
+								var anioActual = fechaActual.getFullYear();
+								var edad = anioActual - anio;
+								$('#edadPersona').val(edad);
+
+								$('#sexoPaciente').val(persona.sexo.codReg);
+								$('#personaDireccion').val(
+										persona.direccion);
+								
+								if (persona.ubigeoDireccion.codigoUbigeo != "") {
+									$('#ubigeoDireccion').val(persona.ubigeoDireccion.codigoUbigeo);
+									$('#codigoRegistroUbigeoDireccion').val(persona.ubigeoDireccion.codigoRegistro);
+									$('#nombreUbigeoDireccion').val(persona.ubigeoDireccion.nombreUbigeo);
+								}else{ 
+								}
+							
 					$('#modalPersona').modal('hide');
 					
 					
