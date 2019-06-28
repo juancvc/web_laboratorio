@@ -214,7 +214,7 @@
 												<tbody id="idbodyCIEXref" class="label_control">
 													<c:forEach var="tabla" items="${lstTarifarioDetalleBean}"
 														varStatus="loop">
-														<f:input type="text"    value="${tabla.codigo}" path="lstTarifarioDetalleBean[${loop.index}].codigo" />
+														<f:input type="hidden"    value="${tabla.codigo}" path="lstTarifarioDetalleBean[${loop.index}].codigo" />
 														<tr id='anterior${loop.index}'> 
 															<td><div class="controls"> 
 																	<f:input type="hidden" min="1" maxlength="20"  required="required"

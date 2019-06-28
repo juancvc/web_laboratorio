@@ -307,7 +307,7 @@ public class TarifarioController extends BaseController {
 		ModelAndView mav = new ModelAndView("general/tarifario/listado-tarifario-general", "command", tarifarioBean);
 		lstTarifarioBean = new ArrayList<TarifarioBean>();
 		try {
-			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(new TarifarioBean());
+			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(tarifarioBean);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -317,6 +317,14 @@ public class TarifarioController extends BaseController {
 		cargarCombos(mav);
 		return mav;
 	}
+	
+	
+	@RequestMapping(value = "/buscar", method = RequestMethod.GET)
+	public ModelAndView buscarGET(@ModelAttribute("tarifarioBean") TarifarioBean tarifarioBean,
+			HttpServletRequest request) throws Exception { 
+		return buscarPOST(tarifarioBean, request);
+	}
+	
 
 	@RequestMapping(value = "/agregarDetalle", method = RequestMethod.GET)
 	public ModelAndView agregarDetalle(@ModelAttribute("tarifarioBean") TarifarioBean tarifarioBean,

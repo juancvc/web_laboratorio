@@ -106,7 +106,7 @@
 				</div>
 				<f:form id="frmListadoTarifario" class="form-horizontal" role="form"
 					enctype="multipart/form-data" method="post"
-					action="${pageContext.request.contextPath}/tarifarioController/listadoTarifario">
+					action="${pageContext.request.contextPath}/tarifarioController/buscar">
 					<input id="contextPath" type="hidden"
 						value="${pageContext.request.contextPath}">
 
