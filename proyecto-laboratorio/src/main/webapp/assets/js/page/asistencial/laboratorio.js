@@ -137,7 +137,7 @@ function llenarExamenIndex(index){
 			    				"<td>"+objOrdenDetalle.examen.tipo.nombreCorto+"</td>"+ 
 			    				"<td> <input type='text' class='form-control' "+
 										"id="+[objOrdenDetalle.examen.codigo]+" required='required' "+
-										"value = '1' " +
+										"value ='"+objOrdenDetalle.cantidad+"' " +
 										"maxlength='3' "+
 										"onkeypress= 'return soloNumeros(event);' "+
 										"oninput=\"cambiarCantidad('"+[objOrdenDetalle.examen.codigo]+"');\" /></td>"+ 
@@ -161,7 +161,7 @@ function llenarExamenIndex(index){
 				  	    var importe = 0.00;
 				  		for (var i = 0; i < listadoExamenes.length; i++) {
 				  			var objOrdenDetalle = listadoExamenes[i]; 
-				  			importe = importe + objOrdenDetalle.importe; 
+				  			importe = importe + Number(objOrdenDetalle.importe); 
 				  			//	$("#cboTipoDX"+objOrdenDetalle.valor4.trim()).val(objOrdenDetalle.valor7);
 				  			 
 				  		}
@@ -385,7 +385,7 @@ function elimarExamen(codigo){
 				"<td>"+objOrdenDetalle.examen.tipo.nombreCorto+"</td>"+ 
 				"<td> <input type='text' class='form-control' "+
 						"id="+[objOrdenDetalle.examen.codigo]+" required='required' "+
-						"value = '1' " +
+						"value ='"+objOrdenDetalle.cantidad+"' " +
 						"maxlength='3' "+
 						"onkeypress= 'return soloNumeros(event);' "+
 						"oninput=\"cambiarCantidad('"+[objOrdenDetalle.examen.codigo]+"');\" /></td>"+ 
