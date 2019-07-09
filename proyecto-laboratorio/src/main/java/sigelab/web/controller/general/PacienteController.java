@@ -20,12 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import gob.hnch.system.ws.sis.model.PersonaSIS;
-import gob.hnch.system.ws.sis.model.PrmConsultaSIS;
-import gob.hnch.system.ws.sis.srv.impl.PersonaSISServiceImp;
-import gob.hnch.system.ws.sis.srv.inf.PersonaSISService; 
-import gob.hnch.systems.ws.hnch.client.imp.PersonaServiceImp;
+ 
 import sigelab.core.bean.general.PacienteBean;
 import sigelab.core.bean.general.PersonaBean; 
 import sigelab.core.bean.general.UbigeoBean;
@@ -86,7 +81,7 @@ public class PacienteController {
 		
 		return personaBean;
 	}
-
+/*
 	@RequestMapping(value = "/buscarPersonaReniec", method = RequestMethod.GET)
 	public ModelAndView doBuscarListado(@RequestParam("dni") String dni )
 			throws Exception {
@@ -104,38 +99,14 @@ public class PacienteController {
 		mav.addObject("lstInstitucionBean", lstInstitucionBean);*/
 	//	mav.addObject("personaRefBean", personaRefBean);
 	//	this.listarCombos(mav);
-		return mav;
+	//	return mav;
 		
 	//	return this.getLista(institucionBean);
 		
 		
-	}
-	
-	@RequestMapping(value = "/buscarPacienteReniec2", method = RequestMethod.GET)
-	public @ResponseBody List<gob.hnch.systems.ws.ext.model.Persona> doBuscarProvincia(@RequestParam("nroDocumento") String nroDocumento)throws Exception {
-		System.out.println("dni.. :"+nroDocumento);
-		int codError=0;
-		List<UbigeoBean> lstProvincia = new ArrayList<UbigeoBean>();
-		List<gob.hnch.systems.ws.ext.model.Persona> lstPersona = new ArrayList<gob.hnch.systems.ws.ext.model.Persona>();
-		PersonaServiceImp persona = new PersonaServiceImp();
-		
-		gob.hnch.systems.ws.ext.model.Persona perso =persona.getPersona(nroDocumento);
-		lstPersona.add(perso);
-		
-		if (perso.getCodigoDeError().trim().equals("DNE")){
-			System.out.println("perso.getCodigoDeError()"+perso.getCodigoDeError());
-			codError = 1;
-			//ubigeobean.setCodigoRegion(codigo);
-			
-	//		lstProvincia = ubigeoService.listarProvincia(ubigeobean);
-			
-	
-			
-		}
-		return lstPersona;
-	}
-	
-	
+//	}
+
+
 	 
 	@RequestMapping(value = "/consultarPorDocumentoPersona", method = RequestMethod.GET)
 	public @ResponseBody PacienteBean consultarPorNroDocumento(@RequestParam("tipoDocumento") String tipoDocumento,@RequestParam("numero") String numero)throws Exception {
@@ -328,7 +299,7 @@ public class PacienteController {
 		
 		if (paciente != null) {
 			/*** consulta sis websercive ****/
-		 	 final	PrmConsultaSIS prmConsultaSIS = new PrmConsultaSIS();
+		/*** 	 final	PrmConsultaSIS prmConsultaSIS = new PrmConsultaSIS();
 				prmConsultaSIS.setIntOpcion(1); 
 				prmConsultaSIS.setStrDNI("10201932");
 				if(tipoDocumento.equals("000001")){
@@ -410,7 +381,7 @@ public class PacienteController {
 					
 				} 
 			
-				System.out.println("paciente getFoto " + paciente.getPersona().getFoto());
+				System.out.println("paciente getFoto " + paciente.getPersona().getFoto());*/
 		}else{
 			System.out.println("el paciente en consulta es null");
 		}

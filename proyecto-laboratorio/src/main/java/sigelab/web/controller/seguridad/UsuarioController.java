@@ -22,23 +22,11 @@ import sigelab.web.controller.base.BaseController;
 import sigelab.web.utilitarios.VO;
 import sigelab.web.utilitarios.acceso.LoginVo;
 import sigelab.web.utilitarios.encrypt.Encrypt;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -50,10 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.itextpdf.text.log.SysoCounter;
-
-import gob.hnch.systems.ws.hnch.client.imp.PersonaServiceImp;
+//import gob.hnch.systems.ws.hnch.client.imp.PersonaServiceImp;
  
 @Controller
 @Scope(value="session")
@@ -166,7 +151,7 @@ public class UsuarioController extends BaseController{
 					setPersonaBean(personaBean); 
 				
 				}else{
-					List<gob.hnch.systems.ws.ext.model.Persona> lstPersona = new ArrayList<gob.hnch.systems.ws.ext.model.Persona>();
+				/**	List<gob.hnch.systems.ws.ext.model.Persona> lstPersona = new ArrayList<gob.hnch.systems.ws.ext.model.Persona>();
 					personaBean = new PersonaBean();
 					PersonaServiceImp persona = new PersonaServiceImp();  
 					gob.hnch.systems.ws.ext.model.Persona perso =persona.getPersona(numero);
@@ -202,7 +187,7 @@ public class UsuarioController extends BaseController{
 						}
 						System.out.println("tipoDocumento " + tipoDocumento); 
 						this.setPersonaBean(personaBean);
-					}
+					}*/
 					
 				} 
 			}

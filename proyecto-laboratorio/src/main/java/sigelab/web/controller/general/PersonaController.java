@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import gob.hnch.systems.ws.hnch.client.imp.PersonaServiceImp;
 import sigelab.base.bean.BaseBean;
 import sigelab.core.bean.asistencial.banco.PostulanteBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
@@ -190,7 +189,7 @@ public class PersonaController {
 		return this.buscarPOST(personaBean, request) ;
 	}
 	
-
+/*
 	@RequestMapping(value = "/buscarPersonaReniec", method = RequestMethod.GET)
 	public ModelAndView doBuscarListado(@RequestParam("dni") String dni )
 			throws Exception {
@@ -208,38 +207,14 @@ public class PersonaController {
 		mav.addObject("lstInstitucionBean", lstInstitucionBean);*/
 	//	mav.addObject("personaRefBean", personaRefBean);
 	//	this.listarCombos(mav);
-		return mav;
+	//	return mav;
 		
 	//	return this.getLista(institucionBean);
 		
 		
-	}
+	//}
 	
-	@RequestMapping(value = "/buscarPacienteReniec2", method = RequestMethod.GET)
-	public @ResponseBody List<gob.hnch.systems.ws.ext.model.Persona> doBuscarProvincia(@RequestParam("nroDocumento") String nroDocumento)throws Exception {
-		System.out.println("dni.. :"+nroDocumento);
-		int codError=0;
-		List<UbigeoBean> lstProvincia = new ArrayList<UbigeoBean>();
-		List<gob.hnch.systems.ws.ext.model.Persona> lstPersona = new ArrayList<gob.hnch.systems.ws.ext.model.Persona>();
-		PersonaServiceImp persona = new PersonaServiceImp();
-		
-		gob.hnch.systems.ws.ext.model.Persona perso =persona.getPersona(nroDocumento);
-		lstPersona.add(perso);
-		
-		if (perso.getCodigoDeError().trim().equals("DNE")){
-			System.out.println("perso.getCodigoDeError()"+perso.getCodigoDeError());
-			codError = 1;
-			//ubigeobean.setCodigoRegion(codigo);
-			
-	//		lstProvincia = ubigeoService.listarProvincia(ubigeobean);
-			
-	
-			
-		}
-		return lstPersona;
-	}
-	
-	
+
 	
 	@RequestMapping(value = "/consultarPersonaPorDocumento", method = RequestMethod.GET)
 	public @ResponseBody PersonaBean consultarPorNroDocumento(@RequestParam("tipoDocumento") String tipoDocumento,@RequestParam("numero") String numero)throws Exception {
