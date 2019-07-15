@@ -35,6 +35,7 @@ public class ExamenesLaboratorioBean extends BaseBean{
 		this.abrev = abrev;
 	}
    
+	
 	public TarifarioBean getTarifarioBean() {
 		if (tarifarioBean == new TarifarioBean()) {
 			tarifarioBean = new TarifarioBean();
