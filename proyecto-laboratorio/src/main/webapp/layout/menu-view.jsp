@@ -139,8 +139,11 @@
 						class="label_control_barra">Resultados</span></a></li> 	
 						
 					 <li><a
+					href="${pageContext.request.contextPath}/formulaController/nuevaFormula"><span
+						class="label_control_barra">formulas</span></a></li> 	
+					<li><a
 					href="${pageContext.request.contextPath}/laboratorioController/tarifarioGeneralModal"><span
-						class="label_control_barra">formulas</span></a></li> 					
+						class="label_control_barra">Cotizaciones</span></a></li> 					
 			</ul></li>
 	</c:if>
 
