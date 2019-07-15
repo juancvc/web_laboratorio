@@ -1,0 +1,199 @@
+package sigelab.core.repository.implementacion.general;
+ 
+import sigelab.core.bean.general.TablaBean;
+import sigelab.core.bean.general.ExamenesLaboratorioBean;
+import sigelab.core.entity.asistencial.laboratorio.Examenes_laboratorio;
+import sigelab.core.entity.general.Tgemae02;
+import sigelab.core.repository.DAOException;
+import sigelab.core.repository.interfaces.general.ExamenesLaboratorioDAO;
+
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+
+
+@Transactional
+@Repository("ExamenesLaboratorioDAO")
+public class ExamenesLaboratorioDAOImpl implements ExamenesLaboratorioDAO {
+
+	@PersistenceContext//(unitName="emf")
+	private EntityManager em;
+	
+	@Override
+	public boolean insertar(ExamenesLaboratorioBean Tarifario) throws DAOException {
+  
+		Object idTarifario= null; 
+		Object nroPeriodo= null; 
+		boolean sw=false;
+		try {
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("examenes_laboratorio.registro");
+		
+		
+	
+			spq.setParameter("NOMPRODU", Tarifario.getDescripcion()); 
+		
+			spq.setParameter("TIPOUNID", ""); 
+			spq.setParameter("VALREFIN", ""); 
+			spq.setParameter("VALREFFI", ""); 
+			spq.setParameter("AUDUSUCR", Tarifario.getCodigoUsuarioCreacion());  
+			
+			spq.execute();
+			
+			idTarifario = spq.getOutputParameterValue(1);
+		//	nroPeriodo = spq.getOutputParameterValue(16);
+			if (idTarifario != null) {
+				Tarifario.setCodigo(idTarifario.toString());
+			//	Tarifario.setNumeroPeriodo(nroPeriodo.toString());
+				sw=true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sw=false; 
+		}finally{
+			em.close();
+		}
+		return sw;
+	}
+
+	@Override
+	public boolean actualizar(ExamenesLaboratorioBean Tarifario) throws DAOException {
+		Object idTarifario= null; 
+	//	Object nroPeriodo= null; 
+		boolean sw=false;
+		try {
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("examenes_laboratorio.actualizar");
+			spq.setParameter("CODTARIF", Tarifario.getCodigo()); 
+			spq.setParameter("TIPO", ""); 
+
+			spq.setParameter("NOMPRODU", Tarifario.getDescripcion()); 
+			spq.setParameter("TIPOUNID", ""); 
+			spq.setParameter("VALREFIN", ""); 
+			spq.setParameter("VALREFFI", ""); 
+			spq.setParameter("AUCDUSCR", Tarifario.getCodigoUsuarioCreacion());  
+			
+			spq.execute();
+			
+		//	idTarifario = spq.getOutputParameterValue(1);
+		//	nroPeriodo = spq.getOutputParameterValue(16);
+			//if (idTarifario != null) {
+				//Tarifario.setCodigo(idTarifario.toString());
+			//	Tarifario.setNumeroPeriodo(nroPeriodo.toString());
+				sw=true;
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sw=false; 
+		}finally{
+			em.close();
+		}
+		return sw;
+	}
+
+	@Override
+	public boolean eliminar(ExamenesLaboratorioBean Tarifario) throws DAOException {
+		
+
+		boolean sw=false;
+		try {
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifario.eliminar");
+			
+			spq.setParameter("CODTARIF", Tarifario.getCodigo());  
+			spq.setParameter("AUCDUSMO", Tarifario.getCodigoUsuarioModificacion());
+			spq.setParameter("AUPCIPMO", Tarifario.getIpModificacion());
+
+			
+			spq.execute();
+			
+			sw=true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			sw=false; 
+		}finally{
+			em.close();
+		}
+		return sw;
+	}
+
+	@Override
+	public ExamenesLaboratorioBean getBuscarPorObjecto(ExamenesLaboratorioBean t) throws DAOException {
+		
+		return null;
+	}
+
+	@Override
+	public List<ExamenesLaboratorioBean> getBuscarPorFiltros(ExamenesLaboratorioBean ExamenesLaboratorioBean)
+			throws DAOException {
+		
+		List<Examenes_laboratorio> lstMaestra = null;	
+		List<ExamenesLaboratorioBean> lstTablaBean = null;
+		
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("examenes_laboratorio.listarPorFiltros");
+			spq.setParameter("ABREVIATURA", ExamenesLaboratorioBean.getAbrev()); 
+			spq.setParameter("DESCRIPCION", ExamenesLaboratorioBean.getDescripcion()); 
+			if (spq.execute()) {
+				lstMaestra =  spq.getResultList(); 
+			} 
+			if (lstMaestra != null && lstMaestra.size() > 0) {
+				
+				lstTablaBean = deListaTarifariolaboratorioAListaExamenesLaboratorioBean(lstMaestra);
+			}
+			em.close();
+			
+		   
+		return lstTablaBean;
+	}
+
+	@Override
+	public boolean existe(ExamenesLaboratorioBean t) throws DAOException {
+		
+		return false;
+	}
+ 
+	private List<ExamenesLaboratorioBean> deListaTarifariolaboratorioAListaExamenesLaboratorioBean(List<Examenes_laboratorio> lstExamenes_laboratorio) {
+		
+		List<ExamenesLaboratorioBean> lstlstExamenesLaboratorioBean = null;
+		
+		if (lstExamenes_laboratorio != null && lstExamenes_laboratorio.size() > 0) {
+			
+			lstlstExamenesLaboratorioBean = new ArrayList<ExamenesLaboratorioBean>();
+			
+			for (int i = 0; i < lstExamenes_laboratorio.size(); i++) { 
+				Examenes_laboratorio entity = lstExamenes_laboratorio.get(i);
+				ExamenesLaboratorioBean bean = deTarifarioAExamenesLaboratorioBean(entity);
+				
+				lstlstExamenesLaboratorioBean.add(bean);
+			}
+		}
+		
+		return lstlstExamenesLaboratorioBean;
+	}
+	private ExamenesLaboratorioBean deTarifarioAExamenesLaboratorioBean(Examenes_laboratorio entity) {
+		
+		ExamenesLaboratorioBean bean = null;
+		
+		if (entity != null) {
+			
+			bean = new ExamenesLaboratorioBean(); 
+			bean.setCodigo(entity.getCodigoUnidadMedida());	
+			bean.setDescripcion(entity.getDescripcion());
+			bean.setAbrev(entity.getAbrev());
+
+		}
+		
+		return bean;
+	}
+ 
+	 private static String getTwoDecimals(double value){
+	      DecimalFormat df = new DecimalFormat("0.00"); 
+	      return df.format(value);
+	    }
+}

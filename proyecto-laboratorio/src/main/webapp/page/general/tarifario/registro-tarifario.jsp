@@ -187,7 +187,7 @@
 								</div>
 							</div>
 							<div class="label_title">
-								DETALLE <span class="required">*</span>:
+								VALORES REFERENCIALES Y UNIDADES <span class="required">*</span>:
 							</div>
 							<div id="panelCEX" class="panel_style col-md-12">
 								<div class="row">
