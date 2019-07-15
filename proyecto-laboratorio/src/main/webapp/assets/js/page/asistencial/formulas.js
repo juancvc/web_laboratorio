@@ -426,7 +426,7 @@ function grabarAsociados(){
 				  	};
 				    var objunidadMedida = {
 				  		codReg :"" 
-					  };
+					  };  
 					  
 			    	var objAcceso = {
 			    			item 		: 0,

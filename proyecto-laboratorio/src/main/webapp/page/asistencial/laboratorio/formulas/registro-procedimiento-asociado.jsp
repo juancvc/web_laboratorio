@@ -607,7 +607,7 @@ function enviarIndex() {
 															console.log("codigo::" +(this
 																	.getElementsByTagName("input")[0].id));	
 																	
-															inp.value = this
+								  							inp.value = this
 																	.getElementsByTagName("input")[0].value;
 															
 															$("#txtCodigoExamen").val(this
