@@ -18,19 +18,22 @@ import java.sql.Timestamp;
 					}),
 			@NamedStoredProcedureQuery(
 					name="examenes_laboratorio.registro", 
-					procedureName="[LABO].[TARIFARIO_ITEM_INSERT]",
+					procedureName="[LABO].[USP_PROCEASO_INSERT]",
 					resultClasses= Examenes_laboratorio.class,
 					parameters={ 
-							@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODTARIF", type = 	String.class),			
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1TIPOT", type = 	String.class),
-					//		@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPO",  	  type =	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "SUBTIPO",  type = 	String.class),						
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMPRODU", type = 	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "PRECIO",   type =    Float.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPOUNID", type = 	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALREFIN", type = 	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALREFFI", type = 	String.class),
-							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUDUSUCR", type = 	String.class)
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROVERSI", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.OUT, name ="COPROASO", type = 	String.class),			
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTARIF", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "TIPO",  	  type =	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "DESCORTA", type = 	String.class),						
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "ABREVIAT", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODUNIME", type =    String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUDUSUCR", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = 	String.class),
+							@StoredProcedureParameter(mode = ParameterMode.IN, name = "OBSERVAC", type = 	String.class)
 					}),
 			@NamedStoredProcedureQuery(
 					name="examenes_laboratorio.actualizar", 

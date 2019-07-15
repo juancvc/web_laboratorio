@@ -31,27 +31,32 @@ public class ExamenesLaboratorioDAOImpl implements ExamenesLaboratorioDAO {
 	@Override
 	public boolean insertar(ExamenesLaboratorioBean Tarifario) throws DAOException {
   
-		Object idTarifario= null; 
+		Object idExamenAsociado= null; 
 		Object nroPeriodo= null; 
 		boolean sw=false;
 		try {
 			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("examenes_laboratorio.registro");
 		
 		
-	
-			spq.setParameter("NOMPRODU", Tarifario.getDescripcion()); 
-		
-			spq.setParameter("TIPOUNID", ""); 
-			spq.setParameter("VALREFIN", ""); 
-			spq.setParameter("VALREFFI", ""); 
-			spq.setParameter("AUDUSUCR", Tarifario.getCodigoUsuarioCreacion());  
+			spq.setParameter("CODORGAN", Tarifario.getCodigoOrganizacion()); 
+			spq.setParameter("CODINSTI", Tarifario.getCodigoInstitucion()); 
+			spq.setParameter("CODSEDEI", Tarifario.getCodigoSede()); 
+			spq.setParameter("NROVERSI", Tarifario.getNumeroVersion()); 
+			spq.setParameter("CODTARIF", Tarifario.getTarifarioBean().getCodigo()); 
+			spq.setParameter("TIPO",     Tarifario.getTipoExamenLab().getCodReg()); 
+			spq.setParameter("DESCORTA", Tarifario.getDescripcion()); 
+			spq.setParameter("ABREVIAT", Tarifario.getAbrev()); 
+			spq.setParameter("CODUNIME", Tarifario.getUnidadMedida().getCodReg()); 
+			spq.setParameter("AUDUSUCR", Tarifario.getCodigoUsuarioCreacion()); 
+			spq.setParameter("AUPCIPCR", Tarifario.getIpCreacion());  
+			spq.setParameter("OBSERVAC", Tarifario.getObservacion());  
 			
 			spq.execute();
 			
-			idTarifario = spq.getOutputParameterValue(1);
+			idExamenAsociado = spq.getOutputParameterValue(5);
 		//	nroPeriodo = spq.getOutputParameterValue(16);
-			if (idTarifario != null) {
-				Tarifario.setCodigo(idTarifario.toString());
+			if (idExamenAsociado != null) {
+				Tarifario.setCodigo(idExamenAsociado.toString());
 			//	Tarifario.setNumeroPeriodo(nroPeriodo.toString());
 				sw=true;
 			}
