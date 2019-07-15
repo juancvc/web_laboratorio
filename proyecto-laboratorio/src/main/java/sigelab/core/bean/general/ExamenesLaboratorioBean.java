@@ -29,7 +29,7 @@ public class ExamenesLaboratorioBean extends BaseBean{
 
 	public String getAbrev() {
 		return abrev;
-	}
+	}  
 
 	public void setAbrev(String abrev) {
 		this.abrev = abrev;
