@@ -13,6 +13,7 @@ public class ExamenesLaboratorioBean extends BaseBean{
 	private TarifarioBean tarifarioBean;
 	private TablaBean tipoExamenLab;
 	private TablaBean unidadMedida;
+	private String valoresReferencial;
 	
 	public ExamenesLaboratorioBean() {
 		super();
@@ -35,6 +36,9 @@ public class ExamenesLaboratorioBean extends BaseBean{
 	}
 
 	public TarifarioBean getTarifarioBean() {
+		if (tarifarioBean == new TarifarioBean()) {
+			tarifarioBean = new TarifarioBean();
+		}
 		return tarifarioBean;
 	}
 
@@ -43,6 +47,9 @@ public class ExamenesLaboratorioBean extends BaseBean{
 	}
 
 	public TablaBean getTipoExamenLab() {
+		if (tipoExamenLab == null) {
+			tipoExamenLab = new TablaBean();
+		}
 		return tipoExamenLab;
 	}
 
@@ -65,10 +72,13 @@ public class ExamenesLaboratorioBean extends BaseBean{
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
 	}
-	
-	
-	
 
-	
+	public String getValoresReferencial() {
+		return valoresReferencial;
+	}
+
+	public void setValoresReferencial(String valoresReferencial) {
+		this.valoresReferencial = valoresReferencial;
+	} 
 
 }

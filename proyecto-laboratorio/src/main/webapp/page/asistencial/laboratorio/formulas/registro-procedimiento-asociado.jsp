@@ -213,6 +213,8 @@ input[type=text] {
 								INGRESAR EXÁMENES ASOCIADOS <span class="required">*</span>:
 							</div>
 						<div id="panelCEX" class="panel_style col-md-12">
+						<f:form id="frmGuardarAsociados" class="form-horizontal" role="form"
+					method="post" action="" onsubmit="return false">
 								<div class="row">
 									<div class="col-md-12 text-right " style="margin-bottom: 20px;">
 										<button id="btn-save-reg" type="button" class="btn btn-info"
@@ -278,6 +280,18 @@ input[type=text] {
 										</div>
 									</div>
 								</div>
+								<button type="submit" onclick="grabarAsociados()"
+									<c:choose>
+									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
+									</c:when>
+									<c:otherwise>
+										disabled ="true"
+									</c:otherwise>
+								</c:choose>
+									class="btn btn-primary">
+									<i class="fa fa-floppy-o"></i> GUARDAR
+								</button>
+								</f:form>
 							</div>
 							
 							<div class="label_title">
@@ -356,7 +370,7 @@ input[type=text] {
 							<div class="form-group col-md-12 text-right"
 								style="margin-top: 15px;">
 								<a
-									href="${pageContext.request.contextPath}/ordenController/nuevo"
+									href="${pageContext.request.contextPath}/formulaController/nuevaFormula"
 									class="btn btn-secondary" title=""> <i class="fa icon-plus"></i>
 									NUEVO
 								</a>
@@ -376,12 +390,12 @@ input[type=text] {
 						</div>
 					</div>
 
-		<input type="hidden"  id="txtIndexExamen"  />
+		<input type="hidden"  id="txtCodigoExamen"  />
 				
 				</f:form>
 				<f:form id="frmRegistro" class="form-horizontal" role="form"
 					method="POST"
-					action="${pageContext.request.contextPath}/ordenController/listado">
+					action="${pageContext.request.contextPath}/formulaController/listado">
 					<button type="submit" style="display: none" id="btnListado">Click
 						me</button>
 				</f:form>
@@ -469,10 +483,7 @@ input[type=text] {
 		<!-- Custom scripts for this page-->
 		<!-- Custom scripts for all pages-->
 		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
-
-		<script
-			src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
-			type="text/javascript" charset="utf-8"></script>
+ 
 		<script
 			src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/toastr.min.js"
 			type="text/javascript"></script>
@@ -503,7 +514,7 @@ input[type=text] {
 <script type="text/javascript">  
   
 function runIngresarExamen(e) {
-	var index = $('#txtIndexExamen').val();
+	var index = $('#txtCodigoExamen').val();
 	var examenNombre = $('#txtExamenNombre').val();
 	console.log("examenNombre runIngresarExamen" + examenNombre);
 	console.log("index runIngresarExamen" + index);
@@ -517,7 +528,7 @@ function runIngresarExamen(e) {
 }
 
 function enviarIndex() { 
-	var index = $('#txtIndexExamen').val();
+	var index = $('#txtCodigoExamen').val();
 	var examenNombre = $('#txtExamenNombre').val();
 	console.log("examenNombre" + examenNombre);
 	console.log("index" + index);
@@ -599,14 +610,14 @@ function enviarIndex() {
 															inp.value = this
 																	.getElementsByTagName("input")[0].value;
 															
-															$("#txtIndexExamen").val(this
+															$("#txtCodigoExamen").val(this
 																	.getElementsByTagName("input")[0].id);
 																	
-															llenarExamenIndex(this
-																	.getElementsByTagName("input")[0].id);		
+														/*	llenarExamenIndex(this
+																	.getElementsByTagName("input")[0].id);	*/	
 															
 															
-															$('#txtExamenNombre').val("")
+														//	$('#txtExamenNombre').val("")
 															/*
 																$("#txtCodRegUbigeo").val(this
 																	.getElementsByTagName("input")[0].id)
@@ -693,7 +704,7 @@ function enviarIndex() {
 				codigoRegistro : "",
 				detalle		: ""
 		  	};
-			objUbigeo.codigoRegistro ='${loop.index}'; 
+			objUbigeo.codigoRegistro ='${examen.codigo}'; 
 			objUbigeo.detalle ='${examen.descripcion}'; 
 			  arrayMenus.push(objUbigeo);
 		</c:forEach>

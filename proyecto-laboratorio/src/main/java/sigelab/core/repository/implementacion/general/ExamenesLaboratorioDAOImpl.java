@@ -33,6 +33,8 @@ public class ExamenesLaboratorioDAOImpl implements ExamenesLaboratorioDAO {
   
 		Object idExamenAsociado= null; 
 		Object nroPeriodo= null; 
+		
+		System.out.println("Tarifario.getTarifarioBean().getCodigo() " + Tarifario.getTarifarioBean().getCodigo());
 		boolean sw=false;
 		try {
 			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("examenes_laboratorio.registro");

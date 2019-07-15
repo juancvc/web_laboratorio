@@ -140,7 +140,7 @@
 						
 					 <li><a
 					href="${pageContext.request.contextPath}/formulaController/nuevaFormula"><span
-						class="label_control_barra">formulas</span></a></li> 	
+						class="label_control_barra">Formulas</span></a></li> 	
 					<li><a
 					href="${pageContext.request.contextPath}/laboratorioController/tarifarioGeneralModal"><span
 						class="label_control_barra">Cotizaciones</span></a></li> 					
@@ -153,7 +153,7 @@
 			class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 			href="#collapseExamplePages" data-parent="#exampleAccordion"> <i
 				class="fa fa-lock"></i> <span
-				class="nav-link-text label_control_barra">Seguridad</span>
+				class="nav-link-text label_control_barra"> Seguridad</span>
 		</a>
 			<ul class="sidenav-second-level collapse" id="collapseExamplePages">
 				<li><a href="#collapseUsuer"
@@ -188,11 +188,10 @@
 	</c:if>
 
 	<c:if test="${accesoMenu.menu_Estadisticos}">
-		<li  class="nav-item" data-toggle="tooltip"
-			data-placement="right" title="Menu Levels"><a
+		<li  class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels"><a
 			class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 			href="#collapseMulti" data-parent="#exampleAccordion"> <i
-				class="fa fa-fw fa-sitemap"></i> <span class="nav-link-text">Reportes</span>
+				class="fa fa-fw fa-sitemap"></i> <span class="nav-link-text label_control_barra"> Reportes</span>
 		</a>
 			<ul class="sidenav-second-level collapse" id="collapseMulti">
 				<li><a href="#">Indicadores</a></li>
