@@ -34,7 +34,7 @@ public class ExamenesLaboratorioBean extends BaseBean{
 	public void setAbrev(String abrev) {
 		this.abrev = abrev;
 	}
-   
+     
 	
 	public TarifarioBean getTarifarioBean() {
 		if (tarifarioBean == new TarifarioBean()) {
