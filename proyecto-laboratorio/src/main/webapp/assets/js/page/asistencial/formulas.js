@@ -374,7 +374,7 @@ function llenarDetalleExamenFormula(){
 
 	
 	var nuevaFila ="";
-	var fila = $("#tabla tbody tr").length ;
+	var fila = $("#tablaFormulas tbody tr").length ;
 	var nfila = Number(fila) + 1;
 	            // añadimos las columnas
 
@@ -397,7 +397,7 @@ function llenarDetalleExamenFormula(){
 	    		    	 	"<i class='icon-trash'></i></button> "+ 
 	    				"</td>"
 	    		    	 	"</tr>"; 
-	    $("#tabla tbody").append(nuevaFila);
+	    $("#tablaFormulas tbody").append(nuevaFila);
 	 
 }
 
@@ -413,8 +413,8 @@ function grabarAsociados(){
 			
 			/** RECORRER MENU **/
 		    $("#tablaExamenAsociado tbody tr").each(function (index) 
-		    {	console.log($("#tablaExamenAsociado tbody tr").attr("id"));
-		    console.log("index " + index);
+		    {	 
+
 		    var x = index+1;  
 		    	if ($(this).attr("id") == "nuevo"+x) {
 		    		
@@ -423,7 +423,10 @@ function grabarAsociados(){
 			    	
 			    	var objTarifarioBean = {
 				  		codigo :codigoExamen 
-				  	};
+					  };
+					var objTipoExamenLab = {
+				  		codReg :"000001" 
+				  	};  
 				    var objunidadMedida = {
 				  		codReg :"" 
 					  };  
@@ -435,7 +438,142 @@ function grabarAsociados(){
 			    			descripcion 	: "",
 			    			unidadMedida 	: objunidadMedida,
 							abrev 	: "",
-							valoresReferencial : ""
+							valoresReferencial : "",
+							tipoExamenLab : objTipoExamenLab
+			    	  	};
+			    	
+			        $(this).children("td").each(function (index2) 
+			        { 
+			        	if(index2 == 0 ){ // Columna Asignado
+			        		input    = $(this).children("input");
+			        		descripcion = $(input).val();
+							idCompo  = $(input).attr("id");  
+							examen = $('#txtCodigoExamen').val();
+
+			          	  	objAcceso.item 			= index+1;
+			          	  	objAcceso.codigo 		= id;
+							objAcceso.descripcion	= descripcion; 
+							objTarifarioBean.codigo 	= examen;
+								objAcceso.tarifarioBean	= objTarifarioBean;  
+			        	}
+			        	if(index2 == 1 ){ // Columna Asignado
+			        		input    = $(this).children("input");
+			        		abrev = $(input).val();
+			  	   			idCompo  = $(input).attr("id"); 
+			      	   		
+			          	  	objAcceso.item 			= index+1;
+			          	  	objAcceso.codigo 		= id;
+			          	  	objAcceso.abrev	= abrev; 
+			        	}
+			        	if(index2 == 2 ){ // Columna Asignado
+			        		input    = $(this).children("input");
+			        		valoresRefIni = $(input).val();
+			  	   			objunidadMedidaId  = $(input).attr("id"); 
+			      	   		
+			          	  	objAcceso.item 			= index+1;
+			          	  	objunidadMedida.codReg 	= objunidadMedidaId;
+			          	  	objAcceso.unidadMedida	= objunidadMedida; 
+			        	}
+			        	if(index2 == 3 ){ // Columna Asignado
+			        		input    = $(this).children("input");
+			        		valoresReferencial = $(input).val();
+			  	   			idCompo  = $(input).attr("id"); 
+			      	   		
+			          	  	objAcceso.item 			= index+1;
+			          	  	objAcceso.codigo 		= id;
+			          	  	objAcceso.valoresReferencial	= valoresReferencial; 
+			        	}
+			        })
+			        console.log( "objAcceso" + objAcceso);
+			        arrayMenus.push(objAcceso);	
+		    	} 
+		    })
+		    
+		  //  console.log( "arrayMenus" + arrayMenus);
+		    
+		if(!myFormulario[0].checkValidity()) {
+			 msg_advertencia("Debe completar los campos requeridos(*) correctamente");
+
+		}else{ 
+		/*	 if(arrayMenus.length == 0){
+				msg_advertencia("Ingrese al menos un detalle de tarifario.");
+				return;
+			
+			
+			}   */
+					iniciarBloqueo();
+				$.ajax({
+				type: "POST",
+				contentType: "application/json", 
+		        data: JSON.stringify(arrayMenus), 
+				url : contextPath+"/formulaController/grabarAsociados",  
+		       
+				success : function(data) {
+					   // console.log("SUCCESS: ", data);
+					    if (data == "") {
+					    	msg_error("Error al registrar Exámenes Asociados");  
+						}else{ 
+						    msg_exito("Éxito al registrar Exámenes Asociados");  
+						    // enviarListado();
+						//	 $("#btnListado").trigger("click");
+						}
+ 
+				},
+				
+				error : function(xhr, status, er) { 
+				        console.log("error: " + xhr + " status: " + status + " er:" + er);
+							// msg_error();
+	
+						},
+			  			complete: function()
+	  			{
+	  				finBloqueo();
+
+				}
+		});
+	}
+}
+ 
+
+function grabarFormulas(){
+	var contextPath = $('#contextPath').val();
+	var codigoExamen = $('#txtCodigoExamen').val();
+ 
+	console.log("codigoExamen" + codigoExamen);
+		var actionForm = $('#frmGuardarOrden').attr("action");
+		console.log("codigo  :: " + codigoExamen) ; 
+		var myFormulario = $('#frmGuardarOrden');  
+		var arrayMenus = [];
+			
+			/** RECORRER MENU **/
+		    $("#tablaFormulas tbody tr").each(function (index) 
+		    {	console.log($("#tablaFormulas tbody tr").attr("id"));
+		    console.log("index " + index);
+		    var x = index+1;  
+		    	if ($(this).attr("id") == "nuevo"+x) {
+		    		
+		    		console.log("ingresa:: " + x);
+			    	var descripcion,abrev,valoresReferencial,id;
+			    	
+			    	var objTarifarioBean = {
+				  		codigo :codigoExamen 
+				  	};
+					var objTipoExamenLab = {
+				  		codReg :"000002" 
+				  	};  
+				    var objunidadMedida = {
+				  		codReg :"" 
+					};  
+					  
+			    	var objAcceso = {
+			    			item 		: 0,
+			    			codigo		: "",
+			    			tarifarioBean : objTarifarioBean,
+			    			descripcion 	: "",
+			    			unidadMedida 	: objunidadMedida,
+							abrev 	: "",
+							valoresReferencial : "",
+							tipoExamenLab : objTipoExamenLab
 			    	  	};
 			    	
 			        $(this).children("td").each(function (index2) 
@@ -529,8 +667,6 @@ function grabarAsociados(){
 		});
 	}
 }
- 
-
 
 function modificarElementoGenerico(url, index){
 	var contextPath = $('#contextPath').val();

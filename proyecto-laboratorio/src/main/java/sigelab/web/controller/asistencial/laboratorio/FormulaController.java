@@ -345,8 +345,7 @@ public class FormulaController extends BaseController {
 			@RequestBody ExamenesLaboratorioBean[] detetalleArray, HttpServletRequest request) throws Exception {
 		String codigo = "1"; 
     
-				for (ExamenesLaboratorioBean ExamenesLaboratorioBean : detetalleArray) { 
-					ExamenesLaboratorioBean.getTipoExamenLab().setCodReg("000001");
+				for (ExamenesLaboratorioBean ExamenesLaboratorioBean : detetalleArray) {  
 					System.out.println(
 							"ExamenesLaboratorioBean.getTarifarioBean().getCodigo() " + ExamenesLaboratorioBean.getTarifarioBean().getCodigo());
 					this.setAuditoria(ExamenesLaboratorioBean, request, true);

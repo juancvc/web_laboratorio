@@ -280,6 +280,9 @@ input[type=text] {
 										</div>
 									</div>
 								</div>
+								<div class="row">
+							<div class="form-group col-md-12 text-right"
+								style="margin-top: 15px;">  
 								<button type="submit" onclick="grabarAsociados()"
 									<c:choose>
 									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
@@ -291,6 +294,8 @@ input[type=text] {
 									class="btn btn-primary">
 									<i class="fa fa-floppy-o"></i> GUARDAR
 								</button>
+								</div>
+								</div>
 								</f:form>
 							</div>
 							
@@ -310,7 +315,7 @@ input[type=text] {
 								<div class="row">
 									<div class="col-md-12" id="tblListaDetalle">
 										<div class="table-responsive_">
-											<table id ="tabla"  class="table table-bordered">
+											<table id ="tablaFormulas"  class="table table-bordered">
 												<thead class="tabla_th">
 													<tr> 
 														<th>EXAMEN.</th>
@@ -364,18 +369,10 @@ input[type=text] {
 										</div>
 									</div>
 								</div>
-							</div>
-
-						<div class="row">
+									<div class="row">
 							<div class="form-group col-md-12 text-right"
-								style="margin-top: 15px;">
-								<a
-									href="${pageContext.request.contextPath}/formulaController/nuevaFormula"
-									class="btn btn-secondary" title=""> <i class="fa icon-plus"></i>
-									NUEVO
-								</a>
-
-								<button type="submit" onclick="grabarOrden()"
+								style="margin-top: 15px;">  
+								<button type="submit" onclick="grabarFormulas()"
 									<c:choose>
 									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
 									</c:when>
@@ -388,6 +385,7 @@ input[type=text] {
 								</button>
 							</div>
 						</div>
+							</div> 
 					</div>
 
 		<input type="hidden"  id="txtCodigoExamen"  />
@@ -553,143 +551,91 @@ function enviarIndex() {
 		var  listadoExamenes= []; 
  </script>
 <script>
-		function autocomplete(inp, arr) {
-			/*the autocomplete function takes two arguments,
-			the text field element and an array of possible autocompleted values:*/
+		function autocomplete(inp, arr) { 
 			var currentFocus;
-			var codigoRegistro;
-			/*execute a function when someone writes in the text field:*/
+			var codigoRegistro; 
 			inp
 					.addEventListener(
 							"input",
 							function(e) {
-								var a, b, i, val = this.value;
-								/*close any already open lists of autocompleted values*/
+								var a, b, i, val = this.value; 
 								closeAllLists();
 								if (!val) {
 									return false;
 								}
-								currentFocus = -1;
-								/*create a DIV element that will contain the items (values):*/
+								currentFocus = -1; 
 								a = document.createElement("DIV");
 								a.setAttribute("id", this.id
 										+ "autocomplete-list");
-								a.setAttribute("class", "autocomplete-items");
-								/*append the DIV element as a child of the autocomplete container:*/
-								this.parentNode.appendChild(a);
-								/*for each item in the array...*/
-								for (i = 0; i < arr.length; i++) {
-									/**console.log("arr[i].detalle:: " +arr[i].detalle.substr(0, val.length)
-											.toUpperCase());
-									console.log("val.toUpperCase():: " +arr[i].detalle.substr(0, val.length)
-											.toUpperCase());*/
-									/*check if the item starts with the same letters as the text field value:*/
+								a.setAttribute("class", "autocomplete-items"); 
+								this.parentNode.appendChild(a); 
+								for (i = 0; i < arr.length; i++) { 
 									if ( arr[i].detalle
-											.toUpperCase().includes(val.toUpperCase()) ) { 
-										/*create a DIV element for each matching element:*/
-										b = document.createElement("DIV");
-										/*make the matching letters bold:*/
+											.toUpperCase().includes(val.toUpperCase()) ) {  
+										b = document.createElement("DIV"); 
 										b.innerHTML = "<strong>"
 												+ arr[i].detalle.substr(0, val.length)
 												+ "</strong>";
 										b.innerHTML += arr[i].detalle
-												.substr(val.length);
-										/*insert a input field that will hold the current array item's value:*/
-										b.innerHTML += "<input type='hidden' id='" + arr[i].codigoRegistro + "' value='" + arr[i].detalle + "'>"; 
-									
-										/*execute a function when someone clicks on the item value (DIV element):*/
+												.substr(val.length); 
+										b.innerHTML += "<input type='hidden' id='" + arr[i].codigoRegistro + "' value='" + arr[i].detalle + "'>";  
 										b
 												.addEventListener(
 														"click",
 														function(e) {
-															 
-														
 															console.log("codigo::" +(this
 																	.getElementsByTagName("input")[0].id));	
-																	
 								  							inp.value = this
 																	.getElementsByTagName("input")[0].value;
-															
 															$("#txtCodigoExamen").val(this
-																	.getElementsByTagName("input")[0].id);
-																	
-														/*	llenarExamenIndex(this
-																	.getElementsByTagName("input")[0].id);	*/	
-															
-															
-														//	$('#txtExamenNombre').val("")
-															/*
-																$("#txtCodRegUbigeo").val(this
-																	.getElementsByTagName("input")[0].id)
-																	
-																	
-															close the list of autocompleted values,
-															(or any other open lists of autocompleted values:*/
-																	
-															//$("#txtCodRegUbigeo").val(arr[i].codigoRegistro);
+																	.getElementsByTagName("input")[0].id); 
 															closeAllLists();
 														});
 										a.appendChild(b);
 									}
 								}
-							});
-			/*execute a function presses a key on the keyboard:*/
+							}); 
 			inp.addEventListener("keydown", function(e) {
 				var x = document.getElementById(this.id + "autocomplete-list");
 				if (x)
 					x = x.getElementsByTagName("div");
-				if (e.keyCode == 40) {
-					/*If the arrow DOWN key is pressed,
-					increase the currentFocus variable:*/
-					currentFocus++;
-					/*and and make the current item more visible:*/
+				if (e.keyCode == 40) { 
+					currentFocus++; 
 					addActive(x);
-				} else if (e.keyCode == 38) { //up
-					/*If the arrow UP key is pressed,
-					decrease the currentFocus variable:*/
-					currentFocus--;
-					/*and and make the current item more visible:*/
+				} else if (e.keyCode == 38) { //up 
+					currentFocus--; 
 					addActive(x);
-				} else if (e.keyCode == 13) {
-					/*If the ENTER key is pressed, prevent the form from being submitted,*/
+				} else if (e.keyCode == 13) { 
 					e.preventDefault();
-					if (currentFocus > -1) {
-						/*and simulate a click on the "active" item:*/
+					if (currentFocus > -1) { 
 						if (x)
 							x[currentFocus].click();
 					}
 				}
 			});
-			function addActive(x) {
-				/*a function to classify an item as "active":*/
+			function addActive(x) { 
 				if (!x)
-					return false;
-				/*start by removing the "active" class on all items:*/
+					return false; 
 				removeActive(x);
 				if (currentFocus >= x.length)
 					currentFocus = 0;
 				if (currentFocus < 0)
-					currentFocus = (x.length - 1);
-				/*add class "autocomplete-active":*/
+					currentFocus = (x.length - 1); 
 				x[currentFocus].classList.add("autocomplete-active");
 			}
-			function removeActive(x) {
-				/*a function to remove the "active" class from all autocomplete items:*/
+			function removeActive(x) { 
 				for (var i = 0; i < x.length; i++) {
 					x[i].classList.remove("autocomplete-active");
 				}
 			}
-			function closeAllLists(elmnt) {
-				/*close all autocomplete lists in the document,
-				except the one passed as an argument:*/
+			function closeAllLists(elmnt) { 
 				var x = document.getElementsByClassName("autocomplete-items");
 				for (var i = 0; i < x.length; i++) {
 					if (elmnt != x[i] && elmnt != inp) {
 						x[i].parentNode.removeChild(x[i]);
 					}
 				}
-			}
-			/*execute a function when someone clicks in the document:*/
+			} 
 			document.addEventListener("click", function(e) {
 				closeAllLists(e.target);
 			});
@@ -708,8 +654,7 @@ function enviarIndex() {
 			objUbigeo.detalle ='${examen.descripcion}'; 
 			  arrayMenus.push(objUbigeo);
 		</c:forEach>
-		
-		/*initiate the autocomplete function on the "txtExamenNombre" element, and pass along the countries array as possible autocomplete values:*/
+		 
 		autocomplete(document.getElementById("txtExamenNombre"), arrayMenus);
 	
 		
