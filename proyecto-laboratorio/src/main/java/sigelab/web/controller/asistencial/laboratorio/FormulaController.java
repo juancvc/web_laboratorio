@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
+import sigelab.core.bean.general.ExamenUnidadMedidaLaboratorioBean;
 import sigelab.core.bean.general.ExamenesLaboratorioBean;
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
@@ -25,6 +26,7 @@ import sigelab.core.bean.general.ExamenesLaboratorioBean;
 import sigelab.core.bean.general.UbigeoBean;
 import sigelab.core.service.exception.ServiceException;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service;
+import sigelab.core.service.interfaces.general.ExamenUnidadMedidaLaboratorioService;
 import sigelab.core.service.interfaces.general.ExamenesLaboratorioService;
 import sigelab.core.service.interfaces.general.Maestra1Service;
 import sigelab.core.service.interfaces.general.TarifarioDetalleService;
@@ -52,6 +54,8 @@ public class FormulaController extends BaseController {
 	TarifarioBean tarifarioBean = new TarifarioBean();
 
 	private List<TarifarioBean> lstTarifarioBean;
+	private List<ExamenUnidadMedidaLaboratorioBean> lstExamenUnidadMedidaLaboratorioBean;
+	
 	private List<ExamenesLaboratorioBean> lstExamenesLaboratorioBean;
 
 	@Autowired
@@ -65,6 +69,9 @@ public class FormulaController extends BaseController {
 
 	@Autowired
 	private Maestra1Service maestraGene01Services;
+	
+	@Autowired
+	private ExamenUnidadMedidaLaboratorioService examenUnidadMedidaLaboratorioService;
 
 	@PostConstruct
 	public void init() {
@@ -120,9 +127,11 @@ public class FormulaController extends BaseController {
 		prmTarifarioBean.getTipo().setCodReg("");
 		prmTarifarioBean.setDescripcion("");
 		lstTarifarioBean = new ArrayList<TarifarioBean>();
+		lstExamenUnidadMedidaLaboratorioBean = new ArrayList<ExamenUnidadMedidaLaboratorioBean>();
 		lstTipoExamen = new ArrayList<TablaBean>();
 		try {
 			lstTarifarioBean = tarifarioService.getBuscarPorFiltros(prmTarifarioBean);
+			lstExamenUnidadMedidaLaboratorioBean = examenUnidadMedidaLaboratorioService.getBuscarPorFiltros(new ExamenUnidadMedidaLaboratorioBean());
 			System.out.println("lstTarifarioBean.size() " + lstTarifarioBean.size());
 			lstTipoExamen = maestraAsis01Service.listarPorCodigoTabla("000013", 1);
 		} catch (ServiceException e) {
@@ -131,6 +140,7 @@ public class FormulaController extends BaseController {
 
 		mav.addObject("lstTarifarioBean", lstTarifarioBean);
 		mav.addObject("lstTipoExamen", lstTipoExamen);
+		mav.addObject("lstExamenUnidadMedidaLaboratorioBean", lstExamenUnidadMedidaLaboratorioBean);
 		mav.addObject("tarifarioBean", tarifarioBean);
 		this.cargarCombos(mav);
 		return mav;
