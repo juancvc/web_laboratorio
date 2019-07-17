@@ -337,7 +337,7 @@ function llenarDetalleExamenAsociado(){
 	var contextPath = $('#contextPath').val();
 	
 	var nuevaFila ="";
-	var fila = $("#tabla tbody tr").length ;
+	var fila = $("#tablaExamenAsociado tbody tr").length ;
 	var nfila = Number(fila) + 1;
 	            // añadimos las columnas
 
@@ -346,7 +346,7 @@ function llenarDetalleExamenAsociado(){
 	    										"value = '' required='required'></td>" +
 	            		"<td><input id='abreviatura' type='text' class='form-control' "+ 
 	    										"value = '' required='required'/></td>" +
-						"<td><select"+
+						"<td><select required='required'"+
 	    				" name='cboUnidadA"+nfila + "' id='cboUnidadA"+nfila +"' class='form-control'>"+
 	    			    "<option value=''>SELECCIONAR</option>"+										  													    
 	    			"</select></td>"+ 
@@ -411,7 +411,7 @@ function llenarDetalleExamenFormula(){
 	    										"value = '' required='required'></td>" +
 	            		"<td><input id='tarifarioObservacion' type='text' class='form-control' "+ 
 	    										"value = '' required='required'/></td>" +
-	    				"<td><select"+
+	    				"<td><select required='required'"+
 	    					" name='cboUnidadB"+nfila + "' id='cboUnidadB"+nfila +"' class='form-control'>"+
 	    					" <option value=''>SELECCIONAR</option>"+										  													    
 	    					    			"</select></td>"+ 
@@ -525,12 +525,12 @@ function grabarAsociados(){
 			          	  	objAcceso.abrev	= abrev; 
 			        	}
 			        	if(index2 == 2 ){ // Columna Asignado
-			        		input    = $(this).children("input");
+			        		input    = $(this).children("select");
 			        		valoresRefIni = $(input).val();
 			  	   			objunidadMedidaId  = $(input).attr("id"); 
-			      	   		
+			      	   		console.log("input " + input);
 			          	  	objAcceso.item 			= index+1;
-			          	  	objunidadMedida.codReg 	= objunidadMedidaId;
+			          	  	objunidadMedida.codReg 	= valoresRefIni;
 			          	  	objAcceso.unidadMedida	= objunidadMedida; 
 			        	}
 			        	if(index2 == 3 ){ // Columna Asignado
@@ -659,12 +659,12 @@ function grabarFormulas(){
 			          	  	objAcceso.abrev	= abrev; 
 			        	}
 			        	if(index2 == 2 ){ // Columna Asignado
-			        		input    = $(this).children("input");
+			        		input    = $(this).children("select");
 			        		valoresRefIni = $(input).val();
 			  	   			objunidadMedidaId  = $(input).attr("id"); 
 			      	   		
 			          	  	objAcceso.item 			= index+1;
-			          	  	objunidadMedida.codReg 	= objunidadMedidaId;
+			          	  	objunidadMedida.codReg 	= valoresRefIni;
 			          	  	objAcceso.unidadMedida	= objunidadMedida; 
 			        	}
 			        	if(index2 == 3 ){ // Columna Asignado
