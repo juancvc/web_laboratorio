@@ -146,6 +146,17 @@ public class FormulaController extends BaseController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/obtenerListaUnidades", method = RequestMethod.GET)
+	public @ResponseBody List<ExamenUnidadMedidaLaboratorioBean> obtenerListaUnidades() throws Exception {
+		lstExamenUnidadMedidaLaboratorioBean = new ArrayList<ExamenUnidadMedidaLaboratorioBean>();
+		try {
+			lstExamenUnidadMedidaLaboratorioBean = examenUnidadMedidaLaboratorioService.getBuscarPorFiltros(new ExamenUnidadMedidaLaboratorioBean());
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+		return lstExamenUnidadMedidaLaboratorioBean;
+	}
+	
 	@RequestMapping(value = "/refrescarListaOrden", method = RequestMethod.GET)
 	public @ResponseBody OrdenDetalleBean refrescarListaOrden(@RequestParam("index") int index) throws Exception {
 		System.out.println("index " + index);

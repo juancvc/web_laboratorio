@@ -334,9 +334,7 @@ function grabarTarifarioDetalle(arrayMenus){
 
 function llenarDetalleExamenAsociado(){
 	var codigo = $('#codigo').val();
-	
-	//debugger; 
-
+	var contextPath = $('#contextPath').val();
 	
 	var nuevaFila ="";
 	var fila = $("#tabla tbody tr").length ;
@@ -348,8 +346,10 @@ function llenarDetalleExamenAsociado(){
 	    										"value = '' required='required'></td>" +
 	            		"<td><input id='abreviatura' type='text' class='form-control' "+ 
 	    										"value = '' required='required'/></td>" +
-	            		"<td><input id='unidadMedida' type='text' class='form-control' "+ 
-	    										"value = '' required='required'/></td>" +
+						"<td><select"+
+	    				" name='cboUnidadA"+nfila + "' id='cboUnidadA"+nfila +"' class='form-control'>"+
+	    			    "<option value=''>SELECCIONAR</option>"+										  													    
+	    			"</select></td>"+ 
 	    				"<td><input id='valoresRef' type='text' class='form-control' "+ 
 	    										"value = '' required='required'/></td>" +						
 	    				"<td>"+ 
@@ -363,15 +363,43 @@ function llenarDetalleExamenAsociado(){
 	    				"</td>"
 	    		    	 	"</tr>"; 
 	    $("#tablaExamenAsociado tbody").append(nuevaFila);
-	 
+
+	    
+	    $
+	    .ajax({
+	    	type : "GET",
+	    	url : contextPath + "/formulaController/obtenerListaUnidades",
+	    	success : function(data) {
+	    		if (data != null) {
+	    			
+	    			for (var i = 0; i < data.length; i++) {
+	    				$('#cboUnidadA'+nfila).append($('<option>', { 
+						       	value: data[i].codigo,
+						       	text : data[i].abrev //  data[i].descripcion +"/"+ 
+						   	}));
+	    					 
+	    			}
+	    		}else{
+	    		}
+	    	},
+	    	error : function(xhr, status, er) {
+	    		console.log("error: " + xhr + " status: " + status + " er:"
+	    				+ er);
+	    		if (xhr.status == 500) {
+	    			console.log(er);
+	    		}
+	    		if (xhr.status == 901) {
+	    			console.log(er);
+	    		}
+
+	    	}
+	    });
 }
 
 
 function llenarDetalleExamenFormula(){
 	var codigo = $('#codigo').val();
-	
-	//debugger; 
-
+	var contextPath = $('#contextPath').val();
 	
 	var nuevaFila ="";
 	var fila = $("#tablaFormulas tbody tr").length ;
@@ -383,8 +411,10 @@ function llenarDetalleExamenFormula(){
 	    										"value = '' required='required'></td>" +
 	            		"<td><input id='tarifarioObservacion' type='text' class='form-control' "+ 
 	    										"value = '' required='required'/></td>" +
-	            		"<td><input id='tarifarioValorIni' type='text' class='form-control' "+ 
-	    										"value = '' required='required'/></td>" +
+	    				"<td><select"+
+	    					" name='cboUnidadB"+nfila + "' id='cboUnidadB"+nfila +"' class='form-control'>"+
+	    					" <option value=''>SELECCIONAR</option>"+										  													    
+	    					    			"</select></td>"+ 
 	    				"<td><input id='tarifarioValorFin' type='text' class='form-control' "+ 
 	    										"value = '' required='required'/></td>" +						
 	    				"<td>"+ 
@@ -399,6 +429,35 @@ function llenarDetalleExamenFormula(){
 	    		    	 	"</tr>"; 
 	    $("#tablaFormulas tbody").append(nuevaFila);
 	 
+	    $
+	    .ajax({
+	    	type : "GET",
+	    	url : contextPath + "/formulaController/obtenerListaUnidades",
+	    	success : function(data) {
+	    		if (data != null) {
+	    			
+	    			for (var i = 0; i < data.length; i++) {
+	    				$('#cboUnidadB'+nfila).append($('<option>', { 
+	    					value: data[i].codigo,
+					       	text : data[i].abrev
+						   	}));
+	    					 
+	    			}
+	    		}else{
+	    		}
+	    	},
+	    	error : function(xhr, status, er) {
+	    		console.log("error: " + xhr + " status: " + status + " er:"
+	    				+ er);
+	    		if (xhr.status == 500) {
+	    			console.log(er);
+	    		}
+	    		if (xhr.status == 901) {
+	    			console.log(er);
+	    		}
+
+	    	}
+	    });
 }
 
 function grabarAsociados(){
