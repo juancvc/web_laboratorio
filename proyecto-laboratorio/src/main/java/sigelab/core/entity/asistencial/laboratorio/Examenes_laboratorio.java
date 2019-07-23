@@ -10,11 +10,12 @@ import java.sql.Timestamp;
 		{ 
 			@NamedStoredProcedureQuery(
 					name="examenes_laboratorio.listarPorFiltros", 
-					procedureName="[LABO].[UNIMEDI_LISTAR_X_FILTROS]",
+					procedureName="[LABO].[USP_PROCEASO_LISTAR_X_FILTROS]",
 					resultClasses= Examenes_laboratorio.class,
 					parameters={ 
-							@StoredProcedureParameter(mode = ParameterMode.IN, name ="ABREVIATURA", type = String.class) ,
-							@StoredProcedureParameter(mode = ParameterMode.IN, name ="DESCRIPCION", type = String.class) 
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="CODPROCE", type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="TIPO", 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="COPROASO", type = String.class) 
 					}),
 			@NamedStoredProcedureQuery(
 					name="examenes_laboratorio.registro", 
@@ -68,41 +69,68 @@ public class Examenes_laboratorio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="CODCOMPO")
-	private String codigoUnidadMedida;
+	@Column(name="COPROASO")
+	private String codigoExamenAsociado;
 
-	@Column(name="AUCDUSCR")
+	@Column(name="NOMUSUAR")
 	private String usuarioCreacion;
 	
-	@Column(name="DESCRIPCION")
-	private String descripcion;
-	
-	@Column(name="ABREVIATURA")
-	private String abrev;
-	
+
 	@Column(name="CODORGAN")
 	private String codigoOrganizacion;
 	
 	@Column(name="CODINSTI")
-	private Float codigoInstitucion;
+	private String codigoInstitucion;
 
 	@Column(name="CODSEDEI")
 	private String codigoSede;
 
 	@Column(name="AUFECHCR")
-	private Timestamp aufechcr;
+	private Timestamp fechaCreacion;
 
 
 	@Column(name="AUPCIPCR")
-	private String aupcipcr;
+	private String ipCreacion;
 
 
 	@Column(name="NROVERSI")
-	private String NROVERSI;
+	private String nroVersion;
 
 
 	@Column(name="SITUACRG")
-	private String situacrg;
+	private String situacion;
+	
+	@Column(name="CODTARIF")
+	private String codidoTarifario;
+	
+	@Column(name="NRPPROCE")
+	private String periodoTarifario;
+	
+	@Column(name="TIPO")
+	private String tipo;
+	
+	@Column(name="DESCORTA")
+	private String descripcionCorta;
+	
+	@Column(name="ABREVIAT")
+	private String abreviatura;
+	
+	@Column(name="CODUNIME")
+	private String codigoUnidadMedida;
+	
+	@Column(name="DESCRIPCION")
+	private String descripcionUnidadMedida;
+	
+	@Column(name="ABREVIATURA")
+	private String abreviaturaUnidadMedida;
+	
+	@Column(name="TIPOLAB")
+	private String tipoLaboratorio;
+	
+	@Column(name="NOMPRODU")
+	private String nombreExamen;
+	
+
 
 
 
@@ -111,15 +139,21 @@ public class Examenes_laboratorio implements Serializable {
 
 
 
-	public String getCodigoUnidadMedida() {
-		return codigoUnidadMedida;
+
+
+	public String getCodigoExamenAsociado() {
+		return codigoExamenAsociado;
 	}
 
 
 
-	public void setCodigoUnidadMedida(String codigoUnidadMedida) {
-		this.codigoUnidadMedida = codigoUnidadMedida;
+
+
+	public void setCodigoExamenAsociado(String codigoExamenAsociado) {
+		this.codigoExamenAsociado = codigoExamenAsociado;
 	}
+
+
 
 
 
@@ -129,33 +163,13 @@ public class Examenes_laboratorio implements Serializable {
 
 
 
+
+
 	public void setUsuarioCreacion(String usuarioCreacion) {
 		this.usuarioCreacion = usuarioCreacion;
 	}
 
 
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-
-
-	public String getAbrev() {
-		return abrev;
-	}
-
-
-
-	public void setAbrev(String abrev) {
-		this.abrev = abrev;
-	}
 
 
 
@@ -165,21 +179,29 @@ public class Examenes_laboratorio implements Serializable {
 
 
 
+
+
 	public void setCodigoOrganizacion(String codigoOrganizacion) {
 		this.codigoOrganizacion = codigoOrganizacion;
 	}
 
 
 
-	public Float getCodigoInstitucion() {
+
+
+	public String getCodigoInstitucion() {
 		return codigoInstitucion;
 	}
 
 
 
-	public void setCodigoInstitucion(Float codigoInstitucion) {
+
+
+	public void setCodigoInstitucion(String codigoInstitucion) {
 		this.codigoInstitucion = codigoInstitucion;
 	}
+
+
 
 
 
@@ -189,58 +211,243 @@ public class Examenes_laboratorio implements Serializable {
 
 
 
+
+
 	public void setCodigoSede(String codigoSede) {
 		this.codigoSede = codigoSede;
 	}
 
 
 
-	public Timestamp getAufechcr() {
-		return aufechcr;
+
+
+	public Timestamp getFechaCreacion() {
+		return fechaCreacion;
 	}
 
 
 
-	public void setAufechcr(Timestamp aufechcr) {
-		this.aufechcr = aufechcr;
+
+
+	public void setFechaCreacion(Timestamp fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
 
 
 
-	public String getAupcipcr() {
-		return aupcipcr;
+
+
+	public String getIpCreacion() {
+		return ipCreacion;
 	}
 
 
 
-	public void setAupcipcr(String aupcipcr) {
-		this.aupcipcr = aupcipcr;
+
+
+	public void setIpCreacion(String ipCreacion) {
+		this.ipCreacion = ipCreacion;
 	}
 
 
 
-	public String getNROVERSI() {
-		return NROVERSI;
+
+
+	public String getNroVersion() {
+		return nroVersion;
 	}
 
 
 
-	public void setNROVERSI(String nROVERSI) {
-		NROVERSI = nROVERSI;
+
+
+	public void setNroVersion(String nroVersion) {
+		this.nroVersion = nroVersion;
 	}
 
 
 
-	public String getSituacrg() {
-		return situacrg;
+
+
+	public String getSituacion() {
+		return situacion;
 	}
 
 
 
-	public void setSituacrg(String situacrg) {
-		this.situacrg = situacrg;
+
+
+	public void setSituacion(String situacion) {
+		this.situacion = situacion;
 	}
 
+
+
+
+
+	public String getCodidoTarifario() {
+		return codidoTarifario;
+	}
+
+
+
+
+
+	public void setCodidoTarifario(String codidoTarifario) {
+		this.codidoTarifario = codidoTarifario;
+	}
+
+
+
+
+
+	public String getPeriodoTarifario() {
+		return periodoTarifario;
+	}
+
+
+
+
+
+	public void setPeriodoTarifario(String periodoTarifario) {
+		this.periodoTarifario = periodoTarifario;
+	}
+
+
+
+
+
+	public String getTipo() {
+		return tipo;
+	}
+
+
+
+
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+
+
+
+
+	public String getDescripcionCorta() {
+		return descripcionCorta;
+	}
+
+
+
+
+
+	public void setDescripcionCorta(String descripcionCorta) {
+		this.descripcionCorta = descripcionCorta;
+	}
+
+
+
+
+
+	public String getAbreviatura() {
+		return abreviatura;
+	}
+
+
+
+
+
+	public void setAbreviatura(String abreviatura) {
+		this.abreviatura = abreviatura;
+	}
+
+
+
+
+
+	public String getCodigoUnidadMedida() {
+		return codigoUnidadMedida;
+	}
+
+
+
+
+
+	public void setCodigoUnidadMedida(String codigoUnidadMedida) {
+		this.codigoUnidadMedida = codigoUnidadMedida;
+	}
+
+
+
+
+
+	public String getDescripcionUnidadMedida() {
+		return descripcionUnidadMedida;
+	}
+
+
+
+
+
+	public void setDescripcionUnidadMedida(String descripcionUnidadMedida) {
+		this.descripcionUnidadMedida = descripcionUnidadMedida;
+	}
+
+
+
+
+
+	public String getAbreviaturaUnidadMedida() {
+		return abreviaturaUnidadMedida;
+	}
+
+
+
+
+
+	public void setAbreviaturaUnidadMedida(String abreviaturaUnidadMedida) {
+		this.abreviaturaUnidadMedida = abreviaturaUnidadMedida;
+	}
+
+
+
+
+
+	public String getTipoLaboratorio() {
+		return tipoLaboratorio;
+	}
+
+
+
+
+
+	public void setTipoLaboratorio(String tipoLaboratorio) {
+		this.tipoLaboratorio = tipoLaboratorio;
+	}
+
+
+
+
+
+	public String getNombreExamen() {
+		return nombreExamen;
+	}
+
+
+
+
+
+	public void setNombreExamen(String nombreExamen) {
+		this.nombreExamen = nombreExamen;
+	}
+
+
+
+	
+
+
+
+	
 
 
 	

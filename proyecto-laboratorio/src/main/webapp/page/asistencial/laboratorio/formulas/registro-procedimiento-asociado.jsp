@@ -14,7 +14,7 @@
 <meta name="description"
 	content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
 <meta name="author" content="">
-<title>Registro de Orden</title>
+<title>Mantenimiento de formulas</title>
 <!-- Bootstrap core CSS-->
 
 <link
@@ -362,6 +362,14 @@ input[type=text] {
 																			data-original-title='Eliminar' id='eliminarDX'>
 																			<i class='icon-trash'></i>
 																		</button></td> 
+																	    <td><button type='button'
+																			class='btn btn-outline-danger btn-sm'
+																			data-toggle='tooltip' data-placement='top'
+																			title='Formular'
+																			onclick='confirmar_eliminar(1,${loop.index})'
+																			data-original-title='Formular' id='formular'>
+																			<i class='icon-trash'></i>
+																		</button></td> 	
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -399,11 +407,11 @@ input[type=text] {
 				</f:form>
 			</div>
 
-			<div class="modal fade text-xs-left" id="modalTarifario"
+			<div class="modal fade text-xs-left" id="modalFormula"
 				tabindex="-1" role="dialog" aria-labelledby="myModalLabel35"
 				data-dismiss="modal" aria-hidden="true" aria-hidden="true">
 				<div class="modal-dialog modal-lg" role="document">
-					<div class="modal-content" id="modalEstablecimientoContent"></div>
+					<div class="modal-content" id="modalFormulaContent"></div>
 				</div>
 			</div>
 

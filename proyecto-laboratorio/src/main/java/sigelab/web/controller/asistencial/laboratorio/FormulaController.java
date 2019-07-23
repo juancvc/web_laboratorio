@@ -47,6 +47,7 @@ public class FormulaController extends BaseController {
 	List<UbigeoBean> lstUbigeoBean = new ArrayList<UbigeoBean>();
 	List<TablaBean> lstTipoExamen = new ArrayList<TablaBean>();
 
+
 	List<TablaBean> lstAreasLab = new ArrayList<TablaBean>();
 
 	PersonaBean personaBean = new PersonaBean();
@@ -80,28 +81,14 @@ public class FormulaController extends BaseController {
 
 	private void cargarCombos(ModelAndView mav) {
 		try {
-			/*
-			 * lstSituacion =maestraBanc01Service.listarPorCodigoTabla("000034", 1);
-			 * lstDocumento = maestraAsis01Service.listarPorCodigoTabla("000003", 1);
-			 * lstSexo = maestraAsis01Service.listarPorCodigoTabla("000004", 1);
-			 * lstEstadoCivil = maestraGene01Services.listarPorCodigoTabla("000005", 0);
-			 * lstOcupacion = maestraGene01Services.listarPorCodigoTabla("000007", 0);
-			 * lstNacionalidad = maestraGene01Services.listarPorCodigoTabla("000003", 0);
-			 * lstNivelInstrucion = maestraGene01Services.listarPorCodigoTabla("000006", 0);
-			 */
+			
 			lstAreasLab = maestraGene01Services.listarPorCodigoTabla("000063", 0);
 
 		} catch (ServiceException e) {
 			System.out.println("printStackTrace");
 			e.printStackTrace();
 		}
-		/*
-		 * mav.addObject("lstSituacion", lstSituacion); mav.addObject("lstDocumento",
-		 * lstDocumento); mav.addObject("lstSexo", lstSexo);
-		 * mav.addObject("lstEstadoCivil", lstEstadoCivil); mav.addObject("lstAreasLab",
-		 * lstAreasLab); mav.addObject("lstOcupacion", lstOcupacion);
-		 * mav.addObject("lstNacionalidad", lstNacionalidad);
-		 */
+	
 		mav.addObject("lstAreasLab", lstAreasLab);
 	}
 
@@ -375,6 +362,40 @@ public class FormulaController extends BaseController {
   
 		return codigo;
 	}
+	
+	@RequestMapping(value = "/formulaModal", method = RequestMethod.POST)
+	public ModelAndView formulaModalPost(	HttpServletRequest request)
+			throws Exception {
+		lstTarifarioBean = new ArrayList<TarifarioBean>();
+	
+
+	
+		System.out.println("modal formula");
+		PersonaBean objPersona = new  PersonaBean();
+		objPersona.getNacionalidad().setCodReg("000114");
+		objPersona.getEstadoCivil().setCodReg("000006");
+
+		
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/formulas/formula-registro-modal", "command",  getUsuarioSesion(request));
+
+		
+		ubigeobean = new UbigeoBean();
+		ubigeobean.setVariable("");
+		ubigeobean.setInstitucion("000003");
+		ubigeobean.setCategoria("000003");
+		lstUbigeoBean = new ArrayList<UbigeoBean>();
+		mav.addObject("lstTarifarioBean", lstTarifarioBean);
+		try {
+			
+	//		lstUbigeoBean = ubigeoService.getBuscarPorFiltros(ubigeobean);
+		} catch (Exception e) { 
+		}
+		mav.addObject("ubigeoBean", new UbigeoBean());
+		mav.addObject("lstUbigeoBean", lstUbigeoBean);
+		this.cargarCombos(mav);
+		return mav;
+	} 
+	
 	public PersonaBean getPersonaBean() {
 		return personaBean;
 	}

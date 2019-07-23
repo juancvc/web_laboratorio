@@ -11,6 +11,7 @@ public class TarifarioDetalleBean extends BaseBean{
 	private String valoresRefIni;
 	private String valoresRefFin; 
 	private String observacion; 
+	private ExamenesLaboratorioBean examenesLaboratorioBean;
 	
 	public TarifarioDetalleBean() {
 		super();
@@ -58,6 +59,17 @@ public class TarifarioDetalleBean extends BaseBean{
 
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
+	}
+	
+	
+	
+
+	public ExamenesLaboratorioBean getExamenesLaboratorioBean() {
+		return examenesLaboratorioBean;
+	}
+
+	public void setExamenesLaboratorioBean(ExamenesLaboratorioBean examenesLaboratorioBean) {
+		this.examenesLaboratorioBean = examenesLaboratorioBean;
 	}
 
 	@Override

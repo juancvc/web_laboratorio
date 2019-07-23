@@ -15,6 +15,10 @@ import java.sql.Timestamp;
 					@StoredProcedureParameter(mode = ParameterMode.OUT, name ="CODUNVAL", type = String.class),
 					
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTARIF",  type = String.class),
+					@StoredProcedureParameter(mode = ParameterMode.IN, name = "COORGPRA",  type = String.class),
+					@StoredProcedureParameter(mode = ParameterMode.IN, name = "COINSPRA",  type = String.class),
+					@StoredProcedureParameter(mode = ParameterMode.IN, name = "COSEDPRA",  type = String.class),
+					@StoredProcedureParameter(mode = ParameterMode.IN, name = "COPROASO",  type = String.class),
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "UNIDADES",  type = String.class),
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "OBSERVAC",  type = String.class),
 					@StoredProcedureParameter(mode = ParameterMode.IN, name = "VALORINI",  type = String.class), 
@@ -81,6 +85,18 @@ public class Tarifario_unidadValor implements Serializable {
 	
 	@Column(name="PERIODO")
 	private String PERIODO;
+	
+	@Column(name="COORGPRA")
+	private String codigoOrganizacionExamenAsociado;
+	
+	@Column(name="COINSPRA")
+	private String codigoInstitucionalExamenAsociado;
+	
+	@Column(name="COSEDPRA")
+	private String codigoSedeExamenAsociado;
+	
+	@Column(name="COPROASO")
+	private String codigoExamenAsociado;
 	
 	@Column(name="CODTARIF")
 	private String CODTARIF;
@@ -287,6 +303,49 @@ public class Tarifario_unidadValor implements Serializable {
 	public void setSwmigrad(short swmigrad) {
 		this.swmigrad = swmigrad;
 	}
+
+
+	public String getCodigoOrganizacionExamenAsociado() {
+		return codigoOrganizacionExamenAsociado;
+	}
+
+
+	public void setCodigoOrganizacionExamenAsociado(String codigoOrganizacionExamenAsociado) {
+		this.codigoOrganizacionExamenAsociado = codigoOrganizacionExamenAsociado;
+	}
+
+
+	public String getCodigoInstitucionalExamenAsociado() {
+		return codigoInstitucionalExamenAsociado;
+	}
+
+
+	public void setCodigoInstitucionalExamenAsociado(String codigoInstitucionalExamenAsociado) {
+		this.codigoInstitucionalExamenAsociado = codigoInstitucionalExamenAsociado;
+	}
+
+
+	public String getCodigoSedeExamenAsociado() {
+		return codigoSedeExamenAsociado;
+	}
+
+
+	public void setCodigoSedeExamenAsociado(String codigoSedeExamenAsociado) {
+		this.codigoSedeExamenAsociado = codigoSedeExamenAsociado;
+	}
+
+
+	public String getCodigoExamenAsociado() {
+		return codigoExamenAsociado;
+	}
+
+
+	public void setCodigoExamenAsociado(String codigoExamenAsociado) {
+		this.codigoExamenAsociado = codigoExamenAsociado;
+	}
+	
+	
+	
 
  
 }

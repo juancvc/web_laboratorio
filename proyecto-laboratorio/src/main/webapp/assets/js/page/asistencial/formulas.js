@@ -31,6 +31,31 @@ $(document).ready(function() {
 	});
 });
 
+function cargarFormulaModal(index,codigo) {
+	tipo = index
+	codReg = codigo;
+	var contextPath = $('#contextPath').val();
+	// var codigoLengua = $('#codigoLengua').val(); //
+	// document.getElementById("codigoLengua").value;
+
+	path = contextPath + "/formulaController/formulaModal";
+	// alert("path " + path)
+		$.ajax({
+			type : "POST",
+			url : path,
+
+			success : function(data) {
+				// console.log("SUCCESS: ", data);
+				$("#modalFormula").html(data); 
+				$("#modalFormula").modal('show'); 
+			//	$("#txtDescripcion").focus(); 
+			},
+			error : function(request, status, error) {
+				console.log("ERROR: " + error);
+			}
+		}); 
+}
+
  
 function eliminarRegistroDetalle(codReg) { 
 	var contextPath = $('#contextPath').val();
@@ -425,7 +450,15 @@ function llenarDetalleExamenFormula(){
 	    		      	 	" data-original-title='Eliminar'"+
 	    		    	 	" id='agregarEspecialidad'>"+
 	    		    	 	"<i class='icon-trash'></i></button> "+ 
-	    				"</td>"
+	    		    	 	
+	    		    	 	"<button type='button'"+
+	    		    	 	" class='btn btn-outline-danger btn-sm' "+
+	    		    	 	" data-toggle='tooltip'  data-placement='top'  title='Formular'"+
+	    		    	 	"  onclick=\"cargarFormulaModal(2,"+nfila+");\""+
+	    		      	 	" data-original-title='Formular'"+
+	    		    	 	" id='agregarFormula'>"+
+	    		    	 	"<i class='icon-plus'></i></button> "+ 
+	    				"</td>"	    		    	 	
 	    		    	 	"</tr>"; 
 	    $("#tablaFormulas tbody").append(nuevaFila);
 	 
@@ -726,6 +759,58 @@ function grabarFormulas(){
 		});
 	}
 }
+
+function llenarDetalleTarifario(){
+	var codigo = $('#codigo').val();
+	
+	//debugger; 
+	/***
+	var cboTipoResultado = $('#cboTipoResultado').val();
+	var contextPath = $('#contextPath').val();
+	$.ajax({
+		url : contextPath + "/tarifarioController/agregarDetalle",
+		type : 'GET',
+		data: $('#frmGuardarTarifario').serialize(),
+		success : function(data) {
+			//console.log("SUCCESS: ", data);
+			$('#tblListaDetalle').html(data);
+		},
+		error : function() {
+			//console.log("ERROR: ");
+		}
+	});
+	*/
+	
+	var nuevaFila ="";
+	var fila = $("#tabla tbody tr").length ;
+	var nfila = Number(fila) + 1;
+	            // añadimos las columnas
+
+	            nuevaFila+="<tr id = 'nuevo"+nfila+"'>"+  
+	            		"<td><input id='tarifarioUnidades' type='text' class='form-control' "+ 
+	    										"value = '' required='required'></td>" +
+	            		"<td><input id='tarifarioObservacion' type='text' class='form-control' "+ 
+	    										"value = '' required='required'/></td>" +
+	            		"<td><input id='tarifarioValorIni' type='text' class='form-control' "+ 
+	    										"value = '' required='required'/></td>" +
+	    				"<td><input id='tarifarioValorFin' type='text' class='form-control' "+ 
+	    										"value = '' required='required'/></td>" +						
+	    				"<td>"+ 
+	    		    	 	"<button type='button'"+
+	    		    	 	" class='btn btn-outline-danger btn-sm' "+
+	    		    	 	" data-toggle='tooltip'  data-placement='top'  title='Eliminar'"+
+	    		    	 	"  onclick=\"confirmar_eliminar(2,"+nfila+");\""+
+	    		      	 	" data-original-title='Eliminar'"+
+	    		    	 	" id='agregarEspecialidad'>"+
+	    		    	 	"<i class='icon-trash'></i></button> "+ 
+	    				"</td>"
+	    		    	 	"</tr>"; 
+	    $("#tabla tbody").append(nuevaFila);
+	 
+}
+
+
+
 
 function modificarElementoGenerico(url, index){
 	var contextPath = $('#contextPath').val();

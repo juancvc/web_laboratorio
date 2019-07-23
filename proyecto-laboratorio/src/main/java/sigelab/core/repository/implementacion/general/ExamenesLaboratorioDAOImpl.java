@@ -144,8 +144,9 @@ public class ExamenesLaboratorioDAOImpl implements ExamenesLaboratorioDAO {
 		List<ExamenesLaboratorioBean> lstTablaBean = null;
 		
 			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("examenes_laboratorio.listarPorFiltros");
-			spq.setParameter("ABREVIATURA", ExamenesLaboratorioBean.getAbrev()); 
-			spq.setParameter("DESCRIPCION", ExamenesLaboratorioBean.getDescripcion()); 
+			spq.setParameter("CODPROCE", ExamenesLaboratorioBean.getTarifarioBean().getCodigo()); 
+			spq.setParameter("TIPO",     ExamenesLaboratorioBean.getTipoExamenAsoc()); 
+			spq.setParameter("COPROASO", ExamenesLaboratorioBean.getCodigo()); 
 			if (spq.execute()) {
 				lstMaestra =  spq.getResultList(); 
 			} 
@@ -190,10 +191,21 @@ public class ExamenesLaboratorioDAOImpl implements ExamenesLaboratorioDAO {
 		if (entity != null) {
 			
 			bean = new ExamenesLaboratorioBean(); 
-			bean.setCodigo(entity.getCodigoUnidadMedida());	
-			bean.setDescripcion(entity.getDescripcion());
-			bean.setAbrev(entity.getAbrev());
-
+			bean.setCodigo(entity.getCodigoExamenAsociado());	
+			bean.setDescripcion(entity.getDescripcionCorta());
+			bean.setAbrev(entity.getAbreviatura());
+			bean.setTipoExamenAsoc(entity.getTipo());
+			bean.setCodigoOrganizacion(entity.getCodigoOrganizacion());
+			bean.setCodigoInstitucion(entity.getCodigoInstitucion());
+			bean.setCodigoSede(entity.getCodigoSede());
+			bean.setNombreUsuarioCreacion(entity.getUsuarioCreacion());
+			bean.setCodigoOrganizacion(entity.getCodigoOrganizacion());
+			bean.getTarifarioBean().setDescripcion(entity.getNombreExamen());
+			bean.getTarifarioBean().getTipo().setNombreCorto(entity.getTipoLaboratorio());
+			bean.getTarifarioBean().setCodigo(entity.getCodidoTarifario());
+			bean.getExamenUnidadMedidaLaboratorioBean().setAbrev(entity.getAbreviaturaUnidadMedida());
+			bean.getExamenUnidadMedidaLaboratorioBean().setCodigo(entity.getCodigoUnidadMedida());
+			bean.getExamenUnidadMedidaLaboratorioBean().setDescripcion(entity.getDescripcionUnidadMedida());
 		}
 		
 		return bean;
