@@ -396,6 +396,23 @@ public class FormulaController extends BaseController {
 		return mav;
 	} 
 	
+
+	@RequestMapping(value = "/listaDetalleFormula", method = RequestMethod.GET)
+	public @ResponseBody List<ExamenesLaboratorioBean> listaDetalleFormula(@RequestParam("codigo") String codigo) throws Exception {
+		System.out.println("listaDetalleFormula codigo " + codigo);
+		ExamenesLaboratorioBean examenesLaboratorioBean = new ExamenesLaboratorioBean();
+		examenesLaboratorioBean.getTarifarioBean().setCodigo(codigo);
+		try {
+			lstExamenesLaboratorioBean = examenesLaboratorioService.getBuscarPorFiltros(examenesLaboratorioBean);
+
+		} catch (ServiceException e) {
+
+			e.printStackTrace();
+		}
+
+		return lstExamenesLaboratorioBean;
+	}
+	
 	public PersonaBean getPersonaBean() {
 		return personaBean;
 	}

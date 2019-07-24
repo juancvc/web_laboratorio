@@ -195,6 +195,7 @@ public class ExamenesLaboratorioDAOImpl implements ExamenesLaboratorioDAO {
 			bean.setDescripcion(entity.getDescripcionCorta());
 			bean.setAbrev(entity.getAbreviatura());
 			bean.setTipoExamenAsoc(entity.getTipo());
+			bean.getTipoExamenLab().setCodReg(entity.getTipo());
 			bean.setCodigoOrganizacion(entity.getCodigoOrganizacion());
 			bean.setCodigoInstitucion(entity.getCodigoInstitucion());
 			bean.setCodigoSede(entity.getCodigoSede());

@@ -374,9 +374,7 @@ function llenarDetalleExamenAsociado(){
 						"<td><select required='required'"+
 	    				" name='cboUnidadA"+nfila + "' id='cboUnidadA"+nfila +"' class='form-control'>"+
 	    			    "<option value=''>SELECCIONAR</option>"+										  													    
-	    			"</select></td>"+ 
-	    				"<td><input id='valoresRef' type='text' class='form-control' "+ 
-	    										"value = '' required='required'/></td>" +						
+	    			"</select></td>"+  
 	    				"<td>"+ 
 	    		    	 	"<button type='button'"+
 	    		    	 	" class='btn btn-outline-danger btn-sm' "+
@@ -439,9 +437,7 @@ function llenarDetalleExamenFormula(){
 	    				"<td><select required='required'"+
 	    					" name='cboUnidadB"+nfila + "' id='cboUnidadB"+nfila +"' class='form-control'>"+
 	    					" <option value=''>SELECCIONAR</option>"+										  													    
-	    					    			"</select></td>"+ 
-	    				"<td><input id='tarifarioValorFin' type='text' class='form-control' "+ 
-	    										"value = '' required='required'/></td>" +						
+	    					    			"</select></td>"+  					
 	    				"<td>"+ 
 	    		    	 	"<button type='button'"+
 	    		    	 	" class='btn btn-outline-danger btn-sm' "+
@@ -839,3 +835,125 @@ function doPost(path, params, method) {
     document.body.appendChild(form);
     form._submit_function_();
 }
+
+function llamarDatos(codigo){
+	console.log("codigo " + codigo);
+	var arrayMedidas = [];
+	var htmlTabla = "";
+	var htmlTablaForm = "";
+	var item = 0; 
+	var contextPath = $('#contextPath').val(); 
+	var z = 0; 
+	path = contextPath + "/formulaController/listaDetalleFormula?codigo="+codigo; 
+		$.ajax({
+			type : "GET",
+			url : path,
+
+			success : function(data) { 
+				
+				if (data != null) {
+					  $
+					    .ajax({
+					    	type : "GET",
+					    	url : contextPath + "/formulaController/obtenerListaUnidades",
+					    	success : function(data) {
+					    		if (data != null) { 
+					    			for (var i = 0; i < data.length; i++) {
+					    				var objUbigeo = {
+					    						codigoRegistro : "",
+					    						detalle		: ""
+					    				  	};
+					    				objUbigeo.codigo = data[i].codigo; 
+					    				objUbigeo.detalle =data[i].abrev; 
+					    				arrayMedidas.push(objUbigeo);  
+					    			}
+					    		}
+					    	},
+					    	error : function(xhr, status, er) {
+					    		console.log("error: " + xhr + " status: " + status + " er:"
+					    				+ er);  
+					    	}
+					    });
+					for (var i = 0; i < data.length; i++) {
+						console.log("i " + i);
+						var objeto = data[i]; 
+						
+						if(objeto.tipoExamenLab.codReg == '000001'){
+							item = item + 1;
+							htmlTabla += " <tr id = 'anterior"
+									+ item
+									+ "'>"
+									+ "<td><input id='examenAsociado'  type='text' class='form-control' "
+									+"value = '"+objeto.descripcion+"' "
+									+ " required='required'></td>"
+									+ "<td><input id='abreviatura' type='text' class='form-control' "
+									+ "value = '"+objeto.abrev+"' required='required'/></td>"
+									+ "<td><select required='required'"
+									+ " name='cboUnidadA"
+									+ item
+									+ "' id='cboUnidadA"
+									+ item
+									+ "' class='form-control'>"
+									+ "<option value='"+objeto.examenUnidadMedidaLaboratorioBean.codigo+"'>"+objeto.examenUnidadMedidaLaboratorioBean.abrev+"</option>"
+									+ "</select></td>" 
+									+ "<td>"
+									+ "<button type='button'"
+									+ " class='btn btn-outline-danger btn-sm' "
+									+ " data-toggle='tooltip'  data-placement='top'  title='Eliminar'"
+									+ "  onclick=\"confirmar_eliminar(2,"
+									+ i + ");\""
+									+ " data-original-title='Eliminar'"
+									+ " id='agregarEspecialidad'>"
+									+ "<i class='icon-trash'></i></button> "
+									+ "</td>"
+							"</tr>"; 
+						}
+						if(objeto.tipoExamenLab.codReg == '000002'){
+							z = z + 1;
+							htmlTablaForm += " <tr id = 'anterior"
+									+ item
+									+ "'>"
+									+ "<td><input id='examenAsociado'  type='text' class='form-control' "
+									+"value = '"+objeto.descripcion+"' "
+									+ " required='required'></td>"
+									+ "<td><input id='abreviatura' type='text' class='form-control' "
+									+ "value = '"+objeto.abrev+"' required='required'/></td>"
+									+ "<td><select required='required'"
+									+ " name='cboUnidadA"
+									+ item
+									+ "' id='cboUnidadA"
+									+ item
+									+ "' class='form-control'>"
+									+ "<option value='"+objeto.examenUnidadMedidaLaboratorioBean.codigo+"'>"+objeto.examenUnidadMedidaLaboratorioBean.abrev+"</option>"
+									+ "</select></td>" 
+									+ "<td>"
+									+ "<button type='button'"
+									+ " class='btn btn-outline-danger btn-sm' "
+									+ " data-toggle='tooltip'  data-placement='top'  title='Eliminar'"
+									+ "  onclick=\"confirmar_eliminar(2,"
+									+ i + ");\""
+									+ " data-original-title='Eliminar'"
+									+ " id='agregarEspecialidad'>"
+									+ "<i class='icon-trash'></i></button> "
+									+ "</td>"
+							"</tr>"; 
+						} 
+					}
+					
+					$('#idbodyAsociado').empty();  
+			  	    $('#idbodyAsociado').html(htmlTabla);
+			  	    
+			  		$('#idbodyFormulas').empty();  
+			  	    $('#idbodyFormulas').html(htmlTablaForm);
+			  	    
+					// console.log(htmlTabla);
+				}
+				
+			},
+			error : function(request, status, error) {
+				console.log("ERROR: " + error);
+			}
+		}); 
+		
+}
+

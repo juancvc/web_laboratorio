@@ -230,13 +230,12 @@ input[type=text] {
 												<thead class="tabla_th">
 													<tr> 
 														<th>EXAMEN ASOC.</th>
-														<th>ABREV</th>
-														<th>UNIDAD DE MEDIDA</th>
-														<th>VALORES REF</th>
+														<th width="100">ABREV</th>
+														<th>UNIDAD DE MEDIDA</th> 
 														<th width="60">ACCION</th>
 													</tr>
 												</thead>
-												<tbody id="idbodyCIEXref" class="label_control">
+												<tbody id="idbodyAsociado" class="label_control">
 													<c:forEach var="tabla" items="${lstTarifarioDetalleBean}"
 														varStatus="loop">
 														<f:input type="hidden"    value="${tabla.codigo}" path="lstTarifarioDetalleBean[${loop.index}].codigo" />
@@ -257,12 +256,6 @@ input[type=text] {
 																	<f:input type="text" maxlength="30"
 																		class="form-control" required="required" value="${tabla.valoresRefIni}"
 																		id="unidadMedida${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].valoresRefIni" />
-
-																</div></td>
-															<td><div class="controls">
-																	<f:input type="text" maxlength="30"
-																		class="form-control" required="required" value="${tabla.valoresRefFin}"
-																		id="valoresRef${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].valoresRefFin" />
 
 																</div></td> 
 																	<td><button type='button'
@@ -319,13 +312,12 @@ input[type=text] {
 												<thead class="tabla_th">
 													<tr> 
 														<th>EXAMEN.</th>
-														<th>ABREV</th>
-														<th>UNIDAD DE MEDIDA</th>
-														<th>VALORES REF</th>
+														<th width="100">ABREV</th>
+														<th>UNIDAD DE MEDIDA</th> 
 														<th width="60">ACCION</th>
 													</tr>
 												</thead>
-												<tbody id="idbodyCIEXref" class="label_control">
+												<tbody id="idbodyFormulas" class="label_control">
 													<c:forEach var="tabla" items="${lstTarifarioDetalleBean}"
 														varStatus="loop">
 														<f:input type="hidden"    value="${tabla.codigo}" path="lstTarifarioDetalleBean[${loop.index}].codigo" />
@@ -346,12 +338,6 @@ input[type=text] {
 																	<f:input type="text" maxlength="30"
 																		class="form-control" required="required" value="${tabla.valoresRefIni}"
 																		id="tarifarioValorInicial${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].valoresRefIni" />
-
-																</div></td>
-															<td><div class="controls">
-																	<f:input type="text" maxlength="30"
-																		class="form-control" required="required" value="${tabla.valoresRefFin}"
-																		id="tarifarioValorFinal${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].valoresRefFin" />
 
 																</div></td> 
 																	<td><button type='button'
@@ -594,8 +580,9 @@ function enviarIndex() {
 															console.log("codigo::" +(this
 																	.getElementsByTagName("input")[0].id));	
 															
-															llamarDatos()this
+															llamarDatos(this
 															.getElementsByTagName("input")[0].id);
+															
 								  							inp.value = this
 																	.getElementsByTagName("input")[0].value;
 															$("#txtCodigoExamen").val(this

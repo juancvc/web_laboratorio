@@ -39,7 +39,7 @@ public class ExamenesLaboratorioBean extends BaseBean{
      
 	
 	public TarifarioBean getTarifarioBean() {
-		if (tarifarioBean == new TarifarioBean()) {
+		if (tarifarioBean == null) {
 			tarifarioBean = new TarifarioBean();
 		}
 		return tarifarioBean;
@@ -93,6 +93,9 @@ public class ExamenesLaboratorioBean extends BaseBean{
 	}
 
 	public ExamenUnidadMedidaLaboratorioBean getExamenUnidadMedidaLaboratorioBean() {
+		if (examenUnidadMedidaLaboratorioBean == null) {
+			examenUnidadMedidaLaboratorioBean = new ExamenUnidadMedidaLaboratorioBean();
+		}
 		return examenUnidadMedidaLaboratorioBean;
 	}
 
