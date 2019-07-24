@@ -593,6 +593,9 @@ function enviarIndex() {
 														function(e) {
 															console.log("codigo::" +(this
 																	.getElementsByTagName("input")[0].id));	
+															
+															llamarDatos()this
+															.getElementsByTagName("input")[0].id);
 								  							inp.value = this
 																	.getElementsByTagName("input")[0].value;
 															$("#txtCodigoExamen").val(this
