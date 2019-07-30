@@ -82,6 +82,20 @@ public class AnalisisFormulaLaboratorioServiceImpl implements AnalisisFormulaLab
 		return false;
 	}
 
+	@Override
+	public AnalisisFormulaLaboratorioBean formularResultado(
+			AnalisisFormulaLaboratorioBean analisisFormulaLaboratorioBean) throws ServiceException {
+		AnalisisFormulaLaboratorioBean oAnalisisFormulaLaboratorioBean = null;
+		try {
+		
+			oAnalisisFormulaLaboratorioBean= analisisFormulaLaboratorioDAO.formularResultado(analisisFormulaLaboratorioBean);
+		} catch (Exception e) {
+			 
+		} 
+		 
+		return oAnalisisFormulaLaboratorioBean;
+	}
+
 	 
 	 
 }

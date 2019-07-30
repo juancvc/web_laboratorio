@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
+import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleItemBean;
 import sigelab.core.bean.general.ExamenUnidadMedidaLaboratorioBean;
 import sigelab.core.bean.general.ExamenesLaboratorioBean;
 import sigelab.core.bean.general.PersonaBean;
@@ -25,6 +26,7 @@ import sigelab.core.bean.general.TarifarioBean;
 import sigelab.core.bean.general.ExamenesLaboratorioBean;
 import sigelab.core.bean.general.UbigeoBean;
 import sigelab.core.service.exception.ServiceException;
+import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenDetalleItemService;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service;
 import sigelab.core.service.interfaces.general.ExamenUnidadMedidaLaboratorioService;
 import sigelab.core.service.interfaces.general.ExamenesLaboratorioService;
@@ -46,13 +48,16 @@ public class FormulaController extends BaseController {
 	List<TablaBean> lstNivelInstrucion = new ArrayList<TablaBean>();
 	List<UbigeoBean> lstUbigeoBean = new ArrayList<UbigeoBean>();
 	List<TablaBean> lstTipoExamen = new ArrayList<TablaBean>();
-
+	private List<OrdenDetalleItemBean> lstOrdenDetalleItemBean ; 
+	private List<OrdenDetalleBean>      lstOrdenDetalleBean ; 
 
 	List<TablaBean> lstAreasLab = new ArrayList<TablaBean>();
 
 	PersonaBean personaBean = new PersonaBean();
 	public UbigeoBean ubigeobean;
 	TarifarioBean tarifarioBean = new TarifarioBean();
+	OrdenDetalleItemBean ordenDetalleItemBean = new OrdenDetalleItemBean();
+    OrdenDetalleBean ordenDetalleBean = new OrdenDetalleBean();
 
 	private List<TarifarioBean> lstTarifarioBean;
 	private List<ExamenUnidadMedidaLaboratorioBean> lstExamenUnidadMedidaLaboratorioBean;
@@ -73,6 +78,9 @@ public class FormulaController extends BaseController {
 	
 	@Autowired
 	private ExamenUnidadMedidaLaboratorioService examenUnidadMedidaLaboratorioService;
+	
+	@Autowired
+	private OrdenDetalleItemService ordenDetalleItemService;
 
 	@PostConstruct
 	public void init() {
@@ -413,6 +421,83 @@ public class FormulaController extends BaseController {
 		return lstExamenesLaboratorioBean;
 	}
 	
+	
+	@RequestMapping(value = "/registroResultadoFormula", method = RequestMethod.POST)
+	public ModelAndView doListaOrdenesResultadoFormula(@RequestParam("index") Integer index, HttpServletRequest request) {
+
+		System.out.println("modificar codigo: " + index); 
+		OrdenDetalleBean objOrdenBean = new OrdenDetalleBean(); 
+		objOrdenBean = this.lstOrdenDetalleBean.get(index);
+		System.out.println("modificar objOrdenBean: " + objOrdenBean.getCodigo());
+	    setOrdenDetalleBean(objOrdenBean);
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/formulas/formula-registro-resultados", "command", objOrdenBean); 
+		OrdenDetalleItemBean objOrdenDetalle = new OrdenDetalleItemBean();
+		objOrdenDetalle.setOrdenDetalleBean(objOrdenBean);
+		
+		/**insertamos tabla itemdetalle(solo si existe los registros) para luego consultar los registros****/
+		insertOrdenDetalleItem(objOrdenDetalle, request);
+		try {
+			lstOrdenDetalleItemBean = ordenDetalleItemService.listarAnalisisResultados(objOrdenDetalle);
+		
+	//		setLstOrdenDetalleBean(lstOrdenDetalleBean);
+	//		setLstOrdenDetalleBeanReporte(lstOrdenDetalleBeanReporte);
+			for (OrdenDetalleBean ord : lstOrdenDetalleBean) {
+			//	System.out.println("resultados: " + ord.getResultado());	
+
+				System.out.println("codigo detalle: " + ord.getCodigo()); 
+			}
+		setOrdenDetalleBean(objOrdenBean);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+		mav.addObject("lstOrdenDetalleItemBean", lstOrdenDetalleItemBean); 
+		mav.addObject("ordenBean", objOrdenBean); 
+		this.cargarCombos(mav);
+		return mav;
+	}
+	
+	
+	
+	/*
+	  @RequestMapping(value = "/registroOrdenDetalleItem", method = RequestMethod.GET)
+			public @ResponseBody String registroOrdenDetalleItem(
+				@ModelAttribute("ordendetalleItemBean")OrdenDetalleItemBean ordenBean,HttpServletRequest request) throws Exception {
+			   String resultados="";
+	for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
+		this.setAuditoria(objOrdenDetalleBean, request, true);
+		ordenDetalleItemService.insertar(objOrdenDetalleBean);
+		
+	}
+				//lstOrdenDetalleBean.add(objOrdenDetalleBean);
+				return resultados;
+			}*/
+	    
+	/***para insertar la tabla de detalleItem donde estarán los analisis para formular***/
+	private Boolean insertOrdenDetalleItem(OrdenDetalleItemBean ordenDetalleItemBean,HttpServletRequest request) {
+		
+		OrdenDetalleItemBean uOrdenDetalleItemBean = new OrdenDetalleItemBean();
+		uOrdenDetalleItemBean.setCodigoOrganizacion(ordenDetalleItemBean.getCodigoOrganizacion());
+		uOrdenDetalleItemBean.setCodigoInstitucion(ordenDetalleItemBean.getCodigoInstitucion());
+		uOrdenDetalleItemBean.setCodigoSede(ordenDetalleItemBean.getCodigoSede());
+		OrdenDetalleBean ordenDetalleBean = new OrdenDetalleBean();
+		ordenDetalleBean.setCodigo(ordenDetalleItemBean.getOrdenDetalleBean().getCodigo());
+		ordenDetalleBean.setNumeroPeriodo(ordenDetalleItemBean.getOrdenDetalleBean().getNumeroPeriodo());
+		ordenDetalleBean.setNumeroVersion(ordenDetalleItemBean.getOrdenDetalleBean().getNumeroVersion());
+		uOrdenDetalleItemBean.setOrdenDetalleBean(ordenDetalleBean);
+		this.setAuditoria(uOrdenDetalleItemBean, request, true);
+		try {
+			ordenDetalleItemService.insertar(uOrdenDetalleItemBean);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	
+	
+	
+	
 	public PersonaBean getPersonaBean() {
 		return personaBean;
 	}
@@ -436,5 +521,21 @@ public class FormulaController extends BaseController {
 	public void setLstExamenesLaboratorioBean(List<ExamenesLaboratorioBean> lstExamenesLaboratorioBean) {
 		this.lstExamenesLaboratorioBean = lstExamenesLaboratorioBean;
 	}
+	public OrdenDetalleItemBean getOrdenDetalleItemBean() {
+		return ordenDetalleItemBean;
+	}
+
+	public void setOrdenDetalleItemBean(OrdenDetalleItemBean ordenDetalleItemBean) {
+		this.ordenDetalleItemBean = ordenDetalleItemBean;
+	}
+
+	public OrdenDetalleBean getOrdenDetalleBean() {
+		return ordenDetalleBean;
+	}
+
+	public void setOrdenDetalleBean(OrdenDetalleBean ordenDetalleBean) {
+		this.ordenDetalleBean = ordenDetalleBean;
+	}
+	
 
 }

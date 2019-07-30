@@ -17,6 +17,34 @@ import java.sql.Timestamp;
 							@StoredProcedureParameter(mode = ParameterMode.IN, name ="TIPO", 	 type = String.class) ,
 							@StoredProcedureParameter(mode = ParameterMode.IN, name ="COPROASO", type = String.class) 
 					}),
+			
+			@NamedStoredProcedureQuery(
+					name="analisis_formula_laboratorio.formularResultados", 
+					procedureName="[LABO].[USP_RESULTADOS_ANALISIS_FORMULA]",
+					resultClasses= Analisis_formula_laboratorio.class,
+					parameters={ 
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="VALOR1", 		 type = Float.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="VALOR2", 		 type = Float.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="VALOR3", 		 type = Float.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="VALOR4", 	 	 type = Float.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="VALOR5", 	  	 type = Float.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="VALOR6", 		 type = Float.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="VALOR7", 		 type = Float.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="CODORDDE", 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="COORPRAS", 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="COINPRAS", 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="COSEPRAS", 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="PROCEASO", 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="ABREV", 	 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="ABREV2", 	 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="ABREV3", 	 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="ABREV4", 	 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="ABREV5", 	 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="ABREV6", 	 	 type = String.class) ,
+							@StoredProcedureParameter(mode = ParameterMode.IN, name ="ABREV7", 	 	 type = String.class) 
+					}),
+			
+			
 			@NamedStoredProcedureQuery(
 					name="analisis_formula_laboratorio.registro", 
 					procedureName="[LABO].[USP_ANALIFOR_INSERT]",
@@ -182,6 +210,9 @@ public class Analisis_formula_laboratorio implements Serializable {
 	
 	@Column(name="OBSERVAC")
 	private String observacion;
+	
+	@Column(name="RESULTADO")
+	private float resultado;
 
 	public Analisis_formula_laboratorio() {
 	}
@@ -417,6 +448,17 @@ public class Analisis_formula_laboratorio implements Serializable {
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
 	}
+
+	public float getResultado() {
+		return resultado;
+	}
+
+	public void setResultado(float resultado) {
+		this.resultado = resultado;
+	}
+	
+	
+	
 
 
 	

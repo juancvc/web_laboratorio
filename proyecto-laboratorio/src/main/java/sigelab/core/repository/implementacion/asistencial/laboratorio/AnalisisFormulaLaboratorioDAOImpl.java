@@ -2,7 +2,9 @@ package sigelab.core.repository.implementacion.asistencial.laboratorio;
  
 
 import sigelab.core.bean.asistencial.laboratorio.AnalisisFormulaLaboratorioBean;
+import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.entity.asistencial.laboratorio.Analisis_formula_laboratorio;
+import sigelab.core.entity.general.Persona;
 import sigelab.core.repository.DAOException;
 import sigelab.core.repository.interfaces.asistencial.laboratorio.AnalisisFormulaLaboratorioDAO;
 
@@ -242,6 +244,7 @@ public class AnalisisFormulaLaboratorioDAOImpl implements AnalisisFormulaLaborat
 			bean.getExamenesLaboratorioBean5().setCodigo(entity.getCodigoAnalisisAsociado5());
 			bean.getExamenesLaboratorioBean6().setCodigo(entity.getCodigoAnalisisAsociado6());
 			bean.getExamenesLaboratorioBean7().setCodigo(entity.getCodigoAnalisisAsociado7());
+			bean.setResultado(entity.getResultado());
 		
 
 		}
@@ -253,4 +256,47 @@ public class AnalisisFormulaLaboratorioDAOImpl implements AnalisisFormulaLaborat
 	      DecimalFormat df = new DecimalFormat("0.00"); 
 	      return df.format(value);
 	    }
+
+	@Override
+	public AnalisisFormulaLaboratorioBean formularResultado(
+			AnalisisFormulaLaboratorioBean analisisFormulaLaboratorioBean) throws DAOException {
+		List<Analisis_formula_laboratorio> lstAnalisisFormulaLaboratorio = null;	
+		AnalisisFormulaLaboratorioBean oAnalisisFormulaLaboratorioBean = null;
+		try {
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("analisis_formula_laboratorio.formularResultados");
+			spq.setParameter("VALOR1", analisisFormulaLaboratorioBean.getVal01());
+			spq.setParameter("VALOR2", analisisFormulaLaboratorioBean.getVal02()); 
+			spq.setParameter("VALOR3", analisisFormulaLaboratorioBean.getVal03()); 
+			spq.setParameter("VALOR4", analisisFormulaLaboratorioBean.getVal04()); 
+			spq.setParameter("VALOR5", analisisFormulaLaboratorioBean.getVal05()); 
+			spq.setParameter("VALOR6", analisisFormulaLaboratorioBean.getVal06()); 
+			spq.setParameter("VALOR7", analisisFormulaLaboratorioBean.getVal07()); 
+			spq.setParameter("CODORDDE", analisisFormulaLaboratorioBean.getOrdenDetalleBean().getCodigo()); 
+			spq.setParameter("COORPRAS", analisisFormulaLaboratorioBean.getExamenesLaboratorioFormulaBean().getCodigoOrganizacion()); 
+			spq.setParameter("COINPRAS", analisisFormulaLaboratorioBean.getExamenesLaboratorioFormulaBean().getCodigoInstitucion()); 
+			spq.setParameter("COSEPRAS", analisisFormulaLaboratorioBean.getExamenesLaboratorioFormulaBean().getCodigoSede()); 
+			spq.setParameter("PROCEASO", analisisFormulaLaboratorioBean.getExamenesLaboratorioFormulaBean().getCodigo()); 
+			spq.setParameter("ABREV", analisisFormulaLaboratorioBean.getAbreviat1()); 
+			spq.setParameter("ABREV2", analisisFormulaLaboratorioBean.getAbreviat2()); 
+			spq.setParameter("ABREV3", analisisFormulaLaboratorioBean.getAbreviat3()); 
+			spq.setParameter("ABREV4", analisisFormulaLaboratorioBean.getAbreviat4()); 
+			spq.setParameter("ABREV5", analisisFormulaLaboratorioBean.getAbreviat5()); 
+			spq.setParameter("ABREV6", analisisFormulaLaboratorioBean.getAbreviat6()); 
+			spq.setParameter("ABREV7", analisisFormulaLaboratorioBean.getAbreviat7()); 
+			
+			if (spq.execute()) {
+				lstAnalisisFormulaLaboratorio =  spq.getResultList(); 
+			} 
+			if (lstAnalisisFormulaLaboratorio != null && lstAnalisisFormulaLaboratorio.size() > 0) {
+				
+				oAnalisisFormulaLaboratorioBean = deTarifarioAAnalisisFormulaLaboratorioBean(lstAnalisisFormulaLaboratorio.get(0));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(e);
+		}finally{
+			em.close();
+		} 
+		return oAnalisisFormulaLaboratorioBean;
+	}
 }

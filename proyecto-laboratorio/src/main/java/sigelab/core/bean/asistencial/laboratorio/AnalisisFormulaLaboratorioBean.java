@@ -23,8 +23,27 @@ public class AnalisisFormulaLaboratorioBean extends BaseBean{
 	private ExamenesLaboratorioBean examenesLaboratorioBean5;
 	private ExamenesLaboratorioBean examenesLaboratorioBean6;
 	private ExamenesLaboratorioBean examenesLaboratorioBean7;
+	private OrdenDetalleBean  ordenDetalleBean;
 	private String observacion;
 	private String cadenaFormula;
+	
+	/***parámetros para formular****/
+	private float val01;
+	private float val02;
+	private float val03;
+	private float val04;
+	private float val05;
+	private float val06;
+	private float val07;
+	private String abreviat1;
+	private String abreviat2;
+	private String abreviat3;
+	private String abreviat4;
+	private String abreviat5;
+	private String abreviat6;
+	private String abreviat7;
+	
+	private float resultado;
 	
 	public AnalisisFormulaLaboratorioBean() {
 		super();
@@ -263,6 +282,230 @@ public class AnalisisFormulaLaboratorioBean extends BaseBean{
 
 	public void setCadenaFormula(String cadenaFormula) {
 		this.cadenaFormula = cadenaFormula;
+	}
+
+
+
+
+	public float getVal01() {
+		return val01;
+	}
+
+
+
+
+	public void setVal01(float val01) {
+		this.val01 = val01;
+	}
+
+
+
+
+	public float getVal02() {
+		return val02;
+	}
+
+
+
+
+	public void setVal02(float val02) {
+		this.val02 = val02;
+	}
+
+
+
+
+	public float getVal03() {
+		return val03;
+	}
+
+
+
+
+	public void setVal03(float val03) {
+		this.val03 = val03;
+	}
+
+
+
+
+	public float getVal04() {
+		return val04;
+	}
+
+
+
+
+	public void setVal04(float val04) {
+		this.val04 = val04;
+	}
+
+
+
+
+	public float getVal05() {
+		return val05;
+	}
+
+
+
+
+	public void setVal05(float val05) {
+		this.val05 = val05;
+	}
+
+
+
+
+	public float getVal06() {
+		return val06;
+	}
+
+
+
+
+	public void setVal06(float val06) {
+		this.val06 = val06;
+	}
+
+
+
+
+	public float getVal07() {
+		return val07;
+	}
+
+
+
+
+	public void setVal07(float val07) {
+		this.val07 = val07;
+	}
+
+
+
+
+	public float getResultado() {
+		return resultado;
+	}
+
+
+
+
+	public void setResultado(float resultado) {
+		this.resultado = resultado;
+	}
+
+
+
+
+	public OrdenDetalleBean getOrdenDetalleBean() {
+		return ordenDetalleBean;
+	}
+
+
+
+
+	public void setOrdenDetalleBean(OrdenDetalleBean ordenDetalleBean) {
+		this.ordenDetalleBean = ordenDetalleBean;
+	}
+
+
+
+
+	public String getAbreviat1() {
+		return abreviat1;
+	}
+
+
+
+
+	public void setAbreviat1(String abreviat1) {
+		this.abreviat1 = abreviat1;
+	}
+
+
+
+
+	public String getAbreviat2() {
+		return abreviat2;
+	}
+
+
+
+
+	public void setAbreviat2(String abreviat2) {
+		this.abreviat2 = abreviat2;
+	}
+
+
+
+
+	public String getAbreviat3() {
+		return abreviat3;
+	}
+
+
+
+
+	public void setAbreviat3(String abreviat3) {
+		this.abreviat3 = abreviat3;
+	}
+
+
+
+
+	public String getAbreviat4() {
+		return abreviat4;
+	}
+
+
+
+
+	public void setAbreviat4(String abreviat4) {
+		this.abreviat4 = abreviat4;
+	}
+
+
+
+
+	public String getAbreviat5() {
+		return abreviat5;
+	}
+
+
+
+
+	public void setAbreviat5(String abreviat5) {
+		this.abreviat5 = abreviat5;
+	}
+
+
+
+
+	public String getAbreviat6() {
+		return abreviat6;
+	}
+
+
+
+
+	public void setAbreviat6(String abreviat6) {
+		this.abreviat6 = abreviat6;
+	}
+
+
+
+
+	public String getAbreviat7() {
+		return abreviat7;
+	}
+
+
+
+
+	public void setAbreviat7(String abreviat7) {
+		this.abreviat7 = abreviat7;
 	}
 	
 	

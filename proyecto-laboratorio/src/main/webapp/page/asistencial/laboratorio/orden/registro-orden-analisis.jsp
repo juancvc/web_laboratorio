@@ -498,6 +498,9 @@
 		<script
 			src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
 			type="text/javascript" charset="utf-8"></script>
+	    <script
+			src="${pageContext.request.contextPath}/assets/js/page/asistencial/formulas.js"
+			type="text/javascript" charset="utf-8"></script>     		
 		<script
 			src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/toastr.min.js"
 			type="text/javascript"></script>
