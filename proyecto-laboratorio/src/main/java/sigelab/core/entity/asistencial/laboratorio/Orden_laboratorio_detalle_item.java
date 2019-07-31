@@ -130,6 +130,22 @@ public class Orden_laboratorio_detalle_item implements Serializable {
 	
 	@Column(name = "NROPPRAS")
 	private String nroPeriodoExamenLaboratorio;
+	
+	@Column(name = "DESCORTA")
+	private String descripcionExamenAsociado;
+	
+	@Column(name = "ABREVIAT")
+	private String abrevExamenAsociado;
+	
+	@Column(name = "DESCRIPCION")
+	private String descripcionUnidadMedida;
+	
+	@Column(name = "ABREVIATURA")
+	private String abrevUnidadMedida;
+	
+	@Column(name = "TIPO")
+	private String tipo;
+
 
 	public Orden_laboratorio_detalle_item() {
 		
@@ -266,6 +282,53 @@ public class Orden_laboratorio_detalle_item implements Serializable {
 
 	public void setResultadoFormula(double resultadoFormula) {
 		this.resultadoFormula = resultadoFormula;
+	}
+	
+	
+	
+	
+
+	public String getDescripcionExamenAsociado() {
+		return descripcionExamenAsociado;
+	}
+
+	public void setDescripcionExamenAsociado(String descripcionExamenAsociado) {
+		this.descripcionExamenAsociado = descripcionExamenAsociado;
+	}
+
+	public String getAbrevExamenAsociado() {
+		return abrevExamenAsociado;
+	}
+
+	public void setAbrevExamenAsociado(String abrevExamenAsociado) {
+		this.abrevExamenAsociado = abrevExamenAsociado;
+	}
+
+	public String getDescripcionUnidadMedida() {
+		return descripcionUnidadMedida;
+	}
+
+	public void setDescripcionUnidadMedida(String descripcionUnidadMedida) {
+		this.descripcionUnidadMedida = descripcionUnidadMedida;
+	}
+
+	public String getAbrevUnidadMedida() {
+		return abrevUnidadMedida;
+	}
+
+	public void setAbrevUnidadMedida(String abrevUnidadMedida) {
+		this.abrevUnidadMedida = abrevUnidadMedida;
+	}
+	
+	
+	
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	@Override

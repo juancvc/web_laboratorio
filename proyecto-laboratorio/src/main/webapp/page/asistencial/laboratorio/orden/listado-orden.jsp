@@ -267,6 +267,8 @@
 					<div class="modal-content" id="modalAnalisisContent"></div>
 				</div>
 			</div>
+			
+		
 
 
 		<div class="modal fade text-xs-left" id="md_confirmacion"

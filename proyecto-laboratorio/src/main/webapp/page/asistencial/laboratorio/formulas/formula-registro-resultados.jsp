@@ -123,9 +123,9 @@ input[type=text] {
 													</tr>
 												</thead>
 												<tbody id="idbodyCIEXref" class="label_control">
-													<c:forEach var="orden" items="${lstOrdenDetalleBean}"
+													<c:forEach var="orden" items="${lstOrdenDetalleItemBean}"
 														varStatus="loop">
-					<f:input type="hidden" id="codigo" value="${orden.codigo}" path="lstOrdenDetalleBean[${loop.index}].codigo" />
+					<f:input type="hidden" id="codigo" value="${orden.codigo}" path="lstOrdenDetalleItemBean[${loop.index}].codigo" />
 					
 					<f:input type="hidden" id="numeroVersion" value="${orden.numeroVersion}" path="lstOrdenDetalleBean[${loop.index}].numeroVersion" />
 					<f:input type="hidden" id="numeroPeriodo" value="${orden.numeroPeriodo}" path="lstOrdenDetalleBean[${loop.index}].numeroPeriodo" />
@@ -134,9 +134,9 @@ input[type=text] {
 					<f:input type="hidden" id="codigoInstitucion" value="${orden.codigoInstitucion}" path="lstOrdenDetalleBean[${loop.index}].codigoInstitucion" />
 														<tr>
 															<td>${loop.count}</td>
-															<td>${orden.examen.descripcion}</td>
-															<td>${orden.examen.tipo.nombreCorto}</td>
-															<td>${orden.sImporte}</td>
+															<td>${orden.examenesLaboratorioBean.descripcion}</td>
+															<td>${orden.examenesLaboratorioBean.tipoExamenAsoc}</td>
+															<td>${orden.examenesLaboratorioBean.examenUnidadMedidaLaboratorioBean.abrev}</td>
 															<td>
 															<c:choose>
 															<c:when test="${orden.resultado==null || orden.resultado==''}">
@@ -162,20 +162,7 @@ input[type=text] {
 									
 								</div>
 							
-								<div class="row">
-									<div class="form-group col-md-9 text-right"
-										style="margin-top: 2px;"></div>
-									<div class="form-group col-md-3 text-right"
-										style="margin-top: 2px;">
-										<label for="nombreCompleto" class="label_control">IMPORTE
-											TOTAL S/. </label>
-										<f:input type="text" path="sImporteTotal" class="form-control"
-											id="txtCajaImporteTotal" readonly="true" maxlength="10" />
-
-										<f:input type="hidden" path="importeTotal"
-											id="txtCajaImporteTotalHidden" />
-									</div>
-								</div>
+							
 								
 							</div>
 			
@@ -194,9 +181,14 @@ input[type=text] {
 					<i class="fa fa-eraser"></i> LIMPIAR
 				</button>
 
-				<button type="submit" onclick="grabarPersona()"
+				<button type="submit" onclick="grabarResultados()"
 					class="btn btn-primary">
 					<i class="fa fa-floppy-o"></i> GRABAR
+				</button>
+				
+				<button type="submit"
+					class="btn btn-primary">
+					<i class="fa fa-print"></i> IMPRIMIR
 				</button>
 			</div>
 

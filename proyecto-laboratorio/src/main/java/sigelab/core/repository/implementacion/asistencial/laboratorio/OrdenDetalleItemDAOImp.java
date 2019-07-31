@@ -195,6 +195,11 @@ private List<OrdenDetalleItemBean> deListaObjetoAListaObjetoBean(List<Orden_labo
 			bean.setResultadoFormula(entity.getResultadoFormula());
 			bean.setCodigoUsuarioCreacion(entity.getUsuarioCreacion());
 			bean.setFechaCreacion(entity.getAufechcr());
+			bean.getExamenesLaboratorioBean().setDescripcion(entity.getDescripcionExamenAsociado());
+			bean.getExamenesLaboratorioBean().setAbrev(entity.getAbrevExamenAsociado());
+			bean.getExamenesLaboratorioBean().setTipoExamenAsoc(entity.getTipo());
+			bean.getExamenesLaboratorioBean().getExamenUnidadMedidaLaboratorioBean().setDescripcion(entity.getDescripcionUnidadMedida());
+			bean.getExamenesLaboratorioBean().getExamenUnidadMedidaLaboratorioBean().setAbrev(entity.getAbrevUnidadMedida());
 	 	}
 		
 		return bean;

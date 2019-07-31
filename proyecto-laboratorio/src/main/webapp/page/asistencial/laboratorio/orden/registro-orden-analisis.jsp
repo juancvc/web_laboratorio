@@ -305,7 +305,7 @@
 																			class='btn btn-outline-danger btn-sm'
 																			data-toggle='tooltip' data-placement='top'
 																			title='Agregar Resultado'
-																			onclick=''
+																			onclick='cargarResultadoAnalisisModal(${loop.index})'
 																			data-original-title='Agregar' id='agregarResultado'>
 																			<i class='icon-plus'></i>
 																		</button>
@@ -425,6 +425,13 @@
 				aria-hidden="true" aria-hidden="true">
 				<div class="modal-dialog-centered" role="document">
 					<div class="modal-content" id="modalEmailContent"></div>
+				</div>
+			</div>
+					<div class="modal fade text-xs-left" id="modalResuladoAnalisis" tabindex="-2"
+				role="dialog" aria-labelledby="myModalLabel35" data-dismiss="modal"
+				aria-hidden="true" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content" id="modalResuladoAnalisisContent"></div>
 				</div>
 			</div>
 
