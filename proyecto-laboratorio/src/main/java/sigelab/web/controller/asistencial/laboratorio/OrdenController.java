@@ -44,11 +44,13 @@ import sigelab.core.bean.asistencial.banco.PostulanteBean;
 
 import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
+import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleItemBean;
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.TarifarioBean;
 import sigelab.core.bean.general.UbigeoBean;
 import sigelab.core.service.exception.ServiceException;
+import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenDetalleItemService;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenDetalleService;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenService;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service; 
@@ -86,37 +88,20 @@ public class OrdenController  extends BaseController {
 	private String archivooPDF="";
 	String usuarioWindows = System.getProperty("user.name");
 
+	OrdenDetalleItemBean ordenDetalleItemBean = new OrdenDetalleItemBean();
+    OrdenDetalleBean ordenDetalleBean = new OrdenDetalleBean();
+    
+    @Autowired
+	private OrdenDetalleItemService ordenDetalleItemService;
+    
 	
-	public String getEmailDestinatario() {
-		return emailDestinatario;
-	}
-
-	public void setEmailDestinatario(String emailDestinatario) {
-		this.emailDestinatario = emailDestinatario;
-	}
-
-	public String getAsunto() {
-		return asunto;
-	}
-
-	public void setAsunto(String asunto) {
-		this.asunto = asunto;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
 	PersonaBean personaBean = new PersonaBean();  
 	private UbigeoBean ubigeobean;
 	private List<TarifarioBean> lstTarifarioBean ; 
 	private List<OrdenDetalleBean> lstOrdenDetalleBean ;  
 	private List<OrdenDetalleBean> lstOrdenDetalleBeanReporte ;  
 	
+	private List<OrdenDetalleItemBean> lstOrdenDetalleItemBean ;  
 	
 	private List<OrdenBean> lstOrdenBean ;  
 	
@@ -634,8 +619,62 @@ public class OrdenController  extends BaseController {
 		return mav;
 	}
 	
+	/***para insertar la tabla de detalleItem donde estarán los analisis para formular***/
+	private Boolean insertOrdenDetalleItem(OrdenDetalleItemBean ordenDetalleItemBean,HttpServletRequest request) {
+		
+		OrdenDetalleItemBean uOrdenDetalleItemBean = new OrdenDetalleItemBean();
+		uOrdenDetalleItemBean.setCodigoOrganizacion(ordenDetalleItemBean.getCodigoOrganizacion());
+		uOrdenDetalleItemBean.setCodigoInstitucion(ordenDetalleItemBean.getCodigoInstitucion());
+		uOrdenDetalleItemBean.setCodigoSede(ordenDetalleItemBean.getCodigoSede());
+		OrdenDetalleBean ordenDetalleBean = new OrdenDetalleBean();
+		ordenDetalleBean.setCodigo(ordenDetalleItemBean.getOrdenDetalleBean().getCodigo());
+		ordenDetalleBean.setNumeroPeriodo(ordenDetalleItemBean.getOrdenDetalleBean().getNumeroPeriodo());
+		ordenDetalleBean.setNumeroVersion(ordenDetalleItemBean.getOrdenDetalleBean().getNumeroVersion());
+		uOrdenDetalleItemBean.setOrdenDetalleBean(ordenDetalleBean);
+		this.setAuditoria(uOrdenDetalleItemBean, request, true);
+		try {
+			ordenDetalleItemService.insertar(uOrdenDetalleItemBean);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
 	
 
+	@RequestMapping(value = "/registroResultadoFormulaModal", method = RequestMethod.POST)
+	public ModelAndView doListaOrdenesResultadoFormula(@RequestParam("index") Integer index, HttpServletRequest request) {
+		lstOrdenDetalleItemBean = new ArrayList<OrdenDetalleItemBean>();
+		System.out.println("modificar codigo: " + index); 
+		OrdenDetalleBean objOrdenBean = new OrdenDetalleBean(); 
+		objOrdenBean = this.lstOrdenDetalleBean.get(index);
+		System.out.println("modificar objOrdenBean: " + objOrdenBean.getCodigo());
+	    setOrdenDetalleBean(objOrdenBean);
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/formulas/formula-registro-resultados", "command", objOrdenBean); 
+		OrdenDetalleItemBean objOrdenDetalle = new OrdenDetalleItemBean();
+		objOrdenDetalle.setOrdenDetalleBean(objOrdenBean);
+		
+		/**insertamos tabla itemdetalle(solo si existe los registros) para luego consultar los registros****/
+		insertOrdenDetalleItem(objOrdenDetalle, request);
+		try {
+			lstOrdenDetalleItemBean = ordenDetalleItemService.listarAnalisisResultados(objOrdenDetalle);
+		
+	//		setLstOrdenDetalleBean(lstOrdenDetalleBean);
+	//		setLstOrdenDetalleBeanReporte(lstOrdenDetalleBeanReporte);
+			for (OrdenDetalleBean ord : lstOrdenDetalleBean) {
+			//	System.out.println("resultados: " + ord.getResultado());	
+
+				System.out.println("codigo detalle: " + ord.getCodigo()); 
+			}
+		setOrdenDetalleBean(objOrdenBean);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+		mav.addObject("lstOrdenDetalleItemBean", lstOrdenDetalleItemBean); 
+		mav.addObject("ordenBean", objOrdenBean); 
+		this.cargarCombos(mav);
+		return mav;
+	}
 	
 	
 	
@@ -884,7 +923,46 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 		this.lstOrdenDetalleBeanReporte = lstOrdenDetalleBeanReporte;
 	}
 	
-	
+	public String getEmailDestinatario() {
+		return emailDestinatario;
+	}
+
+	public void setEmailDestinatario(String emailDestinatario) {
+		this.emailDestinatario = emailDestinatario;
+	}
+
+	public String getAsunto() {
+		return asunto;
+	}
+
+	public void setAsunto(String asunto) {
+		this.asunto = asunto;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public OrdenDetalleItemBean getOrdenDetalleItemBean() {
+		return ordenDetalleItemBean;
+	}
+
+	public void setOrdenDetalleItemBean(OrdenDetalleItemBean ordenDetalleItemBean) {
+		this.ordenDetalleItemBean = ordenDetalleItemBean;
+	}
+
+	public OrdenDetalleBean getOrdenDetalleBean() {
+		return ordenDetalleBean;
+	}
+
+	public void setOrdenDetalleBean(OrdenDetalleBean ordenDetalleBean) {
+		this.ordenDetalleBean = ordenDetalleBean;
+	}
+
 
 }
 

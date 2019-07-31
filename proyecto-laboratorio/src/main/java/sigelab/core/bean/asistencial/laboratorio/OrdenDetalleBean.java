@@ -1,6 +1,7 @@
 package sigelab.core.bean.asistencial.laboratorio;
   
 import java.text.DecimalFormat;
+import java.util.List;
 
 import sigelab.base.bean.BaseBean; 
 import sigelab.core.bean.general.TarifarioBean;
@@ -15,6 +16,8 @@ public class OrdenDetalleBean extends BaseBean{
 	private TarifarioBean examen;
 	private String sImporte; 
 	private String resultado;
+	
+	private List<OrdenDetalleItemBean> lstOrdenDetalleItemBean;
 	
 	public String getsImporte() {
 		return sImporte;
@@ -67,6 +70,12 @@ public class OrdenDetalleBean extends BaseBean{
 	}
 	public void setResultado(String resultado) {
 		this.resultado = resultado;
+	}
+	public List<OrdenDetalleItemBean> getLstOrdenDetalleItemBean() {
+		return lstOrdenDetalleItemBean;
+	}
+	public void setLstOrdenDetalleItemBean(List<OrdenDetalleItemBean> lstOrdenDetalleItemBean) {
+		this.lstOrdenDetalleItemBean = lstOrdenDetalleItemBean;
 	}
 	
 	

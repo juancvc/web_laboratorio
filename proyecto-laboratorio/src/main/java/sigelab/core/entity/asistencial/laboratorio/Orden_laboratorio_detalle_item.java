@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDAS", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.OUT, name = "CODORDAS", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDDE", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NRVEORDE", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPORDE", type = String.class),
@@ -55,8 +55,11 @@ import java.sql.Timestamp;
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHASTA", type = String.class) ,
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "SITUACRG", type = String.class) 
  }),
+
 @NamedStoredProcedureQuery(name = "ordenDetalleItem.buscarPorCodigoDetalle",
+
 		procedureName = "[LABO].[USP_ORDET_ITEM_LISTAR_X_CODDETALLE]",
+		
 	    resultClasses = Orden_laboratorio_detalle_item.class, parameters = {
 		
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class) ,
@@ -64,6 +67,7 @@ import java.sql.Timestamp;
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class) ,
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDEN", type = String.class) 
 }),
+
 @NamedStoredProcedureQuery(name = "ordenDetalleItem.buscarPorObjeto", procedureName = "[SIGEHOV2BANC].[BANC].[POSTULANTE_CAMPANIA_LISTA_X_OBJETO]", resultClasses = Orden_laboratorio_detalle_item.class, parameters = {
 		
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class) ,

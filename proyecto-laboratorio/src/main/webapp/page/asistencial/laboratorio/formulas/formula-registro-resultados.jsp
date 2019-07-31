@@ -124,15 +124,8 @@ input[type=text] {
 												</thead>
 												<tbody id="idbodyCIEXref" class="label_control">
 													<c:forEach var="orden" items="${lstOrdenDetalleItemBean}"
-														varStatus="loop">
-					<f:input type="hidden" id="codigo" value="${orden.codigo}" path="lstOrdenDetalleItemBean[${loop.index}].codigo" />
-					
-					<f:input type="hidden" id="numeroVersion" value="${orden.numeroVersion}" path="lstOrdenDetalleBean[${loop.index}].numeroVersion" />
-					<f:input type="hidden" id="numeroPeriodo" value="${orden.numeroPeriodo}" path="lstOrdenDetalleBean[${loop.index}].numeroPeriodo" />
-					<f:input type="hidden" id="codigoOrganizacion" value="${orden.codigoOrganizacion}" path="lstOrdenDetalleBean[${loop.index}].codigoOrganizacion" />
-					<f:input type="hidden" id="codigoSede" value="${orden.codigoSede}" path="lstOrdenDetalleBean[${loop.index}].codigoSede" />
-					<f:input type="hidden" id="codigoInstitucion" value="${orden.codigoInstitucion}" path="lstOrdenDetalleBean[${loop.index}].codigoInstitucion" />
-														<tr>
+														varStatus="loop"> 
+				 										<tr>
 															<td>${loop.count}</td>
 															<td>${orden.examenesLaboratorioBean.descripcion}</td>
 															<td>${orden.examenesLaboratorioBean.tipoExamenAsoc}</td>
@@ -143,7 +136,7 @@ input[type=text] {
 															
 																	<f:input type="text" min="1" maxlength="50"
 																		class="form-control" required="required"
-																		id="tarifarioUnidades" path="lstOrdenDetalleBean[${loop.index}].resultado" />
+																		id="tarifarioUnidades" path="lstOrdenDetalleItemBean[${loop.index}].resultado" />
 																
 																
 																</c:when> 

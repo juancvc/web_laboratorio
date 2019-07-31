@@ -976,7 +976,7 @@ function cargarResultadoAnalisisModal(index) {
 	// var codigoLengua = $('#codigoLengua').val(); //
 	// document.getElementById("codigoLengua").value;
 
-	path = contextPath + "/formulaController/registroResultadoFormulaModal?index="+index ;
+	path = contextPath + "/ordenController/registroResultadoFormulaModal?index="+index ;
 	// alert("path " + path)
 		$.ajax({
 			type : "POST",

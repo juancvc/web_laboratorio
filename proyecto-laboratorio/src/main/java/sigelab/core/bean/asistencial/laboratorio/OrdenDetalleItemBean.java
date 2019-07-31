@@ -26,12 +26,18 @@ public class OrdenDetalleItemBean extends BaseBean{
 	
 	
 	public ExamenesLaboratorioBean getExamenesLaboratorioBean() {
+		if (examenesLaboratorioBean == null) {
+			examenesLaboratorioBean = new ExamenesLaboratorioBean();
+		}
 		return examenesLaboratorioBean;
 	}
 	public void setExamenesLaboratorioBean(ExamenesLaboratorioBean examenesLaboratorioBean) {
 		this.examenesLaboratorioBean = examenesLaboratorioBean;
 	}
 	public OrdenDetalleBean getOrdenDetalleBean() {
+		if (ordenDetalleBean == null) {
+			ordenDetalleBean = new OrdenDetalleBean();
+		}
 		return ordenDetalleBean;
 	}
 	public void setOrdenDetalleBean(OrdenDetalleBean ordenDetalleBean) {

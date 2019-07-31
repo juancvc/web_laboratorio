@@ -37,6 +37,7 @@ public class OrdenDetalleItemDAOImp implements OrdenDetalleItemDAO {
 			spq.setParameter("CODORGAN", ordenDetalleItemBean.getCodigoOrganizacion());
 			spq.setParameter("CODINSTI", ordenDetalleItemBean.getCodigoInstitucion());
 			spq.setParameter("CODSEDEI", ordenDetalleItemBean.getCodigoSede()); 
+			
 			spq.setParameter("CODORDDE", ordenDetalleItemBean.getOrdenDetalleBean().getCodigo()); 
 			spq.setParameter("NRVEORDE", ordenDetalleItemBean.getOrdenDetalleBean().getNumeroVersion()); 
 			spq.setParameter("NROPORDE", ordenDetalleItemBean.getOrdenDetalleBean().getNumeroPeriodo()); 
@@ -48,10 +49,10 @@ public class OrdenDetalleItemDAOImp implements OrdenDetalleItemDAO {
 			spq.execute();
 			
 			id = spq.getOutputParameterValue(4); 
-			nroPeriodo = spq.getOutputParameterValue(9); 
+			//nroPeriodo = spq.getOutputParameterValue(9); 
 			if (id != null) {
 				ordenDetalleItemBean.setCodigo(id.toString());
-				ordenDetalleItemBean.setNumeroPeriodo(nroPeriodo.toString()); 
+				//ordenDetalleItemBean.setNumeroPeriodo(nroPeriodo.toString()); 
 				sw=true;
 			}
 		} catch (Exception e) {
@@ -68,7 +69,7 @@ public class OrdenDetalleItemDAOImp implements OrdenDetalleItemDAO {
 
 		boolean sw=false;
 		try {
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("Orden.modificar"); 
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("ordenDetalleItem.modificar"); 
 			spq.setParameter("CODORGAN", ordenDetalleItemBean.getCodigoOrganizacion());
 			spq.setParameter("CODINSTI", ordenDetalleItemBean.getCodigoInstitucion());
 			spq.setParameter("CODSEDEI", ordenDetalleItemBean.getCodigoSede()); 
@@ -96,7 +97,7 @@ public class OrdenDetalleItemDAOImp implements OrdenDetalleItemDAO {
 
 		boolean sw=false;
 		try {
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("orden.eliminar"); 
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("ordenDetalleItem.eliminar"); 
 			spq.setParameter("CODORGAN", ordenDetalleItemBean.getCodigoOrganizacion());
 			spq.setParameter("CODINSTI", ordenDetalleItemBean.getCodigoInstitucion());
 			spq.setParameter("CODSEDEI", ordenDetalleItemBean.getCodigoSede()); 
@@ -132,7 +133,7 @@ public class OrdenDetalleItemDAOImp implements OrdenDetalleItemDAO {
 		List<Orden_laboratorio_detalle_item> lstOrden = null;	
 		List<OrdenDetalleItemBean> lstOrdenDetalleItemBean = null;
 		
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("orden.buscarPorFiltros");   
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("ordenDetalleItem.buscarPorFiltros");   
 			spq.setParameter("FECDESDE", OrdenDetalleItemBean.getFechaDesde()); 
 			spq.setParameter("FECHASTA", OrdenDetalleItemBean.getFechaHasta()); 
 			spq.setParameter("SITUACRG", OrdenDetalleItemBean.getSituacion().getCodReg()); 
@@ -184,14 +185,17 @@ private List<OrdenDetalleItemBean> deListaObjetoAListaObjetoBean(List<Orden_labo
 			bean.setCodigoOrganizacion(entity.getId().getCodorgan());
 			bean.setNumeroVersion(entity.getId().getNroversi());
 			bean.setNumeroPeriodo(entity.getId().getNroperio()); 
+			
 			bean.getSituacion().setCodReg(entity.getSituacRg()); 
 			bean.setResultado(entity.getResultado());
 			bean.getExamenesLaboratorioBean().setCodigo(entity.getCodigoExamenLaboratorio());
 			bean.getExamenesLaboratorioBean().setNumeroPeriodo(entity.getNroPeriodoExamenLaboratorio());
 			bean.getExamenesLaboratorioBean().setNumeroVersion(entity.getNroVersionExamenLaboratorio());
+			
 			bean.getOrdenDetalleBean().setCodigo(entity.getCodigoOrdenDetalle());
 			bean.getOrdenDetalleBean().setNumeroPeriodo(entity.getNroPeriodoOrdenDetalle());
 			bean.getOrdenDetalleBean().setNumeroVersion(entity.getNroVersionOrdenDetalle());
+			
 			bean.setResultadoFormula(entity.getResultadoFormula());
 			bean.setCodigoUsuarioCreacion(entity.getUsuarioCreacion());
 			bean.setFechaCreacion(entity.getAufechcr());
@@ -221,14 +225,16 @@ private List<OrdenDetalleItemBean> deListaObjetoAListaObjetoBean(List<Orden_labo
 	@Override
 	public List<OrdenDetalleItemBean> listarAnalisisResultados(OrdenDetalleItemBean ordenDetalleItemBean)
 			throws DAOException {
+		
 		List<Orden_laboratorio_detalle_item> lstOrden = null;	
 		List<OrdenDetalleItemBean> lstOrdenDetalleItemBean = null;
 		
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("orden.buscarPorCodigoDetalle");   
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("ordenDetalleItem.buscarPorCodigoDetalle");   
 			spq.setParameter("CODORGAN", ordenDetalleItemBean.getCodigoOrganizacion()); 
 			spq.setParameter("CODINSTI", ordenDetalleItemBean.getCodigoInstitucion()); 
 			spq.setParameter("CODSEDEI", ordenDetalleItemBean.getCodigoSede()); 
-			spq.setParameter("CODORDDE", ordenDetalleItemBean.getOrdenDetalleBean().getCodigo()); 
+			spq.setParameter("CODORDEN", ordenDetalleItemBean.getOrdenDetalleBean().getCodigo()); 
+							  
 			 if (spq.execute()) {
 				 lstOrden =  spq.getResultList(); 
 			 }
