@@ -423,7 +423,7 @@ public class FormulaController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value = "/registroResultadoFormula", method = RequestMethod.POST)
+	@RequestMapping(value = "/registroResultadoFormulaModal", method = RequestMethod.POST)
 	public ModelAndView doListaOrdenesResultadoFormula(@RequestParam("index") Integer index, HttpServletRequest request) {
 
 		System.out.println("modificar codigo: " + index); 

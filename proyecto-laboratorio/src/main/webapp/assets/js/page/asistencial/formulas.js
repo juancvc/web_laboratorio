@@ -971,3 +971,27 @@ function llamarDatos(codigo){
 		
 }
 
+function cargarResultadoAnalisisModal(index) {
+	var contextPath = $('#contextPath').val();
+	// var codigoLengua = $('#codigoLengua').val(); //
+	// document.getElementById("codigoLengua").value;
+
+	path = contextPath + "/formulaController/registroResultadoFormulaModal?index="+index ;
+	// alert("path " + path)
+		$.ajax({
+			type : "POST",
+			url : path,
+
+			success : function(data) {
+				// console.log("SUCCESS: ", data);
+				$("#modalResuladoAnalisis").html(data); 
+				$("#modalResuladoAnalisis").modal('show'); 
+			//	$("#txtDescripcion").focus(); 
+			},
+			error : function(request, status, error) {
+				console.log("ERROR: " + error);
+			}
+		}); 
+}
+
+
