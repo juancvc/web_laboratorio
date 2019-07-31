@@ -69,10 +69,9 @@
 </head>
 
 <style>
-
 body {
-font-family: Cambria;
-font-size: 13px;  
+	font-family: Cambria;
+	font-size: 13px;
 }
 
 #datepicker {
@@ -100,9 +99,8 @@ font-size: 13px;
 	display: inline-block;
 }
 
-
 input {
-	border: 1px solid transparent; 
+	border: 1px solid transparent;
 	font-size: 13px;
 }
 
@@ -176,45 +174,46 @@ input[type=text] {
 					<f:input type="hidden" id="codigoSede" path="codigoSede" />
 					<f:input type="hidden" id="codigoInstitucion"
 						path="codigoInstitucion" />
-				
+
 					<div class="card-body">
 						<div class="form-group">
-					
-							
-							
-							
+
+
+
+
 
 							<div class="label_title">
 								EXÁMEN(ES) <span class="required">*</span>:
 							</div>
 							<div id="panelCEX" class="panel_style col-md-12">
-							
+
 								<div class="row">
 									<div class="col-md-8 mb-3">
-										<label for="nombreCompleto" class="label_control">BUSCAR EXAMEN </label>
+										<label for="nombreCompleto" class="label_control">BUSCAR
+											EXAMEN </label>
 										<div class="controls">
-											<div class="autocomplete" style="width:100%;">   
+											<div class="autocomplete" style="width: 100%;">
 												<input type="text" value="" placeholder="Buscar..."
-													class="form-control"  
-													id="txtExamenNombre" name="txtExamenNombre"  />
-											</div> 
+													class="form-control" id="txtExamenNombre"
+													name="txtExamenNombre" />
+											</div>
 										</div>
 									</div>
-								
-								</div> 
-							
-						
-							
-								
+
+								</div>
+
+
+
+
 							</div>
 						</div>
-						
-							<div class="label_title">
-								INGRESAR EXÁMENES ASOCIADOS <span class="required">*</span>:
-							</div>
+
+						<div class="label_title">
+							INGRESAR EXÁMENES ASOCIADOS <span class="required">*</span>:
+						</div>
 						<div id="panelCEX" class="panel_style col-md-12">
-						<f:form id="frmGuardarAsociados" class="form-horizontal" role="form"
-					method="post" action="" onsubmit="return false">
+							<f:form id="frmGuardarAsociados" class="form-horizontal"
+								role="form" method="post" action="" onsubmit="return false">
 								<div class="row">
 									<div class="col-md-12 text-right " style="margin-bottom: 20px;">
 										<button id="btn-save-reg" type="button" class="btn btn-info"
@@ -226,46 +225,52 @@ input[type=text] {
 								<div class="row">
 									<div class="col-md-12" id="tblListaDetalle">
 										<div class="table-responsive_">
-											<table id ="tablaExamenAsociado"  class="table table-bordered">
+											<table id="tablaExamenAsociado" class="table table-bordered">
 												<thead class="tabla_th">
-													<tr> 
+													<tr>
 														<th>EXAMEN ASOC.</th>
 														<th width="100">ABREV</th>
-														<th>UNIDAD DE MEDIDA</th> 
+														<th>UNIDAD DE MEDIDA</th>
 														<th width="60">ACCION</th>
 													</tr>
 												</thead>
 												<tbody id="idbodyAsociado" class="label_control">
 													<c:forEach var="tabla" items="${lstTarifarioDetalleBean}"
 														varStatus="loop">
-														<f:input type="hidden"    value="${tabla.codigo}" path="lstTarifarioDetalleBean[${loop.index}].codigo" />
-														<tr id='anterior${loop.index}'> 
-															<td><div class="controls"> 
-																	<f:input type="hidden" min="1" maxlength="20"  required="required"
-																		class="form-control" value="${tabla.unidades}"
-																		id="examenAsociado${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].unidades" />
+														<f:input type="hidden" value="${tabla.codigo}"
+															path="lstTarifarioDetalleBean[${loop.index}].codigo" />
+														<tr id='anterior${loop.index}'>
+															<td><div class="controls">
+																	<f:input type="hidden" min="1" maxlength="20"
+																		required="required" class="form-control"
+																		value="${tabla.unidades}"
+																		id="examenAsociado${loop.index}"
+																		path="lstTarifarioDetalleBean[${loop.index}].unidades" />
 
 																</div></td>
 															<td><div class="controls">
 																	<f:input type="text" min="1" maxlength="20"
 																		class="form-control" value="${tabla.observacion}"
-																		id="abreviatura${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].observacion" />
+																		id="abreviatura${loop.index}"
+																		path="lstTarifarioDetalleBean[${loop.index}].observacion" />
 
 																</div></td>
 															<td><div class="controls">
 																	<f:input type="text" maxlength="30"
-																		class="form-control" required="required" value="${tabla.valoresRefIni}"
-																		id="unidadMedida${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].valoresRefIni" />
+																		class="form-control" required="required"
+																		value="${tabla.valoresRefIni}"
+																		id="unidadMedida${loop.index}"
+																		path="lstTarifarioDetalleBean[${loop.index}].valoresRefIni" />
 
-																</div></td> 
-																	<td><button type='button'
-																			class='btn btn-outline-danger btn-sm'
-																			data-toggle='tooltip' data-placement='top'
-																			title='Eliminar'
-																			onclick='confirmar_eliminar(1,${loop.index})'
-																			data-original-title='Eliminar' id='eliminarDX'>
-																			<i class='icon-trash'></i>
-																		</button></td> 
+																</div></td>
+															<td><button type='button'
+																	class='btn btn-outline-danger btn-sm'
+																	data-toggle='tooltip' data-placement='top'
+																	title='Eliminar'
+																	onclick='confirmar_eliminar(1,${loop.index})'
+																	data-original-title='Eliminar' id='eliminarDX'>
+																	<i class='icon-trash'></i>
+																</button></td>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -274,116 +279,124 @@ input[type=text] {
 									</div>
 								</div>
 								<div class="row">
-							<div class="form-group col-md-12 text-right"
-								style="margin-top: 15px;">  
-								<button type="submit" onclick="grabarAsociados()"
-									<c:choose>
+									<div class="form-group col-md-12 text-right"
+										style="margin-top: 15px;">
+										<button type="submit" onclick="grabarAsociados()"
+											<c:choose>
 									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
 									</c:when>
 									<c:otherwise>
 										disabled ="true"
 									</c:otherwise>
 								</c:choose>
-									class="btn btn-primary">
-									<i class="fa fa-floppy-o"></i> GUARDAR
-								</button>
-								</div>
-								</div>
-								</f:form>
-							</div>
-							
-							<div class="label_title">
-								INGRESAR EXÁMENES PARA FORMULAR <span class="required">*</span>:
-							</div>
-							
-								<div id="panelCEX" class="panel_style col-md-12">
-								<div class="row">
-									<div class="col-md-12 text-right " style="margin-bottom: 20px;">
-										<button id="btn-save-reg" type="button" class="btn btn-info"
-											onclick="llenarDetalleExamenFormula()">
-											<i class="fa fa-plus"></i> AGREGAR
+											class="btn btn-primary">
+											<i class="fa fa-floppy-o"></i> GUARDAR
 										</button>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-md-12" id="tblListaDetalle">
-										<div class="table-responsive_">
-											<table id ="tablaFormulas"  class="table table-bordered">
-												<thead class="tabla_th">
-													<tr> 
-														<th>EXAMEN.</th>
-														<th width="100">ABREV</th>
-														<th>UNIDAD DE MEDIDA</th> 
-														<th width="60">ACCION</th>
+							</f:form>
+						</div>
+
+						<div class="label_title">
+							INGRESAR EXÁMENES PARA FORMULAR <span class="required">*</span>:
+						</div>
+
+						<div id="panelCEX" class="panel_style col-md-12">
+							<div class="row">
+								<div class="col-md-12 text-right " style="margin-bottom: 20px;">
+									<button id="btn-save-reg" type="button" class="btn btn-info"
+										onclick="llenarDetalleExamenFormula()">
+										<i class="fa fa-plus"></i> AGREGAR
+									</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12" id="tblListaDetalle">
+									<div class="table-responsive_">
+										<table id="tablaFormulas" class="table table-bordered">
+											<thead class="tabla_th">
+												<tr>
+													<th>EXAMEN.</th>
+													<th width="100">ABREV</th>
+													<th>UNIDAD DE MEDIDA</th>
+													<th width="60">ACCION</th>
+												</tr>
+											</thead>
+											<tbody id="idbodyFormulas" class="label_control">
+												<c:forEach var="tabla" items="${lstTarifarioDetalleBean}"
+													varStatus="loop">
+													<f:input type="hidden" value="${tabla.codigo}"
+														path="lstTarifarioDetalleBean[${loop.index}].codigo" />
+													<tr id='anterior${loop.index}'>
+														<td><div class="controls">
+																<f:input type="hidden" min="1" maxlength="20"
+																	required="required" class="form-control"
+																	value="${tabla.unidades}"
+																	id="tarifarioUnidades${loop.index}"
+																	path="lstTarifarioDetalleBean[${loop.index}].unidades" />
+
+															</div></td>
+														<td><div class="controls">
+																<f:input type="text" min="1" maxlength="20"
+																	class="form-control" value="${tabla.observacion}"
+																	id="tarifarioUnidades${loop.index}"
+																	path="lstTarifarioDetalleBean[${loop.index}].observacion" />
+
+															</div></td>
+														<td><div class="controls">
+																<f:input type="text" maxlength="30" class="form-control"
+																	required="required" value="${tabla.valoresRefIni}"
+																	id="tarifarioValorInicial${loop.index}"
+																	path="lstTarifarioDetalleBean[${loop.index}].valoresRefIni" />
+
+															</div></td>
+														<td><button type='button'
+																class='btn btn-outline-danger btn-sm'
+																data-toggle='tooltip' data-placement='top'
+																title='Eliminar'
+																onclick='confirmar_eliminar(1,${loop.index})'
+																data-original-title='Eliminar' id='eliminarDX'>
+																<i class='icon-trash'></i>
+															</button></td>
+														<td><button type='button'
+																class='btn btn-outline-danger btn-sm'
+																data-toggle='tooltip' data-placement='top'
+																title='Formular'
+																onclick='confirmar_eliminar(1,${loop.index})'
+																data-original-title='Formular' id='formular'>
+																<i class='icon-trash'></i>
+															</button></td>
 													</tr>
-												</thead>
-												<tbody id="idbodyFormulas" class="label_control">
-													<c:forEach var="tabla" items="${lstTarifarioDetalleBean}"
-														varStatus="loop">
-														<f:input type="hidden"    value="${tabla.codigo}" path="lstTarifarioDetalleBean[${loop.index}].codigo" />
-														<tr id='anterior${loop.index}'> 
-															<td><div class="controls"> 
-																	<f:input type="hidden" min="1" maxlength="20"  required="required"
-																		class="form-control" value="${tabla.unidades}"
-																		id="tarifarioUnidades${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].unidades" />
-
-																</div></td>
-															<td><div class="controls">
-																	<f:input type="text" min="1" maxlength="20"
-																		class="form-control" value="${tabla.observacion}"
-																		id="tarifarioUnidades${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].observacion" />
-
-																</div></td>
-															<td><div class="controls">
-																	<f:input type="text" maxlength="30"
-																		class="form-control" required="required" value="${tabla.valoresRefIni}"
-																		id="tarifarioValorInicial${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].valoresRefIni" />
-
-																</div></td> 
-																	<td><button type='button'
-																			class='btn btn-outline-danger btn-sm'
-																			data-toggle='tooltip' data-placement='top'
-																			title='Eliminar'
-																			onclick='confirmar_eliminar(1,${loop.index})'
-																			data-original-title='Eliminar' id='eliminarDX'>
-																			<i class='icon-trash'></i>
-																		</button></td> 
-																	    <td><button type='button'
-																			class='btn btn-outline-danger btn-sm'
-																			data-toggle='tooltip' data-placement='top'
-																			title='Formular'
-																			onclick='confirmar_eliminar(1,${loop.index})'
-																			data-original-title='Formular' id='formular'>
-																			<i class='icon-trash'></i>
-																		</button></td> 	
-														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
-										</div>
+												</c:forEach>
+											</tbody>
+										</table>
 									</div>
 								</div>
-									<div class="row">
-							<div class="form-group col-md-12 text-right"
-								style="margin-top: 15px;">  
-								<button type="submit" onclick="grabarFormulas()"
-									<c:choose>
-									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
-									</c:when>
-									<c:otherwise>
-										disabled ="true"
-									</c:otherwise>
-								</c:choose>
-									class="btn btn-primary">
-									<i class="fa fa-floppy-o"></i> GUARDAR
-								</button>
 							</div>
-						</div>
+							<div class="row">
+								<div class="form-group col-md-12 text-right"
+									style="margin-top: 15px;">
+									<button type="submit" onclick="grabarFormulas()"
+										class="btn btn-primary">
+										<i class="fa fa-floppy-o"></i> GUARDAR
+									</button>
+								</div>
 							</div> 
+						</div>
+						<div class="row">
+								<div class="form-group col-md-12 text-right"
+									style="margin-top: 15px;">
+									<a
+									href="${pageContext.request.contextPath}/formulaController/nuevaFormula"
+									class="btn btn-secondary" title=""> <i class="fa icon-plus"></i>
+									NUEVO
+								</a>
+								</div>
+							</div>
 					</div>
 
-		<input type="hidden"  id="txtCodigoExamen"  />
-				
+					<input type="hidden" id="txtCodigoExamen" />
+
 				</f:form>
 				<f:form id="frmRegistro" class="form-horizontal" role="form"
 					method="POST"
@@ -393,9 +406,9 @@ input[type=text] {
 				</f:form>
 			</div>
 
-			<div class="modal fade text-xs-left" id="modalFormula"
-				tabindex="-1" role="dialog" aria-labelledby="myModalLabel35"
-				data-dismiss="modal" aria-hidden="true" aria-hidden="true">
+			<div class="modal fade text-xs-left" id="modalFormula" tabindex="-1"
+				role="dialog" aria-labelledby="myModalLabel35" data-dismiss="modal"
+				aria-hidden="true" aria-hidden="true">
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content" id="modalFormulaContent"></div>
 				</div>
@@ -475,7 +488,7 @@ input[type=text] {
 		<!-- Custom scripts for this page-->
 		<!-- Custom scripts for all pages-->
 		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
- 
+
 		<script
 			src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/toastr.min.js"
 			type="text/javascript"></script>
@@ -488,8 +501,8 @@ input[type=text] {
 			type="text/javascript"></script>
 		<script
 			src="${pageContext.request.contextPath}/assets/js/page/asistencial/formulas.js"
-			type="text/javascript" charset="utf-8"></script>	
-			
+			type="text/javascript" charset="utf-8"></script>
+
 		<script src="${pageContext.request.contextPath}/assets/js/scripts.js"
 			type="text/javascript"></script>
 
@@ -503,7 +516,7 @@ input[type=text] {
 
 
 
-<script type="text/javascript">  
+		<script type="text/javascript">  
   
 function runIngresarExamen(e) {
 	var index = $('#txtCodigoExamen').val();
@@ -544,7 +557,7 @@ function enviarIndex() {
 	} 
 		var  listadoExamenes= []; 
  </script>
-<script>
+		<script>
 		function autocomplete(inp, arr) { 
 			var currentFocus;
 			var codigoRegistro; 

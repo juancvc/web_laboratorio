@@ -628,19 +628,16 @@ function grabarFormulas(){
 	var codigoExamen = $('#txtCodigoExamen').val();
  
 	console.log("codigoExamen" + codigoExamen);
-		var actionForm = $('#frmGuardarOrden').attr("action");
-		console.log("codigo  :: " + codigoExamen) ; 
+		var actionForm = $('#frmGuardarOrden').attr("action"); 
 		var myFormulario = $('#frmGuardarOrden');  
 		var arrayMenus = [];
 			
 			/** RECORRER MENU **/
 		    $("#tablaFormulas tbody tr").each(function (index) 
-		    {	console.log($("#tablaFormulas tbody tr").attr("id"));
-		    console.log("index " + index);
+		    {	
+
 		    var x = index+1;  
-		    	if ($(this).attr("id") == "nuevo"+x) {
-		    		
-		    		console.log("ingresa:: " + x);
+		    	if ($(this).attr("id") == "nuevo"+x) { 
 			    	var descripcion,abrev,valoresReferencial,id;
 			    	
 			    	var objTarifarioBean = {
@@ -705,8 +702,7 @@ function grabarFormulas(){
 			          	  	objAcceso.codigo 		= id;
 			          	  	objAcceso.valoresReferencial	= valoresReferencial; 
 			        	}
-			        })
-			        console.log( "objAcceso" + objAcceso);
+			        }) 
 			        arrayMenus.push(objAcceso);	
 		    	} 
 		    })
@@ -836,14 +832,13 @@ function doPost(path, params, method) {
     form._submit_function_();
 }
 
-function llamarDatos(codigo){
-	console.log("codigo " + codigo);
+function llamarDatos(codigo){ 
 	var arrayMedidas = [];
 	var htmlTabla = "";
 	var htmlTablaForm = "";
 	var item = 0; 
 	var contextPath = $('#contextPath').val(); 
-	var z = 0; 
+	var item2 = 0; 
 	path = contextPath + "/formulaController/listaDetalleFormula?codigo="+codigo; 
 		$.ajax({
 			type : "GET",
@@ -851,31 +846,8 @@ function llamarDatos(codigo){
 
 			success : function(data) { 
 				
-				if (data != null) {
-					  $
-					    .ajax({
-					    	type : "GET",
-					    	url : contextPath + "/formulaController/obtenerListaUnidades",
-					    	success : function(data) {
-					    		if (data != null) { 
-					    			for (var i = 0; i < data.length; i++) {
-					    				var objUbigeo = {
-					    						codigoRegistro : "",
-					    						detalle		: ""
-					    				  	};
-					    				objUbigeo.codigo = data[i].codigo; 
-					    				objUbigeo.detalle =data[i].abrev; 
-					    				arrayMedidas.push(objUbigeo);  
-					    			}
-					    		}
-					    	},
-					    	error : function(xhr, status, er) {
-					    		console.log("error: " + xhr + " status: " + status + " er:"
-					    				+ er);  
-					    	}
-					    });
-					for (var i = 0; i < data.length; i++) {
-						console.log("i " + i);
+				if (data != null) { 
+					for (var i = 0; i < data.length; i++) { 
 						var objeto = data[i]; 
 						
 						if(objeto.tipoExamenLab.codReg == '000001'){
@@ -906,10 +878,11 @@ function llamarDatos(codigo){
 									+ " id='agregarEspecialidad'>"
 									+ "<i class='icon-trash'></i></button> "
 									+ "</td>"
-							"</tr>"; 
+							"</tr>";  
+					
 						}
 						if(objeto.tipoExamenLab.codReg == '000002'){
-							z = z + 1;
+							item2 = item2 + 1;
 							htmlTablaForm += " <tr id = 'anterior"
 									+ item
 									+ "'>"
@@ -919,10 +892,10 @@ function llamarDatos(codigo){
 									+ "<td><input id='abreviatura' type='text' class='form-control' "
 									+ "value = '"+objeto.abrev+"' required='required'/></td>"
 									+ "<td><select required='required'"
-									+ " name='cboUnidadA"
-									+ item
-									+ "' id='cboUnidadA"
-									+ item
+									+ " name='cboUnidadB"
+									+ item2
+									+ "' id='cboUnidadB"
+									+ item2
 									+ "' class='form-control'>"
 									+ "<option value='"+objeto.examenUnidadMedidaLaboratorioBean.codigo+"'>"+objeto.examenUnidadMedidaLaboratorioBean.abrev+"</option>"
 									+ "</select></td>" 
@@ -937,6 +910,8 @@ function llamarDatos(codigo){
 									+ "<i class='icon-trash'></i></button> "
 									+ "</td>"
 							"</tr>"; 
+							
+						
 						} 
 					}
 					
@@ -946,7 +921,46 @@ function llamarDatos(codigo){
 			  		$('#idbodyFormulas').empty();  
 			  	    $('#idbodyFormulas').html(htmlTablaForm);
 			  	    
-					// console.log(htmlTabla);
+			  	  $
+				    .ajax({
+				    	type : "GET",
+				    	url : contextPath + "/formulaController/obtenerListaUnidades",
+				    	success : function(unidad) {
+				    		if (unidad != null) {
+				    			arrayMedidas.push(data); 
+				    			  for (var z = 1; z < item+1; z++) {  
+							  		for (var i = 0; i < unidad.length; i++) { 
+									$('#cboUnidadA'+ z).append($('<option>', { 
+				    					value: unidad[i].codigo,
+								       	text : unidad[i].abrev
+									   	}));
+							  		} 
+				    			}   
+			    			  for (var z = 1; z < item2+1; z++) { 
+							  		for (var i = 0; i < unidad.length; i++) { 
+									$('#cboUnidadB'+ z).append($('<option>', { 
+				    					value: unidad[i].codigo,
+								       	text : unidad[i].abrev
+									   	}));
+							  		} 
+				    			}
+				    		}
+				    	},
+				    	error : function(xhr, status, er) {
+				    		console.log("error: " + xhr + " status: " + status + " er:"
+				    				+ er);  
+				    	}
+				    });
+			  	  
+			  	 /*    
+				 for (var i = 0; i < z; i++) {     
+				   	for (var i = 0; i < arrayMedidas.length; i++) {
+						$('#cboUnidadB'+z).append($('<option>', { 
+	  					value: arrayMedidas[i].codigo,
+					       	text : arrayMedidas[i].abrev
+						   	}));
+				   		}  
+			  	 	} */
 				}
 				
 			},

@@ -146,6 +146,7 @@ public class FormulaController extends BaseController {
 		lstExamenUnidadMedidaLaboratorioBean = new ArrayList<ExamenUnidadMedidaLaboratorioBean>();
 		try {
 			lstExamenUnidadMedidaLaboratorioBean = examenUnidadMedidaLaboratorioService.getBuscarPorFiltros(new ExamenUnidadMedidaLaboratorioBean());
+			System.out.println("lstExamenUnidadMedidaLaboratorioBean " + lstExamenUnidadMedidaLaboratorioBean.size());
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
