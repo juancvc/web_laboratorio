@@ -1,8 +1,7 @@
 package sigelab.core.bean.asistencial.laboratorio;
   
-import java.text.DecimalFormat;
-import java.util.List;
 
+import java.util.List;
 import sigelab.base.bean.BaseBean; 
 import sigelab.core.bean.general.TarifarioBean;
 
