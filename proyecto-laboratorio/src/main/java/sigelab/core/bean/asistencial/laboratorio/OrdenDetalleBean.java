@@ -15,6 +15,7 @@ public class OrdenDetalleBean extends BaseBean{
 	private TarifarioBean examen;
 	private String sImporte; 
 	private String resultado;
+	private String codigoTarifProc;
 	
 	private List<OrdenDetalleItemBean> lstOrdenDetalleItemBean;
 	
@@ -76,6 +77,13 @@ public class OrdenDetalleBean extends BaseBean{
 	public void setLstOrdenDetalleItemBean(List<OrdenDetalleItemBean> lstOrdenDetalleItemBean) {
 		this.lstOrdenDetalleItemBean = lstOrdenDetalleItemBean;
 	}
+	public String getCodigoTarifProc() {
+		return codigoTarifProc;
+	}
+	public void setCodigoTarifProc(String codigoTarifProc) {
+		this.codigoTarifProc = codigoTarifProc;
+	}
+	
 	
 	
 }

@@ -163,6 +163,10 @@ public class Orden_detalle_laboratorio implements Serializable {
 	@Column(name="RESULTADO")
 	private String resultado;
 	
+	@Column(name="CODPROCE")
+	private String codigoTarifProc;
+	
+	
 	private String NOMPRODU;
 	private String NOMTPEXA;
 	private String OBSERVAC;
@@ -305,6 +309,14 @@ public class Orden_detalle_laboratorio implements Serializable {
 
 	public void setVALORFIN(String vALORFIN) {
 		VALORFIN = vALORFIN;
+	}
+
+	public String getCodigoTarifProc() {
+		return codigoTarifProc;
+	}
+
+	public void setCodigoTarifProc(String codigoTarifProc) {
+		this.codigoTarifProc = codigoTarifProc;
 	}
 	
 	

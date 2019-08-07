@@ -290,6 +290,15 @@
 																
 																
 																</c:when> 
+															<c:when test="${orden.codigoTarifProc==null || orden.codigoTarifProc==''}">
+															
+																	<f:input type="text" value="varios" min="1" maxlength="50"
+																		class="form-control" required="required" disabled="true"
+																		id="codigoTarifProc" path="lstOrdenDetalleBean[${loop.index}].resultado" />
+																
+																
+																</c:when> 	
+																
 																<c:otherwise>
 																${orden.resultado}
 																</c:otherwise>

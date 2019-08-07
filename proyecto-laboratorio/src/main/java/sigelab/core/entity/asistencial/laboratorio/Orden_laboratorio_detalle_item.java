@@ -19,19 +19,17 @@ import java.sql.Timestamp;
 		    @StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSCR", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class),
  }),
-@NamedStoredProcedureQuery(name = "ordenDetalleItem.modificar", procedureName = "[SIGEHOV2BANC].BANC.CAMPANIA_UPDATE", resultClasses = Orden_laboratorio_detalle_item.class, parameters = {
+@NamedStoredProcedureQuery(name = "ordenDetalleItem.modificar",
+			procedureName = "[LABO].[USP_ORDEN_DETALLE_ITEM_RESULTADOS_UPDATE]",
+			resultClasses = Orden_laboratorio_detalle_item.class, parameters = {
 				
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class),
-
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODCAMPA", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDAS", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDEN", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPERIO", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMCAMPA", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "LUGCAMPA", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHAINI", type = String.class), 
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHAFIN", type = String.class),
-		    @StoredProcedureParameter(mode = ParameterMode.IN, name = "SITUACRG", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "RESULTADO", type = String.class),
 		    @StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = String.class),
  }),
@@ -149,6 +147,9 @@ public class Orden_laboratorio_detalle_item implements Serializable {
 	
 	@Column(name = "TIPO")
 	private String tipo;
+	
+	@Column(name = "FLAG")
+	private boolean imprimirItem;
 
 
 	public Orden_laboratorio_detalle_item() {
@@ -324,8 +325,6 @@ public class Orden_laboratorio_detalle_item implements Serializable {
 		this.abrevUnidadMedida = abrevUnidadMedida;
 	}
 	
-	
-	
 
 	public String getTipo() {
 		return tipo;
@@ -333,6 +332,17 @@ public class Orden_laboratorio_detalle_item implements Serializable {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+	
+	
+	
+
+	public boolean isImprimirItem() {
+		return imprimirItem;
+	}
+
+	public void setImprimirItem(boolean imprimirItem) {
+		this.imprimirItem = imprimirItem;
 	}
 
 	@Override

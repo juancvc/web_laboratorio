@@ -68,7 +68,7 @@ input[type=text] {
 	<div class="modal-content">
 		<div class="modal-header">
 			<label class="modal-title text-text-bold-600" id="myModalLabel35"><b>REGISTRO
-					DE FORMULA</b></label>
+					DE RESULTADOS</b></label>
 			<button type="button" class="close" data-dismiss="modal"
 				aria-label="Close">
 				<span aria-hidden="true">&times;</span>
@@ -87,13 +87,13 @@ input[type=text] {
 			<div class="row">
 
 					<div class="form-group col-md-4 mb-2">
-						<label for="nombreCompleto" class="label_control">ANALISIS
+						<label for="nombreCompleto" class="label_control">EXAMEN
 							<span class="required">*</span>
 						</label>
 						<div class="controls">
-							<f:input type="text" class="form-control" required="required"
+							<f:input type="text" class="form-control" disabled="true"
 								
-								id="codigoAnalisisFormula" path="codigo" />
+								id="nombreExamen" path="examen.descripcion" />
 
 						</div>
 					</div>
@@ -129,22 +129,31 @@ input[type=text] {
 															<td>${loop.count}</td>
 															<td>${orden.examenesLaboratorioBean.descripcion}</td>
 															<td>${orden.examenesLaboratorioBean.tipoExamenAsoc}</td>
-															<td>${orden.examenesLaboratorioBean.examenUnidadMedidaLaboratorioBean.abrev}</td>
+															<td><a title="${orden.examenesLaboratorioBean.examenUnidadMedidaLaboratorioBean.descripcion}">${orden.examenesLaboratorioBean.examenUnidadMedidaLaboratorioBean.abrev}</a></td>
+													
+														
 															<td>
 															<c:choose>
-															<c:when test="${orden.resultado==null || orden.resultado==''}">
+															<c:when test="${orden.examenesLaboratorioBean.tipoExamenAsoc=='000001'}">
 															
-																	<f:input type="text" min="1" maxlength="50"
-																		class="form-control" required="required"
+																	<f:input type="text" min="1" maxlength="20"
+																		class="form-control" required="required" onkeypress="return NumCheck(event, this)"
 																		id="tarifarioUnidades" path="lstOrdenDetalleItemBean[${loop.index}].resultado" />
 																
 																
 																</c:when> 
 																<c:otherwise>
-																${orden.resultado}
+																<f:input type="text" min="1" maxlength="20"
+																		class="form-control" disabled="true"
+																		id="tarifarioUnidades" path="lstOrdenDetalleItemBean[${loop.index}].resultado" />
 																</c:otherwise>
 																</c:choose>
 															</td>
+															
+															<td><div class="custom-control custom-checkbox">
+                  											<input type="checkbox" class="custom-control-input" id="customCheck1" checked>
+                  											<label class="custom-control-label" for="customCheck1"></label>
+              </div></td>
 															
 														</tr>
 													</c:forEach>
@@ -221,7 +230,29 @@ input[type=text] {
 	</script>
 	
 	
-	
+	<script language="JavaScript">
+function NumCheck(e, field) {
+  key = e.keyCode ? e.keyCode : e.which
+  // backspace
+  if (key == 8) return true
+  // 0-9
+  if (key > 47 && key < 58) {
+    if (field.value == "") return true
+    regexp = /.[0-9]{4}$/
+    return !(regexp.test(field.value))
+  }
+  // .
+  if (key == 46) {
+    if (field.value == "") return false
+    regexp = /^[0-9]+$/
+    return regexp.test(field.value)
+  }
+  // other key
+  return false
+ 
+}
+ 
+</script>
    
   
 	 

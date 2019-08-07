@@ -211,6 +211,7 @@ private List<OrdenDetalleBean> deListaObjetoAListaObjetoBean(List<Orden_detalle_
 			bean.getExamen().getTarifarioDetalleBean().setValoresRefFin(entity.getVALORFIN());
 			bean.getExamen().setsPrecio((getTwoDecimals(entity.getPrecio()).replace(",", ".")));
 			bean.setsImporte((getTwoDecimals(entity.getImporte()).replace(",", ".")));
+			bean.setCodigoTarifProc(entity.getCodigoTarifProc());
 			
 	 	}
 		

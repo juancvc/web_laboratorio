@@ -22,6 +22,7 @@ public class OrdenDetalleItemBean extends BaseBean{
 	private String 			 fechaHasta;  
 	private TablaBean 		 motivoAnular;
 	private String 		     detalleMotivoAnular;
+	private boolean          imprimirItem;
 	
 	
 	
@@ -96,6 +97,12 @@ public class OrdenDetalleItemBean extends BaseBean{
 	}
 	public void setDetalleMotivoAnular(String detalleMotivoAnular) {
 		this.detalleMotivoAnular = detalleMotivoAnular;
+	}
+	public boolean isImprimirItem() {
+		return imprimirItem;
+	}
+	public void setImprimirItem(boolean imprimirItem) {
+		this.imprimirItem = imprimirItem;
 	}  
 	
  

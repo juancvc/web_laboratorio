@@ -649,6 +649,7 @@ public class OrdenController  extends BaseController {
 		OrdenDetalleBean objOrdenBean = new OrdenDetalleBean(); 
 		objOrdenBean = this.lstOrdenDetalleBean.get(index);
 		System.out.println("modificar objOrdenBean: " + objOrdenBean.getCodigo());
+		System.out.println("nombre: " + objOrdenBean.getExamen().getDescripcion());
 	    setOrdenDetalleBean(objOrdenBean);
 		ModelAndView mav = new ModelAndView("asistencial/laboratorio/formulas/formula-registro-resultados", "command", objOrdenBean); 
 		OrdenDetalleItemBean objOrdenDetalle = new OrdenDetalleItemBean();
@@ -675,6 +676,10 @@ public class OrdenController  extends BaseController {
 		this.cargarCombos(mav);
 		return mav;
 	}
+	
+	
+	
+	
 	
 	
 	
@@ -725,6 +730,23 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 			//lstOrdenDetalleBean.add(objOrdenDetalleBean);
 			return resultados;
 		}
+    
+    @RequestMapping(value = "/formularResultado", method = RequestMethod.GET)
+		public @ResponseBody String formularResultado(
+			@ModelAttribute("ordenBean")OrdenBean ordenBean,HttpServletRequest request) throws Exception {
+		   String resultados="";
+for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
+	this.setAuditoria(objOrdenDetalleBean, request, false);
+	ordenDetalleService.resultadoModificar(objOrdenDetalleBean);
+	
+}
+			//lstOrdenDetalleBean.add(objOrdenDetalleBean);
+			return resultados;
+		}  
+    
+    
+    
+    
     
     @RequestMapping(value = "/validarArchivoExiste", method = RequestMethod.GET)
 		public @ResponseBody String validarArchivoExiste(
