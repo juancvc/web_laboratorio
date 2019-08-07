@@ -80,6 +80,12 @@ border:1px solid rgba(230, 212, 212, 0.33)}
 	font-weight: bold;
 	color:   #00000082 ;
 }
+.titulo_ord{
+	font-family: Calibri (Cuerpo); 
+	font-size: 13px; 
+	font-weight: bold;
+	color:   #FFFFF ;
+}
 
 .valor{ 
 	color:   #0274d8 ;
@@ -135,16 +141,17 @@ border:1px solid rgba(230, 212, 212, 0.33)}
             </a>  
           </div> 
         </div>
-      <!-- <div class="col-xl-3 col-sm-6 mb-3">
+      <div class="col-xl-3 col-sm-6 mb-3">
           <div class="card text-white bg-warning o-hidden h-100">
             <div class="card-body">
               <div class="card-body-icon">
-                <i class="fa fa-fw fa-list"></i>
+                <!-- <i class="fa fa-fw fa-list"></i> -->
               </div>
-              <div class="mr-5">11 New Tasks!</div>
+              <div class="mr-5 titulo_ord">ORDENES PENDIENTES</div>
+              <h1  align="center">20</h1>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">View Details</span>
+              <span class="float-left">Ver Detalle</span>
               <span class="float-right">
                 <i class="fa fa-angle-right"></i>
               </span>
@@ -154,13 +161,13 @@ border:1px solid rgba(230, 212, 212, 0.33)}
         <div class="col-xl-3 col-sm-6 mb-3">
           <div class="card text-white bg-success o-hidden h-100">
             <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-shopping-cart"></i>
+              <div class="card-body-icon"> 
               </div>
-              <div class="mr-5">123 New Orders!</div>
+              <div class="mr-5 titulo_ord">ORDENES REALIZADOS</div>
+              <h1  align="center">230</h1>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">View Details</span>
+              <span class="float-left">Ver Detalle</span>
               <span class="float-right">
                 <i class="fa fa-angle-right"></i>
               </span>
@@ -170,18 +177,18 @@ border:1px solid rgba(230, 212, 212, 0.33)}
         <div class="col-xl-3 col-sm-6 mb-3">
           <div class="card text-white bg-danger o-hidden h-100">
             <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-support"></i>
+              <div class="card-body-icon"> 
               </div>
-              <div class="mr-5">13 New Tickets!</div>
+              <div class="mr-5 titulo_ord">ORDENES ANULADOS</div>
+              <h1  align="center">3</h1>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">View Details</span>
+              <span class="float-left">Ver Detalle</span>
               <span class="float-right">
                 <i class="fa fa-angle-right"></i>
               </span>
             </a>
-          </div>-->
+          </div>
         </div>
       </div>
       <!-- Area Chart Example-->
