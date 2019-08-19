@@ -1,5 +1,9 @@
 package sigelab.web.controller.inicio;
   
+import sigelab.core.bean.asistencial.banco.PostulanteBean;
+import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
+import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
+import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.seguridad.AccesoBean;
 import sigelab.core.bean.seguridad.AuditoriaAccesoBean;
@@ -7,8 +11,9 @@ import sigelab.core.bean.seguridad.PerfilBean;
 import sigelab.core.bean.seguridad.UsuarioBean;
 import sigelab.core.bean.seguridad.UsuarioPerfilBean;
 import sigelab.core.service.exception.ServiceException;
+import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenService;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service;
-import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis14Service; 
+
 import sigelab.core.service.interfaces.seguridad.AccesoService;
 import sigelab.core.service.interfaces.seguridad.UsuarioPerfilService;
 import sigelab.core.service.interfaces.seguridad.UsuarioService;
@@ -19,11 +24,37 @@ import sigelab.web.utilitarios.acceso.AccesoMenuVo;
 import sigelab.web.utilitarios.acceso.LoginVo;
 import sigelab.web.utilitarios.acceso.PermisoVo;
 import sigelab.web.utilitarios.encrypt.Encrypt;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -50,6 +81,8 @@ public class InicioController extends BaseController{
 	@Autowired
 	private UsuarioService usuarioService;
 	
+	@Autowired
+	private OrdenService ordenService;
 	 
 	@Autowired
 	private UsuarioPerfilService usuarioPerfilService;
@@ -61,18 +94,22 @@ public class InicioController extends BaseController{
 	List<TablaBean> lstMaestra =(new ArrayList<TablaBean>()); ;
 	List<TablaBean> lstSituacion = new ArrayList<TablaBean>();
 	List<TablaBean> lstTipoPaciente = new ArrayList<TablaBean>(); 
-    
+	
+	private OrdenBean uOrderBean;
+	private OrdenBean uOrdenBeanVentadiaria;
+	private OrdenBean uOrdenBeanVentaSemanal;
+	private OrdenBean uOrdenBeanVentaMensual;
+	private OrdenBean uOrdenBeanVentaAnual;
+	private String diaSemana;
+	private String nombreVenta;
+	private int tipoReporte=1;
+	List<OrdenBean> lstOrdenBean = new ArrayList<OrdenBean>(); 
+	private List<OrdenBean> lstOrdenBeann ;  
 	@PostConstruct
 	public void init(){
+		
 		this.setLstMaestra(new ArrayList<TablaBean>()); 
-	/*	this.setLenguaForm(new LenguaForm());
-		this.setLstLenguaBean(new ArrayList<LenguaBean>()); 
-		this.setLstLenguaEstructuraBean(new ArrayList<LenguaEstructuraBean>());  
-		this.setLstLenguaNivelBean(new ArrayList<LenguaNivelBean>());
-		this.setLstUnidadLeccionBean(new ArrayList<UnidadLeccionBean>());
-		this.setLstUnidadBean(new ArrayList<UnidadBean>());
-		this.setLstNivel(new ArrayList<TablaBean>());
-		this.setLstLecciones(new ArrayList<TablaBean>());*/
+	
 	}
 	
 	
@@ -94,6 +131,7 @@ public class InicioController extends BaseController{
 		if (prmLogin != null) {
 			UsuarioBean prmUsuario = new UsuarioBean();
 			//Encriptando la clave ingresada
+			System.out.println("prmLogin.getContrasena()"+prmLogin.getContrasena());
 			prmUsuario.setPasswordUsuario(Encrypt.encrypt(prmLogin.getContrasena()));
 			//prmUsuario.setPasswordUsuario(prmLogin.getContrasena());
 			prmUsuario.setNombreUsuario(prmLogin.getNombreUsuario());
@@ -172,6 +210,7 @@ public class InicioController extends BaseController{
 		if (prmLogin != null) {
 			UsuarioBean prmUsuario = new UsuarioBean();
 			//Encriptando la clave ingresada
+			System.out.println("prmLogin.getContrasena11()"+prmLogin.getContrasena());
 			prmUsuario.setPasswordUsuario(Encrypt.encrypt(prmLogin.getContrasena()));
 			//prmUsuario.setPasswordUsuario(prmLogin.getContrasena());
 			prmUsuario.setNombreUsuario(prmLogin.getNombreUsuario());
@@ -316,7 +355,7 @@ public class InicioController extends BaseController{
 		
 		ModelAndView mav = new ModelAndView("portada", "command", new TablaBean());
 		
-	//	ModelAndView mav = new ModelAndView("asistencial/registro-referencia");
+
 		System.out.println("inicia sistema ");
 		
 		try {
@@ -359,6 +398,7 @@ public class InicioController extends BaseController{
 			mav.addObject("lstTipoPaciente",lstTipoPaciente);
 			request.getSession().setAttribute("usuarioSesion", usuario);
 			mav.addObject("usuarioSesion", usuario);
+			this.cargarDatosResumenDiario(mav);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -382,11 +422,190 @@ public class InicioController extends BaseController{
 		mav.addObject("lstTipoPaciente",lstTipoPaciente);
 	}
 	
+	private void cargarDatosResumenDiario(ModelAndView mav) {
+      nombreVenta="VENTA DEL DIA";
+      tipoReporte=1;
+		/***mandamos datos del tablero de fecha actual por default a los reportes del día***/
+		obtenerFechaHoraDia();
+		uOrderBean = new OrdenBean();
+		uOrdenBeanVentadiaria = new OrdenBean();
+		
+		OrdenBean uOrdenBean2 = new OrdenBean();
+		OrdenBean uOrdenBean3 = new OrdenBean();
+		
+		OrdenBean uOrdenBeanArea  = new OrdenBean();
+		OrdenBean uOrdenBeanBarra  = new OrdenBean();
+		
+		OrdenBean prmOrdenBean1 = new OrdenBean();
+		OrdenBean prmOrdenBean2 = new OrdenBean();
+		OrdenBean prmOrdenBean3 = new OrdenBean();
+		
+		OrdenBean prmOrdenBeanArea  = new OrdenBean();
+		OrdenBean prmOrdenBeanBarra  = new OrdenBean();
+		
+		OrdenBean prmOrdenBeanVentaDiaria = new OrdenBean();
+		Date date = new Date();
+		SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat mes = new SimpleDateFormat("MM");
+		SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+		mes.format(date);
+		anio.format(date);
+		fecha.format(date);
+		String strDate = fecha.format(date);
+		System.out.println("strDate"+strDate);
+		String strMes = mes.format(date);
+		System.out.println("strMes"+strMes);
+		String strAnio = anio.format(date);
+		System.out.println("strAnio"+strAnio);
+		try {
+			Date dt = fecha.parse(strDate);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		prmOrdenBean1.setFecha(strDate);
+
+		prmOrdenBean2.setFecha(strDate);
+   
+		prmOrdenBean3.setFecha(strDate);
+
+		prmOrdenBeanVentaDiaria.setFecha(strDate);
+		/**situacion 000001 pendiente 000002 atendido 000003 anulado ***/
+		TablaBean tabla1 = new TablaBean();
+		tabla1.setCodReg("000001");
+		TablaBean tabla2 = new TablaBean();
+		tabla2.setCodReg("000002");
+		TablaBean tabla3 = new TablaBean();
+		tabla3.setCodReg("000003");
+		prmOrdenBean1.setSituacion(tabla1);
+		prmOrdenBean2.setSituacion(tabla2);
+		prmOrdenBean3.setSituacion(tabla3);
+		prmOrdenBeanArea.setNroMes(strMes);
+		prmOrdenBeanArea.setNumeroPeriodo(strAnio);
+		prmOrdenBeanBarra.setNumeroPeriodo(strAnio);
+		System.out.println("acaPortada");
+		try { 
+			uOrderBean = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean1);
+			uOrdenBean2 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean2);
+			uOrdenBean3 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean3);
+			uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);			
+			uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
+			uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
+			
+			
+			System.out.println("uOrdenBeanVentadiariaCantidad"+uOrdenBeanVentadiaria.getCantidadVentas());
+			if(uOrderBean!=null){   
+				
+				
+			}else{   
+			} 
+	} catch (Exception e) {  
+	}
+		
+		mav.addObject("uOrderBean", 		   uOrderBean);
+		mav.addObject("uOrdenBean2", 		   uOrdenBean2);
+		mav.addObject("uOrdenBean3", 		   uOrdenBean3);
+		mav.addObject("uOrdenBeanVentadiaria", uOrdenBeanVentadiaria);
+		mav.addObject("uOrdenBeanArea",		   uOrdenBeanArea);
+		mav.addObject("uOrdenBeanBarra", 	   uOrdenBeanBarra);
+		mav.addObject("diaSemana", 	   		   diaSemana);
+		mav.addObject("nombreVenta", 	   	   nombreVenta);
+	}
+	
+	
 	
 	@RequestMapping(value = "/portada", method = RequestMethod.GET)
 	public ModelAndView portada(@ModelAttribute("usuarioSesion") UsuarioBean usuario,
 			HttpServletRequest request) throws Exception {
-		return  new ModelAndView("portada", "command", new TablaBean());
+		ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+		  tipoReporte=1;
+		 nombreVenta="VENTA DEL DIA";
+		
+		/***mandamos datos del tablero de fecha actual por default a los reportes del día***/
+		obtenerFechaHoraDia();
+		uOrderBean = new OrdenBean();
+		uOrdenBeanVentadiaria = new OrdenBean();
+		
+		OrdenBean uOrdenBean2 = new OrdenBean();
+		OrdenBean uOrdenBean3 = new OrdenBean();
+		
+		OrdenBean uOrdenBeanArea  = new OrdenBean();
+		OrdenBean uOrdenBeanBarra  = new OrdenBean();
+		
+		OrdenBean prmOrdenBean1 = new OrdenBean();
+		OrdenBean prmOrdenBean2 = new OrdenBean();
+		OrdenBean prmOrdenBean3 = new OrdenBean();
+		
+		OrdenBean prmOrdenBeanArea  = new OrdenBean();
+		OrdenBean prmOrdenBeanBarra  = new OrdenBean();
+		
+		OrdenBean prmOrdenBeanVentaDiaria = new OrdenBean();
+		Date date = new Date();
+		SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat mes = new SimpleDateFormat("MM");
+		SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+		mes.format(date);
+		anio.format(date);
+		fecha.format(date);
+		String strDate = fecha.format(date);
+		System.out.println("strDate"+strDate);
+		String strMes = mes.format(date);
+		System.out.println("strMes"+strMes);
+		String strAnio = anio.format(date);
+		System.out.println("strAnio"+strAnio);
+		Date dt = fecha.parse(strDate);
+	//	prmOrdenBean1.setFechaOrden(dt);
+		prmOrdenBean1.setFecha(strDate);
+	//	prmOrdenBean2.setFechaOrden(dt);
+		prmOrdenBean2.setFecha(strDate);
+    //	prmOrdenBean3.setFechaOrden(dt);
+		prmOrdenBean3.setFecha(strDate);
+	//	prmOrdenBeanVentaDiaria.setFechaOrden(dt);
+		prmOrdenBeanVentaDiaria.setFecha(strDate);
+		/**situacion 000001 pendiente 000002 atendido 000003 anulado ***/
+		TablaBean tabla1 = new TablaBean();
+		tabla1.setCodReg("000001");
+		TablaBean tabla2 = new TablaBean();
+		tabla2.setCodReg("000002");
+		TablaBean tabla3 = new TablaBean();
+		tabla3.setCodReg("000003");
+		prmOrdenBean1.setSituacion(tabla1);
+		prmOrdenBean2.setSituacion(tabla2);
+		prmOrdenBean3.setSituacion(tabla3);
+		prmOrdenBeanArea.setNroMes(strMes);
+		prmOrdenBeanArea.setNumeroPeriodo(strAnio);
+		prmOrdenBeanBarra.setNumeroPeriodo(strAnio);
+		System.out.println("acaPortada");
+		try { 
+			uOrderBean = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean1);
+			uOrdenBean2 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean2);
+			uOrdenBean3 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean3);
+			uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);			
+			uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
+			uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
+			
+			
+			System.out.println("uOrdenBeanVentadiariaCantidad"+uOrdenBeanVentadiaria.getCantidadVentas());
+			if(uOrderBean!=null){   
+				
+				
+			}else{   
+			} 
+	} catch (Exception e) {  
+	}
+		
+		mav.addObject("uOrderBean", 		   uOrderBean);
+		mav.addObject("uOrdenBean2", 		   uOrdenBean2);
+		mav.addObject("uOrdenBean3", 		   uOrdenBean3);
+		mav.addObject("uOrdenBeanVentadiaria", uOrdenBeanVentadiaria);
+		mav.addObject("uOrdenBeanArea",		   uOrdenBeanArea);
+		mav.addObject("uOrdenBeanBarra", 	   uOrdenBeanBarra);
+		mav.addObject("diaSemana", 	   		   diaSemana);
+		mav.addObject("nombreVenta", 	   	   nombreVenta);
+		
+		
+		return mav;
 	}
 	
 	
@@ -394,7 +613,95 @@ public class InicioController extends BaseController{
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	public ModelAndView listar(@ModelAttribute("usuarioSesion") UsuarioBean usuario,
 			HttpServletRequest request) throws Exception {
-		return this.getLista(usuario, request);
+	ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+		 System.out.println("iniciamos sistema");
+		 nombreVenta="VENTA DEL DIA";
+		 tipoReporte=1;
+		/***mandamos datos del tablero de fecha actual por default a los reportes del día***/
+		obtenerFechaHoraDia();
+		uOrderBean = new OrdenBean();
+		uOrdenBeanVentadiaria = new OrdenBean();
+		
+		OrdenBean uOrdenBean2 = new OrdenBean();
+		OrdenBean uOrdenBean3 = new OrdenBean();
+		
+		OrdenBean uOrdenBeanArea  = new OrdenBean();
+		OrdenBean uOrdenBeanBarra  = new OrdenBean();
+		
+		OrdenBean prmOrdenBean1 = new OrdenBean();
+		OrdenBean prmOrdenBean2 = new OrdenBean();
+		OrdenBean prmOrdenBean3 = new OrdenBean();
+		
+		OrdenBean prmOrdenBeanArea  = new OrdenBean();
+		OrdenBean prmOrdenBeanBarra  = new OrdenBean();
+		
+		OrdenBean prmOrdenBeanVentaDiaria = new OrdenBean();
+		Date date = new Date();
+		SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat mes = new SimpleDateFormat("MM");
+		SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+		mes.format(date);
+		anio.format(date);
+		fecha.format(date);
+		String strDate = fecha.format(date);
+		System.out.println("strDate"+strDate);
+		String strMes = mes.format(date);
+		System.out.println("strMes"+strMes);
+		String strAnio = anio.format(date);
+		System.out.println("strAnio"+strAnio);
+		Date dt = fecha.parse(strDate);
+	//	prmOrdenBean1.setFechaOrden(dt);
+		prmOrdenBean1.setFecha(strDate);
+	//	prmOrdenBean2.setFechaOrden(dt);
+		prmOrdenBean2.setFecha(strDate);
+    //	prmOrdenBean3.setFechaOrden(dt);
+		prmOrdenBean3.setFecha(strDate);
+	//	prmOrdenBeanVentaDiaria.setFechaOrden(dt);
+		prmOrdenBeanVentaDiaria.setFecha(strDate);
+		/**situacion 000001 pendiente 000002 atendido 000003 anulado ***/
+		TablaBean tabla1 = new TablaBean();
+		tabla1.setCodReg("000001");
+		TablaBean tabla2 = new TablaBean();
+		tabla2.setCodReg("000002");
+		TablaBean tabla3 = new TablaBean();
+		tabla3.setCodReg("000003");
+		prmOrdenBean1.setSituacion(tabla1);
+		prmOrdenBean2.setSituacion(tabla2);
+		prmOrdenBean3.setSituacion(tabla3);
+		prmOrdenBeanArea.setNroMes(strMes);
+		prmOrdenBeanArea.setNumeroPeriodo(strAnio);
+		prmOrdenBeanBarra.setNumeroPeriodo(strAnio);
+		System.out.println("acaPortada");
+		try { 
+			uOrderBean = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean1);
+			uOrdenBean2 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean2);
+			uOrdenBean3 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean3);
+			uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);			
+			uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
+			uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
+			
+			
+			System.out.println("uOrdenBeanVentadiariaCantidad"+uOrdenBeanVentadiaria.getCantidadVentas());
+			if(uOrderBean!=null){   
+				
+				
+			}else{   
+			} 
+	} catch (Exception e) {  
+	}
+		
+		mav.addObject("uOrderBean", 		   uOrderBean);
+		mav.addObject("uOrdenBean2", 		   uOrdenBean2);
+		mav.addObject("uOrdenBean3", 		   uOrdenBean3);
+		mav.addObject("uOrdenBeanVentadiaria", uOrdenBeanVentadiaria);
+		mav.addObject("uOrdenBeanArea",		   uOrdenBeanArea);
+		mav.addObject("uOrdenBeanBarra", 	   uOrdenBeanBarra);
+		mav.addObject("diaSemana", 	   		   diaSemana);
+		mav.addObject("nombreVenta", 	   	   nombreVenta);
+		
+		
+		return mav;
+	//	return this.getLista(usuario, request);
 	}
 	
 	@RequestMapping(value = "/obtenerAccesos", method = RequestMethod.GET)
@@ -428,6 +735,30 @@ public class InicioController extends BaseController{
 		
 		return lista;
 	}
+	
+	*/
+	
+	/*
+	
+	@RequestMapping(value = "/reporteObjetos", method = RequestMethod.GET)
+	public ModelAndView ReporteObjetos(@ModelAttribute("ordenBean") OrdenBean ordenBean,
+			HttpServletRequest request) throws Exception {
+		uOrderBean = new OrdenBean();
+		OrdenBean prmOrdenBean = new OrdenBean();
+		Date date = new Date();
+		try { 
+			uOrderBean = ordenService.reporteCantidadAnualOrdenSituacion(prmOrdenBean);
+			if(uOrderBean!=null){   
+				
+				
+			}else{   
+			} 
+	} catch (Exception e) {  
+	}
+		
+		return this.getLista(usuario, request);
+	}
+	
 	
 	*/
 	
@@ -560,6 +891,943 @@ public class InicioController extends BaseController{
 		return accesoMenuVo;
 	}
 	
+	
+	@RequestMapping(value = "/listaDetalleVentaModal", method = RequestMethod.POST)
+	public ModelAndView listaDetalleVentaModal( HttpServletRequest request)throws Exception  {
+		String tipoVentaNombre ="";
+		OrdenBean objOrdenBean ;
+		System.out.println("tipoReporte"+tipoReporte);
+		ModelAndView mav = null ;
+		if (tipoReporte==1) {
+			tipoVentaNombre="DETALLE DE VENTA DIARIA";
+			System.out.println("listaDetalleVentaModalSemanal");
+		    objOrdenBean = new OrdenBean(); 
+			OrdenBean prmOrdenBean = new OrdenBean();
+			prmOrdenBean.setFecha("05-05-2019");
+		   
+		    mav = new ModelAndView("asistencial/laboratorio/reporte/venta-diaria-modal", "command", objOrdenBean); 
+			OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
+			objOrdenDetalle.setOrdenBean(objOrdenBean);
+			try {
+				lstOrdenBeann = ordenService.reporteDetalleOrdenVentaDiaria(prmOrdenBean);
+		
+			} catch (ServiceException e) {
+				e.printStackTrace();
+			}
+			
+			
+		} else
+		if (tipoReporte==2) {
+			tipoVentaNombre="DETALLE DE VENTA SEMANAL";
+			System.out.println("listaDetalleVentaModal");
+	        objOrdenBean = new OrdenBean(); 
+			OrdenBean prmOrdenBean = new OrdenBean();
+			prmOrdenBean.setFecha("05-05-2019");
+		   
+	        mav = new ModelAndView("asistencial/laboratorio/reporte/venta-diaria-modal", "command", objOrdenBean); 
+			OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
+			objOrdenDetalle.setOrdenBean(objOrdenBean);
+			try {
+				lstOrdenBeann = ordenService.reporteDetalleOrdenVentaSemanal(prmOrdenBean);
+		
+			} catch (ServiceException e) {
+				e.printStackTrace();
+			}
+			
+
+		} else
+				if (tipoReporte==3) {
+					tipoVentaNombre="DETALLE DE VENTA MENSUAL";
+					System.out.println("listaDetalleVentaModalmensual");
+					objOrdenBean = new OrdenBean(); 
+					OrdenBean prmOrdenBean = new OrdenBean();
+					prmOrdenBean.setFecha("05-05-2019");
+					Date date = new Date();
+					SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+					SimpleDateFormat mes = new SimpleDateFormat("MM");
+					SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+					mes.format(date);
+					anio.format(date);
+					fecha.format(date);
+
+					String strMes = mes.format(date);
+					String strAnio = anio.format(date);
+
+
+					prmOrdenBean.setNroMes(strMes);
+					prmOrdenBean.setNumeroPeriodo(strAnio);
+
+				
+				   
+					mav = new ModelAndView("asistencial/laboratorio/reporte/venta-diaria-modal", "command", objOrdenBean); 
+					OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
+					objOrdenDetalle.setOrdenBean(objOrdenBean);
+					try {
+						lstOrdenBeann = ordenService.reporteDetalleOrdenVentaMensual(prmOrdenBean);
+				
+					} catch (ServiceException e) {
+						e.printStackTrace();
+					}
+					
+
+				}else
+					if (tipoReporte==4) {
+						tipoVentaNombre="DETALLE DE VENTA ANUAL";
+						System.out.println("listaDetalleVentaModalmensual");
+						objOrdenBean = new OrdenBean(); 
+						OrdenBean prmOrdenBean = new OrdenBean();
+						prmOrdenBean.setFecha("05-05-2019");
+						Date date = new Date();
+						SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+						SimpleDateFormat mes = new SimpleDateFormat("MM");
+						SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+						anio.format(date);
+						fecha.format(date);
+
+					
+						String strAnio = anio.format(date);
+
+
+					
+						prmOrdenBean.setNumeroPeriodo(strAnio);
+
+					
+					   
+						mav = new ModelAndView("asistencial/laboratorio/reporte/venta-diaria-modal", "command", objOrdenBean); 
+						OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
+						objOrdenDetalle.setOrdenBean(objOrdenBean);
+						try {
+							lstOrdenBeann = ordenService.reporteDetalleOrdenVentaAnual(prmOrdenBean);
+					
+						} catch (ServiceException e) {
+							e.printStackTrace();
+						}
+						
+
+					}
+		
+		
+		
+
+		
+		
+		mav.addObject("lstOrdenBean",    lstOrdenBeann);
+		mav.addObject("tipoVentaNombre", tipoVentaNombre); 
+		this.cargarCombos(mav);
+		return mav;
+	}
+	
+	
+	  @RequestMapping(value = "/descargarExcelDiario", method = RequestMethod.GET, produces = "application/vnd.ms-excel")
+	    public @ResponseBody void descargarExcelDiario(HttpServletResponse response) throws IOException {
+	    	 try {
+	    		 Workbook wb = generarExcelVentaDiaria();
+	    		 response.setHeader("Content-disposition", "attachment; filename=reporteExcel.xls");
+	    		 wb.write( response.getOutputStream() );
+	         } catch (Exception e) {
+	             e.printStackTrace();
+	         }
+	    }
+	  
+	  @RequestMapping(value = "/descargarExcelSemanal", method = RequestMethod.GET, produces = "application/vnd.ms-excel")
+	    public @ResponseBody void descargarExcelSemanal(HttpServletResponse response) throws IOException {
+	    	 try {
+	    		 Workbook wb = generarExcelVentaSemanal();
+	    		 response.setHeader("Content-disposition", "attachment; filename=reporteExcel.xls");
+	    		 wb.write( response.getOutputStream() );
+	         } catch (Exception e) {
+	             e.printStackTrace();
+	         }
+	    }
+	  
+	  @RequestMapping(value = "/descargarExcelMensual", method = RequestMethod.GET, produces = "application/vnd.ms-excel")
+	    public @ResponseBody void descargarExcelMensual(HttpServletResponse response) throws IOException {
+	    	 try {
+	    		 Workbook wb = generarExcelVentaMensual();
+	    		 response.setHeader("Content-disposition", "attachment; filename=reporteExcel.xls");
+	    		 wb.write( response.getOutputStream() );
+	         } catch (Exception e) {
+	             e.printStackTrace();
+	         }
+	    }
+	  
+	  @RequestMapping(value = "/descargarExcelAnual", method = RequestMethod.GET, produces = "application/vnd.ms-excel")
+	    public @ResponseBody void descargarExcelAnual(HttpServletResponse response) throws IOException {
+	    	 try {
+	    		 Workbook wb = generarExcelVentaAnual();
+	    		 response.setHeader("Content-disposition", "attachment; filename=reporteExcel.xls");
+	    		 wb.write( response.getOutputStream() );
+	         } catch (Exception e) {
+	             e.printStackTrace();
+	         }
+	    }
+	  
+	  
+	  @RequestMapping(value = "/descargarExcelTipo", method = RequestMethod.GET, produces = "application/vnd.ms-excel")
+	    public @ResponseBody void descargarExcelTipo(HttpServletResponse response) throws IOException {
+		  
+		  		if (tipoReporte==1) {
+		  			 try {
+			    		 Workbook wb = generarExcelVentaDiaria();
+			    		 response.setHeader("Content-disposition", "attachment; filename=reporteExcel.xls");
+			    		 wb.write( response.getOutputStream() );
+			         } catch (Exception e) {
+			             e.printStackTrace();
+			         }
+					
+				} else
+				if (tipoReporte==2) {
+					 try {
+			    		 Workbook wb = generarExcelVentaSemanal();
+			    		 response.setHeader("Content-disposition", "attachment; filename=reporteExcel.xls");
+			    		 wb.write( response.getOutputStream() );
+			         } catch (Exception e) {
+			             e.printStackTrace();
+			         }
+
+				}
+				 else
+				if (tipoReporte==3) {
+					 try {
+			    		 Workbook wb = generarExcelVentaMensual();
+			    		 response.setHeader("Content-disposition", "attachment; filename=reporteExcel.xls");
+			    		 wb.write( response.getOutputStream() );
+			         } catch (Exception e) {
+			             e.printStackTrace();
+			         }
+					
+				}
+				else
+				if (tipoReporte==4) {
+					 try {
+			    		 Workbook wb = generarExcelVentaAnual();
+			    		 response.setHeader("Content-disposition", "attachment; filename=reporteExcel.xls");
+			    		 wb.write( response.getOutputStream() );
+			         } catch (Exception e) {
+			             e.printStackTrace();
+			         }
+				}
+	    	
+	    }
+	  
+	  
+	  
+	  
+	  
+	   public HSSFWorkbook generarExcelVentaDiaria() {
+		   
+			OrdenBean objOrdenBean = new OrdenBean(); 
+			OrdenBean prmOrdenBean = new OrdenBean();
+			prmOrdenBean.setFecha("05-05-2019");
+		   
+
+			OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
+			objOrdenDetalle.setOrdenBean(objOrdenBean);
+			try {
+				lstOrdenBeann = ordenService.reporteDetalleOrdenVentaDiaria(prmOrdenBean);
+		
+			} catch (ServiceException e) {
+				e.printStackTrace();
+			}
+		   
+		   
+	        try {
+	            HSSFWorkbook workbook = new HSSFWorkbook();
+	            //Hoja
+	            HSSFSheet    sheet    = workbook.createSheet("SEGUIMIENTO DE ORDENES");
+	            /**** color ***/
+	            HSSFColor lightGray =  setColor(workbook,(byte) 0xE0, (byte)0xE0,(byte) 0xE0);
+	            /**estilos**/
+	            //estilo para el titulo
+	            HSSFFont headerFont = workbook.createFont();
+	            CellStyle titleStyle = workbook.createCellStyle();
+	            //titleStyle.setFillForegroundColor(lightGray.getIndex());
+	            titleStyle.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+	            titleStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	            titleStyle.setFont(headerFont);
+	            //estilo para el cabecera
+	            HSSFCellStyle headerStyle = workbook.createCellStyle();
+	            headerStyle.setFillForegroundColor(lightGray.getIndex());
+	            headerStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	            headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	            headerStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+	            //estilo para el cuerpo
+	         	HSSFCellStyle bodyStyle = workbook.createCellStyle();
+	         	//bodyStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	         	bodyStyle.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+	         	bodyStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	         	bodyStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+	            /*** tamaÃ¯Â¿Â½o de la columnas ***/
+	            sheet.setColumnWidth(0, 2500); 
+	            sheet.setColumnWidth(1, 2500);
+	            sheet.setColumnWidth(2, 10000);
+	            sheet.setColumnWidth(3, 10000); 
+	            sheet.setColumnWidth(4, 10000);
+	            sheet.setColumnWidth(5, 8000);
+	            
+	            sheet.setColumnWidth(6, 8000);
+//	            sheet.setColumnWidth(7, 5000);
+//	            sheet.setColumnWidth(8, 3000);
+//	            sheet.setColumnWidth(9, 3000);
+//	            sheet.setColumnWidth(7, 5000);
+//	            sheet.setColumnWidth(8, 5000);
+	            sheet.setColumnWidth(7, 5000);
+	            /**** fuente ***/
+	            //titulo
+	            HSSFFont fontTitulo = workbook.createFont();
+	            fontTitulo.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	            fontTitulo.setFontHeightInPoints((short) 14);
+	            
+	            titleStyle.setFont(fontTitulo);
+	            //cabecera
+	            HSSFFont fontCabecera = workbook.createFont();
+	            fontCabecera.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	            fontCabecera.setFontHeightInPoints((short) 9);
+	            
+	            headerStyle.setFont(fontCabecera); 	
+	            
+	            /*** contenido del excel ***/
+	            int rowIndex  = 0;
+	            HSSFCell headerCell = null;
+	            sheet.createRow( rowIndex++ );
+	            sheet.createRow( rowIndex++ );
+	            HSSFRow   headerRow    = sheet.createRow( rowIndex++ );
+	            sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 7));
+	            headerCell = headerRow.createCell(1);
+	            headerCell.setCellValue("LISTADO DE VENTA DIARIA");
+	            headerCell.setCellStyle(titleStyle);
+	            sheet.createRow( rowIndex++ );
+	            //Fila
+	            HSSFRow      bodyRow    = sheet.createRow( rowIndex++ );
+	            
+	            
+	           
+	            
+	            /************************* cabecera *****************************/
+		            
+	            headerCell = bodyRow.createCell(1);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("N°");
+	            headerCell = bodyRow.createCell(2);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("PACIENTE");
+	            headerCell = bodyRow.createCell(3);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("DNI");
+	            headerCell = bodyRow.createCell(4);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("MONTO S/.");
+	            headerCell = bodyRow.createCell(5);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("FECHA REG");
+	            headerCell = bodyRow.createCell(6);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("HORA REG");
+//	            headerCell = bodyRow.createCell(7);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("NIVEL");
+//	            headerCell = bodyRow.createCell(8);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("CICLO");
+//	            headerCell = bodyRow.createCell(9);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("AÃ¯Â¿Â½O");
+//	            headerCell = bodyRow.createCell(7);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("FECHA INICIO");
+//	            headerCell = bodyRow.createCell(8);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("FECHA TERMINO");
+	        
+	            headerCell = bodyRow.createCell(7);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("SITUACION");
+	            /******************* Contenido *************************/
+	    		HSSFRow  contentRow  = null;
+	    		HSSFCell contentCell = null;
+	    		
+	    		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
+	    	
+	            for (int i = 0; i < lstOrdenBeann.size(); i++) {
+	            	
+//	            	personaBean personaBean = this.lstpersonaBean.get(i);
+	            	OrdenBean ordenBean = lstOrdenBeann.get(i);
+	            	contentRow = sheet.createRow( rowIndex++ );
+	            	contentCell = contentRow.createCell(1);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(String.valueOf((i+1)));
+	            	contentCell = contentRow.createCell(2);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getPacienteBean().getPersona().getNombreCompleto());
+	            	contentCell = contentRow.createCell(3);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getPacienteBean().getPersona().getNroDocumento());
+	            	contentCell = contentRow.createCell(4);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getImporteTotal());
+	            	contentCell = contentRow.createCell(5);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getStrFechaOrden());
+	            	contentCell = contentRow.createCell(6);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getHoraOrden());
+
+	            	contentCell = contentRow.createCell(7);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getSituacion().getNombreCorto());
+	            }
+	            workbook.write(new FileOutputStream("reporteExcelVentaDiaria.xls"));
+
+	            //return workbook.getBytes();
+	            return workbook;
+	        } catch (FileNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        return null;
+	    }
+	
+	   public HSSFWorkbook generarExcelVentaSemanal() {
+		   
+			OrdenBean objOrdenBean = new OrdenBean(); 
+			OrdenBean prmOrdenBean = new OrdenBean();
+			prmOrdenBean.setFecha("05-05-2019");
+		   
+		
+			OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
+			objOrdenDetalle.setOrdenBean(objOrdenBean);
+			try {
+				lstOrdenBeann = ordenService.reporteDetalleOrdenVentaSemanal(prmOrdenBean);
+		
+			} catch (ServiceException e) {
+				e.printStackTrace();
+			}
+		   
+		   
+	        try {
+	            HSSFWorkbook workbook = new HSSFWorkbook();
+	            //Hoja
+	            HSSFSheet    sheet    = workbook.createSheet("SEGUIMIENTO DE ORDENES");
+	            /**** color ***/
+	            HSSFColor lightGray =  setColor(workbook,(byte) 0xE0, (byte)0xE0,(byte) 0xE0);
+	            /**estilos**/
+	            //estilo para el titulo
+	            HSSFFont headerFont = workbook.createFont();
+	            CellStyle titleStyle = workbook.createCellStyle();
+	            //titleStyle.setFillForegroundColor(lightGray.getIndex());
+	            titleStyle.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+	            titleStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	            titleStyle.setFont(headerFont);
+	            //estilo para el cabecera
+	            HSSFCellStyle headerStyle = workbook.createCellStyle();
+	            headerStyle.setFillForegroundColor(lightGray.getIndex());
+	            headerStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	            headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	            headerStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+	            //estilo para el cuerpo
+	         	HSSFCellStyle bodyStyle = workbook.createCellStyle();
+	         	//bodyStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	         	bodyStyle.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+	         	bodyStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	         	bodyStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+	            /*** tamaÃ¯Â¿Â½o de la columnas ***/
+	            sheet.setColumnWidth(0, 2500); 
+	            sheet.setColumnWidth(1, 2500);
+	            sheet.setColumnWidth(2, 10000);
+	            sheet.setColumnWidth(3, 10000); 
+	            sheet.setColumnWidth(4, 10000);
+	            sheet.setColumnWidth(5, 8000);
+	            
+	            sheet.setColumnWidth(6, 8000);
+//	            sheet.setColumnWidth(7, 5000);
+//	            sheet.setColumnWidth(8, 3000);
+//	            sheet.setColumnWidth(9, 3000);
+//	            sheet.setColumnWidth(7, 5000);
+//	            sheet.setColumnWidth(8, 5000);
+	            sheet.setColumnWidth(7, 5000);
+	            /**** fuente ***/
+	            //titulo
+	            HSSFFont fontTitulo = workbook.createFont();
+	            fontTitulo.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	            fontTitulo.setFontHeightInPoints((short) 14);
+	            
+	            titleStyle.setFont(fontTitulo);
+	            //cabecera
+	            HSSFFont fontCabecera = workbook.createFont();
+	            fontCabecera.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	            fontCabecera.setFontHeightInPoints((short) 9);
+	            
+	            headerStyle.setFont(fontCabecera); 	
+	            
+	            /*** contenido del excel ***/
+	            int rowIndex  = 0;
+	            HSSFCell headerCell = null;
+	            sheet.createRow( rowIndex++ );
+	            sheet.createRow( rowIndex++ );
+	            HSSFRow   headerRow    = sheet.createRow( rowIndex++ );
+	            sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 7));
+	            headerCell = headerRow.createCell(1);
+	            headerCell.setCellValue("LISTADO DE VENTA SEMANAL");
+	            headerCell.setCellStyle(titleStyle);
+	            sheet.createRow( rowIndex++ );
+	            //Fila
+	            HSSFRow      bodyRow    = sheet.createRow( rowIndex++ );
+	            
+	            
+	           
+	            
+	            /************************* cabecera *****************************/
+		            
+	            headerCell = bodyRow.createCell(1);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("N°");
+	            headerCell = bodyRow.createCell(2);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("PACIENTE");
+	            headerCell = bodyRow.createCell(3);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("DNI");
+	            headerCell = bodyRow.createCell(4);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("MONTO S/.");
+	            headerCell = bodyRow.createCell(5);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("FECHA REG");
+	            headerCell = bodyRow.createCell(6);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("HORA REG");
+
+	            headerCell = bodyRow.createCell(7);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("SITUACION");
+	            /******************* Contenido *************************/
+	    		HSSFRow  contentRow  = null;
+	    		HSSFCell contentCell = null;
+	    		
+	    		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
+	    	
+	            for (int i = 0; i < lstOrdenBeann.size(); i++) {
+	            	
+//	            	personaBean personaBean = this.lstpersonaBean.get(i);
+	            	OrdenBean ordenBean = lstOrdenBeann.get(i);
+	            	contentRow = sheet.createRow( rowIndex++ );
+	            	contentCell = contentRow.createCell(1);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(String.valueOf((i+1)));
+	            	contentCell = contentRow.createCell(2);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getPacienteBean().getPersona().getNombreCompleto());
+	            	contentCell = contentRow.createCell(3);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getPacienteBean().getPersona().getNroDocumento());
+	            	contentCell = contentRow.createCell(4);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getImporteTotal());
+	            	contentCell = contentRow.createCell(5);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getStrFechaOrden());
+	            	contentCell = contentRow.createCell(6);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getHoraOrden());
+
+	            	contentCell = contentRow.createCell(7);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getSituacion().getNombreCorto());
+	            }
+	            workbook.write(new FileOutputStream("reporteExcelVentaSemanal.xls"));
+
+	            //return workbook.getBytes();
+	            return workbook;
+	        } catch (FileNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        return null;
+	    }
+	   
+	   
+	   public HSSFWorkbook generarExcelVentaMensual() {
+		   
+			OrdenBean objOrdenBean = new OrdenBean(); 
+			OrdenBean prmOrdenBean = new OrdenBean();
+			Date date = new Date();
+			SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat mes = new SimpleDateFormat("MM");
+			SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+			mes.format(date);
+			anio.format(date);
+			fecha.format(date);
+	
+			String strMes = mes.format(date);
+
+			String strAnio = anio.format(date);
+			
+
+			prmOrdenBean.setNroMes(strMes);
+			prmOrdenBean.setNumeroPeriodo(strAnio);
+		   
+		
+			OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
+			objOrdenDetalle.setOrdenBean(objOrdenBean);
+			try {
+				lstOrdenBeann = ordenService.reporteDetalleOrdenVentaMensual(prmOrdenBean);
+		
+			} catch (ServiceException e) {
+				e.printStackTrace();
+			}
+		   
+		   
+	        try {
+	            HSSFWorkbook workbook = new HSSFWorkbook();
+	            //Hoja
+	            HSSFSheet    sheet    = workbook.createSheet("SEGUIMIENTO DE ORDENES");
+	            /**** color ***/
+	            HSSFColor lightGray =  setColor(workbook,(byte) 0xE0, (byte)0xE0,(byte) 0xE0);
+	            /**estilos**/
+	            //estilo para el titulo
+	            HSSFFont headerFont = workbook.createFont();
+	            CellStyle titleStyle = workbook.createCellStyle();
+	            //titleStyle.setFillForegroundColor(lightGray.getIndex());
+	            titleStyle.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+	            titleStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	            titleStyle.setFont(headerFont);
+	            //estilo para el cabecera
+	            HSSFCellStyle headerStyle = workbook.createCellStyle();
+	            headerStyle.setFillForegroundColor(lightGray.getIndex());
+	            headerStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	            headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	            headerStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+	            //estilo para el cuerpo
+	         	HSSFCellStyle bodyStyle = workbook.createCellStyle();
+	         	//bodyStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	         	bodyStyle.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+	         	bodyStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	         	bodyStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+	            /*** tamaÃ¯Â¿Â½o de la columnas ***/
+	            sheet.setColumnWidth(0, 2500); 
+	            sheet.setColumnWidth(1, 2500);
+	            sheet.setColumnWidth(2, 10000);
+	            sheet.setColumnWidth(3, 10000); 
+	            sheet.setColumnWidth(4, 10000);
+	            sheet.setColumnWidth(5, 8000);
+	            
+	            sheet.setColumnWidth(6, 8000);
+//	            sheet.setColumnWidth(7, 5000);
+//	            sheet.setColumnWidth(8, 3000);
+//	            sheet.setColumnWidth(9, 3000);
+//	            sheet.setColumnWidth(7, 5000);
+//	            sheet.setColumnWidth(8, 5000);
+	            sheet.setColumnWidth(7, 5000);
+	            /**** fuente ***/
+	            //titulo
+	            HSSFFont fontTitulo = workbook.createFont();
+	            fontTitulo.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	            fontTitulo.setFontHeightInPoints((short) 14);
+	            
+	            titleStyle.setFont(fontTitulo);
+	            //cabecera
+	            HSSFFont fontCabecera = workbook.createFont();
+	            fontCabecera.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	            fontCabecera.setFontHeightInPoints((short) 9);
+	            
+	            headerStyle.setFont(fontCabecera); 	
+	            
+	            /*** contenido del excel ***/
+	            int rowIndex  = 0;
+	            HSSFCell headerCell = null;
+	            sheet.createRow( rowIndex++ );
+	            sheet.createRow( rowIndex++ );
+	            HSSFRow   headerRow    = sheet.createRow( rowIndex++ );
+	            sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 7));
+	            headerCell = headerRow.createCell(1);
+	            headerCell.setCellValue("LISTADO DE VENTA MENSUAL");
+	            headerCell.setCellStyle(titleStyle);
+	            sheet.createRow( rowIndex++ );
+	            //Fila
+	            HSSFRow      bodyRow    = sheet.createRow( rowIndex++ );
+	            
+	            
+	           
+	            
+	            /************************* cabecera *****************************/
+		            
+	            headerCell = bodyRow.createCell(1);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("N°");
+	            headerCell = bodyRow.createCell(2);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("PACIENTE");
+	            headerCell = bodyRow.createCell(3);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("DNI");
+	            headerCell = bodyRow.createCell(4);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("MONTO S/.");
+	            headerCell = bodyRow.createCell(5);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("FECHA REG");
+	            headerCell = bodyRow.createCell(6);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("HORA REG");
+//	            headerCell = bodyRow.createCell(7);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("NIVEL");
+//	            headerCell = bodyRow.createCell(8);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("CICLO");
+//	            headerCell = bodyRow.createCell(9);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("AÃ¯Â¿Â½O");
+//	            headerCell = bodyRow.createCell(7);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("FECHA INICIO");
+//	            headerCell = bodyRow.createCell(8);
+//	            headerCell.setCellStyle(headerStyle);
+//	            headerCell.setCellValue("FECHA TERMINO");
+	        
+	            headerCell = bodyRow.createCell(7);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("SITUACION");
+	            /******************* Contenido *************************/
+	    		HSSFRow  contentRow  = null;
+	    		HSSFCell contentCell = null;
+	    		
+	    		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
+	    	
+	            for (int i = 0; i < lstOrdenBeann.size(); i++) {
+	            	
+//	            	personaBean personaBean = this.lstpersonaBean.get(i);
+	            	OrdenBean ordenBean = lstOrdenBeann.get(i);
+	            	contentRow = sheet.createRow( rowIndex++ );
+	            	contentCell = contentRow.createCell(1);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(String.valueOf((i+1)));
+	            	contentCell = contentRow.createCell(2);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getPacienteBean().getPersona().getNombreCompleto());
+	            	contentCell = contentRow.createCell(3);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getPacienteBean().getPersona().getNroDocumento());
+	            	contentCell = contentRow.createCell(4);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getImporteTotal());
+	            	contentCell = contentRow.createCell(5);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getStrFechaOrden());
+	            	contentCell = contentRow.createCell(6);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getHoraOrden());
+
+	            	contentCell = contentRow.createCell(7);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getSituacion().getNombreCorto());
+	            }
+	            workbook.write(new FileOutputStream("reporteExcelVentaMensual.xls"));
+
+	            //return workbook.getBytes();
+	            return workbook;
+	        } catch (FileNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        return null;
+	    }
+	   
+	   public HSSFWorkbook generarExcelVentaAnual() {
+		   
+			OrdenBean objOrdenBean = new OrdenBean(); 
+			OrdenBean prmOrdenBean = new OrdenBean();
+			Date date = new Date();
+			SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat mes = new SimpleDateFormat("MM");
+			SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+			mes.format(date);
+			anio.format(date);
+			fecha.format(date);
+			String strAnio = anio.format(date);
+			prmOrdenBean.setNumeroPeriodo(strAnio);
+		   
+
+			OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
+			objOrdenDetalle.setOrdenBean(objOrdenBean);
+			try {
+				lstOrdenBeann = ordenService.reporteDetalleOrdenVentaAnual(prmOrdenBean);
+		
+			} catch (ServiceException e) {
+				e.printStackTrace();
+			}
+		   
+		   
+	        try {
+	            HSSFWorkbook workbook = new HSSFWorkbook();
+	            //Hoja
+	            HSSFSheet    sheet    = workbook.createSheet("SEGUIMIENTO DE ORDENES");
+	            /**** color ***/
+	            HSSFColor lightGray =  setColor(workbook,(byte) 0xE0, (byte)0xE0,(byte) 0xE0);
+	            /**estilos**/
+	            //estilo para el titulo
+	            HSSFFont headerFont = workbook.createFont();
+	            CellStyle titleStyle = workbook.createCellStyle();
+	            //titleStyle.setFillForegroundColor(lightGray.getIndex());
+	            titleStyle.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+	            titleStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	            titleStyle.setFont(headerFont);
+	            //estilo para el cabecera
+	            HSSFCellStyle headerStyle = workbook.createCellStyle();
+	            headerStyle.setFillForegroundColor(lightGray.getIndex());
+	            headerStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	            headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	            headerStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+	            headerStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+	            //estilo para el cuerpo
+	         	HSSFCellStyle bodyStyle = workbook.createCellStyle();
+	         	//bodyStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	         	bodyStyle.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+	         	bodyStyle.setAlignment(CellStyle.ALIGN_CENTER);
+	         	bodyStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+	         	bodyStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+	            /*** tamaÃ¯Â¿Â½o de la columnas ***/
+	            sheet.setColumnWidth(0, 2500); 
+	            sheet.setColumnWidth(1, 2500);
+	            sheet.setColumnWidth(2, 10000);
+	            sheet.setColumnWidth(3, 10000); 
+	            sheet.setColumnWidth(4, 10000);
+	            sheet.setColumnWidth(5, 8000);
+	            
+	            sheet.setColumnWidth(6, 8000);
+//	            sheet.setColumnWidth(7, 5000);
+//	            sheet.setColumnWidth(8, 3000);
+//	            sheet.setColumnWidth(9, 3000);
+//	            sheet.setColumnWidth(7, 5000);
+//	            sheet.setColumnWidth(8, 5000);
+	            sheet.setColumnWidth(7, 5000);
+	            /**** fuente ***/
+	            //titulo
+	            HSSFFont fontTitulo = workbook.createFont();
+	            fontTitulo.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	            fontTitulo.setFontHeightInPoints((short) 14);
+	            
+	            titleStyle.setFont(fontTitulo);
+	            //cabecera
+	            HSSFFont fontCabecera = workbook.createFont();
+	            fontCabecera.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	            fontCabecera.setFontHeightInPoints((short) 9);
+	            
+	            headerStyle.setFont(fontCabecera); 	
+	            
+	            /*** contenido del excel ***/
+	            int rowIndex  = 0;
+	            HSSFCell headerCell = null;
+	            sheet.createRow( rowIndex++ );
+	            sheet.createRow( rowIndex++ );
+	            HSSFRow   headerRow    = sheet.createRow( rowIndex++ );
+	            sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 7));
+	            headerCell = headerRow.createCell(1);
+	            headerCell.setCellValue("LISTADO DE VENTA ANUAL");
+	            headerCell.setCellStyle(titleStyle);
+	            sheet.createRow( rowIndex++ );
+	            //Fila
+	            HSSFRow      bodyRow    = sheet.createRow( rowIndex++ );
+	            
+	            
+	           
+	            
+	            /************************* cabecera *****************************/
+		            
+	            headerCell = bodyRow.createCell(1);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("N°");
+	            headerCell = bodyRow.createCell(2);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("PACIENTE");
+	            headerCell = bodyRow.createCell(3);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("DNI");
+	            headerCell = bodyRow.createCell(4);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("MONTO S/.");
+	            headerCell = bodyRow.createCell(5);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("FECHA REG");
+	            headerCell = bodyRow.createCell(6);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("HORA REG");
+
+	        
+	            headerCell = bodyRow.createCell(7);
+	            headerCell.setCellStyle(headerStyle);
+	            headerCell.setCellValue("SITUACION");
+	            /******************* Contenido *************************/
+	    		HSSFRow  contentRow  = null;
+	    		HSSFCell contentCell = null;
+	    		
+	    		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
+	    	
+	            for (int i = 0; i < lstOrdenBeann.size(); i++) {
+	            	
+//	            	personaBean personaBean = this.lstpersonaBean.get(i);
+	            	OrdenBean ordenBean = lstOrdenBeann.get(i);
+	            	contentRow = sheet.createRow( rowIndex++ );
+	            	contentCell = contentRow.createCell(1);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(String.valueOf((i+1)));
+	            	contentCell = contentRow.createCell(2);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getPacienteBean().getPersona().getNombreCompleto());
+	            	contentCell = contentRow.createCell(3);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getPacienteBean().getPersona().getNroDocumento());
+	            	contentCell = contentRow.createCell(4);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getImporteTotal());
+	            	contentCell = contentRow.createCell(5);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getStrFechaOrden());
+	            	contentCell = contentRow.createCell(6);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getHoraOrden());
+
+	            	contentCell = contentRow.createCell(7);
+	            	contentCell.setCellStyle(bodyStyle);
+	            	contentCell.setCellValue(ordenBean.getSituacion().getNombreCorto());
+	            }
+	            workbook.write(new FileOutputStream("reporteExcelVentaAnual.xls"));
+
+	            //return workbook.getBytes();
+	            return workbook;
+	        } catch (FileNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        return null;
+	    }
+	
 	private void registrarAudAcceso(String nomUsuario, String tipoAccion, HttpServletRequest request){
 		try {
 			AuditoriaAccesoBean bean = new AuditoriaAccesoBean();
@@ -589,6 +1857,468 @@ public class InicioController extends BaseController{
 	public void setLstMaestra(List<TablaBean> lstMaestra) {
 		this.lstMaestra = lstMaestra;
 	}
+	
+	
+private void obtenerFechaHoraDia() {
+	
+	Calendar c = Calendar.getInstance();
+	 String letraD="";
+	int anio = 0,mes = 0,dia = 0;
+	 c.set(anio,mes,dia); // vairables int
+	  TimeZone timezone = TimeZone.getDefault();
+      Calendar calendar = new GregorianCalendar(timezone);
+	 int nD=calendar.get(Calendar.DAY_OF_WEEK);
+	 switch (nD){
+     case 1: letraD = "Domingo";
+         break;
+     case 2: letraD = "Lunes";
+         break;
+     case 3: letraD = "Martes";
+         break;
+     case 4: letraD = "Miércoles";
+         break;
+     case 5: letraD = "Jueves";
+         break;
+     case 6: letraD = "Viernes";
+         break;
+     case 7: letraD = "Sábado";
+         break;
+ }
+
+
+	 
+	
+	
+	DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
+	 Date date = new Date();
+	  System.out.println("Hora actual: " + dateFormat.format(date));
+	  diaSemana="Actualizado "+ letraD+" "+dateFormat.format(date) ;
+}
+	
+public HSSFColor setColor(HSSFWorkbook workbook, byte r,byte g, byte b){
+    HSSFPalette palette = workbook.getCustomPalette();
+    HSSFColor hssfColor = null;
+    try {
+        hssfColor= palette.findColor(r, g, b); 
+        if (hssfColor == null ){
+            palette.setColorAtIndex(HSSFColor.LAVENDER.index, r, g,b);
+            hssfColor = palette.getColor(HSSFColor.LAVENDER.index);
+        }
+    } catch (Exception e) {
+    	e.printStackTrace();
+    }
+
+    return hssfColor;
+}
+
+
+@RequestMapping(value = "/portadaListarDiario", method = RequestMethod.GET)
+public ModelAndView portadaListarDiario(HttpServletRequest request) throws Exception {
+	
+	ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+	 tipoReporte=1;
+	 nombreVenta="VENTA DEL DIA";
+	
+	/***mandamos datos del tablero de fecha actual por default a los reportes de la semana***/
+	obtenerFechaHoraDia();
+	uOrderBean = new OrdenBean();
+	uOrdenBeanVentadiaria = new OrdenBean();
+	
+	OrdenBean uOrdenBean2 = new OrdenBean();
+	OrdenBean uOrdenBean3 = new OrdenBean();
+	
+	OrdenBean uOrdenBeanArea  = new OrdenBean();
+	OrdenBean uOrdenBeanBarra  = new OrdenBean();
+	
+	OrdenBean prmOrdenBean1 = new OrdenBean();
+	OrdenBean prmOrdenBean2 = new OrdenBean();
+	OrdenBean prmOrdenBean3 = new OrdenBean();
+	
+	OrdenBean prmOrdenBeanArea  = new OrdenBean();
+	OrdenBean prmOrdenBeanBarra  = new OrdenBean();
+	
+	OrdenBean prmOrdenBeanVentaDiaria = new OrdenBean();
+	Date date = new Date();
+	SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+	SimpleDateFormat mes = new SimpleDateFormat("MM");
+	SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+	mes.format(date);
+	anio.format(date);
+	fecha.format(date);
+	String strDate = fecha.format(date);
+	System.out.println("strDate"+strDate);
+	String strMes = mes.format(date);
+	System.out.println("strMes"+strMes);
+	String strAnio = anio.format(date);
+	System.out.println("strAnio"+strAnio);
+	Date dt = fecha.parse(strDate);
+//	prmOrdenBean1.setFechaOrden(dt);
+	prmOrdenBean1.setFecha(strDate);
+//	prmOrdenBean2.setFechaOrden(dt);
+	prmOrdenBean2.setFecha(strDate);
+//	prmOrdenBean3.setFechaOrden(dt);
+	prmOrdenBean3.setFecha(strDate);
+//	prmOrdenBeanVentaDiaria.setFechaOrden(dt);
+	prmOrdenBeanVentaDiaria.setFecha(strDate);
+	/**situacion 000001 pendiente 000002 atendido 000003 anulado ***/
+	TablaBean tabla1 = new TablaBean();
+	tabla1.setCodReg("000001");
+	TablaBean tabla2 = new TablaBean();
+	tabla2.setCodReg("000002");
+	TablaBean tabla3 = new TablaBean();
+	tabla3.setCodReg("000003");
+	prmOrdenBean1.setSituacion(tabla1);
+	prmOrdenBean2.setSituacion(tabla2);
+	prmOrdenBean3.setSituacion(tabla3);
+	prmOrdenBeanArea.setNroMes(strMes);
+	prmOrdenBeanArea.setNumeroPeriodo(strAnio);
+	prmOrdenBeanBarra.setNumeroPeriodo(strAnio);
+	System.out.println("acaPortada");
+	try { 
+		uOrderBean = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean1);
+	
+		uOrdenBean2 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean2);
+		
+		uOrdenBean3 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean3);
+		
+		uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);
+		
+		uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
+		uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
+		
+		
+		System.out.println("uOrdenBeanVentaSemanal"+uOrdenBeanVentaSemanal.getCantidadVentas());
+		if(uOrderBean!=null){   
+			
+			
+		}else{   
+		} 
+} catch (Exception e) {  
+}
+	
+	mav.addObject("uOrderBean", 		   uOrderBean);
+	mav.addObject("uOrdenBean2", 		   uOrdenBean2);
+	mav.addObject("uOrdenBean3", 		   uOrdenBean3);
+	mav.addObject("uOrdenBeanVentadiaria", uOrdenBeanVentadiaria);
+	mav.addObject("uOrdenBeanArea",		   uOrdenBeanArea);
+	mav.addObject("uOrdenBeanBarra", 	   uOrdenBeanBarra);
+	mav.addObject("diaSemana", 	   		   diaSemana);
+	mav.addObject("nombreVenta", 	   	   nombreVenta);
+	
+	return mav;	
+	
+	
+};
+
+
+
+@RequestMapping(value = "/portadaListarSemanal", method = RequestMethod.GET)
+public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exception {
+	
+	ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+	
+	tipoReporte=2;
+	System.out.println("VENTA DE LA SEMANA");
+	nombreVenta="VENTA DE LA SEMANA";
+	
+	/***mandamos datos del tablero de fecha actual por default a los reportes de la semana***/
+	obtenerFechaHoraDia();
+	uOrderBean = new OrdenBean();
+	uOrdenBeanVentaSemanal = new OrdenBean();
+	
+	OrdenBean uOrdenBean2 = new OrdenBean();
+	OrdenBean uOrdenBean3 = new OrdenBean();
+	
+	OrdenBean uOrdenBeanArea  = new OrdenBean();
+	OrdenBean uOrdenBeanBarra  = new OrdenBean();
+	
+	OrdenBean prmOrdenBean1 = new OrdenBean();
+	OrdenBean prmOrdenBean2 = new OrdenBean();
+	OrdenBean prmOrdenBean3 = new OrdenBean();
+	
+	OrdenBean prmOrdenBeanArea  = new OrdenBean();
+	OrdenBean prmOrdenBeanBarra  = new OrdenBean();
+	
+	OrdenBean prmOrdenBeanVentaDiaria = new OrdenBean();
+	Date date = new Date();
+	SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+	SimpleDateFormat mes = new SimpleDateFormat("MM");
+	SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+	mes.format(date);
+	anio.format(date);
+	fecha.format(date);
+	String strDate = fecha.format(date);
+	System.out.println("strDate"+strDate);
+	String strMes = mes.format(date);
+	System.out.println("strMes"+strMes);
+	String strAnio = anio.format(date);
+	System.out.println("strAnio"+strAnio);
+	Date dt = fecha.parse(strDate);
+//	prmOrdenBean1.setFechaOrden(dt);
+	prmOrdenBean1.setFecha(strDate);
+//	prmOrdenBean2.setFechaOrden(dt);
+	prmOrdenBean2.setFecha(strDate);
+//	prmOrdenBean3.setFechaOrden(dt);
+	prmOrdenBean3.setFecha(strDate);
+//	prmOrdenBeanVentaDiaria.setFechaOrden(dt);
+	prmOrdenBeanVentaDiaria.setFecha(strDate);
+	/**situacion 000001 pendiente 000002 atendido 000003 anulado ***/
+	TablaBean tabla1 = new TablaBean();
+	tabla1.setCodReg("000001");
+	TablaBean tabla2 = new TablaBean();
+	tabla2.setCodReg("000002");
+	TablaBean tabla3 = new TablaBean();
+	tabla3.setCodReg("000003");
+	prmOrdenBean1.setSituacion(tabla1);
+	prmOrdenBean2.setSituacion(tabla2);
+	prmOrdenBean3.setSituacion(tabla3);
+	prmOrdenBeanArea.setNroMes(strMes);
+	prmOrdenBeanArea.setNumeroPeriodo(strAnio);
+	prmOrdenBeanBarra.setNumeroPeriodo(strAnio);
+	System.out.println("acaPortada");
+	try { 
+	//	uOrderBean = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean1);
+		uOrderBean = ordenService.reporteCantidadSemanalOrdenSituacion(prmOrdenBean1);
+	//	uOrdenBean2 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean2);
+		uOrdenBean2 = ordenService.reporteCantidadSemanalOrdenSituacion(prmOrdenBean2);
+	//	uOrdenBean3 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean3);
+		uOrdenBean3 = ordenService.reporteCantidadSemanalOrdenSituacion(prmOrdenBean3);
+	//	uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);
+		uOrdenBeanVentaSemanal = ordenService.reporteVentaSemanal(prmOrdenBeanVentaDiaria);	
+		uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
+		uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
+		
+		
+		System.out.println("uOrdenBeanVentaSemanal"+uOrdenBeanVentaSemanal.getCantidadVentas());
+		if(uOrderBean!=null){   
+			
+			
+		}else{   
+		} 
+} catch (Exception e) {  
+}
+	
+	mav.addObject("uOrderBean", 		   uOrderBean);
+	mav.addObject("uOrdenBean2", 		   uOrdenBean2);
+	mav.addObject("uOrdenBean3", 		   uOrdenBean3);
+	mav.addObject("uOrdenBeanVentaSemanal", uOrdenBeanVentaSemanal);
+	mav.addObject("uOrdenBeanArea",		   uOrdenBeanArea);
+	mav.addObject("uOrdenBeanBarra", 	   uOrdenBeanBarra);
+	mav.addObject("diaSemana", 	   		   diaSemana);
+	mav.addObject("nombreVenta", 	   	   nombreVenta);
+	
+	return mav;	
+	
+	
+};
+
+@RequestMapping(value = "/portadaListarMensual", method = RequestMethod.GET)
+public ModelAndView portadaListarMensual(HttpServletRequest request) throws Exception {
+	
+	ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+	tipoReporte=3;
+	 nombreVenta="VENTA DEL MES";
+	
+	/***mandamos datos del tablero de fecha actual por default a los reportes del mes**/
+	obtenerFechaHoraDia();
+	uOrderBean = new OrdenBean();
+	uOrdenBeanVentaMensual = new OrdenBean();
+	
+	OrdenBean uOrdenBean2 = new OrdenBean();
+	OrdenBean uOrdenBean3 = new OrdenBean();
+	
+	OrdenBean uOrdenBeanArea  = new OrdenBean();
+	OrdenBean uOrdenBeanBarra  = new OrdenBean();
+	
+	OrdenBean prmOrdenBean1 = new OrdenBean();
+	OrdenBean prmOrdenBean2 = new OrdenBean();
+	OrdenBean prmOrdenBean3 = new OrdenBean();
+	
+	OrdenBean prmOrdenBeanArea  = new OrdenBean();
+	OrdenBean prmOrdenBeanBarra  = new OrdenBean();
+	
+	OrdenBean prmOrdenBeanVentaMensual = new OrdenBean();
+	Date date = new Date();
+	SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+	SimpleDateFormat mes = new SimpleDateFormat("MM");
+	SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+	mes.format(date);
+	anio.format(date);
+	fecha.format(date);
+	String strDate = fecha.format(date);
+	System.out.println("strDate"+strDate);
+	String strMes = mes.format(date);
+	System.out.println("strMes"+strMes);
+	String strAnio = anio.format(date);
+	System.out.println("strAnio"+strAnio);
+	Date dt = fecha.parse(strDate);
+
+	prmOrdenBean1.setNroMes(strMes);
+	prmOrdenBean1.setNumeroPeriodo(strAnio);
+
+	prmOrdenBean2.setNroMes(strMes);
+	prmOrdenBean2.setNumeroPeriodo(strAnio);
+
+	prmOrdenBean3.setNroMes(strMes);
+	prmOrdenBean3.setNumeroPeriodo(strAnio);
+
+
+	prmOrdenBeanVentaMensual.setNroMes(strMes);
+	prmOrdenBeanVentaMensual.setNumeroPeriodo(strAnio);
+	
+	/**situacion 000001 pendiente 000002 atendido 000003 anulado ***/
+	TablaBean tabla1 = new TablaBean();
+	tabla1.setCodReg("000001");
+	TablaBean tabla2 = new TablaBean();
+	tabla2.setCodReg("000002");
+	TablaBean tabla3 = new TablaBean();
+	tabla3.setCodReg("000003");
+	prmOrdenBean1.setSituacion(tabla1);
+	prmOrdenBean2.setSituacion(tabla2);
+	prmOrdenBean3.setSituacion(tabla3);
+	prmOrdenBeanArea.setNroMes(strMes);
+	prmOrdenBeanArea.setNumeroPeriodo(strAnio);
+	prmOrdenBeanBarra.setNumeroPeriodo(strAnio);
+
+	try { 
+
+		uOrderBean = ordenService.reporteCantidadMensualOrdenSituacion(prmOrdenBean1);
+
+		uOrdenBean2 = ordenService.reporteCantidadMensualOrdenSituacion(prmOrdenBean2);
+
+		uOrdenBean3 = ordenService.reporteCantidadMensualOrdenSituacion(prmOrdenBean3);
+	
+		uOrdenBeanVentaMensual = ordenService.reporteVentaMensual(prmOrdenBeanVentaMensual);	
+		uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
+		uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
+		
+		
+		System.out.println("uOrdenBeanVentaSemanal"+uOrdenBeanVentaMensual.getCantidadVentas());
+		if(uOrderBean!=null){   
+			
+			
+		}else{   
+		} 
+} catch (Exception e) {  
+}
+	
+	mav.addObject("uOrderBean", 		   uOrderBean);
+	mav.addObject("uOrdenBean2", 		   uOrdenBean2);
+	mav.addObject("uOrdenBean3", 		   uOrdenBean3);
+	mav.addObject("uOrdenBeanVentaMensual", uOrdenBeanVentaMensual);
+	mav.addObject("uOrdenBeanArea",		   uOrdenBeanArea);
+	mav.addObject("uOrdenBeanBarra", 	   uOrdenBeanBarra);
+	mav.addObject("diaSemana", 	   		   diaSemana);
+	mav.addObject("nombreVenta", 	   	   nombreVenta);
+	
+	return mav;	
+	
+	
+};
+	
+@RequestMapping(value = "/portadaListarAnual", method = RequestMethod.GET)
+public ModelAndView portadaListarAnual(HttpServletRequest request) throws Exception {
+	
+	ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+	
+	tipoReporte=4;
+	 nombreVenta="VENTA DEL AÑO";
+	/***mandamos datos del tablero de fecha actual por default a los reportes del año***/
+	obtenerFechaHoraDia();
+	uOrderBean = new OrdenBean();
+	uOrdenBeanVentaAnual = new OrdenBean();
+	
+	OrdenBean uOrdenBean2 = new OrdenBean();
+	OrdenBean uOrdenBean3 = new OrdenBean();
+	
+	OrdenBean uOrdenBeanArea  = new OrdenBean();
+	OrdenBean uOrdenBeanBarra  = new OrdenBean();
+	
+	OrdenBean prmOrdenBean1 = new OrdenBean();
+	OrdenBean prmOrdenBean2 = new OrdenBean();
+	OrdenBean prmOrdenBean3 = new OrdenBean();
+	
+	OrdenBean prmOrdenBeanArea  = new OrdenBean();
+	OrdenBean prmOrdenBeanBarra  = new OrdenBean();
+	
+	OrdenBean prmOrdenBeanVentaAnual = new OrdenBean();
+	Date date = new Date();
+	SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+	SimpleDateFormat mes = new SimpleDateFormat("MM");
+	SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+	mes.format(date);
+	anio.format(date);
+	fecha.format(date);
+	String strDate = fecha.format(date);
+	System.out.println("strDate"+strDate);
+	String strMes = mes.format(date);
+	System.out.println("strMes"+strMes);
+	String strAnio = anio.format(date);
+	System.out.println("strAnio"+strAnio);
+	Date dt = fecha.parse(strDate);
+	
+	prmOrdenBean1.setNumeroPeriodo(strAnio);
+
+
+	prmOrdenBean2.setNumeroPeriodo(strAnio);
+
+
+	prmOrdenBean3.setNumeroPeriodo(strAnio);
+
+
+
+	prmOrdenBeanVentaAnual.setNumeroPeriodo(strAnio);
+
+	/**situacion 000001 pendiente 000002 atendido 000003 anulado ***/
+	TablaBean tabla1 = new TablaBean();
+	tabla1.setCodReg("000001");
+	TablaBean tabla2 = new TablaBean();
+	tabla2.setCodReg("000002");
+	TablaBean tabla3 = new TablaBean();
+	tabla3.setCodReg("000003");
+	prmOrdenBean1.setSituacion(tabla1);
+	prmOrdenBean2.setSituacion(tabla2);
+	prmOrdenBean3.setSituacion(tabla3);
+	prmOrdenBeanArea.setNroMes(strMes);
+	prmOrdenBeanArea.setNumeroPeriodo(strAnio);
+	prmOrdenBeanBarra.setNumeroPeriodo(strAnio);
+	System.out.println("acaPortada");
+	try { 
+
+		uOrderBean = ordenService.reporteCantidadAnualOrdenSituacion(prmOrdenBean1);
+
+		uOrdenBean2 = ordenService.reporteCantidadAnualOrdenSituacion(prmOrdenBean2);
+
+		uOrdenBean3 = ordenService.reporteCantidadAnualOrdenSituacion(prmOrdenBean3);
+
+		uOrdenBeanVentaAnual = ordenService.reporteVentaAnual(prmOrdenBeanVentaAnual);	
+		uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
+		uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
+		
+		
+		System.out.println("uOrdenBeanVentaSemanal"+uOrdenBeanVentaAnual.getCantidadVentas());
+		if(uOrderBean!=null){   
+			
+			
+		}else{   
+		} 
+} catch (Exception e) {  
+}
+	
+	mav.addObject("uOrderBean", 		   uOrderBean);
+	mav.addObject("uOrdenBean2", 		   uOrdenBean2);
+	mav.addObject("uOrdenBean3", 		   uOrdenBean3);
+	mav.addObject("uOrdenBeanVentaAnual",  uOrdenBeanVentaAnual);
+	mav.addObject("uOrdenBeanArea",		   uOrdenBeanArea);
+	mav.addObject("uOrdenBeanBarra", 	   uOrdenBeanBarra);
+	mav.addObject("diaSemana", 	   		   diaSemana);
+	mav.addObject("nombreVenta", 	   	   nombreVenta);
+	
+	return mav;	
+	
+	
+};
+
 	
 	
 	

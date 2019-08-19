@@ -67,8 +67,7 @@ input[type=text] {
 <div class="modal-dialog modal-lg" role="document">
 	<div class="modal-content">
 		<div class="modal-header">
-			<label class="modal-title text-text-bold-600" id="myModalLabel35"><b>REGISTRO
-					DE RESULTADOS</b></label>
+			<label class="modal-title text-text-bold-600" id="myModalLabel35"><b>${nombreVenta}</b></label>
 			<button type="button" class="close" data-dismiss="modal"
 				aria-label="Close">
 				<span aria-hidden="true">&times;</span>
@@ -84,76 +83,37 @@ input[type=text] {
 				
 			<div class="modal-body" id="buscaFormula" onload="init();">
 			
-			<div class="row">
-
-					<div class="form-group col-md-4 mb-2">
-						<label for="nombreCompleto" class="label_control">EXAMEN
-							<span class="required">*</span>
-						</label>
-						<div class="controls">
-							<f:input type="text" class="form-control" disabled="true"
-								
-								id="nombreExamen" path="examen.descripcion" />
-
-						</div>
-					</div>
-					
-				
-				</div>	
-				
-
-			
-<div class="label_title">
-								INGRESE LOS RESULTADOS <span class="required">*</span>:
-							</div>
+		
 							<div id="panelCEX" class="panel_style col-md-12">
 						
 								<div class="row">
 									<div class="col-md-12">
+									
 										<div class="table-responsive">
 											<table class="table table-bordered">
 												<thead class="tabla_th">
 													<tr>
 														<th width="30">ITEM</th>
-														<th>DESCRIPCION</th>
-														<th>TIPO</th>
-														<th>UNIDAD MEDIDA</th>
-														<th>RESULTADO</th>
-														<th>IMPRESION</th>
+														<th>PACIENTE</th>
+														<th>DNI</th>
+														<th>MONTO</th>
+														<th>FECHA</th>
+														<th>HORA</th>
+														<th>SITUACION</th>
 													</tr>
 												</thead>
 												<tbody id="idbodyCIEXref" class="label_control">
-													<c:forEach var="orden" items="${lstOrdenDetalleItemBean}"
+													<c:forEach var="orden" items="${lstOrdenBean}"
 														varStatus="loop"> 
 				 										<tr>
 															<td>${loop.count}</td>
-															<td>${orden.examenesLaboratorioBean.descripcion}</td>
-															<td>${orden.examenesLaboratorioBean.tipoExamenAsoc}</td>
-															<td><a title="${orden.examenesLaboratorioBean.examenUnidadMedidaLaboratorioBean.descripcion}">${orden.examenesLaboratorioBean.examenUnidadMedidaLaboratorioBean.abrev}</a></td>
-													
+															<td>${orden.pacienteBean.persona.nombreCompleto}</td>
+															<td>${orden.pacienteBean.persona.nroDocumento}</td>
+															<td>${orden.importeTotal}</td>
+															<td>${orden.strFechaOrden}</td>
+															<td>${orden.horaOrden}</td>
+															<td>${orden.situacion.nombreCorto}</td>
 														
-															<td>
-															<c:choose>
-															<c:when test="${orden.examenesLaboratorioBean.tipoExamenAsoc=='000001'}">
-															
-																	<f:input type="text" min="1" maxlength="20"
-																		class="form-control" required="required" onkeypress="return NumCheck(event, this)"
-																		id="tarifarioUnidades" path="lstOrdenDetalleItemBean[${loop.index}].resultado" />
-																
-																
-																</c:when> 
-																<c:otherwise>
-																<f:input type="text" min="1" maxlength="20"
-																		class="form-control" disabled="true"
-																		id="tarifarioUnidades" path="lstOrdenDetalleItemBean[${loop.index}].resultado" />
-																</c:otherwise>
-																</c:choose>
-															</td>
-															
-															<td><div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
-                  <label class="custom-control-label" for="customCheck1"></label>
-              </div></td>
 															
 														</tr>
 													</c:forEach>
@@ -178,21 +138,7 @@ input[type=text] {
 					class="btn btn-secondary" data-dismiss="modal">
 					<i class="fa fa-close"></i> CERRAR
 				</button>
-
-				<button type="button" onclick="limpiar()" class="btn btn-default">
-					<i class="fa fa-eraser"></i> LIMPIAR
-				</button>
-
-				<button type="submit" onclick="grabarResultados()"
-					class="btn btn-primary">
-					<i class="fa fa-floppy-o"></i> GRABAR
-				</button>
-				
-				<button type="submit"
-					class="btn btn-primary">
-					<i class="fa fa-print"></i> IMPRIMIR
-				</button>
-			</div>
+			    </div>
 
 
 
@@ -210,8 +156,7 @@ input[type=text] {
 			src="${pageContext.request.contextPath}/assets/js/page/util/utilitarios.js"
 			type="text/javascript" charset="utf-8"></script>
 			
-	
-			
+
 	<script> 
 	$(document).ready(function(){
 		console.log("log");

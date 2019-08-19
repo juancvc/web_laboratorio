@@ -30,8 +30,14 @@ public class OrdenBean extends BaseBean{
 	private String fechaDesde;  
 	private String fechaHasta;  
 	private TablaBean motivoAnular;
-	private String detalleMotivoAnular;  
+	private String detalleMotivoAnular; 
 	
+	/***reportes**/
+	private String cantidadOrdenes;
+	private String cantidadVentas;
+	private String nroMes;
+	private String nombreExamen;
+	private String fecha;
  
 	public TablaBean getMotivoAnular() {
 		if (motivoAnular == null) {
@@ -162,5 +168,38 @@ public class OrdenBean extends BaseBean{
 	public void setHoraOrden(String horaOrden) {
 		this.horaOrden = horaOrden;
 	}
+	public String getCantidadOrdenes() {
+		return cantidadOrdenes;
+	}
+	public void setCantidadOrdenes(String cantidadOrdenes) {
+		this.cantidadOrdenes = cantidadOrdenes;
+	}
+	public String getCantidadVentas() {
+		return cantidadVentas;
+	}
+	public void setCantidadVentas(String cantidadVentas) {
+		this.cantidadVentas = cantidadVentas;
+	}
+	public String getNombreExamen() {
+		return nombreExamen;
+	}
+	public void setNombreExamen(String nombreExamen) {
+		this.nombreExamen = nombreExamen;
+	}
+	public String getNroMes() {
+		return nroMes;
+	}
+	public void setNroMes(String nroMes) {
+		this.nroMes = nroMes;
+	}
+	public String getFecha() {
+		return fecha;
+	}
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+	
+	
+	
  
 }

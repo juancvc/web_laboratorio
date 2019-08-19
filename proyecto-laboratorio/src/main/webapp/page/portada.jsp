@@ -95,6 +95,30 @@ border:1px solid rgba(230, 212, 212, 0.33)}
 	font-size: 13px;  
 	color:   #5611afc9; 
 }
+.btn-primary {
+  color: var(--button-color);
+  background-color: var(--button-background-color);
+  border-radius: var(--border-radius);
+}
+
+.btn-primary:hover {
+  box-shadow: inset 0 0 0 20rem var(--darken-1);
+}
+
+.btn-primary:active {
+  box-shadow: inset 0 0 0 20rem var(--darken-2),
+    inset 0 3px 4px 0 var(--darken-3),
+    0 0 1px var(--darken-2);
+}
+
+.btn-primary:disabled,
+.btn-primary.is-disabled {
+  opacity: .5;
+}
+:root {
+  --button-color: white;
+  --button-background-color: green;
+}
 </style>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
@@ -108,7 +132,8 @@ border:1px solid rgba(230, 212, 212, 0.33)}
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-
+<input id="contextPath" type="hidden"
+				value="${pageContext.request.contextPath}">
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<jsp:include
 				page="${pageContext.request.contextPath}/../layout/menu-view.jsp" />
@@ -121,24 +146,64 @@ border:1px solid rgba(230, 212, 212, 0.33)}
         <li class="breadcrumb-item">
           <a href="#">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">My Dashboard</li>
+        <li class="breadcrumb-item active">Tablero de Datos</li>
       </ol>
       <!-- Icon Cards-->
+      
+    <div class="card-header">  
+      <div class="form-check form-check-inline">
+  <input type="radio" checked="" class="form-check-input" id="materialInline1" name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasDiario();">
+  <label class="form-check-label" for="materialInline1">Diario</label>
+</div>
+
+<!-- Material inline 2 -->
+<div class="form-check form-check-inline">
+  <input type="radio" class="form-check-input" id="materialInline2" name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasSemanal();">
+  <label class="form-check-label" for="materialInline2">Semanal</label>
+</div>
+
+<!-- Material inline 3 -->
+<div class="form-check form-check-inline">
+  <input type="radio" class="form-check-input" id="materialInline3" name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasMensual();">
+  <label class="form-check-label" for="materialInline3">Mensual</label>
+</div>
+
+<!-- Material inline 4 -->
+<div class="form-check form-check-inline">
+  <input type="radio" class="form-check-input" id="materialInline4" name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasAnual();">
+  <label class="form-check-label" for="materialInline4">Anual</label>
+</div>
+ </div>     
+
+<br>  
+      
       <div class="row">
         <div class="col-xl-3 col-sm-6 mb-3">
           <div class="card text-black o-hidden h-100">
             <div class="card-body">
               <div class="card-body-icon">
               </div>
-              <div class="mr-5 titulo">VENTA DEL DIA</div>
-              <h1 class="valor" align="center">S/. 150.60</h1>
+              <div class="mr-5 titulo">${nombreVenta}</div>
+              <h1 id="cantVentaTotal" class="valor" align="center">S/. ${uOrdenBeanVentadiaria.cantidadVentas}</h1>
             </div> 
-           <a class="card-footer text-black clearfix small z-1" href="#">
-              <span class="float-left detalle">VER DETALLE</span>
+            <!-- 
+            <a class="card-footer text-black clearfix small z-1" href="">
+              <span class="float-left detalle" onclick="cargarVentaModal();"  >VER DETALLE</span>
+               
               <span class="float-right">
                 <i class="fa fa-angle-right"></i>
               </span> 
             </a>  
+             --> 
+             <button type="button" onclick="cargarVentaModal()"
+					class="btn btn-primary">
+					<i class="fa fa-angle-right"></i> VER DETALLE
+				</button>
+            
+          <a id="idDescargarExcel" class="btn btn-primary mb1 bg-olive"
+           target="_Blank" href="<c:url value='/inicioController/descargarExcelTipo'/>">
+             <i class="fa fa-file-excel-o"></i>  Excel</a>
+          
           </div> 
         </div>
       <div class="col-xl-3 col-sm-6 mb-3">
@@ -148,7 +213,7 @@ border:1px solid rgba(230, 212, 212, 0.33)}
                 <!-- <i class="fa fa-fw fa-list"></i> -->
               </div>
               <div class="mr-5 titulo_ord">ORDENES PENDIENTES</div>
-              <h1  align="center">20</h1>
+              <h1  align="center">${uOrderBean.cantidadOrdenes}</h1>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
               <span class="float-left">Ver Detalle</span>
@@ -156,6 +221,9 @@ border:1px solid rgba(230, 212, 212, 0.33)}
                 <i class="fa fa-angle-right"></i>
               </span>
             </a>
+             <a id="idDescargarExcel2" class="btn btn-primary mb1 bg-green"
+           target="_Blank" href="<c:url value='/inicioController/descargarExcelTipo'/>">
+             <i class="fa fa-file-excel-o"></i>  Excel</a>
           </div>
         </div>
         <div class="col-xl-3 col-sm-6 mb-3">
@@ -164,7 +232,7 @@ border:1px solid rgba(230, 212, 212, 0.33)}
               <div class="card-body-icon"> 
               </div>
               <div class="mr-5 titulo_ord">ORDENES REALIZADOS</div>
-              <h1  align="center">230</h1>
+              <h1  align="center">${uOrdenBean2.cantidadOrdenes}</h1>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
               <span class="float-left">Ver Detalle</span>
@@ -172,6 +240,9 @@ border:1px solid rgba(230, 212, 212, 0.33)}
                 <i class="fa fa-angle-right"></i>
               </span>
             </a>
+            <a id="idDescargarExcel3" class="btn btn-primary mb1 bg-olive"
+           target="_Blank" href="<c:url value='/inicioController/descargarExcel'/>">
+             <i class="fa fa-file-excel-o"></i>  Excel</a>
           </div>
         </div>   
         <div class="col-xl-3 col-sm-6 mb-3">
@@ -180,7 +251,7 @@ border:1px solid rgba(230, 212, 212, 0.33)}
               <div class="card-body-icon"> 
               </div>
               <div class="mr-5 titulo_ord">ORDENES ANULADOS</div>
-              <h1  align="center">3</h1>
+              <h1  align="center">${uOrdenBean3.cantidadOrdenes}</h1>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
               <span class="float-left">Ver Detalle</span>
@@ -188,24 +259,27 @@ border:1px solid rgba(230, 212, 212, 0.33)}
                 <i class="fa fa-angle-right"></i>
               </span>
             </a>
+            <a id="idDescargarExcel4" class="btn btn-primary mb1 bg-olive"
+           target="_Blank" href="<c:url value='/inicioController/descargarExcelDiario'/>">
+             <i class="fa fa-file-excel-o"></i>  Excel</a>
           </div>
         </div>
       </div>
       <!-- Area Chart Example-->
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fa fa-area-chart"></i> Area Chart Example</div>
+          <i class="fa fa-area-chart"></i> Gráfico de área(Resumen día a día de ingresos en el mes)</div>
         <div class="card-body">
           <canvas id="myAreaChart" width="100%" height="30"></canvas>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        <div class="card-footer small text-muted">${diaSemana}</div>
       </div>
       <div class="row">
         <div class="col-lg-8">
           <!-- Example Bar Chart Card-->
           <div class="card mb-3">
             <div class="card-header">
-              <i class="fa fa-bar-chart"></i> Bar Chart Example</div>
+              <i class="fa fa-bar-chart"></i>Gráfico de barras(Resumen mes a mes de ingresos en el año)</div>
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-8 my-auto">
@@ -223,7 +297,7 @@ border:1px solid rgba(230, 212, 212, 0.33)}
                 </div>
               </div>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            <div class="card-footer small text-muted">${diaSemana}</div>
           </div> 
           <!-- /Card Columns-->
         </div>
@@ -231,11 +305,11 @@ border:1px solid rgba(230, 212, 212, 0.33)}
           <!-- Example Pie Chart Card-->
           <div class="card mb-3">
             <div class="card-header">
-              <i class="fa fa-pie-chart"></i> Pie Chart Example</div>
+              <i class="fa fa-pie-chart"></i>Gráfico circular(los 4 exámenes con mayor demanda)</div>
             <div class="card-body">
               <canvas id="myPieChart" width="100%" height="100"></canvas>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            <div class="card-footer small text-muted">${diaSemana}</div>
           </div>
           <!-- Example Notifications Card-->
          
@@ -729,7 +803,7 @@ border:1px solid rgba(230, 212, 212, 0.33)}
             </table>
           </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        <div class="card-footer small text-muted">${diaSemana}</div>
       </div>
     </div>
     <!-- /.container-fluid-->
@@ -737,7 +811,7 @@ border:1px solid rgba(230, 212, 212, 0.33)}
     <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
-          <small>Copyright Â© Your Website 2018</small>
+          <small>Copyright © Laboratorios LABMED 2019</small>
         </div>
       </div>
     </footer>
@@ -763,6 +837,14 @@ border:1px solid rgba(230, 212, 212, 0.33)}
         </div>
       </div>
     </div>
+    <div class="modal fade text-xs-left" id="modalVentaDiaria" tabindex="-2"
+				role="dialog" aria-labelledby="myModalLabel35" data-dismiss="modal"
+				aria-hidden="true" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content" id="modalVentaDiariaContent"></div>
+				</div>
+			</div>
+    
     <!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/app-assets/vendor/jquery/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/app-assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -777,7 +859,22 @@ border:1px solid rgba(230, 212, 212, 0.33)}
     <!-- Custom scripts for this page-->
     <script src="${pageContext.request.contextPath}/app-assets/js/sb-admin-datatables.min.js"></script>
     <script src="${pageContext.request.contextPath}/app-assets/js/sb-admin-charts.min.js"></script>
+    
+    <script
+			src="${pageContext.request.contextPath}/assets/js/page/general/portada.js"
+			type="text/javascript" charset="utf-8"></script>
+	   
   </div>
 </body>
-
+<script> 
+$(document).ready(function(){
+		console.log("log");
+		init();
+	});
+function init(){
+	document.getElementById("cantVenta").innerHTML ="S/."+${uOrdenBeanVentadiaria.cantidadVentas};
+	}
+	
+	
+</script> 
 </html>
