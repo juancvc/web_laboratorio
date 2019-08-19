@@ -11,7 +11,7 @@
 		<li data-toggle="tooltip" data-placement="right" class="nav-item">
 			<a class="nav-link"
 			href="${pageContext.request.contextPath}/inicioController/portada"><i
-				class="fa fa-home fa-fw"> </i><span
+				class="fa fa-home fa-fw"> </i><span  id="spnInicio"
 				class="nav-link-text label_control_barra"> Inicio</span></a>
 		</li>
 	</c:if>

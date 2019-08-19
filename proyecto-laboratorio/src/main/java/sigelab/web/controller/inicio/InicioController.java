@@ -489,7 +489,8 @@ public class InicioController extends BaseController{
 			uOrderBean = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean1);
 			uOrdenBean2 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean2);
 			uOrdenBean3 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean3);
-			uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);			
+			uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);		
+			uOrdenBeanVentadiaria.setSwDiario(true);
 			uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
 			uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
 			
@@ -581,7 +582,8 @@ public class InicioController extends BaseController{
 			uOrderBean = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean1);
 			uOrdenBean2 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean2);
 			uOrdenBean3 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean3);
-			uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);			
+			uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);	
+			uOrdenBeanVentadiaria.setSwDiario(true);
 			uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
 			uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
 			
@@ -1982,7 +1984,7 @@ public ModelAndView portadaListarDiario(HttpServletRequest request) throws Excep
 		uOrdenBean3 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean3);
 		
 		uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);
-		
+		uOrdenBeanVentadiaria.setSwDiario(true);
 		uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
 		uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
 		
@@ -2014,7 +2016,7 @@ public ModelAndView portadaListarDiario(HttpServletRequest request) throws Excep
 
 @RequestMapping(value = "/portadaListarSemanal", method = RequestMethod.GET)
 public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exception {
-	
+	System.out.println("VENTA DE LA SEMANA");
 	ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
 	
 	tipoReporte=2;
@@ -2085,6 +2087,7 @@ public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exce
 		uOrdenBean3 = ordenService.reporteCantidadSemanalOrdenSituacion(prmOrdenBean3);
 	//	uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);
 		uOrdenBeanVentaSemanal = ordenService.reporteVentaSemanal(prmOrdenBeanVentaDiaria);	
+		uOrdenBeanVentaSemanal.setSwSemanal(true);
 		uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
 		uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
 		
@@ -2101,7 +2104,7 @@ public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exce
 	mav.addObject("uOrderBean", 		   uOrderBean);
 	mav.addObject("uOrdenBean2", 		   uOrdenBean2);
 	mav.addObject("uOrdenBean3", 		   uOrdenBean3);
-	mav.addObject("uOrdenBeanVentaSemanal", uOrdenBeanVentaSemanal);
+	mav.addObject("uOrdenBeanVentadiaria", uOrdenBeanVentaSemanal);
 	mav.addObject("uOrdenBeanArea",		   uOrdenBeanArea);
 	mav.addObject("uOrdenBeanBarra", 	   uOrdenBeanBarra);
 	mav.addObject("diaSemana", 	   		   diaSemana);
@@ -2189,6 +2192,7 @@ public ModelAndView portadaListarMensual(HttpServletRequest request) throws Exce
 		uOrdenBean3 = ordenService.reporteCantidadMensualOrdenSituacion(prmOrdenBean3);
 	
 		uOrdenBeanVentaMensual = ordenService.reporteVentaMensual(prmOrdenBeanVentaMensual);	
+		uOrdenBeanVentaMensual.setSwMensual(true);
 		uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
 		uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
 		
@@ -2205,7 +2209,7 @@ public ModelAndView portadaListarMensual(HttpServletRequest request) throws Exce
 	mav.addObject("uOrderBean", 		   uOrderBean);
 	mav.addObject("uOrdenBean2", 		   uOrdenBean2);
 	mav.addObject("uOrdenBean3", 		   uOrdenBean3);
-	mav.addObject("uOrdenBeanVentaMensual", uOrdenBeanVentaMensual);
+	mav.addObject("uOrdenBeanVentadiaria", uOrdenBeanVentaMensual);
 	mav.addObject("uOrdenBeanArea",		   uOrdenBeanArea);
 	mav.addObject("uOrdenBeanBarra", 	   uOrdenBeanBarra);
 	mav.addObject("diaSemana", 	   		   diaSemana);
@@ -2292,6 +2296,7 @@ public ModelAndView portadaListarAnual(HttpServletRequest request) throws Except
 		uOrdenBean3 = ordenService.reporteCantidadAnualOrdenSituacion(prmOrdenBean3);
 
 		uOrdenBeanVentaAnual = ordenService.reporteVentaAnual(prmOrdenBeanVentaAnual);	
+		uOrdenBeanVentaAnual.setSwAnual(true);
 		uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
 		uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
 		
@@ -2308,20 +2313,14 @@ public ModelAndView portadaListarAnual(HttpServletRequest request) throws Except
 	mav.addObject("uOrderBean", 		   uOrderBean);
 	mav.addObject("uOrdenBean2", 		   uOrdenBean2);
 	mav.addObject("uOrdenBean3", 		   uOrdenBean3);
-	mav.addObject("uOrdenBeanVentaAnual",  uOrdenBeanVentaAnual);
+	mav.addObject("uOrdenBeanVentadiaria",  uOrdenBeanVentaAnual);
 	mav.addObject("uOrdenBeanArea",		   uOrdenBeanArea);
 	mav.addObject("uOrdenBeanBarra", 	   uOrdenBeanBarra);
 	mav.addObject("diaSemana", 	   		   diaSemana);
 	mav.addObject("nombreVenta", 	   	   nombreVenta);
-	
+	mav.addObject("swAnual","1");
 	return mav;	
 	
 	
-};
-
-	
-	
-	
-	
-	
+}; 	
 }

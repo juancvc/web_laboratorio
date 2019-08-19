@@ -294,11 +294,18 @@ function cargarVentaModal() {
 
 
 function refrescarListadoVentasSemanal() {
+	console.log("refrescarListadoVentasSemanal");
+	
+	$("#spnSemanal").trigger("click");
+	 document.getElementById("materialInline2").checked = true;
+	 $( "#materialInline2" ).prop( "checked", true );
+	/***
 	var contextPath = $('#contextPath').val();
+	
 	path = contextPath + "/inicioController/portadaListarSemanal";
 	$.ajax({
 	//	url : contextPath + "/inicioController/portadaListarSemanal",
-		type : 'GET',
+		type : 'POST',
 	
 		success : function(data) {
 			//console.log("SUCCESS: ", data);
@@ -307,13 +314,15 @@ function refrescarListadoVentasSemanal() {
 		error : function() {
 			//console.log("ERROR: ");
 		}
-	});
+	});*/
 }
 
 function refrescarListadoVentasDiario() {
 	var contextPath = $('#contextPath').val();
-	
-	path = contextPath + "/inicioController/portadaListarDiario";
+	$("#spnDiario").trigger("click");
+	 document.getElementById("materialInline1").checked = true;
+	 
+/**	path = contextPath + "/inicioController/portadaListarDiario";
 	$.ajax({
 	//	url : contextPath + "/inicioController/portadaListarDiario",
 		type : 'GET',
@@ -325,10 +334,17 @@ function refrescarListadoVentasDiario() {
 		error : function() {
 			//console.log("ERROR: ");
 		}
-	});
+	});*/
 }
 
 function refrescarListadoVentasMensual() {
+	 
+	$("#spnMensual").trigger("click");
+	 document.getElementById("materialInline3").checked = true;
+	 
+	 console.log("aca mensual");
+	 
+	/***
 	var contextPath = $('#contextPath').val();
 	path = contextPath + "/inicioController/portadaListarMensual";
 	$.ajax({
@@ -343,9 +359,14 @@ function refrescarListadoVentasMensual() {
 			//console.log("ERROR: ");
 		}
 	});
+	*/
 }
 
 function refrescarListadoVentasAnual() {
+	$("#spnAnual").trigger("click");
+	 document.getElementById("materialInline4").checked = true;
+	 
+	/**
 	var contextPath = $('#contextPath').val();
 	path = contextPath + "/inicioController/portadaListarAnual";
 	$.ajax({
@@ -359,7 +380,7 @@ function refrescarListadoVentasAnual() {
 		error : function() {
 			//console.log("ERROR: ");
 		}
-	});
+	});*/
 }
 
 

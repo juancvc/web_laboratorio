@@ -39,6 +39,13 @@ public class OrdenBean extends BaseBean{
 	private String nombreExamen;
 	private String fecha;
  
+	private Boolean swDiario;
+	private Boolean swMensual;
+	private Boolean swSemanal;
+	private Boolean swAnual;
+	
+	
+	
 	public TablaBean getMotivoAnular() {
 		if (motivoAnular == null) {
 			motivoAnular = new TablaBean();
@@ -197,6 +204,30 @@ public class OrdenBean extends BaseBean{
 	}
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
+	}
+	public Boolean getSwDiario() {
+		return swDiario;
+	}
+	public void setSwDiario(Boolean swDiario) {
+		this.swDiario = swDiario;
+	}
+	public Boolean getSwMensual() {
+		return swMensual;
+	}
+	public void setSwMensual(Boolean swMensual) {
+		this.swMensual = swMensual;
+	}
+	public Boolean getSwSemanal() {
+		return swSemanal;
+	}
+	public void setSwSemanal(Boolean swSemanal) {
+		this.swSemanal = swSemanal;
+	}
+	public Boolean getSwAnual() {
+		return swAnual;
+	}
+	public void setSwAnual(Boolean swAnual) {
+		this.swAnual = swAnual;
 	}
 	
 	

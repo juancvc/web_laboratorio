@@ -120,6 +120,8 @@ border:1px solid rgba(230, 212, 212, 0.33)}
   --button-background-color: green;
 }
 </style>
+<f:form id="frmGuardarOrden" class="form-horizontal" role="form"
+					method="post" action="" onsubmit="return false">
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
    	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -134,6 +136,7 @@ border:1px solid rgba(230, 212, 212, 0.33)}
 
 <input id="contextPath" type="hidden"
 				value="${pageContext.request.contextPath}">
+				 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<jsp:include
 				page="${pageContext.request.contextPath}/../layout/menu-view.jsp" />
@@ -152,25 +155,41 @@ border:1px solid rgba(230, 212, 212, 0.33)}
       
     <div class="card-header">  
       <div class="form-check form-check-inline">
-  <input type="radio" checked="" class="form-check-input" id="materialInline1" name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasDiario();">
-  <label class="form-check-label" for="materialInline1">Diario</label>
-</div>
-
+  <input type="radio"  class="form-check-input" id="materialInline1"
+  	<c:if test="${uOrdenBeanVentadiaria.swDiario!=null || uOrdenBeanVentadiaria.swDiario==true}">
+			checked 
+			</c:if> 
+			 name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasDiario();">
+  <label class="form-check-label" for="materialInline1"  >Diario</label>
+</div>  
 <!-- Material inline 2 -->
 <div class="form-check form-check-inline">
-  <input type="radio" class="form-check-input" id="materialInline2" name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasSemanal();">
-  <label class="form-check-label" for="materialInline2">Semanal</label>
+  <input type="radio" class="form-check-input" id="materialInline2" 
+ 			<c:if test="${uOrdenBeanVentadiaria.swSemanal!=null || uOrdenBeanVentadiaria.swSemanal==true}">
+			checked 
+			</c:if> 
+  name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasSemanal();">
+  <label class="form-check-label" for="materialInline2" >Semanal</label>
 </div>
 
 <!-- Material inline 3 -->
 <div class="form-check form-check-inline">
-  <input type="radio" class="form-check-input" id="materialInline3" name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasMensual();">
+  <input type="radio" class="form-check-input" id="materialInline3" 
+   	<c:if test="${uOrdenBeanVentadiaria.swMensual!=null || uOrdenBeanVentadiaria.swMensual==true}">
+			checked 
+			</c:if> 
+			name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasMensual();">
   <label class="form-check-label" for="materialInline3">Mensual</label>
 </div>
 
 <!-- Material inline 4 -->
 <div class="form-check form-check-inline">
-  <input type="radio" class="form-check-input" id="materialInline4" name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasAnual();">
+  <input type="radio" class="form-check-input" id="materialInline4" 
+     	<c:if test="${uOrdenBeanVentadiaria.swAnual!=null || uOrdenBeanVentadiaria.swAnual==true}">
+			checked 
+			</c:if> 
+			
+   name="inlineMaterialRadiosExample" onclick="refrescarListadoVentasAnual();">
   <label class="form-check-label" for="materialInline4">Anual</label>
 </div>
  </div>     
@@ -845,6 +864,24 @@ border:1px solid rgba(230, 212, 212, 0.33)}
 				</div>
 			</div>
     
+    	<a class="nav-link"  style="display: none"
+			href="${pageContext.request.contextPath}/inicioController/portadaListarDiario"><i
+				class="fa fa-home fa-fw"> </i><span  id="spnDiario"
+				class="nav-link-text label_control_barra"></span></a>
+				
+			<a class="nav-link"  style="display: none"
+			href="${pageContext.request.contextPath}/inicioController/portadaListarSemanal"><i
+				class="fa fa-home fa-fw"> </i><span  id="spnSemanal" style="display: none"
+				class="nav-link-text label_control_barra"></span></a>
+				<a class="nav-link"  style="display: none"
+			href="${pageContext.request.contextPath}/inicioController/portadaListarMensual"><i
+				class="fa fa-home fa-fw"> </i><span  id="spnMensual" style="display: none"
+				class="nav-link-text label_control_barra"></span></a>
+				<a class="nav-link"  style="display: none"
+			href="${pageContext.request.contextPath}/inicioController/portadaListarAnual"><i
+				class="fa fa-home fa-fw"> </i><span  id="spnAnual" style="display: none"
+				class="nav-link-text label_control_barra"></span></a>		
+						
     <!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/app-assets/vendor/jquery/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/app-assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -863,16 +900,18 @@ border:1px solid rgba(230, 212, 212, 0.33)}
     <script
 			src="${pageContext.request.contextPath}/assets/js/page/general/portada.js"
 			type="text/javascript" charset="utf-8"></script>
+			
 	   
   </div>
 </body>
+</f:form>
 <script> 
 $(document).ready(function(){
 		console.log("log");
-		init();
+		//init();
 	});
 function init(){
-	document.getElementById("cantVenta").innerHTML ="S/."+${uOrdenBeanVentadiaria.cantidadVentas};
+//	document.getElementById("cantVenta").innerHTML ="S/."+${uOrdenBeanVentadiaria.cantidadVentas};
 	}
 	
 	
