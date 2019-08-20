@@ -373,11 +373,7 @@
 		
 				<script src="${pageContext.request.contextPath}/assets/js/scripts.js"
 			type="text/javascript"></script>
-			
-<script type="text/javascript" src="assets/js/vendor.js"></script>
-		<script type="text/javascript" src="assets/js/app.js"></script>
-		<script src='js_propio/cookies.js'></script>
-		
+ 
 		<script type="text/javascript"
 			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 		<script src="js/moment.min.js"></script>

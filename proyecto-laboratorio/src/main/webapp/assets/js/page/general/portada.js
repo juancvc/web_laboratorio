@@ -383,5 +383,34 @@ function refrescarListadoVentasAnual() {
 	});*/
 }
 
+var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+var dias = ["Domingo","Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
+function calculaSemana() {
+
+  // obtenemos los valores de año y semana (asumimos que son valores válidos)
+  var year = document.getElementById("year").value;
+  var week = document.getElementById("week").value;
+
+  // obtenemos el primer dia del año
+  var primerdia = new Date(year, 0, 1);
+  
+  // obtenemos la corrección necesaria
+  var correccion = 6 - primerdia.getDay();
+  
+  // validación para la semana
+  if (week * 7 + correccion > 365) { alert("El valor para semana no es válido"); return false; }
+  
+  // obtenemos el lunes y domingo de la semana especificada
+  var primer = new Date(year, 0, (week - 1) * 7 + 3 + correccion);
+  var ultimo = new Date(year, 0, (week - 1) * 7 + 9 + correccion);
+
+  // mostramos el resultado
+  document.getElementById("resultado").innerHTML = 
+	  "Del " + primer.getDate() + " de "+ meses[primer.getMonth()]  +
+	 " al " + ultimo.getDate() + " de "+ meses[ultimo.getMonth()] ;
+  /**  "El primer día de la " + week + "<sup>a</sup> semana de " + year + " es " + primer.getDate() + " de " + meses[primer.getMonth()] + " (" + dias[primer.getDay()] + ")<br/>" +
+    "El último día de la " + week + "<sup>a</sup> semana de " + year + " es " + ultimo.getDate() + " de " + meses[ultimo.getMonth()] + " (" + dias[ultimo.getDay()] + ")"; */
+
+}
 

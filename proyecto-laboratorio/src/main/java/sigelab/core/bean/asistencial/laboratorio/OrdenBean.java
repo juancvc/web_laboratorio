@@ -130,7 +130,7 @@ public class OrdenBean extends BaseBean{
 	public void setPacienteBean(PacienteBean pacienteBean) {
 		this.pacienteBean = pacienteBean;
 	}
-	public Date getFechaOrden() {
+	public Date getFechaOrden() { 
 		return fechaOrden;
 	}
 	public void setFechaOrden(Date fechaOrden) {

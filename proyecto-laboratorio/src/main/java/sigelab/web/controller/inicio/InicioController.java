@@ -17,7 +17,8 @@ import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service;
 import sigelab.core.service.interfaces.seguridad.AccesoService;
 import sigelab.core.service.interfaces.seguridad.UsuarioPerfilService;
 import sigelab.core.service.interfaces.seguridad.UsuarioService;
-import sigelab.web.controller.base.BaseController; 
+import sigelab.web.controller.base.BaseController;
+import sigelab.web.controller.inicio.vista.InicioForm;
 import sigelab.web.utilitarios.NetUtil;
 import sigelab.web.utilitarios.VO;
 import sigelab.web.utilitarios.acceso.AccesoMenuVo;
@@ -353,7 +354,7 @@ public class InicioController extends BaseController{
 	 
 	private ModelAndView getLista(UsuarioBean usuario, HttpServletRequest request) { 
 		
-		ModelAndView mav = new ModelAndView("portada", "command", new TablaBean());
+		ModelAndView mav = new ModelAndView("portada", "command", new InicioForm());
 		
 
 		System.out.println("inicia sistema ");
@@ -519,7 +520,7 @@ public class InicioController extends BaseController{
 	@RequestMapping(value = "/portada", method = RequestMethod.GET)
 	public ModelAndView portada(@ModelAttribute("usuarioSesion") UsuarioBean usuario,
 			HttpServletRequest request) throws Exception {
-		ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+		ModelAndView mav =  new ModelAndView("portada", "command", new InicioForm());
 		  tipoReporte=1;
 		 nombreVenta="VENTA DEL DIA";
 		
@@ -615,7 +616,7 @@ public class InicioController extends BaseController{
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	public ModelAndView listar(@ModelAttribute("usuarioSesion") UsuarioBean usuario,
 			HttpServletRequest request) throws Exception {
-	ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+	ModelAndView mav =  new ModelAndView("portada", "command", new InicioForm());
 		 System.out.println("iniciamos sistema");
 		 nombreVenta="VENTA DEL DIA";
 		 tipoReporte=1;
@@ -1917,7 +1918,7 @@ public HSSFColor setColor(HSSFWorkbook workbook, byte r,byte g, byte b){
 @RequestMapping(value = "/portadaListarDiario", method = RequestMethod.GET)
 public ModelAndView portadaListarDiario(HttpServletRequest request) throws Exception {
 	
-	ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+	ModelAndView mav =  new ModelAndView("portada", "command", new InicioForm());
 	 tipoReporte=1;
 	 nombreVenta="VENTA DEL DIA";
 	
@@ -2017,7 +2018,7 @@ public ModelAndView portadaListarDiario(HttpServletRequest request) throws Excep
 @RequestMapping(value = "/portadaListarSemanal", method = RequestMethod.GET)
 public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exception {
 	System.out.println("VENTA DE LA SEMANA");
-	ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+	ModelAndView mav =  new ModelAndView("portada", "command", new InicioForm());
 	
 	tipoReporte=2;
 	System.out.println("VENTA DE LA SEMANA");
@@ -2118,7 +2119,7 @@ public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exce
 @RequestMapping(value = "/portadaListarMensual", method = RequestMethod.GET)
 public ModelAndView portadaListarMensual(HttpServletRequest request) throws Exception {
 	
-	ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+	ModelAndView mav =  new ModelAndView("portada", "command", new InicioForm());
 	tipoReporte=3;
 	 nombreVenta="VENTA DEL MES";
 	
@@ -2223,7 +2224,7 @@ public ModelAndView portadaListarMensual(HttpServletRequest request) throws Exce
 @RequestMapping(value = "/portadaListarAnual", method = RequestMethod.GET)
 public ModelAndView portadaListarAnual(HttpServletRequest request) throws Exception {
 	
-	ModelAndView mav =  new ModelAndView("portada", "command", new TablaBean());
+	ModelAndView mav =  new ModelAndView("portada", "command", new InicioForm());
 	
 	tipoReporte=4;
 	 nombreVenta="VENTA DEL AÑO";
