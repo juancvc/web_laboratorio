@@ -304,6 +304,7 @@ public class Orden_laboratorio implements Serializable {
 	private String CANTIDAD;
 	private String TOTAL_VENTA;
 	private String EXAMEN;
+	private String MES;
 	public String getNOMBSITU() {
 		return NOMBSITU;
 	}
@@ -513,6 +514,14 @@ public class Orden_laboratorio implements Serializable {
 
 	public void setTOTAL_VENTA(String tOTAL_VENTA) {
 		TOTAL_VENTA = tOTAL_VENTA;
+	}
+
+	public String getMES() {
+		return MES;
+	}
+
+	public void setMES(String mES) {
+		MES = mES;
 	}
 	
 	

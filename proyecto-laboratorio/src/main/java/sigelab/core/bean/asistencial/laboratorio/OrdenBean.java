@@ -36,6 +36,7 @@ public class OrdenBean extends BaseBean{
 	private String cantidadOrdenes;
 	private String cantidadVentas;
 	private String nroMes;
+	private String nombreMes;
 	private String nombreExamen;
 	private String fecha;
  
@@ -228,6 +229,12 @@ public class OrdenBean extends BaseBean{
 	}
 	public void setSwAnual(Boolean swAnual) {
 		this.swAnual = swAnual;
+	}
+	public String getNombreMes() {
+		return nombreMes;
+	}
+	public void setNombreMes(String nombreMes) {
+		this.nombreMes = nombreMes;
 	}
 	
 	
