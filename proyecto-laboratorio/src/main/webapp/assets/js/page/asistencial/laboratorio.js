@@ -741,3 +741,35 @@ function enviarRpt(){
 			});
 	}
 }
+
+function imprimirCotizacion(){
+	var contextPath = $('#contextPath').val();
+	if(listadoExamenes.length == 0){
+		msg_advertencia("Ingrese al menos una Orden de exámen.");
+		return;
+	
+	
+	} else{ 
+		$.ajax({
+		contentType: "application/json",
+		type: "POST",
+	 	data: JSON.stringify(listadoExamenes),
+		url : contextPath+"/ordenController/cargarCotizacion",  
+       
+		success : function(data) {
+			$("#enlaceRptCotizacion").trigger("click");
+
+		},
+		
+		error : function(xhr, status, er) { 
+		        console.log("error: " + xhr + " status: " + status + " er:" + er);
+					// msg_error();
+
+				},
+	  			complete: function()
+			{ 
+
+		}
+});
+	}
+}

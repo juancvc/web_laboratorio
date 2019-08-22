@@ -326,7 +326,7 @@ input[type=text] {
 							</div>
 							<div id="panelCEX" class="panel_style col-md-12">
 								<div class="row"  style="display: none">
-									<div class="col-md-12 text-right " style="margin-bottom: 20px;">
+									<div class="form-group col-md-12 text-right " style="margin-bottom: 20px;">
 										<button id="btn-save-reg" type="button" class="btn btn-info"
 											<c:choose>
 									<c:when test="${ordenBean.codigo==null || ordenBean.codigo==''}"> 
@@ -352,6 +352,23 @@ input[type=text] {
 											</div> 
 										</div>
 									</div>
+									<div class="col-md-4 mb-3  text-right" style="margin-top: 30px;">
+										<button type="button"
+											class="btn btn-warning btn-sm"
+											data-toggle="tooltip" data-placement="top" title=""
+											data-original-title="Imprimir cotización"
+											onclick="imprimirCotizacion()"
+											id="agregarEspecialidad">
+											<i class="icon-eye"> IMPRIMIR COTIZACION</i> 
+										</button> 
+								  </div> 
+								   
+				  
+								  	<a style="display: none" id="enlaceCotizacion"
+												href="${pageContext.request.contextPath}/ordenController/rptFichaCotizacion"
+												class="btn btn-outline-success btn-sm" title=""> <span id="enlaceRptCotizacion"
+														class="nav-link-text label_control_barra"></span>  
+												</a> 
 									<div class="col-md-4 mb-3" style="margin-top: 30px;" >
 										<button type="button" style="display: none"
 											class="btn btn-outline-success btn-sm"

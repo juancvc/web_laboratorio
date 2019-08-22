@@ -41,7 +41,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import sigelab.core.bean.asistencial.banco.PostulanteBean;
-
+import sigelab.core.bean.asistencial.banco.PreDonanteBean;
+import sigelab.core.bean.asistencial.banco.PreDonanteEntrevistaBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleItemBean;
@@ -49,6 +50,7 @@ import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.TarifarioBean;
 import sigelab.core.bean.general.UbigeoBean;
+import sigelab.core.entity.general.PacienteReniec;
 import sigelab.core.service.exception.ServiceException;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenDetalleItemService;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenDetalleService;
@@ -106,6 +108,8 @@ public class OrdenController  extends BaseController {
 	private List<OrdenBean> lstOrdenBean ;  
 	
 	private OrdenBean ordenBean;
+	
+	List<OrdenDetalleBean> lstOrdenCotizacion = new ArrayList<OrdenDetalleBean>();
 	
 	@Autowired
 	private MaestraAsis01Service maestraAsis01Service;
@@ -900,7 +904,44 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
         return retorno;
     }
     
+    @RequestMapping(value = "/cargarCotizacion", method = RequestMethod.POST)
+	@ResponseBody
+	public String  cargarCotizacion(@RequestBody OrdenDetalleBean[] ordenDetalleArray ) throws JRException, IOException {
+    	System.out.println("cargarCotizacion "); 
+    	String valida="1";
+    	lstOrdenCotizacion = new ArrayList<OrdenDetalleBean>();
+    	for (OrdenDetalleBean prmOrdenDetalleBean : ordenDetalleArray) {
+			System.out.println("getCodReg == >" + prmOrdenDetalleBean.getExamen().getCodigo());
+			lstOrdenCotizacion.add(prmOrdenDetalleBean); 
+		}
+		return valida;
+    	
+	}
     
+    
+    @RequestMapping(value = "rptFichaCotizacion", method = RequestMethod.GET)
+	@ResponseBody
+	public void rptFichaCotizacion(
+						HttpServletResponse response, 
+						HttpServletRequest request) throws JRException, IOException {
+    	System.out.println("rptFichaCotizacion ");
+		InputStream jasperStream = this.getClass().getResourceAsStream("/reportes/rptFichaCotizacion.jasper");
+	 
+		Map<String, Object> parametro = new HashMap<String, Object>();
+		parametro.put("usuario", getUsuarioSesion(request).getNombreUsuario()); 
+		System.out.println("jasperStream " + jasperStream);
+		 
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstOrdenCotizacion);
+		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametro, dataSource);
+
+		response.setContentType("application/x-pdf");
+		response.setHeader("Content-disposition",
+				"inline; filename="+"cotizacion"+".pdf");
+
+		final OutputStream outStream = response.getOutputStream();
+		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+	}
     
     
 	   
@@ -983,6 +1024,14 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 
 	public void setOrdenDetalleBean(OrdenDetalleBean ordenDetalleBean) {
 		this.ordenDetalleBean = ordenDetalleBean;
+	}
+
+	public List<OrdenDetalleBean> getLstOrdenCotizacion() {
+		return lstOrdenCotizacion;
+	}
+
+	public void setLstOrdenCotizacion(List<OrdenDetalleBean> lstOrdenCotizacion) {
+		this.lstOrdenCotizacion = lstOrdenCotizacion;
 	}
 
 
