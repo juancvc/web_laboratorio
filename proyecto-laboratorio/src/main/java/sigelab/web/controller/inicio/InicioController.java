@@ -504,6 +504,7 @@ public class InicioController extends BaseController{
 				lstOrdenBeanCircular = ordenService.reporteCantidadDiarioExamenesSolicitados(prmOrdenBeanVentaDiaria);
 		//		lstOrdenBeanCircular = ordenService.reporteCantidadDiarioExamenesSolicitadosTotal(prmOrdenBeanVentaDiaria);
 				System.out.println("lstOrdenBeanArea"+lstOrdenBeanArea.size());
+				System.out.println("lstOrdenBeanCircular"+lstOrdenBeanCircular.size());
 			if(uOrderBean!=null){   
 				
 				
@@ -603,6 +604,7 @@ public class InicioController extends BaseController{
 				lstOrdenBeanCircular = ordenService.reporteCantidadDiarioExamenesSolicitados(prmOrdenBeanVentaDiaria);
 			
 				System.out.println("lstOrdenBeanArea"+lstOrdenBeanArea.size());
+				System.out.println("lstOrdenBeanCircular"+lstOrdenBeanCircular.size());
 			if(uOrderBean!=null){   
 				
 				
@@ -704,6 +706,7 @@ public class InicioController extends BaseController{
 				lstOrdenBeanCircular = ordenService.reporteCantidadDiarioExamenesSolicitados(prmOrdenBeanVentaDiaria);
 			
 				System.out.println("lstOrdenBeanArea"+lstOrdenBeanArea.size());
+				System.out.println("lstOrdenBeanCircular"+lstOrdenBeanCircular.size());
 			if(uOrderBean!=null){   
 				
 				
@@ -2016,6 +2019,7 @@ public ModelAndView portadaListarDiario(HttpServletRequest request) throws Excep
 				lstOrdenBeanCircular = ordenService.reporteCantidadDiarioExamenesSolicitados(prmOrdenBeanVentaDiaria);
 		
 				System.out.println("lstOrdenBeanArea"+lstOrdenBeanArea.size());
+				System.out.println("lstOrdenBeanCircular"+lstOrdenBeanCircular.size());
 		if(uOrderBean!=null){   
 			
 			
@@ -2123,6 +2127,7 @@ public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exce
 				lstOrdenBeanCircular = ordenService.reporteCantidadSemanalExamenesSolicitados(prmOrdenBeanVentaDiaria);
 		
 		System.out.println("lstOrdenBeanArea"+lstOrdenBeanArea.size());
+		System.out.println("lstOrdenBeanCircular"+lstOrdenBeanCircular.size());
 		if(uOrderBean!=null){   
 			
 			
@@ -2230,6 +2235,7 @@ public ModelAndView portadaListarMensual(HttpServletRequest request) throws Exce
 				lstOrdenBeanCircular = ordenService.reporteCantidadMensualExamenesSolicitados(prmOrdenBeanVentaMensual);
 		
 				System.out.println("lstOrdenBeanArea"+lstOrdenBeanArea.size());
+				System.out.println("lstOrdenBeanCircular"+lstOrdenBeanCircular.size());
 		if(uOrderBean!=null){   
 			
 			
@@ -2339,6 +2345,7 @@ public ModelAndView portadaListarAnual(HttpServletRequest request) throws Except
 				lstOrdenBeanCircular = ordenService.reporteCantidadAnualExamenesSolicitados(prmOrdenBeanVentaAnual);
 		
 				System.out.println("lstOrdenBeanArea"+lstOrdenBeanArea.size());
+				System.out.println("lstOrdenBeanCircular"+lstOrdenBeanCircular.size());
 		if(uOrderBean!=null){   
 			
 			

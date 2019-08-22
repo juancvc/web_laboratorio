@@ -413,7 +413,7 @@ font-family: Cambria;
 								con mayor demanda)
 							</div>
 							<div class="card-body">
-								<canvas id="myPieChart" width="100%" height="100"></canvas>
+								<canvas id="circuloPortada" width="100%" height="100"></canvas>
 							</div>
 							<div class="card-footer small text-muted">${diaSemana}</div>
 						</div>
@@ -654,8 +654,9 @@ var arrayMenus = [];
 	</c:forEach>
 	
 	
-	barra(arrayBarra);
+//	barra(arrayBarra);
 	
+
 	var arrayCirculo = [];
 	
 	<c:forEach var="orden" items="${lstOrdenBeanCircular}"
@@ -670,7 +671,9 @@ var arrayMenus = [];
 	</c:forEach>
 	
 	
-	circulo(arrayCirculo);
+	barra(arrayBarra,arrayCirculo);
+
+
 	
 		//init();
 	});

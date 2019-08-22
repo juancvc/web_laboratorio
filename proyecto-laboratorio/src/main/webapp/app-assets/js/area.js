@@ -14,9 +14,7 @@ function area(arreglo){
 	var array = new Array();
 	var contextPath = $('#contextPath').val();
 	var ctx=document.getElementById("Areaportada");
-	//array = document.getElementById("lstArea").innerHTML;
 	
-//	array[i]= source;
 	console.log("arrayMenus "+arrayMenus);
 	console.log("arrayMenus "+arrayMenus.length);
 	//debugger;
@@ -38,75 +36,61 @@ function area(arreglo){
 		}]},
 		options:{scales:{xAxes:[{time:{unit:"date"},gridLines:{display:!1},ticks:{maxTicksLimit:7}}],
 		yAxes:[{ticks:{min:0,max:4e3,maxTicksLimit:9},gridLines:{color:"rgba(0, 0, 0, .125)"}}]},
-		legend:{display:!1}}}),ctx=document.getElementById("myBarChart"),
+		legend:{display:!1}}}),ctx=document.getElementById("myBarChart");
 		
- 
-		ctx=document.getElementById("myPieChart"),myPieChart=new Chart(ctx,{type:"pie",data:{labels:["Blue","Red","Yellow","Green"],datasets:[{data:[12.21,15.58,11.25,8.32],backgroundColor:["#007bff","#dc3545","#ffc107","#28a745"]}]}});
-}
-
-function barra(arreglo){
-
-	var arrayMenus = [];
-	var arrayMeses = [];
-	for (i = 0; i < arreglo.length; i++) {
-		arrayMenus.push(arreglo[i].cantidadVentas);
-		arrayMeses.push(arreglo[i].nombreMes);
-		
-		console.log("arreglo barra"+ arreglo[i].cantidadVentas);
-	}
-//	arrayMenus = arreglo;
-	//debugger;
-	Chart.defaults.global.defaultFontFamily='-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',Chart.defaults.global.defaultFontColor="#292b2c";
-	var array = new Array();
-	var contextPath = $('#contextPath').val();
-	var ctx=document.getElementById("barraPortada");
- 
-		myLineChart=new Chart(ctx,{type:"bar",
-		data:{labels: arrayMeses, //["January","February","March","April","May","June"],
-		datasets:[{label:"Revenue",backgroundColor:"rgba(2,117,216,1)",borderColor:"rgba(2,117,216,1)",
-		data: arrayMenus// [4215,5312,6251,7841,9821,14984]
-		
-		}]},
-		options:{scales:{xAxes:[{time:{unit:"month"},
-		gridLines:{display:!1},
-		ticks:{maxTicksLimit:6}}],
-		yAxes:[{ticks:{min:0,max:70e3,maxTicksLimit:8},gridLines:{display:!0}}]},legend:{display:!1}}}),
-		
-		ctx=document.getElementById("myPieChart"),myPieChart=new Chart(ctx,{type:"pie",data:{labels:["Blue","Red","Yellow","Green"],datasets:[{data:[12.21,15.58,11.25,8.32],backgroundColor:["#007bff","#dc3545","#ffc107","#28a745"]}]}});
-}
-
-
-function circulo(arreglo){
-
-	var arrayMenus = [];
-	var arrayMeses = [];
-	for (i = 0; i < arreglo.length; i++) {
-		arrayMenus.push(arreglo[i].cantidadVentas);
-		arrayMeses.push(arreglo[i].nombreMes);
-		
-		console.log("arreglo barra"+ arreglo[i].cantidadVentas);
-	}
-//	arrayMenus = arreglo;
-	//debugger;
-	Chart.defaults.global.defaultFontFamily='-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',Chart.defaults.global.defaultFontColor="#292b2c";
-	var array = new Array();
-	var contextPath = $('#contextPath').val();
-	var ctx=document.getElementById("barraPortada");
- 
-		myLineChart=new Chart(ctx,{type:"bar",
-		data:{labels: arrayMeses, //["January","February","March","April","May","June"],
-		datasets:[{label:"Revenue",backgroundColor:"rgba(2,117,216,1)",borderColor:"rgba(2,117,216,1)",
-		data: arrayMenus// [4215,5312,6251,7841,9821,14984]
-		
-		}]},
-		options:{scales:{xAxes:[{time:{unit:"month"},
-		gridLines:{display:!1},
-		ticks:{maxTicksLimit:6}}],
-		yAxes:[{ticks:{min:0,max:70e3,maxTicksLimit:8},gridLines:{display:!0}}]},legend:{display:!1}}}),
-		
+ /*
 		ctx=document.getElementById("circuloPortada"),
-		myPieChart=new Chart(ctx,{type:"pie",
-		data:{labels:["Blue","Red","Yellow","Green"],
+		myPieChart=new Chart(ctx,
+		{type:"pie",data:{labels:["Blue","Red","Yellow","Green"],
 		datasets:[{data:[12.21,15.58,11.25,8.32],
-			backgroundColor:["#007bff","#dc3545","#ffc107","#28a745"]}]}});
+		backgroundColor:["#007bff","#dc3545","#ffc107","#28a745"]}]}});*/
 }
+
+function barra(arreglo,arregloCirculo){
+
+	var arrayMenus = [];
+	var arrayMeses = [];
+	for (i = 0; i < arreglo.length; i++) {
+		arrayMenus.push(arreglo[i].cantidadVentas);
+		arrayMeses.push(arreglo[i].nombreMes);
+		
+		console.log("arreglo barra"+ arreglo[i].cantidadVentas);
+	}
+	
+	var arrayExamen = [];
+	var arrayantidad = [];
+	for (i = 0; i < arregloCirculo.length; i++) {
+		arrayExamen.push(arregloCirculo[i].nombreExamen);
+		arrayantidad.push(arregloCirculo[i].cantidadExamenesSolicitados);
+		
+		console.log("arreglo circulo"+ arregloCirculo[i].cantidadExamenesSolicitados);
+	}
+	
+//	arrayMenus = arreglo;
+	//debugger;
+	Chart.defaults.global.defaultFontFamily='-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',Chart.defaults.global.defaultFontColor="#292b2c";
+	var array = new Array();
+	var contextPath = $('#contextPath').val();
+	var ctx=document.getElementById("barraPortada");
+ 
+		myLineChart=new Chart(ctx,{type:"bar",
+		data:{labels: arrayMeses, //["January","February","March","April","May","June"],
+		datasets:[{label:"Monto S/.",backgroundColor:"rgba(2,117,216,1)",borderColor:"rgba(2,117,216,1)",
+		data: arrayMenus// [4215,5312,6251,7841,9821,14984]
+		
+		}]},
+		options:{scales:{xAxes:[{time:{unit:"month"},
+		gridLines:{display:!1},
+		ticks:{maxTicksLimit:6}}],
+		yAxes:[{ticks:{min:0,max:70e3,maxTicksLimit:8},gridLines:{display:!0}}]},legend:{display:!1}}})
+		
+	ctx=document.getElementById("circuloPortada"),
+	myPieChart=new Chart(ctx,{type:"pie",
+		data:{labels:arrayExamen,//["Blue","Red","Yellow","Green"],
+			datasets:[{data: arrayantidad,//[12.21,15.58,11.25,8.32],
+				backgroundColor:["#9dc6f2","#f299a1","#f0da99","#9fedb1"]}]}});
+}
+
+
+
+
