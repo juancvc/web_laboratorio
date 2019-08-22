@@ -35,6 +35,7 @@ public class OrdenBean extends BaseBean{
 	/***reportes**/
 	private String cantidadOrdenes;
 	private String cantidadVentas;
+	private String cantidadExamenesSolicitados;
 	private String nroMes;
 	private String nombreMes;
 	private String nombreExamen;
@@ -235,6 +236,12 @@ public class OrdenBean extends BaseBean{
 	}
 	public void setNombreMes(String nombreMes) {
 		this.nombreMes = nombreMes;
+	}
+	public String getCantidadExamenesSolicitados() {
+		return cantidadExamenesSolicitados;
+	}
+	public void setCantidadExamenesSolicitados(String cantidadExamenesSolicitados) {
+		this.cantidadExamenesSolicitados = cantidadExamenesSolicitados;
 	}
 	
 	

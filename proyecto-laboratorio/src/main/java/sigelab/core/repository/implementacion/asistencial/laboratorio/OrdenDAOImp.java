@@ -219,6 +219,7 @@ private List<OrdenBean> deListaObjetoAListaObjetoBean(List<Orden_laboratorio> ls
 			bean.setCantidadOrdenes(entity.getCANTIDAD_ORDEN());
 			bean.setCantidadVentas(entity.getTOTAL_VENTA());
 			bean.setNombreExamen(entity.getEXAMEN());
+			bean.setCantidadExamenesSolicitados(entity.getCANTIDAD());
 			bean.setNombreMes(entity.getMES());
 	 	}
 		

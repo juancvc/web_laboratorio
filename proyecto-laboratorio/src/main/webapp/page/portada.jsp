@@ -655,6 +655,23 @@ var arrayMenus = [];
 	
 	
 	barra(arrayBarra);
+	
+	var arrayCirculo = [];
+	
+	<c:forEach var="orden" items="${lstOrdenBeanCircular}"
+		varStatus="loop">
+	var objOrdenCirculo = {
+			nombreExamen : "",
+			cantidadExamenesSolicitados		: ""
+	  	};
+	objOrdenCirculo.nombreExamen ='${orden.nombreExamen}'; 
+	objOrdenCirculo.cantidadExamenesSolicitados ='${orden.cantidadExamenesSolicitados}'; 
+	arrayCirculo.push(objOrdenCirculo);  
+	</c:forEach>
+	
+	
+	circulo(arrayCirculo);
+	
 		//init();
 	});
 	function init() {
