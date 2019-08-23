@@ -16,6 +16,7 @@ public class OrdenDetalleBean extends BaseBean{
 	private String sImporte; 
 	private String resultado;
 	private String codigoTarifProc;
+	private Float descuento;
 	
 	private List<OrdenDetalleItemBean> lstOrdenDetalleItemBean;
 	
@@ -82,6 +83,12 @@ public class OrdenDetalleBean extends BaseBean{
 	}
 	public void setCodigoTarifProc(String codigoTarifProc) {
 		this.codigoTarifProc = codigoTarifProc;
+	}
+	public Float getDescuento() {
+		return descuento;
+	}
+	public void setDescuento(Float descuento) {
+		this.descuento = descuento;
 	}
 	
 	

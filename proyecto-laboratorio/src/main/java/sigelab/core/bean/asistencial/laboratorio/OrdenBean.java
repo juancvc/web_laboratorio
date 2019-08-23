@@ -17,6 +17,7 @@ public class OrdenBean extends BaseBean{
 	private String strFechaOrden;  
 	private String observacion;  
 	private Float importeTotal;
+	private Float descuentoTotal;
 	
 	private String sImporteTotal;
 	private String descripcionImporte;
@@ -242,6 +243,12 @@ public class OrdenBean extends BaseBean{
 	}
 	public void setCantidadExamenesSolicitados(String cantidadExamenesSolicitados) {
 		this.cantidadExamenesSolicitados = cantidadExamenesSolicitados;
+	}
+	public Float getDescuentoTotal() {
+		return descuentoTotal;
+	}
+	public void setDescuentoTotal(Float descuentoTotal) {
+		this.descuentoTotal = descuentoTotal;
 	}
 	
 	
