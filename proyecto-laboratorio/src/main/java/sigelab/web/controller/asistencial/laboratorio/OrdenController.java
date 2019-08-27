@@ -88,6 +88,7 @@ public class OrdenController  extends BaseController {
 	private String asunto;
 	private String msg;
 	private String archivooPDF="";
+	private String logo ="labmedChico.png";
 	String usuarioWindows = System.getProperty("user.name");
 
 	OrdenDetalleItemBean ordenDetalleItemBean = new OrdenDetalleItemBean();
@@ -768,6 +769,19 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 		} 
     
     
+    @RequestMapping(value = "/cambiarLogo", method = RequestMethod.GET)
+	@ResponseBody
+	public void  cambiarLogo(@RequestParam("tipo") String tipo) throws JRException, IOException {
+    	System.out.println("cambiarLogo::: " + tipo); 
+    	if (tipo.equals("1")) {
+    		logo = "labmedChico.png";
+		}else {
+			logo = "policlinico_santa rosa_de_los crisantemos.jpg";
+		}
+    	
+	}
+    
+    
     @RequestMapping(value = "rptFichaREsultados", method = RequestMethod.GET)
 	@ResponseBody
 	public void rptFichaREsultados(//@RequestParam("ordenBean") OrdenBean ordenBean,
@@ -779,6 +793,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 		Map<String, Object> parametro = new HashMap<String, Object>();
 		parametro.put("usuario", getUsuarioSesion(request).getNombreUsuario()); 
 		parametro.put("nroAnalisis",getOrdenBean().getCodigo()); 
+		parametro.put("logo",logo); 
 		parametro.put("paciente",getOrdenBean().getPacienteBean().getPersona().getApellidoPaterno()+" "+getOrdenBean().getPacienteBean().getPersona().getApellidoMaterno()
 				+" "+getOrdenBean().getPacienteBean().getPersona().getPrimerNombre()+" "+getOrdenBean().getPacienteBean().getPersona().getSegundoNombre()); 
 		parametro.put("edad",getOrdenBean().getPacienteBean().getPersona().getEdad()+" años"); 

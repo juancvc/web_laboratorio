@@ -773,3 +773,24 @@ function imprimirCotizacion(){
 });
 	}
 }
+
+
+function cambiarLogo(tipo) {
+	var contextPath = $('#contextPath').val();
+	// var codigoLengua = $('#codigoLengua').val(); //
+	// document.getElementById("codigoLengua").value;
+	console.log("cambiarLogo tipo" + tipo);
+	path = contextPath + "/ordenController/cambiarLogo?tipo="+tipo;
+	// alert("path " + path)
+		$.ajax({
+			type : "GET",
+			url : path,
+
+			success : function(data) { 
+				console.log("correcto");
+			},
+			error : function(request, status, error) {
+				console.log("ERROR: " + error);
+			}
+		}); 
+}

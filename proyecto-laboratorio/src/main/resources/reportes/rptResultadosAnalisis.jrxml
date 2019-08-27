@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptResultadosAnalisis" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="20" bottomMargin="20" uuid="c0c22776-99b2-43c0-ab8f-c3544c0861a7">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="189"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
@@ -26,6 +26,7 @@
 	<parameter name="fecha" class="java.lang.String"/>
 	<parameter name="dni" class="java.lang.String"/>
 	<parameter name="sexo" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -118,9 +119,9 @@
 				</textElement>
 				<text><![CDATA[Telf: (01)342 8744 CEL: 987736215]]></text>
 			</staticText>
-			<image hAlign="Center">
+			<image hAlign="Left">
 				<reportElement x="8" y="0" width="263" height="52" uuid="eda0561b-9fd2-4a45-88bd-921c0f20005c"/>
-				<imageExpression><![CDATA[getClass().getResource("/sigelab/web/reportes/logo_labmed_grande.png").openStream()]]></imageExpression>
+				<imageExpression><![CDATA[getClass().getResource("/sigelab/web/reportes/"+$P{logo}).openStream()]]></imageExpression>
 			</image>
 		</band>
 	</title>
