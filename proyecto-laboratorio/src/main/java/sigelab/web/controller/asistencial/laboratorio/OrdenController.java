@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -528,7 +529,12 @@ public class OrdenController  extends BaseController {
 		} 
 		
 		System.out.println("obpersonaBean.getCodigo() " + obpersonaBean.getCodigo());
-		
+		System.out.println("obpersonaBean.getFechaNacStr " + obpersonaBean.getFechaNacStr());
+		if (obpersonaBean.getFechaNacStr() != null) {
+			Date dateFecha=new SimpleDateFormat("dd/MM/yyyy").parse(obpersonaBean.getFechaNacStr());   
+			obpersonaBean.setFechaNac(dateFecha);	
+		}
+	    
 		if (obpersonaBean.getCodigo().equals("")) {
 			if(!obpersonaBean.getTipoDocumento().getCodReg().equals("000002") ){  
 				System.out.println("SIN SERVICIO DE RENIEC" ); 
