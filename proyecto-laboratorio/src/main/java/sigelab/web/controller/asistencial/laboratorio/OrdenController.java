@@ -747,6 +747,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
  		   System.out.println("ordenDetalleItemBean"+ordenDetalleItemBean.getCodigo());
  		   
  for (OrdenDetalleItemBean objOrdenDetalleBean :ordenDetalleItemBean.getLstOrdenDetalleItemBean()) {
+	 
 	 if (objOrdenDetalleBean.getExamenesLaboratorioBean().getTipoExamenAsoc().equals("000001")) {
 		 this.setAuditoria(objOrdenDetalleBean, request, false);
 		 	ordenDetalleItemService.actualizar(objOrdenDetalleBean);	 
