@@ -18,6 +18,7 @@ public class OrdenDetalleItemBean extends BaseBean{
 	private String 			 strFechaOrden;  
 	private String 			 observacion;  
 	private List<OrdenDetalleBean> lstOrdenDetalleBean;
+	private List<OrdenDetalleItemBean> lstOrdenDetalleItemBean;
 	private String 			 fechaDesde;  
 	private String 			 fechaHasta;  
 	private TablaBean 		 motivoAnular;
@@ -103,6 +104,12 @@ public class OrdenDetalleItemBean extends BaseBean{
 	}
 	public void setImprimirItem(boolean imprimirItem) {
 		this.imprimirItem = imprimirItem;
+	}
+	public List<OrdenDetalleItemBean> getLstOrdenDetalleItemBean() {
+		return lstOrdenDetalleItemBean;
+	}
+	public void setLstOrdenDetalleItemBean(List<OrdenDetalleItemBean> lstOrdenDetalleItemBean) {
+		this.lstOrdenDetalleItemBean = lstOrdenDetalleItemBean;
 	}  
 	
  

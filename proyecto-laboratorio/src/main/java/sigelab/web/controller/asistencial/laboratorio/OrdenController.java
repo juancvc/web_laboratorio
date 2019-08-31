@@ -133,6 +133,7 @@ public class OrdenController  extends BaseController {
 	private OrdenDetalleService ordenDetalleService;
 	
 	
+	
 	@PostConstruct
 	public void init() { 
 		
@@ -734,6 +735,33 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 			//lstOrdenDetalleBean.add(objOrdenDetalleBean);
 			return resultados;
 		}
+    
+    
+    @RequestMapping(value = "/actualizarResultadoItem", method = RequestMethod.GET)
+ 		public @ResponseBody String actualizarResultadoItem(
+ 			@ModelAttribute("ordenDetalleItemBean")OrdenDetalleItemBean ordenBean,HttpServletRequest request) throws Exception {
+ 		   String resultados="";
+ 		   
+ 		   
+ 		   
+ for (OrdenDetalleItemBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleItemBean()) {
+	 if (objOrdenDetalleBean.getExamenesLaboratorioBean().getTipoExamenAsoc().equals("000001")) {
+		 this.setAuditoria(objOrdenDetalleBean, request, false);
+		 	ordenDetalleItemService.actualizar(objOrdenDetalleBean);	 
+	 }else {
+		 this.setAuditoria(objOrdenDetalleBean, request, false);
+		 	ordenDetalleItemService.actualizar(objOrdenDetalleBean);
+		 
+		 
+	 }
+ 	
+ 	
+ }
+ 			//lstOrdenDetalleBean.add(objOrdenDetalleBean);
+ 			return resultados;
+ 		}  
+    
+    
     
     @RequestMapping(value = "/formularResultado", method = RequestMethod.GET)
 		public @ResponseBody String formularResultado(

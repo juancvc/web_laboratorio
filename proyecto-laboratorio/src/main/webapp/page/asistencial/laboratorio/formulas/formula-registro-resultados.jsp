@@ -125,6 +125,13 @@ input[type=text] {
 												<tbody id="idbodyCIEXref" class="label_control">
 													<c:forEach var="orden" items="${lstOrdenDetalleItemBean}"
 														varStatus="loop"> 
+														<f:input type="hidden" id="codigo" value="${orden.codigo}" path="lstOrdenDetalleItemBean[${loop.index}].codigo" />
+					
+														<f:input type="hidden" id="numeroVersion" value="${orden.numeroVersion}" path="lstOrdenDetalleItemBean[${loop.index}].numeroVersion" />
+														<f:input type="hidden" id="numeroPeriodo" value="${orden.numeroPeriodo}" path="lstOrdenDetalleItemBean[${loop.index}].numeroPeriodo" />
+														<f:input type="hidden" id="codigoOrganizacion" value="${orden.codigoOrganizacion}" path="lstOrdenDetalleItemBean[${loop.index}].codigoOrganizacion" />
+														<f:input type="hidden" id="codigoSede" value="${orden.codigoSede}" path="lstOrdenDetalleItemBean[${loop.index}].codigoSede" />
+														<f:input type="hidden" id="codigoInstitucion" value="${orden.codigoInstitucion}" path="lstOrdenDetalleItemBean[${loop.index}].codigoInstitucion" />
 				 										<tr>
 															<td>${loop.count}</td>
 															<td>${orden.examenesLaboratorioBean.descripcion}</td>
@@ -183,7 +190,7 @@ input[type=text] {
 					<i class="fa fa-eraser"></i> LIMPIAR
 				</button>
 
-				<button type="submit" onclick="grabarResultados()"
+				<button type="submit" onclick="actualizarResultadoOrdenDetalleItem()"
 					class="btn btn-primary">
 					<i class="fa fa-floppy-o"></i> GRABAR
 				</button>
@@ -210,7 +217,9 @@ input[type=text] {
 			src="${pageContext.request.contextPath}/assets/js/page/util/utilitarios.js"
 			type="text/javascript" charset="utf-8"></script>
 			
-	
+		<script
+			src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
+			type="text/javascript" charset="utf-8"></script>
 			
 	<script> 
 	$(document).ready(function(){

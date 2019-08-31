@@ -77,7 +77,7 @@ public class OrdenDetalleItemDAOImp implements OrdenDetalleItemDAO {
 			spq.setParameter("CODORDEN", ordenDetalleItemBean.getOrdenDetalleBean().getCodigo());
 			spq.setParameter("NROPERIO", ordenDetalleItemBean.getNumeroPeriodo()); 
 			spq.setParameter("RESULTADO", ordenDetalleItemBean.getResultado()); 
-			
+			spq.setParameter("TIPO",      ordenDetalleItemBean.getExamenesLaboratorioBean().getTipoExamenLab()); 
 			spq.setParameter("AUCDUSMO", ordenDetalleItemBean.getCodigoUsuarioModificacion());
 			spq.setParameter("AUPCIPMO", ordenDetalleItemBean.getIpModificacion()); 
 			
