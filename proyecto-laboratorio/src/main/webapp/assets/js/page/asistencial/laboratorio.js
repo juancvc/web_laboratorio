@@ -700,7 +700,7 @@ function actualizarResultadoOrdenDetalleItem(){
 	// debugger;
 	var htmlTabla = "";
 	var item = 0; 
-	var myFormulario = $('#frmActualizarResultadoOrden');  
+	var myFormulario = $('#frmActualizarResultadoOrdenItem');  
 	
 	var contextPath = $('#contextPath').val();
 	if(!myFormulario[0].checkValidity()) {
@@ -712,13 +712,13 @@ function actualizarResultadoOrdenDetalleItem(){
 		$.ajax({
 		type : "GET",
 		url : url,
-		data: $('#frmActualizarResultadoOrden').serialize(),
+		data: $('#frmActualizarResultadoOrdenItem').serialize(),
 		success : function(data) {
 			   // console.log("SUCCESS: ", data);
 			    if (data =! null) {
 			    	 msg_exito("Éxito al registrar resultados");
 			   // 	 $("#idBtnCerrarDescartar").trigger("click"); 
-			    	 $("#btnListado").trigger("click");
+			  //  	 $("#btnListado").trigger("click");
 			    	 
 			    	// enviarListado();
 				}else{

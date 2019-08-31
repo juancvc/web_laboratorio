@@ -75,7 +75,7 @@ input[type=text] {
 			</button>
 		</div>
 
-		<f:form id="frmGuardarFormula" name="fo" class="form-horizontal" role="form " 
+		<f:form id="frmActualizarResultadoOrdenItem" name="fo" class="form-horizontal" role="form " 
 			method="post" action="" onsubmit="return false">
 			<input id="contextPath" type="hidden"
 				value="${pageContext.request.contextPath}">

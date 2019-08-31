@@ -666,7 +666,7 @@ public class OrdenController  extends BaseController {
 		try {
 			lstOrdenDetalleItemBean = ordenDetalleItemService.listarAnalisisResultados(objOrdenDetalle);
 		
-	//		setLstOrdenDetalleBean(lstOrdenDetalleBean);
+			setLstOrdenDetalleItemBean(lstOrdenDetalleItemBean);
 	//		setLstOrdenDetalleBeanReporte(lstOrdenDetalleBeanReporte);
 			for (OrdenDetalleBean ord : lstOrdenDetalleBean) {
 			//	System.out.println("resultados: " + ord.getResultado());	
@@ -741,12 +741,12 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
     
     @RequestMapping(value = "/actualizarResultadoItem", method = RequestMethod.GET)
  		public @ResponseBody String actualizarResultadoItem(
- 			@ModelAttribute("ordenDetalleItemBean")OrdenDetalleItemBean ordenBean,HttpServletRequest request) throws Exception {
+ 			@ModelAttribute("ordenDetalleItemBean")OrdenDetalleItemBean ordenDetalleItemBean,HttpServletRequest request) throws Exception {
  		   String resultados="";
  		   
+ 		   System.out.println("ordenDetalleItemBean"+ordenDetalleItemBean.getCodigo());
  		   
- 		   
- for (OrdenDetalleItemBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleItemBean()) {
+ for (OrdenDetalleItemBean objOrdenDetalleBean :ordenDetalleItemBean.getLstOrdenDetalleItemBean()) {
 	 if (objOrdenDetalleBean.getExamenesLaboratorioBean().getTipoExamenAsoc().equals("000001")) {
 		 this.setAuditoria(objOrdenDetalleBean, request, false);
 		 	ordenDetalleItemService.actualizar(objOrdenDetalleBean);	 
@@ -1076,6 +1076,14 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 
 	public void setLstOrdenCotizacion(List<OrdenDetalleBean> lstOrdenCotizacion) {
 		this.lstOrdenCotizacion = lstOrdenCotizacion;
+	}
+
+	public List<OrdenDetalleItemBean> getLstOrdenDetalleItemBean() {
+		return lstOrdenDetalleItemBean;
+	}
+
+	public void setLstOrdenDetalleItemBean(List<OrdenDetalleItemBean> lstOrdenDetalleItemBean) {
+		this.lstOrdenDetalleItemBean = lstOrdenDetalleItemBean;
 	}
 
 
