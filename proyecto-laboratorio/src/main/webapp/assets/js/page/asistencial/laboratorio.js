@@ -696,6 +696,7 @@ function actualizarResultadoOrdenDetalle(){
 }
 
 
+
 function actualizarResultadoOrdenDetalleItem(){
 	// debugger;
 	var htmlTabla = "";

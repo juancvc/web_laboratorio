@@ -7,7 +7,8 @@ import java.sql.Timestamp;
 @NamedStoredProcedureQueries({
 		@NamedStoredProcedureQuery(name = "ordenDetalleItem.insertar",
 				procedureName = "[LABO].[ORDET_ASOC_ITEMS_INSERT]", resultClasses = Orden_laboratorio_detalle_item.class, parameters = {
-				
+			
+						
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class),

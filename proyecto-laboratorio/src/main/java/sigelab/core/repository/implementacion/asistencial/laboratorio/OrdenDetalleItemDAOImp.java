@@ -68,6 +68,7 @@ public class OrdenDetalleItemDAOImp implements OrdenDetalleItemDAO {
 	public boolean actualizar(OrdenDetalleItemBean ordenDetalleItemBean) throws DAOException {
 
 		boolean sw=false;
+		
 		try {
 			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("ordenDetalleItem.modificar"); 
 			spq.setParameter("CODORGAN", ordenDetalleItemBean.getCodigoOrganizacion());

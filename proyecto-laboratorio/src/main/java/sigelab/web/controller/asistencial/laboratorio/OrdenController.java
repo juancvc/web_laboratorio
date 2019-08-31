@@ -723,6 +723,7 @@ public class OrdenController  extends BaseController {
 	
 	
 	  
+	
     @RequestMapping(value = "/actualizarResultado", method = RequestMethod.GET)
 		public @ResponseBody String actualizarResultado(
 			@ModelAttribute("ordenBean")OrdenBean ordenBean,HttpServletRequest request) throws Exception {
