@@ -18,6 +18,10 @@ public class OrdenDetalleBean extends BaseBean{
 	private String codigoTarifProc;
 	private Float descuento;
 	
+	public OrdenDetalleBean() {
+		super();
+	}
+	
 	private List<OrdenDetalleItemBean> lstOrdenDetalleItemBean;
 	
 	public String getsImporte() {

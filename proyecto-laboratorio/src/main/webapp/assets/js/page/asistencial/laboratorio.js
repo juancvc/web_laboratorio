@@ -717,7 +717,7 @@ function actualizarResultadoOrdenDetalleItem(){
 			   // console.log("SUCCESS: ", data);
 			    if (data =! null) {
 			    	 msg_exito("Éxito al registrar resultados");
-			   // 	 $("#idBtnCerrarDescartar").trigger("click"); 
+			     	 $("#btnCerrarModalOrdenItem").trigger("click"); 
 			  //  	 $("#btnListado").trigger("click");
 			    	 
 			    	// enviarListado();

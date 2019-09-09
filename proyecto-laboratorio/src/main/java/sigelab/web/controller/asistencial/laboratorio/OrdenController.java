@@ -619,6 +619,7 @@ public class OrdenController  extends BaseController {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
+		System.out.println("set orden " + objOrdenBean.getCodigo());
 		mav.addObject("lstOrdenDetalleBean", lstOrdenDetalleBean); 
 		mav.addObject("ordenBean", objOrdenBean); 
 		this.cargarCombos(mav);
@@ -652,20 +653,20 @@ public class OrdenController  extends BaseController {
 	public ModelAndView doListaOrdenesResultadoFormula(@RequestParam("index") Integer index, HttpServletRequest request) {
 		lstOrdenDetalleItemBean = new ArrayList<OrdenDetalleItemBean>();
 		System.out.println("modificar codigo: " + index); 
-		OrdenDetalleBean objOrdenBean = new OrdenDetalleBean(); 
-		objOrdenBean = this.lstOrdenDetalleBean.get(index);
-		System.out.println("modificar objOrdenBean: " + objOrdenBean.getCodigo());
-		System.out.println("nombre: " + objOrdenBean.getExamen().getDescripcion());
-	    setOrdenDetalleBean(objOrdenBean);
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/formulas/formula-registro-resultados", "command", objOrdenBean); 
+		OrdenDetalleBean objOrdenDetalleBean = new OrdenDetalleBean(); 
+		objOrdenDetalleBean = this.lstOrdenDetalleBean.get(index);
+		System.out.println("modificar objOrdenBean: " + objOrdenDetalleBean.getCodigo());
+		System.out.println("nombre: " + objOrdenDetalleBean.getExamen().getDescripcion());
+	    setOrdenDetalleBean(objOrdenDetalleBean);
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/formulas/formula-registro-resultados", "command", objOrdenDetalleBean); 
 		OrdenDetalleItemBean objOrdenDetalle = new OrdenDetalleItemBean();
-		objOrdenDetalle.setOrdenDetalleBean(objOrdenBean);
+		objOrdenDetalle.setOrdenDetalleBean(objOrdenDetalleBean);
 		
 		/**insertamos tabla itemdetalle(solo si existe los registros) para luego consultar los registros****/
 		insertOrdenDetalleItem(objOrdenDetalle, request);
 		try {
 			lstOrdenDetalleItemBean = ordenDetalleItemService.listarAnalisisResultados(objOrdenDetalle);
-		
+			objOrdenDetalleBean.setLstOrdenDetalleItemBean(lstOrdenDetalleItemBean);
 			setLstOrdenDetalleItemBean(lstOrdenDetalleItemBean);
 	//		setLstOrdenDetalleBeanReporte(lstOrdenDetalleBeanReporte);
 			for (OrdenDetalleBean ord : lstOrdenDetalleBean) {
@@ -673,12 +674,14 @@ public class OrdenController  extends BaseController {
 
 				System.out.println("codigo detalle: " + ord.getCodigo()); 
 			}
-		setOrdenDetalleBean(objOrdenBean);
+		setOrdenDetalleBean(objOrdenDetalleBean);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-		mav.addObject("lstOrdenDetalleItemBean", lstOrdenDetalleItemBean); 
-		mav.addObject("ordenBean", objOrdenBean); 
+		System.out.println("set detalle: " + objOrdenDetalleBean.getCodigo()); 
+		
+	//	mav.addObject("lstOrdenDetalleItemBean", lstOrdenDetalleItemBean);  
+		mav.addObject("ordenDetalleBean", objOrdenDetalleBean); 
 		this.cargarCombos(mav);
 		return mav;
 	}
@@ -741,22 +744,22 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
     
     @RequestMapping(value = "/actualizarResultadoItem", method = RequestMethod.GET)
  		public @ResponseBody String actualizarResultadoItem(
- 			@ModelAttribute("ordenDetalleItemBean")OrdenDetalleItemBean ordenDetalleItemBean,HttpServletRequest request) throws Exception {
+ 			@ModelAttribute("ordenDetalleBean")OrdenDetalleBean ordenDetalleBean,HttpServletRequest request) throws Exception {
  		   String resultados="";
+ 		 // @RequestBody OrdenDetalleBean[] ordenDetalleArray
+ 		   System.out.println("ordenDetalleItemBean codigo "+ordenDetalleItemBean.getCodigo());
+ 		   System.out.println("ordenDetalleItemBean detalle "+ ordenDetalleItemBean.getOrdenDetalleBean().getCodigo());  
+ 		  
  		   
- 		   System.out.println("ordenDetalleItemBean"+ordenDetalleItemBean.getCodigo());
- 		   
- for (OrdenDetalleItemBean objOrdenDetalleBean :ordenDetalleItemBean.getLstOrdenDetalleItemBean()) {
-	 
-	 if (objOrdenDetalleBean.getExamenesLaboratorioBean().getTipoExamenAsoc().equals("000001")) {
+ for (OrdenDetalleItemBean objOrdenDetalleBean :ordenDetalleBean.getLstOrdenDetalleItemBean()) {
+	 System.out.println("objOrdenDetalleBean resultDO" +objOrdenDetalleBean.getResultado());
+	 System.out.println("objOrdenDetalleBean detalle cod" +objOrdenDetalleBean.getCodigo());
+	 System.out.println("objOrdenDetalleBean detalle labor" +objOrdenDetalleBean.getExamenesLaboratorioBean().getCodigo());
+	 objOrdenDetalleBean.getOrdenDetalleBean().setCodigo(this.getOrdenDetalleBean().getCodigo());
+	// if (objOrdenDetalleBean.getExamenesLaboratorioBean().getTipoExamenAsoc().equals("000001")) {
 		 this.setAuditoria(objOrdenDetalleBean, request, false);
 		 	ordenDetalleItemService.actualizar(objOrdenDetalleBean);	 
-	 }else {
-		 this.setAuditoria(objOrdenDetalleBean, request, false);
-		 	ordenDetalleItemService.actualizar(objOrdenDetalleBean);
-		 
-		 
-	 }
+	// }  
  	
  	
  }
