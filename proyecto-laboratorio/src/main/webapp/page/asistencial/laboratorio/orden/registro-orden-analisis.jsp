@@ -305,11 +305,7 @@
 																</c:choose>
 															</td>
 															
-															
-															
-															<c:choose>
-																<c:when test="${orden.resultado==null || orden.resultado==''}">
-																	<td>
+															<td>
 																	<button type='button'
 																			class='btn btn-outline-danger btn-sm'
 																			data-toggle='tooltip' data-placement='top'
@@ -319,7 +315,9 @@
 																			<i class='icon-plus'></i>
 																		</button>
 																	
-																	</td>
+																	</td> 
+															<!--<c:choose>
+																<c:when test="${orden.resultado==null || orden.resultado==''}"> 
 																</c:when> 
 																<c:otherwise>
 																	<td><button type='button'
@@ -332,7 +330,7 @@
 																		</button></td>
 																		
 																</c:otherwise>
-															</c:choose>
+															</c:choose>-->
 
 														</tr>
 													</c:forEach>

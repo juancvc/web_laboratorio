@@ -109,7 +109,7 @@ public class OrdenController  extends BaseController {
 	private List<OrdenBean> lstOrdenBean ;  
 	
 	private OrdenBean ordenBean;
-	
+	private OrdenDetalleBean objOrdenDetalleBean ;
 	List<OrdenDetalleBean> lstOrdenCotizacion = new ArrayList<OrdenDetalleBean>();
 	
 	@Autowired
@@ -653,7 +653,7 @@ public class OrdenController  extends BaseController {
 	public ModelAndView doListaOrdenesResultadoFormula(@RequestParam("index") Integer index, HttpServletRequest request) {
 		lstOrdenDetalleItemBean = new ArrayList<OrdenDetalleItemBean>();
 		System.out.println("modificar codigo: " + index); 
-		OrdenDetalleBean objOrdenDetalleBean = new OrdenDetalleBean(); 
+	    objOrdenDetalleBean = new OrdenDetalleBean(); 
 		objOrdenDetalleBean = this.lstOrdenDetalleBean.get(index);
 		System.out.println("modificar objOrdenBean: " + objOrdenDetalleBean.getCodigo());
 		System.out.println("nombre: " + objOrdenDetalleBean.getExamen().getDescripcion());
@@ -832,16 +832,35 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 		parametro.put("edad",getOrdenBean().getPacienteBean().getPersona().getEdad()+" años"); 
 		parametro.put("dni",getOrdenBean().getPacienteBean().getPersona().getNroDocumento()); 
 		if (getOrdenBean().getPacienteBean().getPersona().getSexo().getCodReg().equals("000001")) {
-			parametro.put("sexo","femenino"); 	
+			parametro.put("sexo","Femenino"); 	
 		} else {
-			parametro.put("sexo","masculino"); 	
+			parametro.put("sexo","Masculino"); 	
 		}
+
+		lstOrdenDetalleItemBean = new ArrayList<OrdenDetalleItemBean>(); 
+
+	    setOrdenDetalleBean(objOrdenDetalleBean); 
+		OrdenDetalleItemBean objOrdenDetalle = new OrdenDetalleItemBean();
+		objOrdenDetalle.setOrdenDetalleBean(objOrdenDetalleBean);
+		
+		/**insertamos tabla itemdetalle(solo si existe los registros) para luego consultar los registros****/
+		insertOrdenDetalleItem(objOrdenDetalle, request);
+		try {
+			lstOrdenDetalleItemBean = ordenDetalleItemService.listarAnalisisResultados(objOrdenDetalle); 
+			getOrdenBean().setLstOrdenDetalleItemBean(lstOrdenDetalleItemBean);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+			
+		
+		setOrdenDetalleBean(objOrdenDetalleBean);
+		
 		
 		System.out.println("jasperStream " + jasperStream);
 		List<OrdenBean> oLSTOrdenBean = new ArrayList<OrdenBean>();
 		oLSTOrdenBean.add(getOrdenBean());//((OrdenDetalleBean) ordenBean.getLstOrdenDetalleBean());
 		
-		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(getLstOrdenDetalleBeanReporte());
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstOrdenDetalleItemBean);
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametro, dataSource);
 		
@@ -849,11 +868,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 		response.setContentType("application/x-pdf");
 		response.setHeader("Content-disposition",
 				"inline; filename="+getOrdenBean().getCodigo()+".pdf");
-		
-	//	Date fechaActual = new Date();
-		JFileChooser chooser = new JFileChooser("D:\\labmed\\reportes\\"+getOrdenBean().getCodigo()+".pdf");
-
-		archivooPDF = "C:\\Users\\"+usuarioWindows+"\\Downloads"+getOrdenBean().getCodigo()+".pdf";
+		 
 		final OutputStream outStream = response.getOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	}
@@ -1088,6 +1103,14 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 
 	public void setLstOrdenDetalleItemBean(List<OrdenDetalleItemBean> lstOrdenDetalleItemBean) {
 		this.lstOrdenDetalleItemBean = lstOrdenDetalleItemBean;
+	}
+
+	public OrdenDetalleBean getObjOrdenDetalleBean() {
+		return objOrdenDetalleBean;
+	}
+
+	public void setObjOrdenDetalleBean(OrdenDetalleBean objOrdenDetalleBean) {
+		this.objOrdenDetalleBean = objOrdenDetalleBean;
 	}
 
 
