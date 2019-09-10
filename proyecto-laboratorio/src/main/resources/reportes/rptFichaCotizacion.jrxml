@@ -163,7 +163,7 @@
 				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="274" y="1" width="39" height="15" uuid="cdf0cc08-abdc-4893-a5f5-7520a7bc966c"/>
+				<reportElement x="275" y="1" width="38" height="15" uuid="cdf0cc08-abdc-4893-a5f5-7520a7bc966c"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
