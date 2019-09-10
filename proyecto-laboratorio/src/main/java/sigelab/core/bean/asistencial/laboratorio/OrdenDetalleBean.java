@@ -62,6 +62,9 @@ public class OrdenDetalleBean extends BaseBean{
 	}
  
 	public TarifarioBean getExamen() {
+		if (examen == null) {
+			examen = new TarifarioBean();
+		}
 		return examen;
 	}
 	public void setExamen(TarifarioBean examen) {

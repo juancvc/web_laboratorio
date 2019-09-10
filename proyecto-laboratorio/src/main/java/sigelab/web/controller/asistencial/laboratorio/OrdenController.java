@@ -846,8 +846,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 		/**insertamos tabla itemdetalle(solo si existe los registros) para luego consultar los registros****/
 		insertOrdenDetalleItem(objOrdenDetalle, request);
 		try {
-			lstOrdenDetalleItemBean = ordenDetalleItemService.listarAnalisisResultados(objOrdenDetalle); 
-			getOrdenBean().setLstOrdenDetalleItemBean(lstOrdenDetalleItemBean);
+			lstOrdenDetalleItemBean = ordenDetalleItemService.listarAnalisisResultadosPorOrden(getOrdenBean());  
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -856,9 +855,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 		setOrdenDetalleBean(objOrdenDetalleBean);
 		
 		
-		System.out.println("jasperStream " + jasperStream);
-		List<OrdenBean> oLSTOrdenBean = new ArrayList<OrdenBean>();
-		oLSTOrdenBean.add(getOrdenBean());//((OrdenDetalleBean) ordenBean.getLstOrdenDetalleBean());
+		System.out.println("jasperStream " + jasperStream); 
 		
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstOrdenDetalleItemBean);
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);

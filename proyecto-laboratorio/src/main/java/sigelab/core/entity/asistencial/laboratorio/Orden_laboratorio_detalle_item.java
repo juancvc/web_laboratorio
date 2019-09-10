@@ -69,6 +69,18 @@ import java.sql.Timestamp;
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDEN", type = String.class) 
 }),
 
+@NamedStoredProcedureQuery(name = "ordenDetalleItem.buscarPorCodigoOrden",
+
+		procedureName = "[LABO].[USP_ORDET_ITEM_LISTAR_X_CODORDEN]",
+		
+		resultClasses = Orden_laboratorio_detalle_item.class, parameters = {
+		
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class) ,
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class) ,
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class) ,
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDEN", type = String.class) 
+}),
+
 @NamedStoredProcedureQuery(name = "ordenDetalleItem.buscarPorObjeto", procedureName = "[SIGEHOV2BANC].[BANC].[POSTULANTE_CAMPANIA_LISTA_X_OBJETO]", resultClasses = Orden_laboratorio_detalle_item.class, parameters = {
 		
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class) ,
@@ -154,7 +166,8 @@ public class Orden_laboratorio_detalle_item implements Serializable {
 	@Column(name = "FLAG")
 	private boolean imprimirItem;
 
-
+	private String NOMPRODU;
+	
 	public Orden_laboratorio_detalle_item() {
 		
 		// TODO Auto-generated constructor stub
@@ -336,9 +349,14 @@ public class Orden_laboratorio_detalle_item implements Serializable {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	
-	
-	
+	 
+	public String getNOMPRODU() {
+		return NOMPRODU;
+	}
+
+	public void setNOMPRODU(String nOMPRODU) {
+		NOMPRODU = nOMPRODU;
+	}
 
 	public boolean isImprimirItem() {
 		return imprimirItem;

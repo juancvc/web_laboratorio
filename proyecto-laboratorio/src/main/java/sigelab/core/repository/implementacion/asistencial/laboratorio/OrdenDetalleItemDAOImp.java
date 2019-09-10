@@ -9,6 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleItemBean;
 import sigelab.core.entity.asistencial.laboratorio.Orden_laboratorio_detalle_item;
 import sigelab.core.repository.DAOException;
@@ -198,7 +200,7 @@ private List<OrdenDetalleItemBean> deListaObjetoAListaObjetoBean(List<Orden_labo
 			bean.getOrdenDetalleBean().setCodigo(entity.getCodigoOrdenDetalle());
 			bean.getOrdenDetalleBean().setNumeroPeriodo(entity.getNroPeriodoOrdenDetalle());
 			bean.getOrdenDetalleBean().setNumeroVersion(entity.getNroVersionOrdenDetalle());
-			
+			bean.getOrdenDetalleBean().getExamen().setDescripcion(entity.getNOMPRODU());
 			bean.setResultadoFormula(entity.getResultadoFormula());
 			bean.setCodigoUsuarioCreacion(entity.getUsuarioCreacion());
 			bean.setFechaCreacion(entity.getAufechcr());
@@ -237,6 +239,31 @@ private List<OrdenDetalleItemBean> deListaObjetoAListaObjetoBean(List<Orden_labo
 			spq.setParameter("CODINSTI", ordenDetalleItemBean.getCodigoInstitucion()); 
 			spq.setParameter("CODSEDEI", ordenDetalleItemBean.getCodigoSede()); 
 			spq.setParameter("CODORDEN", ordenDetalleItemBean.getOrdenDetalleBean().getCodigo()); 
+							  
+			 if (spq.execute()) {
+				 lstOrden =  spq.getResultList(); 
+			 }
+			 
+			if (lstOrden != null && lstOrden.size() > 0) {
+				lstOrdenDetalleItemBean = deListaObjetoAListaObjetoBean(lstOrden);
+			 }
+			
+			em.close();
+			
+		   
+		return lstOrdenDetalleItemBean;
+	}
+
+	@Override
+	public List<OrdenDetalleItemBean> listarAnalisisResultadosPorOrden(OrdenBean OrdenBean) throws DAOException {
+		List<Orden_laboratorio_detalle_item> lstOrden = null;	
+		List<OrdenDetalleItemBean> lstOrdenDetalleItemBean = null;
+		
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("ordenDetalleItem.buscarPorCodigoOrden");   
+			spq.setParameter("CODORGAN", OrdenBean.getCodigoOrganizacion()); 
+			spq.setParameter("CODINSTI", OrdenBean.getCodigoInstitucion()); 
+			spq.setParameter("CODSEDEI", OrdenBean.getCodigoSede()); 
+			spq.setParameter("CODORDEN", OrdenBean.getCodigo()); 
 							  
 			 if (spq.execute()) {
 				 lstOrden =  spq.getResultList(); 
