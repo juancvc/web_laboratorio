@@ -27,6 +27,8 @@
 	<parameter name="dni" class="java.lang.String"/>
 	<parameter name="sexo" class="java.lang.String"/>
 	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="direccionEmpresa" class="java.lang.String"/>
+	<parameter name="telefonoEmpresa" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -88,28 +90,14 @@
 	<title>
 		<band height="89" splitType="Stretch">
 			<staticText>
-				<reportElement style="Title" x="1" y="52" width="564" height="24" uuid="239fc69e-3880-4273-9972-81c582c269f1"/>
+				<reportElement style="Title" x="1" y="40" width="564" height="24" uuid="239fc69e-3880-4273-9972-81c582c269f1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="16" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[REPORTE DE ATENCIÓN]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="335" y="0" width="227" height="13" uuid="9dd2d016-36f7-4d7d-b9ab-5d0fddadd0b4"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Av. Honorio Delgado 225 - 2do piso - Urb. ingenieria-SMP]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="335" y="12" width="227" height="13" uuid="bd3f97e2-7d4f-48d3-8386-40e062fd9b0f"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="7" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Telf: (01)342 8744 CEL: 987736215]]></text>
-			</staticText>
 			<image hAlign="Left">
-				<reportElement x="8" y="0" width="263" height="52" uuid="eda0561b-9fd2-4a45-88bd-921c0f20005c"/>
+				<reportElement x="0" y="0" width="238" height="40" uuid="eda0561b-9fd2-4a45-88bd-921c0f20005c"/>
 				<imageExpression><![CDATA[getClass().getResource("/sigelab/web/reportes/"+$P{logo}).openStream()]]></imageExpression>
 			</image>
 			<textField pattern="EEEEE dd MMMMM yyyy">
@@ -118,6 +106,20 @@
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="0" width="267" height="13" uuid="a7a522dc-d40e-4262-817a-181bf1052797"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{direccionEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="13" width="267" height="13" uuid="4de00640-5edc-4cfc-b236-143f566c3aa1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{telefonoEmpresa}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

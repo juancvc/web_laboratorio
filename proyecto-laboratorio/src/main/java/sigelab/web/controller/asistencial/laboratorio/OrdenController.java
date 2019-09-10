@@ -89,6 +89,8 @@ public class OrdenController  extends BaseController {
 	private String msg;
 	private String archivooPDF="";
 	private String logo ="labmedChico.png";
+	private String direccionEmpresa ="Av. Honorio Delgado 225 - 2do piso - Urb. ingenieria-SMP";
+	private String telefonoEmpresa ="Telf: (01)342 8744 CEL: 987736215";
 	String usuarioWindows = System.getProperty("user.name");
 
 	OrdenDetalleItemBean ordenDetalleItemBean = new OrdenDetalleItemBean();
@@ -808,8 +810,12 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
     	System.out.println("cambiarLogo::: " + tipo); 
     	if (tipo.equals("1")) {
     		logo = "labmedChico.png";
+    		direccionEmpresa ="Av. Honorio Delgado 225 - 2do piso - Urb. ingenieria-SMP";
+    		telefonoEmpresa ="Telf: (01)342 8744 CEL: 987736215";
 		}else {
 			logo = "policlinico_santa rosa_de_los crisantemos.jpg";
+			direccionEmpresa = "Calle 5 Mz E lote 22 Urb Los Crisantemos - Puente Piedra";
+			telefonoEmpresa= "";
 		}
     	
 	}
@@ -827,6 +833,8 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 		parametro.put("usuario", getUsuarioSesion(request).getNombreUsuario()); 
 		parametro.put("nroAnalisis",getOrdenBean().getCodigo()); 
 		parametro.put("logo",logo); 
+		parametro.put("direccionEmpresa",direccionEmpresa); 
+		parametro.put("telefonoEmpresa",telefonoEmpresa); 
 		parametro.put("paciente",getOrdenBean().getPacienteBean().getPersona().getApellidoPaterno()+" "+getOrdenBean().getPacienteBean().getPersona().getApellidoMaterno()
 				+" "+getOrdenBean().getPacienteBean().getPersona().getPrimerNombre()+" "+getOrdenBean().getPacienteBean().getPersona().getSegundoNombre()); 
 		parametro.put("edad",getOrdenBean().getPacienteBean().getPersona().getEdad()+" años"); 
