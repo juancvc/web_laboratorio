@@ -284,7 +284,7 @@
 															<c:choose>
 															<c:when test="${orden.resultado==null || orden.resultado==''}">
 															
-																	<f:input type="text" min="1" maxlength="50"
+																	<f:input type="text" min="1" maxlength="50"  autocomplete="off"
 																		class="form-control" required="required"
 																		id="tarifarioUnidades" path="lstOrdenDetalleBean[${loop.index}].resultado" />
 																
@@ -292,7 +292,7 @@
 																</c:when> 
 															<c:when test="${orden.codigoTarifProc==null || orden.codigoTarifProc==''}">
 															
-																	<f:input type="text" value="varios" min="1" maxlength="50"
+																	<f:input type="text" value="${orden.resultado}" min="1" maxlength="50"
 																		class="form-control" required="required" disabled="true"
 																		id="codigoTarifProc" path="lstOrdenDetalleBean[${loop.index}].resultado" />
 																
