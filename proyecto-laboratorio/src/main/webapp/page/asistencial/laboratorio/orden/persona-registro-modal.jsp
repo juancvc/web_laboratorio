@@ -166,7 +166,7 @@ input[type=text] {
 					</div>
 					<div class="form-group col-md-4 mb-2">
 						<label for="nombreCompleto" class="label_control">SEGUNDO
-							NOMBRE </label>
+							NOMBRE </label>  
 						<div class="controls">
 							<f:input type="text" class="form-control"
 								onkeyup="javascript:this.value=this.value.toUpperCase();"

@@ -280,7 +280,7 @@
 															<td>${orden.cantidad}</td>
 															<td>${orden.examen.sPrecio}</td>
 															<td>${orden.sImporte}</td>
-															<td>
+															<td>   
 															<c:choose>
 															<c:when test="${orden.resultado==null || orden.resultado==''}">
 															

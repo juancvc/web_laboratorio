@@ -138,7 +138,7 @@ input[type=text] {
 															<td>${orden.examenesLaboratorioBean.descripcion}</td>
 															<td>${orden.examenesLaboratorioBean.tipoExamenAsoc}</td>
 															<td><a title="${orden.examenesLaboratorioBean.examenUnidadMedidaLaboratorioBean.descripcion}">${orden.examenesLaboratorioBean.examenUnidadMedidaLaboratorioBean.abrev}</a></td>
-													
+													  
 														
 															<td>
 															

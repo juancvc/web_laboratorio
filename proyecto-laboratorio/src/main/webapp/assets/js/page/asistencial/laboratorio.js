@@ -519,7 +519,7 @@ function grabarPersona(){
 		msg_advertencia("Ingrese ubigeo de dirección.");*/
 		
 	}else {
-		iniciarBloqueo();
+		iniciarBloqueo();   
 		$.ajax({
 			type : "POST",
 			url : url,

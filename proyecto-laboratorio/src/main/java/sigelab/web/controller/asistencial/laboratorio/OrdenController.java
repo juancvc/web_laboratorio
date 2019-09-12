@@ -609,7 +609,7 @@ public class OrdenController  extends BaseController {
 		this.cargarCombos(mav);
 		return mav;
 	}
-	
+	   
 	
 	@RequestMapping(value = "/registroResultado", method = RequestMethod.POST)
 	public ModelAndView doListaOrdenes(@RequestParam("index") Integer index, HttpServletRequest request) {
