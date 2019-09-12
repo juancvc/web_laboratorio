@@ -179,7 +179,7 @@ input[type=text] {
 							NACIMIENTO <span class="required">*</span>
 						</label>
 						<f:input class="form-control" id="date" name="date" maxlength="10" 
-							required="required" placeholder="DD/MM/YYYY" type="text"
+							required="required" placeholder="DD/MM/YYYY" type="text" autocomplete="off"
 							path="fechaNacStr" onkeyup="this.value=formateafechaNacimiento(this.value);"/> 
 					</div>
 				</div>
@@ -244,7 +244,7 @@ input[type=text] {
 						</label>
 						
 						<div class="controls">
-							<f:input type="text" class="form-control" required="required"
+							<f:input type="text" class="form-control" 
 								id="personaDireccion" path="direccion" />
 
 						</div>

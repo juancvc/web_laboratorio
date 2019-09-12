@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -529,7 +531,20 @@ public class OrdenController  extends BaseController {
 			personaBean = new PersonaBean();
 		} 
 		
+		 
 		System.out.println("obpersonaBean.getCodigo() " + obpersonaBean.getCodigo());
+		if (obpersonaBean.getFechaNacStr() != null) {
+			 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			 try {
+
+		            Date date = formatter.parse(obpersonaBean.getFechaNacStr());
+		            obpersonaBean.setFechaNac(date);
+
+		        } catch (ParseException e) {
+		            e.printStackTrace();
+		        }
+			 
+		}
 		
 		if (obpersonaBean.getCodigo().equals("")) {
 			if(!obpersonaBean.getTipoDocumento().getCodReg().equals("000002") ){  
