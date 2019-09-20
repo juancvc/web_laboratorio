@@ -17,12 +17,12 @@ public class OrdenDetalleBean extends BaseBean{
 	private String resultado;
 	private String codigoTarifProc;
 	private Float descuento;
-	
+	private List<OrdenDetalleItemBean> lstOrdenDetalleItemBean;
 	public OrdenDetalleBean() {
 		super();
 	}
 	
-	private List<OrdenDetalleItemBean> lstOrdenDetalleItemBean;
+	
 	
 	public String getsImporte() {
 		return sImporte;

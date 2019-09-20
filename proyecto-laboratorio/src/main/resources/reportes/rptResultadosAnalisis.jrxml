@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptResultadosAnalisis" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="20" bottomMargin="20" uuid="c0c22776-99b2-43c0-ab8f-c3544c0861a7">
-	<property name="ireport.zoom" value="4.0"/>
-	<property name="ireport.x" value="1347"/>
-	<property name="ireport.y" value="480"/>
+	<property name="ireport.zoom" value="2.0526324729228267"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -44,8 +44,8 @@
 	<field name="descripcion_1" class="java.lang.String">
 		<fieldDescription><![CDATA[ordenDetalleBean.examen.descripcion]]></fieldDescription>
 	</field>
-	<field name="observacion" class="java.lang.String">
-		<fieldDescription><![CDATA[ordenDetalleBean.examen.tarifarioDetalleBean.observacion]]></fieldDescription>
+	<field name="observacion_1" class="java.lang.String">
+		<fieldDescription><![CDATA[observacion]]></fieldDescription>
 	</field>
 	<variable name="ITEM" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[]]></variableExpression>
@@ -275,12 +275,12 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{resultado}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="418" y="0" width="144" height="18" uuid="b0217311-8554-4a96-9aeb-4d8e73041913"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="405" y="0" width="157" height="18" uuid="2b76a10a-7c54-41b5-8a23-843eb845c953"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{observacion_1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
