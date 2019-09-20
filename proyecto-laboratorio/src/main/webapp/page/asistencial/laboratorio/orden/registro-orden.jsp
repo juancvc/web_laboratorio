@@ -205,7 +205,7 @@ input[type=text] {
 											value="${pageContext.request.contextPath}">
 										<div class="controls">
 											<f:input type="text" class="form-control" required="required"
-												maxlength="12" id="nroDocumentoPaciente"
+												maxlength="12" id="nroDocumentoPaciente" autocomplete="off"
 												path="pacienteBean.persona.nroDocumento"
 												onkeypress="return runScript(event)" />
 										</div>
@@ -348,7 +348,7 @@ input[type=text] {
 											<div class="autocomplete" style="width:100%;">   
 												<input type="text" value="" placeholder="Buscar..."
 													class="form-control"  onkeypress="return runIngresarExamen(event)" 
-													id="txtExamenNombre" name="txtExamenNombre"  />
+													id="txtExamenNombre" name="txtExamenNombre" autocomplete="off"  />
 											</div> 
 										</div>
 									</div>

@@ -111,7 +111,7 @@ input[type=text] {
 							<div class="controls">
 								<f:input type="text" class="form-control" required="required"
 									maxlength="12" id="nroDocumentoPersona" path="nroDocumento"
-									onkeypress="return runScript(event),soloNumeros(event)" />
+									onkeypress="return runScript(event),soloNumeros(event)" autocomplete="off" />
 							</div>
 						</div>
 					</div> 
@@ -124,7 +124,7 @@ input[type=text] {
 						<div class="controls">
 							<f:input type="text" class="form-control" required="required"
 								onkeyup="javascript:this.value=this.value.toUpperCase();"
-								id="personaApellidoPaterno" path="apellidoPaterno" />
+								id="personaApellidoPaterno" path="apellidoPaterno" autocomplete="off" />
 
 						</div>
 					</div>
@@ -134,7 +134,7 @@ input[type=text] {
 						<div class="controls">
 							<f:input type="text" class="form-control"
 								onkeyup="javascript:this.value=this.value.toUpperCase();"
-								id="personaApellidoMaterno" path="apellidoMaterno" />
+								id="personaApellidoMaterno" path="apellidoMaterno" autocomplete="off" />
 
 						</div>
 					</div>
@@ -160,7 +160,7 @@ input[type=text] {
 						<div class="controls">
 							<f:input type="text" class="form-control" required="required"
 								onkeyup="javascript:this.value=this.value.toUpperCase();"
-								id="personaPrimerNombre" path="primerNombre" />
+								id="personaPrimerNombre" path="primerNombre" autocomplete="off" />
 
 						</div>
 					</div>
@@ -170,7 +170,7 @@ input[type=text] {
 						<div class="controls">
 							<f:input type="text" class="form-control"
 								onkeyup="javascript:this.value=this.value.toUpperCase();"
-								id="personaSegundoNombre" path="segundoNombre" />
+								id="personaSegundoNombre" path="segundoNombre" autocomplete="off" />
 
 						</div>
 					</div>
@@ -219,7 +219,7 @@ input[type=text] {
 						<div class="controls">
 							<f:input type="text" class="form-control" required="required"
 								onKeyPress="return soloNumeros(event)" maxlength="9"
-								id="telefono" path="telefonoNumero" />
+								id="telefono" path="telefonoNumero" autocomplete="off" />
 
 						</div>
 					</div>
@@ -233,7 +233,7 @@ input[type=text] {
 								<f:input type="text" value="" placeholder="Buscar..."
 									class="form-control" 
 									id="myInput" name="myCountry"
-									path="ubigeoDireccion.nombreUbigeo" />
+									path="ubigeoDireccion.nombreUbigeo" autocomplete="off" />
 							</div>
 
 

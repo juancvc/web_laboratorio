@@ -168,6 +168,8 @@ public class Orden_laboratorio_detalle_item implements Serializable {
 
 	private String NOMPRODU;
 	
+	private String OBSERVACION;
+	
 	public Orden_laboratorio_detalle_item() {
 		
 		// TODO Auto-generated constructor stub
@@ -364,6 +366,16 @@ public class Orden_laboratorio_detalle_item implements Serializable {
 
 	public void setImprimirItem(boolean imprimirItem) {
 		this.imprimirItem = imprimirItem;
+	}
+	
+	
+
+	public String getOBSERVACION() {
+		return OBSERVACION;
+	}
+
+	public void setOBSERVACION(String oBSERVACION) {
+		OBSERVACION = oBSERVACION;
 	}
 
 	@Override

@@ -291,7 +291,7 @@ td.cantidad, th.cantidad {
 										<div class="controls">
 											<f:input type="text" class="form-control" required="required"
 												maxlength="12" id="nroDocumentoPaciente"
-												path="nroDocumento"
+												path="nroDocumento" autocomplete="off"
 												onkeypress="return runScript(event)" />
 										</div>
 									</div>
@@ -316,7 +316,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaApellidoPaterno" disabled="true"
-											path="apellidoPaterno" />
+											path="apellidoPaterno" autocomplete="off" />
 
 									</div>
 								</div>
@@ -327,7 +327,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" class="form-control"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaApellidoMaterno" disabled="true"
-											path="apellidoMaterno" />
+											path="apellidoMaterno" autocomplete="off" />
 
 									</div>
 								</div>
@@ -339,7 +339,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaPrimerNombre" disabled="true"
-											path="primerNombre" />
+											path="primerNombre" autocomplete="off" />
 
 									</div>
 								</div>
@@ -350,7 +350,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" class="form-control"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaSegundoNombre" disabled="true"
-											path="segundoNombre" />
+											path="segundoNombre" autocomplete="off" />
 									</div>
 								</div>
 							</div>
@@ -404,7 +404,7 @@ td.cantidad, th.cantidad {
 									</label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
-											disabled="true" id="edadPersona" path="edad" />
+											disabled="true" id="edadPersona" path="edad" autocomplete="off" />
 
 									</div>
 								</div>
@@ -461,7 +461,7 @@ td.cantidad, th.cantidad {
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											onKeyPress="return soloNumeros(event)" maxlength="9"
-											id="telefono" path="telefonoNumero" />
+											id="telefono" path="telefonoNumero" autocomplete="off" />
 
 									</div>
 								</div>
@@ -476,10 +476,10 @@ td.cantidad, th.cantidad {
 										<f:input type="text" class="form-control" required="required"
 											disabled="true" onKeyPress="return soloNumeros(event)"
 											maxlength="6" id="ubigeoNacimientoCodigoUbigeo"
-											path="ubigeoNacimiento.codigoUbigeo" />
+											path="ubigeoNacimiento.codigoUbigeo" autocomplete="off" />
 
 										<f:input type="hidden" id="codigoRegistroUbigeoNacimiento"
-											path="ubigeoNacimiento.codigoRegistro" />
+											path="ubigeoNacimiento.codigoRegistro" autocomplete="off" />
 									</div>
 								</div>
 								<div class="col-md-1">
@@ -497,7 +497,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" disabled="true" value=""
 											class="form-control" required="required"
 											id="nombreUbigeoNacimiento"
-											path="ubigeoNacimiento.nombreUbigeo" />
+											path="ubigeoNacimiento.nombreUbigeo" autocomplete="off" />
 
 									</div>
 								</div>
@@ -507,7 +507,7 @@ td.cantidad, th.cantidad {
 									</label>
 									<div class="controls">
 										<f:input type="email" class="form-control" id="correo"
-											path="correo" />
+											path="correo" autocomplete="off" />
 
 									</div>
 								</div>
@@ -520,11 +520,11 @@ td.cantidad, th.cantidad {
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											disabled="true" id="ubigeoDireccion"
-											path="ubigeoDireccion.codigoUbigeo"
+											path="ubigeoDireccion.codigoUbigeo" autocomplete="off"
 											onKeyPress="return soloNumeros(event)" maxlength="6" />
 
 										<f:input type="hidden" id="codigoRegistroUbigeoDireccion"
-											path="ubigeoDireccion.codigoRegistro" />
+											path="ubigeoDireccion.codigoRegistro" autocomplete="off" />
 									</div>
 								</div>
 								<div class="col-md-1">
@@ -542,7 +542,7 @@ td.cantidad, th.cantidad {
 										<f:input type="text" disabled="true" value=""
 											class="form-control" required="required"
 											id="nombreUbigeoDireccion"
-											path="ubigeoDireccion.nombreUbigeo" />
+											path="ubigeoDireccion.nombreUbigeo" autocomplete="off" />
 
 									</div>
 								</div>
@@ -553,7 +553,7 @@ td.cantidad, th.cantidad {
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											disabled="true" id="personaDireccion"
-											path="direccion" />
+											path="direccion" autocomplete="off" />
 
 									</div>
 								</div>

@@ -84,6 +84,10 @@ public class TarifarioBean extends BaseBean{
 				+ precio + ", sPrecio=" + sPrecio + ", lstTarifarioDetalleBean=" + lstTarifarioDetalleBean + "]";
 	}
 	public TarifarioDetalleBean getTarifarioDetalleBean() {
+		if (tarifarioDetalleBean==null) {
+			tarifarioDetalleBean= new TarifarioDetalleBean();
+		}
+		
 		return tarifarioDetalleBean;
 	}
 
