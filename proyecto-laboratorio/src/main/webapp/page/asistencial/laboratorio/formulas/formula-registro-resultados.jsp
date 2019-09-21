@@ -75,7 +75,7 @@ input[type=text] {
 			</button>
 		</div>
 
-		<f:form id="frmGuardarFormula" name="fo" class="form-horizontal" role="form " 
+		<f:form id="frmActualizarResultadoOrdenItem" name="fo" class="form-horizontal" role="form " 
 			method="post" action="" onsubmit="return false">
 			<input id="contextPath" type="hidden"
 				value="${pageContext.request.contextPath}">
@@ -94,7 +94,7 @@ input[type=text] {
 							<f:input type="text" class="form-control" disabled="true"
 								
 								id="nombreExamen" path="examen.descripcion" />
-
+								
 						</div>
 					</div>
 					
@@ -108,6 +108,7 @@ input[type=text] {
 							</div>
 							<div id="panelCEX" class="panel_style col-md-12">
 						
+				 										
 								<div class="row">
 									<div class="col-md-12">
 										<div class="table-responsive">
@@ -123,29 +124,32 @@ input[type=text] {
 													</tr>
 												</thead>
 												<tbody id="idbodyCIEXref" class="label_control">
-													<c:forEach var="orden" items="${lstOrdenDetalleItemBean}"
+													<c:forEach var="orden" items="${ordenDetalleBean.lstOrdenDetalleItemBean}"
 														varStatus="loop"> 
-														<f:input type="hidden" id="codigo" value="${orden.codigo}" path="lstOrdenDetalleItemBean[${loop.index}].codigo" />
-					
-														<f:input type="hidden" id="numeroVersion" value="${orden.numeroVersion}" path="lstOrdenDetalleItemBean[${loop.index}].numeroVersion" />
+														<f:input type="hidden" id="codigo" value="${codigo}" path="lstOrdenDetalleItemBean[${loop.index}].codigo" />
+													
+				 											<f:input type="hidden" id="numeroVersion" value="${orden.numeroVersion}" path="lstOrdenDetalleItemBean[${loop.index}].numeroVersion" />
 														<f:input type="hidden" id="numeroPeriodo" value="${orden.numeroPeriodo}" path="lstOrdenDetalleItemBean[${loop.index}].numeroPeriodo" />
 														<f:input type="hidden" id="codigoOrganizacion" value="${orden.codigoOrganizacion}" path="lstOrdenDetalleItemBean[${loop.index}].codigoOrganizacion" />
 														<f:input type="hidden" id="codigoSede" value="${orden.codigoSede}" path="lstOrdenDetalleItemBean[${loop.index}].codigoSede" />
 														<f:input type="hidden" id="codigoInstitucion" value="${orden.codigoInstitucion}" path="lstOrdenDetalleItemBean[${loop.index}].codigoInstitucion" />
-				 										<tr>
+				 									 	<tr>
 															<td>${loop.count}</td>
 															<td>${orden.examenesLaboratorioBean.descripcion}</td>
 															<td>${orden.examenesLaboratorioBean.tipoExamenAsoc}</td>
 															<td><a title="${orden.examenesLaboratorioBean.examenUnidadMedidaLaboratorioBean.descripcion}">${orden.examenesLaboratorioBean.examenUnidadMedidaLaboratorioBean.abrev}</a></td>
-													
+													  
 														
 															<td>
+															
 															<c:choose>
 															<c:when test="${orden.examenesLaboratorioBean.tipoExamenAsoc=='000001'}">
 															
 																	<f:input type="text" min="1" maxlength="20"
 																		class="form-control" required="required" onkeypress="return NumCheck(event, this)"
-																		id="tarifarioUnidades" path="lstOrdenDetalleItemBean[${loop.index}].resultado" />
+																		id="tarifarioUnidades" path="lstOrdenDetalleItemBean[${loop.index}].resultado" 
+																		 autocomplete="off"
+																		/>
 																
 																
 																</c:when> 
@@ -183,7 +187,7 @@ input[type=text] {
 				
 			</div>
 			<div class="modal-footer">
-				<button type="button" id="btnCerrarModalPaciente"
+				<button type="button" id="btnCerrarModalOrdenItem"
 					class="btn btn-secondary" data-dismiss="modal">
 					<i class="fa fa-close"></i> CERRAR
 				</button>

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleItemBean;
 import sigelab.core.repository.DAOException;
 import sigelab.core.repository.interfaces.asistencial.laboratorio.OrdenDetalleItemDAO;
@@ -86,6 +87,17 @@ public class OrdenDetalleItemServiceImp implements OrdenDetalleItemService {
 		List<OrdenDetalleItemBean> lstOrdenDetalleItemBean = null;
 		try {
 			lstOrdenDetalleItemBean = ordenDetalleItemDAO.listarAnalisisResultados(ordenDetalleItemBean);
+		} catch (Exception e) {
+
+		}
+		return lstOrdenDetalleItemBean;
+	}
+
+	@Override
+	public List<OrdenDetalleItemBean> listarAnalisisResultadosPorOrden(OrdenBean OrdenBean) throws ServiceException {
+		List<OrdenDetalleItemBean> lstOrdenDetalleItemBean = null;
+		try {
+			lstOrdenDetalleItemBean = ordenDetalleItemDAO.listarAnalisisResultadosPorOrden(OrdenBean);
 		} catch (Exception e) {
 
 		}

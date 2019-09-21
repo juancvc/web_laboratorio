@@ -929,7 +929,9 @@ public class InicioController extends BaseController{
 			System.out.println("listaDetalleVentaModalSemanal");
 		    objOrdenBean = new OrdenBean(); 
 			OrdenBean prmOrdenBean = new OrdenBean();
-			prmOrdenBean.setFecha("05-05-2019");
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	        Date date = new Date();
+			prmOrdenBean.setFecha(dateFormat.format(date).toString());
 		   
 		    mav = new ModelAndView("asistencial/laboratorio/reporte/venta-diaria-modal", "command", objOrdenBean); 
 			OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();
@@ -1144,7 +1146,9 @@ public class InicioController extends BaseController{
 		   
 			OrdenBean objOrdenBean = new OrdenBean(); 
 			OrdenBean prmOrdenBean = new OrdenBean();
-			prmOrdenBean.setFecha("05-05-2019");
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	        Date date = new Date();
+			prmOrdenBean.setFecha(dateFormat.format(date).toString());
 		   
 
 			OrdenDetalleBean objOrdenDetalle = new OrdenDetalleBean();

@@ -65,6 +65,10 @@ public class TarifarioDetalleBean extends BaseBean{
 	
 
 	public ExamenesLaboratorioBean getExamenesLaboratorioBean() {
+		if (examenesLaboratorioBean==null) {
+			examenesLaboratorioBean =new ExamenesLaboratorioBean();
+		}
+		
 		return examenesLaboratorioBean;
 	}
 

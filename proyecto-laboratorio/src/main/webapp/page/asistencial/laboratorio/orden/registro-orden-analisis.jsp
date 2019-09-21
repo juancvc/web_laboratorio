@@ -280,11 +280,11 @@
 															<td>${orden.cantidad}</td>
 															<td>${orden.examen.sPrecio}</td>
 															<td>${orden.sImporte}</td>
-															<td>
+															<td>   
 															<c:choose>
 															<c:when test="${orden.resultado==null || orden.resultado==''}">
 															
-																	<f:input type="text" min="1" maxlength="50"
+																	<f:input type="text" min="1" maxlength="50"  autocomplete="off"
 																		class="form-control" required="required"
 																		id="tarifarioUnidades" path="lstOrdenDetalleBean[${loop.index}].resultado" />
 																
@@ -292,7 +292,7 @@
 																</c:when> 
 															<c:when test="${orden.codigoTarifProc==null || orden.codigoTarifProc==''}">
 															
-																	<f:input type="text" value="varios" min="1" maxlength="50"
+																	<f:input type="text" value="${orden.resultado}" min="1" maxlength="50"
 																		class="form-control" required="required" disabled="true"
 																		id="codigoTarifProc" path="lstOrdenDetalleBean[${loop.index}].resultado" />
 																
@@ -305,11 +305,7 @@
 																</c:choose>
 															</td>
 															
-															
-															
-															<c:choose>
-																<c:when test="${orden.resultado==null || orden.resultado==''}">
-																	<td>
+															<td>
 																	<button type='button'
 																			class='btn btn-outline-danger btn-sm'
 																			data-toggle='tooltip' data-placement='top'
@@ -319,7 +315,9 @@
 																			<i class='icon-plus'></i>
 																		</button>
 																	
-																	</td>
+																	</td> 
+															<!--<c:choose>
+																<c:when test="${orden.resultado==null || orden.resultado==''}"> 
 																</c:when> 
 																<c:otherwise>
 																	<td><button type='button'
@@ -332,7 +330,7 @@
 																		</button></td>
 																		
 																</c:otherwise>
-															</c:choose>
+															</c:choose>-->
 
 														</tr>
 													</c:forEach>

@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.DecimalFormat;
+import java.text.DecimalFormat; 
+import java.text.ParseException; 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -90,6 +91,8 @@ public class OrdenController  extends BaseController {
 	private String msg;
 	private String archivooPDF="";
 	private String logo ="labmedChico.png";
+	private String direccionEmpresa ="Av. Honorio Delgado 225 - 2do piso - Urb. ingenieria-SMP";
+	private String telefonoEmpresa ="Telf: (01)342 8744 CEL: 987736215";
 	String usuarioWindows = System.getProperty("user.name");
 
 	OrdenDetalleItemBean ordenDetalleItemBean = new OrdenDetalleItemBean();
@@ -110,7 +113,7 @@ public class OrdenController  extends BaseController {
 	private List<OrdenBean> lstOrdenBean ;  
 	
 	private OrdenBean ordenBean;
-	
+	private OrdenDetalleBean objOrdenDetalleBean ;
 	List<OrdenDetalleBean> lstOrdenCotizacion = new ArrayList<OrdenDetalleBean>();
 	
 	@Autowired
@@ -528,13 +531,28 @@ public class OrdenController  extends BaseController {
 			personaBean = new PersonaBean();
 		} 
 		
+		 
 		System.out.println("obpersonaBean.getCodigo() " + obpersonaBean.getCodigo());
+ 
 		System.out.println("obpersonaBean.getFechaNacStr " + obpersonaBean.getFechaNacStr());
 		if (obpersonaBean.getFechaNacStr() != null) {
 			Date dateFecha=new SimpleDateFormat("dd/MM/yyyy").parse(obpersonaBean.getFechaNacStr());   
 			obpersonaBean.setFechaNac(dateFecha);	
 		}
-	    
+	     
+		if (obpersonaBean.getFechaNacStr() != null) {
+			 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			 try {
+
+		            Date date = formatter.parse(obpersonaBean.getFechaNacStr());
+		            obpersonaBean.setFechaNac(date);
+
+		        } catch (ParseException e) {
+		            e.printStackTrace();
+		        }
+			 
+		}
+		 
 		if (obpersonaBean.getCodigo().equals("")) {
 			if(!obpersonaBean.getTipoDocumento().getCodReg().equals("000002") ){  
 				System.out.println("SIN SERVICIO DE RENIEC" ); 
@@ -598,8 +616,8 @@ public class OrdenController  extends BaseController {
 		this.cargarCombos(mav);
 		return mav;
 	}
-	
-	
+	   
+	  
 	@RequestMapping(value = "/registroResultado", method = RequestMethod.POST)
 	public ModelAndView doListaOrdenes(@RequestParam("index") Integer index, HttpServletRequest request) {
 
@@ -625,6 +643,7 @@ public class OrdenController  extends BaseController {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
+		System.out.println("set orden " + objOrdenBean.getCodigo());
 		mav.addObject("lstOrdenDetalleBean", lstOrdenDetalleBean); 
 		mav.addObject("ordenBean", objOrdenBean); 
 		this.cargarCombos(mav);
@@ -658,33 +677,35 @@ public class OrdenController  extends BaseController {
 	public ModelAndView doListaOrdenesResultadoFormula(@RequestParam("index") Integer index, HttpServletRequest request) {
 		lstOrdenDetalleItemBean = new ArrayList<OrdenDetalleItemBean>();
 		System.out.println("modificar codigo: " + index); 
-		OrdenDetalleBean objOrdenBean = new OrdenDetalleBean(); 
-		objOrdenBean = this.lstOrdenDetalleBean.get(index);
-		System.out.println("modificar objOrdenBean: " + objOrdenBean.getCodigo());
-		System.out.println("nombre: " + objOrdenBean.getExamen().getDescripcion());
-	    setOrdenDetalleBean(objOrdenBean);
-		ModelAndView mav = new ModelAndView("asistencial/laboratorio/formulas/formula-registro-resultados", "command", objOrdenBean); 
+	    objOrdenDetalleBean = new OrdenDetalleBean(); 
+		objOrdenDetalleBean = this.lstOrdenDetalleBean.get(index);
+		System.out.println("modificar objOrdenBean: " + objOrdenDetalleBean.getCodigo());
+		System.out.println("nombre: " + objOrdenDetalleBean.getExamen().getDescripcion());
+	    setOrdenDetalleBean(objOrdenDetalleBean);
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/formulas/formula-registro-resultados", "command", objOrdenDetalleBean); 
 		OrdenDetalleItemBean objOrdenDetalle = new OrdenDetalleItemBean();
-		objOrdenDetalle.setOrdenDetalleBean(objOrdenBean);
+		objOrdenDetalle.setOrdenDetalleBean(objOrdenDetalleBean);
 		
 		/**insertamos tabla itemdetalle(solo si existe los registros) para luego consultar los registros****/
 		insertOrdenDetalleItem(objOrdenDetalle, request);
 		try {
 			lstOrdenDetalleItemBean = ordenDetalleItemService.listarAnalisisResultados(objOrdenDetalle);
-		
-	//		setLstOrdenDetalleBean(lstOrdenDetalleBean);
+			objOrdenDetalleBean.setLstOrdenDetalleItemBean(lstOrdenDetalleItemBean);
+			setLstOrdenDetalleItemBean(lstOrdenDetalleItemBean);
 	//		setLstOrdenDetalleBeanReporte(lstOrdenDetalleBeanReporte);
 			for (OrdenDetalleBean ord : lstOrdenDetalleBean) {
 			//	System.out.println("resultados: " + ord.getResultado());	
 
 				System.out.println("codigo detalle: " + ord.getCodigo()); 
 			}
-		setOrdenDetalleBean(objOrdenBean);
+		setOrdenDetalleBean(objOrdenDetalleBean);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-		mav.addObject("lstOrdenDetalleItemBean", lstOrdenDetalleItemBean); 
-		mav.addObject("ordenBean", objOrdenBean); 
+		System.out.println("set detalle: " + objOrdenDetalleBean.getCodigo()); 
+		
+	//	mav.addObject("lstOrdenDetalleItemBean", lstOrdenDetalleItemBean);  
+		mav.addObject("ordenDetalleBean", objOrdenDetalleBean); 
 		this.cargarCombos(mav);
 		return mav;
 	}
@@ -747,21 +768,22 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
     
     @RequestMapping(value = "/actualizarResultadoItem", method = RequestMethod.GET)
  		public @ResponseBody String actualizarResultadoItem(
- 			@ModelAttribute("ordenDetalleItemBean")OrdenDetalleItemBean ordenBean,HttpServletRequest request) throws Exception {
+ 			@ModelAttribute("ordenDetalleBean")OrdenDetalleBean ordenDetalleBean,HttpServletRequest request) throws Exception {
  		   String resultados="";
+ 		 // @RequestBody OrdenDetalleBean[] ordenDetalleArray
+ 		   System.out.println("ordenDetalleItemBean codigo "+ordenDetalleItemBean.getCodigo());
+ 		   System.out.println("ordenDetalleItemBean detalle "+ ordenDetalleItemBean.getOrdenDetalleBean().getCodigo());  
+ 		  
  		   
- 		   
- 		   
- for (OrdenDetalleItemBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleItemBean()) {
-	 if (objOrdenDetalleBean.getExamenesLaboratorioBean().getTipoExamenAsoc().equals("000001")) {
+ for (OrdenDetalleItemBean objOrdenDetalleBean :ordenDetalleBean.getLstOrdenDetalleItemBean()) {
+	 System.out.println("objOrdenDetalleBean resultDO" +objOrdenDetalleBean.getResultado());
+	 System.out.println("objOrdenDetalleBean detalle cod" +objOrdenDetalleBean.getCodigo());
+	 System.out.println("objOrdenDetalleBean detalle labor" +objOrdenDetalleBean.getExamenesLaboratorioBean().getCodigo());
+	 objOrdenDetalleBean.getOrdenDetalleBean().setCodigo(this.getOrdenDetalleBean().getCodigo());
+	// if (objOrdenDetalleBean.getExamenesLaboratorioBean().getTipoExamenAsoc().equals("000001")) {
 		 this.setAuditoria(objOrdenDetalleBean, request, false);
 		 	ordenDetalleItemService.actualizar(objOrdenDetalleBean);	 
-	 }else {
-		 this.setAuditoria(objOrdenDetalleBean, request, false);
-		 	ordenDetalleItemService.actualizar(objOrdenDetalleBean);
-		 
-		 
-	 }
+	// }  
  	
  	
  }
@@ -810,8 +832,12 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
     	System.out.println("cambiarLogo::: " + tipo); 
     	if (tipo.equals("1")) {
     		logo = "labmedChico.png";
+    		direccionEmpresa ="Av. Honorio Delgado 225 - 2do piso - Urb. ingenieria-SMP";
+    		telefonoEmpresa ="Telf: (01)342 8744 CEL: 987736215";
 		}else {
 			logo = "policlinico_santa rosa_de_los crisantemos.jpg";
+			direccionEmpresa = "Calle 5 Mz E lote 22 Urb Los Crisantemos - Puente Piedra";
+			telefonoEmpresa= "";
 		}
     	
 	}
@@ -829,21 +855,39 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 		parametro.put("usuario", getUsuarioSesion(request).getNombreUsuario()); 
 		parametro.put("nroAnalisis",getOrdenBean().getCodigo()); 
 		parametro.put("logo",logo); 
+		parametro.put("direccionEmpresa",direccionEmpresa); 
+		parametro.put("telefonoEmpresa",telefonoEmpresa); 
 		parametro.put("paciente",getOrdenBean().getPacienteBean().getPersona().getApellidoPaterno()+" "+getOrdenBean().getPacienteBean().getPersona().getApellidoMaterno()
 				+" "+getOrdenBean().getPacienteBean().getPersona().getPrimerNombre()+" "+getOrdenBean().getPacienteBean().getPersona().getSegundoNombre()); 
 		parametro.put("edad",getOrdenBean().getPacienteBean().getPersona().getEdad()+" años"); 
 		parametro.put("dni",getOrdenBean().getPacienteBean().getPersona().getNroDocumento()); 
 		if (getOrdenBean().getPacienteBean().getPersona().getSexo().getCodReg().equals("000001")) {
-			parametro.put("sexo","femenino"); 	
+			parametro.put("sexo","Femenino"); 	
 		} else {
-			parametro.put("sexo","masculino"); 	
+			parametro.put("sexo","Masculino"); 	
 		}
+
+		lstOrdenDetalleItemBean = new ArrayList<OrdenDetalleItemBean>(); 
+
+	    setOrdenDetalleBean(objOrdenDetalleBean); 
+		OrdenDetalleItemBean objOrdenDetalle = new OrdenDetalleItemBean();
+		objOrdenDetalle.setOrdenDetalleBean(objOrdenDetalleBean);
 		
-		System.out.println("jasperStream " + jasperStream);
-		List<OrdenBean> oLSTOrdenBean = new ArrayList<OrdenBean>();
-		oLSTOrdenBean.add(getOrdenBean());//((OrdenDetalleBean) ordenBean.getLstOrdenDetalleBean());
+		/**insertamos tabla itemdetalle(solo si existe los registros) para luego consultar los registros****/
+		insertOrdenDetalleItem(objOrdenDetalle, request);
+		try {
+			lstOrdenDetalleItemBean = ordenDetalleItemService.listarAnalisisResultadosPorOrden(getOrdenBean());  
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+			
 		
-		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(getLstOrdenDetalleBeanReporte());
+		setOrdenDetalleBean(objOrdenDetalleBean);
+		
+		
+		System.out.println("jasperStream " + jasperStream); 
+		
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstOrdenDetalleItemBean);
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametro, dataSource);
 		
@@ -851,11 +895,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 		response.setContentType("application/x-pdf");
 		response.setHeader("Content-disposition",
 				"inline; filename="+getOrdenBean().getCodigo()+".pdf");
-		
-	//	Date fechaActual = new Date();
-		JFileChooser chooser = new JFileChooser("D:\\labmed\\reportes\\"+getOrdenBean().getCodigo()+".pdf");
-
-		archivooPDF = "C:\\Users\\"+usuarioWindows+"\\Downloads"+getOrdenBean().getCodigo()+".pdf";
+		 
 		final OutputStream outStream = response.getOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	}
@@ -976,7 +1016,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 						HttpServletRequest request) throws JRException, IOException {
     	System.out.println("rptFichaCotizacion ");
 		InputStream jasperStream = this.getClass().getResourceAsStream("/reportes/rptFichaCotizacion.jasper");
-	 
+	  
 		Map<String, Object> parametro = new HashMap<String, Object>();
 		parametro.put("usuario", getUsuarioSesion(request).getNombreUsuario()); 
 		System.out.println("jasperStream " + jasperStream);
@@ -1082,6 +1122,22 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 
 	public void setLstOrdenCotizacion(List<OrdenDetalleBean> lstOrdenCotizacion) {
 		this.lstOrdenCotizacion = lstOrdenCotizacion;
+	}
+
+	public List<OrdenDetalleItemBean> getLstOrdenDetalleItemBean() {
+		return lstOrdenDetalleItemBean;
+	}
+
+	public void setLstOrdenDetalleItemBean(List<OrdenDetalleItemBean> lstOrdenDetalleItemBean) {
+		this.lstOrdenDetalleItemBean = lstOrdenDetalleItemBean;
+	}
+
+	public OrdenDetalleBean getObjOrdenDetalleBean() {
+		return objOrdenDetalleBean;
+	}
+
+	public void setObjOrdenDetalleBean(OrdenDetalleBean objOrdenDetalleBean) {
+		this.objOrdenDetalleBean = objOrdenDetalleBean;
 	}
 
 

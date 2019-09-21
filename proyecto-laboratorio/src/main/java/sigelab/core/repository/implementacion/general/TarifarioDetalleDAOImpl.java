@@ -37,9 +37,9 @@ public class TarifarioDetalleDAOImpl implements TarifarioDetalleDAO {
 		try {
 			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("tarifarioUnidad.insertar");
 			spq.setParameter("CODTARIF", Tarifario.getTarifarioBean().getCodigo()); 
-			spq.setParameter("COORGPRA", Tarifario.getExamenesLaboratorioBean().getCodigoOrganizacion());  
-			spq.setParameter("COINSPRA", Tarifario.getExamenesLaboratorioBean().getCodigoInstitucion());  
-			spq.setParameter("COSEDPRA", Tarifario.getExamenesLaboratorioBean().getCodigoSede());  
+			spq.setParameter("COORGPRA", Tarifario.getCodigoOrganizacion());  
+			spq.setParameter("COINSPRA", Tarifario.getCodigoInstitucion());  
+			spq.setParameter("COSEDPRA", Tarifario.getCodigoSede());  
 			spq.setParameter("COPROASO", Tarifario.getExamenesLaboratorioBean().getCodigo());  
 			spq.setParameter("UNIDADES", Tarifario.getUnidades());  
 			spq.setParameter("OBSERVAC", Tarifario.getObservacion());  

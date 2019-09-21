@@ -17,8 +17,12 @@ public class OrdenDetalleBean extends BaseBean{
 	private String resultado;
 	private String codigoTarifProc;
 	private Float descuento;
-	
 	private List<OrdenDetalleItemBean> lstOrdenDetalleItemBean;
+	public OrdenDetalleBean() {
+		super();
+	}
+	
+	
 	
 	public String getsImporte() {
 		return sImporte;
@@ -58,6 +62,9 @@ public class OrdenDetalleBean extends BaseBean{
 	}
  
 	public TarifarioBean getExamen() {
+		if (examen == null) {
+			examen = new TarifarioBean();
+		}
 		return examen;
 	}
 	public void setExamen(TarifarioBean examen) {

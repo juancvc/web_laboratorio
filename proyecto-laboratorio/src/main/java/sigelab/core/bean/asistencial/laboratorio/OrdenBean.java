@@ -22,6 +22,7 @@ public class OrdenBean extends BaseBean{
 	private String sImporteTotal;
 	private String descripcionImporte;
 	
+	private List<OrdenDetalleItemBean> lstOrdenDetalleItemBean;
 	private List<OrdenDetalleBean> lstOrdenDetalleBean;
 	
 	private int cantidadItems;  
@@ -249,6 +250,12 @@ public class OrdenBean extends BaseBean{
 	}
 	public void setDescuentoTotal(Float descuentoTotal) {
 		this.descuentoTotal = descuentoTotal;
+	}
+	public List<OrdenDetalleItemBean> getLstOrdenDetalleItemBean() {
+		return lstOrdenDetalleItemBean;
+	}
+	public void setLstOrdenDetalleItemBean(List<OrdenDetalleItemBean> lstOrdenDetalleItemBean) {
+		this.lstOrdenDetalleItemBean = lstOrdenDetalleItemBean;
 	}
 	
 	

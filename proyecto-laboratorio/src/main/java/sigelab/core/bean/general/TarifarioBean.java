@@ -15,7 +15,8 @@ public class TarifarioBean extends BaseBean{
 	private float precio; 
 	private String sPrecio;  
 	private List<TarifarioDetalleBean> lstTarifarioDetalleBean;
-	private TarifarioDetalleBean tarifarioDetalleBean;
+	private String observacion;
+//	private TarifarioDetalleBean tarifarioDetalleBean;
 	
 	public TarifarioBean() {
 		super();
@@ -67,6 +68,14 @@ public class TarifarioBean extends BaseBean{
 		this.sPrecio = sPrecio;
 	}
 
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
+
 	public List<TarifarioDetalleBean> getLstTarifarioDetalleBean() {
 		if (lstTarifarioDetalleBean == null ) {
 			lstTarifarioDetalleBean = new ArrayList<TarifarioDetalleBean>();
@@ -83,12 +92,16 @@ public class TarifarioBean extends BaseBean{
 		return "TarifarioBean [tipo=" + tipo + ", subtipo=" + subtipo + ", descripcion=" + descripcion + ", precio="
 				+ precio + ", sPrecio=" + sPrecio + ", lstTarifarioDetalleBean=" + lstTarifarioDetalleBean + "]";
 	}
-	public TarifarioDetalleBean getTarifarioDetalleBean() {
+	/***public TarifarioDetalleBean getTarifarioDetalleBean() {
+		if (tarifarioDetalleBean==null) {
+			tarifarioDetalleBean= new TarifarioDetalleBean();
+		}
+		
 		return tarifarioDetalleBean;
 	}
 
 	public void setTarifarioDetalleBean(TarifarioDetalleBean tarifarioDetalleBean) {
 		this.tarifarioDetalleBean = tarifarioDetalleBean;
 	}
-
+*/
 }

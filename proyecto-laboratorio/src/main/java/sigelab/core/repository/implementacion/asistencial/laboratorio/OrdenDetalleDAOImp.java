@@ -204,11 +204,13 @@ private List<OrdenDetalleBean> deListaObjetoAListaObjetoBean(List<Orden_detalle_
 			bean.getExamen().setPrecio(entity.getPrecio());
 			bean.getExamen().setTipo(new TablaBean());
 			bean.getExamen().getTipo().setNombreCorto(entity.getNOMTPEXA());
-			bean.getExamen().setTarifarioDetalleBean(new TarifarioDetalleBean());
+			
+	/*		bean.getExamen().setTarifarioDetalleBean(new TarifarioDetalleBean());
 			bean.getExamen().getTarifarioDetalleBean().setObservacion(entity.getOBSERVAC());
 			bean.getExamen().getTarifarioDetalleBean().setUnidades(entity.getUNIDADES());
 			bean.getExamen().getTarifarioDetalleBean().setValoresRefIni(entity.getVALORINI());
 			bean.getExamen().getTarifarioDetalleBean().setValoresRefFin(entity.getVALORFIN());
+	*/		
 			bean.getExamen().setsPrecio((getTwoDecimals(entity.getPrecio()).replace(",", ".")));
 			bean.setsImporte((getTwoDecimals(entity.getImporte()).replace(",", ".")));
 			bean.setCodigoTarifProc(entity.getCodigoTarifProc());
