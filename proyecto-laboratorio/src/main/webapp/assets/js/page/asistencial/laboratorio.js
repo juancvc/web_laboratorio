@@ -165,8 +165,12 @@ function llenarExamenIndex(index){
 				  			//	$("#cboTipoDX"+objOrdenDetalle.valor4.trim()).val(objOrdenDetalle.valor7);
 				  			 
 				  		}
+				  		 $('#txtCajaSubTotal').val(importe.toFixed(2)); 
+				  		ejecutarDescuento();
+				  		/* 
 				  		 $('#txtCajaImporteTotal').val(importe.toFixed(2)); 
 				  		$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
+				  		*/
 		    		}
 		    	}
 		    
@@ -226,7 +230,7 @@ function buscarPersonaNroDoc(){
 								 
 								if (persona.length != 0) {
 									$('#personaApellidoPaterno').val(
-											persona.apellidoPaterno);
+											persona.nombreCompleto);
 									$('#personaApellidoMaterno').val(
 											persona.apellidoMaterno);
 									$('#personaPrimerNombre').val(
@@ -408,12 +412,18 @@ function elimarExamen(codigo){
 		var importe = 0.00;
 		for (var i = 0; i < listadoExamenes.length; i++) {
 			var objOrdenDetalle = listadoExamenes[i]; 
-			importe = importe + objOrdenDetalle.importe; 
+			importe = importe + Number(objOrdenDetalle.importe); 
 			//	$("#cboTipoDX"+objOrdenDetalle.valor4.trim()).val(objOrdenDetalle.valor7);
 			 
 		}
-		 $('#txtCajaImporteTotal').val(importe.toFixed(2)); 
-		$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
+		$('#txtCajaSubTotal').val(importe.toFixed(2)); 
+		
+		ejecutarDescuento();
+			/* 
+			 $('#txtCajaImporteTotal').val(importe.toFixed(2)); 
+			$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
+			*/
+		
 }
 
 function cambiarCantidad(objeto){
@@ -474,8 +484,16 @@ function cambiarCantidad(objeto){
 		//	$("#cboTipoDX"+objOrdenDetalle.valor4.trim()).val(objOrdenDetalle.valor7);
 		 
 	}
-	$('#txtCajaImporteTotal').val(importe.toFixed(2)); 
-	$('#txtCajaImporteTotalHidden').val(importe.toFixed(2));  
+	
+	$('#txtCajaSubTotal').val(importe.toFixed(2)); 
+	
+	ejecutarDescuento();
+		/* 
+		 $('#txtCajaImporteTotal').val(importe.toFixed(2)); 
+		$('#txtCajaImporteTotalHidden').val(importe.toFixed(2)); 
+		*/
+	
+	
 }
 
 function cargarPersonaModal() {
@@ -538,7 +556,7 @@ function grabarPersona(){
 				//	buscarPersonaNroDoc();
 								$('#nroDocumentoPaciente').val(persona.nroDocumento);
 								$('#tipoDocumentoPaciente').val(persona.tipoDocumento.codReg);
-								$('#personaApellidoPaterno').val(persona.apellidoPaterno);
+								$('#personaApellidoPaterno').val(persona.nombreCompleto);
 								$('#personaApellidoMaterno').val( persona.apellidoMaterno);
 								$('#personaPrimerNombre').val(persona.primerNombre);
 								$('#personaSegundoNombre').val(persona.segundoNombre); 
@@ -797,6 +815,8 @@ function imprimirCotizacion(){
 	
 	
 	} else{ 
+		
+		 ejecutarDescuento();
 		$.ajax({
 		contentType: "application/json",
 		type: "POST",
@@ -821,7 +841,39 @@ function imprimirCotizacion(){
 	}
 }
 
+function ejecutarDescuento(){
+	console.log("ejecutarDescuento");
+	var txtCajaSubTotal = $('#txtCajaSubTotal').val();
+	var txtDescuentoPorc = $('#txtDescuentoPorc').val();
+	 
+	if (txtCajaSubTotal != "") {
+		var	descuento = txtCajaSubTotal * (Number(txtDescuentoPorc)/100); 
+		$('#txtCajaDescuentoTotal').val(descuento.toFixed(2));
+		$('#txtCajaImporteTotal').val((txtCajaSubTotal - descuento).toFixed(2));
+		
+		var sDescuento = $('#txtCajaDescuentoTotal').val();
+		var sSubTotal = $('#txtCajaSubTotal').val();
+		var sTotal = $('#txtCajaImporteTotal').val();
+		
+		var contextPath = $('#contextPath').val(); 
+		path = contextPath + "/ordenController/cambiarDescuentoPorcentaje?porcentaje=" + txtDescuentoPorc +
+		"&sDescuento="+sDescuento+
+		"&sSubTotal="+sSubTotal+
+		"&sTotal="+sTotal;
+			$.ajax({
+				type : "GET",
+				url : path,
 
+				success : function(data) { 
+					console.log("correcto");
+				},
+				error : function(request, status, error) {
+					console.log("ERROR: " + error);
+				}
+			}); 
+			
+	}
+}
 function cambiarLogo(tipo) {
 	var contextPath = $('#contextPath').val();
 	// var codigoLengua = $('#codigoLengua').val(); //

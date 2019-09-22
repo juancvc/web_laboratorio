@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptFichaCotizacion" pageWidth="421" pageHeight="595" columnWidth="381" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5be8f0b-f6f1-4e87-bf54-ec7b28ffaab7">
-	<property name="ireport.zoom" value="1.6105100000000008"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="238"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="usuario" class="java.lang.String"/>
 	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="subTotal" class="java.lang.String"/>
+	<parameter name="descuento" class="java.lang.String"/>
+	<parameter name="total" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -34,24 +37,52 @@
 			<band/>
 		</groupHeader>
 		<groupFooter>
-			<band height="23">
-				<textField pattern="">
-					<reportElement positionType="FixRelativeToBottom" x="329" y="8" width="48" height="15" uuid="a393fa5b-3c03-4130-a06f-ee66e8634a5f"/>
-					<textElement textAlignment="Right">
-						<font size="8"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
-				</textField>
+			<band height="50">
 				<line>
 					<reportElement x="0" y="3" width="381" height="1" forecolor="#666666" uuid="6388607f-d55f-4bb6-95d2-514e6f738fbe"/>
 				</line>
 				<staticText>
-					<reportElement positionType="FixRelativeToBottom" x="230" y="8" width="94" height="15" uuid="23625349-a8ea-4948-b366-ef9d28bfd5dc"/>
+					<reportElement positionType="FixRelativeToBottom" x="230" y="35" width="94" height="15" uuid="23625349-a8ea-4948-b366-ef9d28bfd5dc"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Tahoma" size="8" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Total (S/.) :]]></text>
 				</staticText>
+				<staticText>
+					<reportElement x="230" y="20" width="94" height="15" uuid="8c8f062c-e921-404e-b38e-4d87ee612495"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Descuento  (S/.) :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="230" y="5" width="94" height="15" uuid="5f2b4530-0f37-43c0-aa3e-bc0de3c7aa5f"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Sub total  (S/.) :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="325" y="5" width="52" height="15" uuid="82249a8e-b3b3-4177-80ab-0caa7bfedf0e"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{subTotal}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="325" y="20" width="52" height="15" uuid="c8535501-7105-46e0-b9b7-f234f38071c2"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{descuento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="325" y="35" width="52" height="15" uuid="bca2ea40-c71d-48ed-8fe5-6ef8ff854fa9"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupFooter>
 	</group>
@@ -95,18 +126,11 @@
 			<frame>
 				<reportElement mode="Opaque" x="0" y="0" width="381" height="18" forecolor="#CCCCCC" backcolor="#C0C0C0" uuid="b6544fba-e6f6-4920-841b-2a2b461d4d48"/>
 				<staticText>
-					<reportElement x="213" y="2" width="62" height="15" uuid="20cb18d5-68d8-473b-be16-554d2c62e48d"/>
+					<reportElement x="263" y="2" width="62" height="15" uuid="20cb18d5-68d8-473b-be16-554d2c62e48d"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Tahoma" size="8" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Precio unit.]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="274" y="2" width="50" height="15" uuid="8c8f062c-e921-404e-b38e-4d87ee612495"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Tahoma" size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Descuento]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="0" y="2" width="108" height="15" uuid="17b5b9a5-9bcc-4e3c-ad34-f67803510681"/>
@@ -123,7 +147,7 @@
 					<text><![CDATA[Sub total]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="155" y="2" width="62" height="15" uuid="1f4207d5-032b-40fe-9a34-0ade4ff8479d"/>
+					<reportElement x="205" y="2" width="62" height="15" uuid="1f4207d5-032b-40fe-9a34-0ade4ff8479d"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Tahoma" size="8" isBold="true"/>
 					</textElement>
@@ -135,21 +159,21 @@
 	<detail>
 		<band height="16" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="1" width="155" height="15" uuid="6afc5dc3-f87a-4417-a91b-c0a7bab79215"/>
+				<reportElement x="0" y="1" width="205" height="15" uuid="6afc5dc3-f87a-4417-a91b-c0a7bab79215"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="155" y="1" width="58" height="15" uuid="be6eefcb-8ea6-4877-bade-f4c298764ddf"/>
+				<reportElement x="205" y="1" width="58" height="15" uuid="be6eefcb-8ea6-4877-bade-f4c298764ddf"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
 			<textField pattern="">
-				<reportElement x="212" y="1" width="48" height="15" uuid="26801e3a-74f3-41c6-91ea-a4da0fba38b3"/>
+				<reportElement x="268" y="1" width="48" height="15" uuid="26801e3a-74f3-41c6-91ea-a4da0fba38b3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -161,13 +185,6 @@
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="288" y="1" width="25" height="15" uuid="cdf0cc08-abdc-4893-a5f5-7520a7bc966c"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{descuento}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

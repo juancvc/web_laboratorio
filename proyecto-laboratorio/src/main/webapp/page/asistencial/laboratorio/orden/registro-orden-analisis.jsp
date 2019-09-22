@@ -134,7 +134,7 @@
 										DOCUMENTO <span class="required">*</span>
 									</label>
 									<div class="controls">
-										<f:select id="tipoDocumentoPaciente"
+										<f:select id="tipoDocumentoPaciente" readonly="true" 
 											path="pacienteBean.persona.tipoDocumento.codReg"
 											required="required" class="form-control"
 											onchange="limpiarPorTipo()">
@@ -152,28 +152,28 @@
 											value="${pageContext.request.contextPath}">
 										<div class="controls">
 											<f:input type="text" class="form-control" required="required"
-												maxlength="12" id="nroDocumentoPaciente"
+												maxlength="12" id="nroDocumentoPaciente" readonly="true" 
 												path="pacienteBean.persona.nroDocumento"
 												onkeypress="return runScript(event)" />
 										</div>
 									</div>
 								</div>
-						
-							
-							</div>
-							<div class="row">
-								<div class="form-group col-md-3 mb-1">
-									<label for="nombreCompleto" class="label_control">APELLIDO
-										PATERNO </label>
+						<div class="form-group col-md-6 mb-1">
+									<label for="nombreCompleto" class="label_control">APELLIDOS
+										Y NOMBRES </label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
 											id="personaApellidoPaterno" disabled="true"
-											path="pacienteBean.persona.apellidoPaterno" />
+											path="pacienteBean.persona.nombreCompleto" />
 
 									</div>
 								</div>
-								<div class="form-group col-md-3 mb-1">
+							
+							</div>
+							<div class="row">
+								
+							<!-- 	<div class="form-group col-md-3 mb-1">
 									<label for="nombreCompleto" class="label_control">APELLIDO
 										MATERNO </label>
 									<div class="controls">
@@ -204,7 +204,7 @@
 											id="personaSegundoNombre" disabled="true"
 											path="pacienteBean.persona.segundoNombre" />
 									</div>
-								</div>
+								</div>-->
 							</div>
 							<div class="row">
 								<div class="col-md-3 mb-1">

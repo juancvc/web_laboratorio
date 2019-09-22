@@ -39,7 +39,8 @@ public class OrdenDAOImp implements OrdenDAO {
 		Object nroPeriodo= null;   
 		boolean sw=false;
 		try {
-			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("orden.insertar"); 
+			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("orden.insertar");  
+			System.out.println(" OrdenBean.getPorcentajeDescuento()" +  OrdenBean.getPorcentajeDescuento());
 			spq.setParameter("CODORGAN", OrdenBean.getCodigoOrganizacion());
 			spq.setParameter("CODINSTI", OrdenBean.getCodigoInstitucion());
 			spq.setParameter("CODSEDEI", OrdenBean.getCodigoSede()); 
@@ -50,7 +51,7 @@ public class OrdenDAOImp implements OrdenDAO {
 			
 			spq.setParameter("AUCDUSCR", OrdenBean.getCodigoUsuarioCreacion());
 			spq.setParameter("AUPCIPCR", OrdenBean.getIpCreacion());
-			 
+			spq.setParameter("PORCDESC", OrdenBean.getPorcentajeDescuento());
 			
 			
 			spq.execute();

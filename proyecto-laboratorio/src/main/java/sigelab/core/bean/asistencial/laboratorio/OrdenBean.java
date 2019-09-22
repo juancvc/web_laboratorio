@@ -15,7 +15,9 @@ public class OrdenBean extends BaseBean{
 	private String horaOrden;
 	private String nroOrden;  
 	private String strFechaOrden;  
-	private String observacion;  
+	private String observacion; 
+	private int porcentajeDescuento;
+	private Float subTotal;
 	private Float importeTotal;
 	private Float descuentoTotal;
 	
@@ -50,6 +52,12 @@ public class OrdenBean extends BaseBean{
 	
 	
 	
+	public int getPorcentajeDescuento() { 
+		return porcentajeDescuento;
+	}
+	public void setPorcentajeDescuento(int porcentajeDescuento) {
+		this.porcentajeDescuento = porcentajeDescuento;
+	}
 	public TablaBean getMotivoAnular() {
 		if (motivoAnular == null) {
 			motivoAnular = new TablaBean();
@@ -257,8 +265,12 @@ public class OrdenBean extends BaseBean{
 	public void setLstOrdenDetalleItemBean(List<OrdenDetalleItemBean> lstOrdenDetalleItemBean) {
 		this.lstOrdenDetalleItemBean = lstOrdenDetalleItemBean;
 	}
-	
-	
-	
+	public Float getSubTotal() {
+		return subTotal;
+	}
+	public void setSubTotal(Float subTotal) {
+		this.subTotal = subTotal;
+	}
+
  
 }

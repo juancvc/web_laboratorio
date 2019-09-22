@@ -19,7 +19,8 @@ import java.sql.Timestamp;
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "CADENA_CANTIDAD", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.OUT, name = "NROPERIO", type = String.class),  
 		    @StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSCR", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class),
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class), 
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "PORCDESC", type = int.class)
  }),
 @NamedStoredProcedureQuery(name = "orden.modificar", procedureName = "[SIGEHOV2BANC].BANC.CAMPANIA_UPDATE",
 resultClasses = Orden_laboratorio.class,

@@ -241,9 +241,9 @@ input[type=text] {
 								</div>
 							</div>
 							<div class="row">
-								<div class="form-group col-md-3 mb-1">
-									<label for="nombreCompleto" class="label_control">APELLIDO
-										PATERNO </label>
+								<div class="form-group col-md-5 mb-1">
+									<label for="nombreCompleto" class="label_control">APELLIDOS
+										Y NOMBRES </label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
@@ -252,6 +252,8 @@ input[type=text] {
 
 									</div>
 								</div>
+								
+								<!-- 
 								<div class="form-group col-md-3 mb-1">
 									<label for="nombreCompleto" class="label_control">APELLIDO
 										MATERNO </label>
@@ -283,10 +285,8 @@ input[type=text] {
 											id="personaSegundoNombre" disabled="true"
 											path="pacienteBean.persona.segundoNombre" />
 									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3 mb-1">
+								</div>-->
+								<div class="col-md-2 mb-1">
 									<label for="situacion" class="label_control">SEXO </label>
 									<div class="controls">
 										<f:select id="sexoPaciente"
@@ -299,7 +299,7 @@ input[type=text] {
 										</f:select>
 									</div>
 								</div>
-								<div class="form-group col-md-3 mb-1">
+								<div class="form-group col-md-2 mb-1">
 									<label for="nombreCompleto" class="label_control">EDAD
 									</label>
 									<div class="controls">
@@ -309,7 +309,7 @@ input[type=text] {
 
 									</div>
 								</div>
-								<div class="form-group col-md-6 mb-2">
+								<div class="form-group col-md-3 mb-2">
 									<label for="nombreCompleto" class="label_control">DIRECCIÓN
 									</label>
 									<div class="controls">
@@ -319,6 +319,10 @@ input[type=text] {
 
 									</div>
 								</div>
+							</div>
+						
+							<div class="row"> 
+								
 							</div>
 
 							<div class="label_title">
@@ -352,7 +356,7 @@ input[type=text] {
 											</div> 
 										</div>
 									</div>
-									<div class="col-md-4 mb-3  text-right" style="margin-top: 30px;">
+									<div class="col-md-4 mb-3  text-right" style="margin-top: 20px;">
 										<button type="button"
 											class="btn btn-warning btn-sm"
 											data-toggle="tooltip" data-placement="top" title=""
@@ -369,7 +373,7 @@ input[type=text] {
 												class="btn btn-outline-success btn-sm" title=""> <span id="enlaceRptCotizacion"
 														class="nav-link-text label_control_barra"></span>  
 												</a> 
-									<div class="col-md-4 mb-3" style="margin-top: 30px;" >
+									<div class="col-md-4 mb-3" style="margin-top: 0px;" >
 										<button type="button" style="display: none"
 											class="btn btn-outline-success btn-sm"
 											data-toggle="tooltip" data-placement="top" title=""
@@ -429,17 +433,60 @@ input[type=text] {
 									</div>
 								</div>
 								<div class="row">
-									<div class="form-group col-md-9 text-right"
+									<div class="form-group col-md-6 text-right"
+										style="margin-top: 2px;"></div>
+									<div class="form-group col-md-3 text-right"
+										style="margin-top: 2px;">
+										<label for="nombreCompleto" class="label_control">SUB
+											TOTAL S/. </label>
+										</div> 
+									 <div class="form-group col-md-3 text-right"
+										style="margin-top: 2px;">
+										
+										<f:input type="text"  style="text-align:right"  path="subTotal" class="form-control"
+											id="txtCajaSubTotal" readonly="true" maxlength="10" />
+ 
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-6 text-right"
+										style="margin-top: 2px;"></div>
+									<div class="form-group col-md-3 text-right"
+										style="margin-top: 2px;">
+										<label for="nombreCompleto" class="label_control">DESCUENTO % </label>
+										</div> 
+									 <div class="form-group col-md-1 text-right"
+										style="margin-top: 2px;">
+										
+										<f:input type="text" path="porcentajeDescuento" class="form-control"
+											id="txtDescuentoPorc"  maxlength="3"
+												onkeypress="return soloNumeros(event)"
+												oninput = "ejecutarDescuento();" />
+ 
+									</div>
+									<div class="form-group col-md-2 text-right"
+										style="margin-top: 2px;">
+										
+										<f:input type="text"  style="text-align:right"  path="descuentoTotal" class="form-control"
+											id="txtCajaDescuentoTotal" readonly="true" maxlength="10" />
+ 
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-6 text-right"
 										style="margin-top: 2px;"></div>
 									<div class="form-group col-md-3 text-right"
 										style="margin-top: 2px;">
 										<label for="nombreCompleto" class="label_control">IMPORTE
 											TOTAL S/. </label>
-										<f:input type="text" path="sImporteTotal" class="form-control"
+										</div> 
+									 <div class="form-group col-md-3 text-right"
+										style="margin-top: 2px;">
+										
+										<f:input type="text" style="text-align:right" path="sImporteTotal" class="form-control"
 											id="txtCajaImporteTotal" readonly="true" maxlength="10" />
 
-										<f:input type="hidden" path="importeTotal"
-											id="txtCajaImporteTotalHidden" />
+										<f:input type="hidden" path="importeTotal"	id="txtCajaImporteTotalHidden" />
 									</div>
 								</div>
 							</div>

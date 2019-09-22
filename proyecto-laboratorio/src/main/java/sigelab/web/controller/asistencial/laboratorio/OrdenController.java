@@ -85,6 +85,7 @@ public class OrdenController  extends BaseController {
 	List<UbigeoBean> lstUbigeoBean = new ArrayList<UbigeoBean>();
 	List<TablaBean> lstTipoExamen = new ArrayList<TablaBean>();
 	
+	private int porcentajeDescuento = 0;
 	private Byte archivoPDF;
 	private String emailDestinatario;
 	private String asunto;
@@ -95,6 +96,10 @@ public class OrdenController  extends BaseController {
 	private String telefonoEmpresa ="Telf: (01)342 8744 CEL: 987736215";
 	String usuarioWindows = System.getProperty("user.name");
 
+	private String descuento = "0.00";
+	private String subTotal  = "0.00";
+	private String total  = "0.00";
+	
 	OrdenDetalleItemBean ordenDetalleItemBean = new OrdenDetalleItemBean();
     OrdenDetalleBean ordenDetalleBean = new OrdenDetalleBean();
     
@@ -463,6 +468,7 @@ public class OrdenController  extends BaseController {
 		String cadenaCantidad = "@"; 
 		OrdenBean ordenBean = new OrdenBean();
 		ordenBean.getPacienteBean().setPersona(this.getPersonaBean());
+		ordenBean.setPorcentajeDescuento(porcentajeDescuento);
 		for (OrdenDetalleBean prmOrdenDetalleBean : ordenDetalleArray) {
 			System.out.println("getCodReg == >" + prmOrdenDetalleBean.getExamen().getCodigo());
 			
@@ -499,6 +505,24 @@ public class OrdenController  extends BaseController {
 		 
 	}
 
+    @RequestMapping(value = "/cambiarDescuentoPorcentaje", method = RequestMethod.GET)
+ 	@ResponseBody
+ 	public void  cambiarDescuentoPorcentaje(
+ 			@RequestParam("porcentaje") String porcentaje,
+ 			@RequestParam("sDescuento") String sDescuento,
+ 			@RequestParam("sSubTotal") String sSubTotal,
+ 			@RequestParam("sTotal") String sTotal) throws JRException, IOException {
+       
+     	if (porcentaje.equals("")) {
+     		porcentajeDescuento = 0;
+ 		}else {
+ 			descuento = sDescuento;
+ 			subTotal = sSubTotal;
+ 			total = sTotal;
+ 			porcentajeDescuento = Integer.valueOf(porcentaje);
+ 		}
+     	
+ 	}
 	@RequestMapping(value = "/personaModal", method = RequestMethod.POST)
 	public ModelAndView personaModalPost() throws Exception {
 		PersonaBean objPersona = new  PersonaBean();
@@ -1019,6 +1043,10 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 	  
 		Map<String, Object> parametro = new HashMap<String, Object>();
 		parametro.put("usuario", getUsuarioSesion(request).getNombreUsuario()); 
+		parametro.put("subTotal", subTotal); 
+		parametro.put("descuento", descuento); 
+		parametro.put("total",total); 
+		
 		System.out.println("jasperStream " + jasperStream);
 		 
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstOrdenCotizacion);
