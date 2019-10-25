@@ -128,8 +128,8 @@ import java.sql.Timestamp;
 				resultClasses = Persona.class,
 				parameters = {
 						
-						@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECDESDE", type = String.class) ,
-						@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHASTA", type = String.class) ,
+						@StoredProcedureParameter(mode = ParameterMode.IN, name = "NRODOCUM", type = String.class) ,
+						@StoredProcedureParameter(mode = ParameterMode.IN, name = "NACIONAL", type = String.class) ,
 						@StoredProcedureParameter(mode = ParameterMode.IN, name = "SITUACRG", type = String.class) 
 			      }),
 			

@@ -102,6 +102,90 @@ function cargarEmailModal() {
 }
 
 
+function llenarPersonaIndex(index){
+
+	var contextPath = $('#contextPath').val(); 
+	var htmlTabla = ""; 
+ 
+		// console.log("validarDni " + numeroDocumento );
+		iniciarBloqueo();
+		$
+				.ajax({
+					type : "GET",
+					url : contextPath
+							+ "/ordenController/consultarPersonaPorIndex?index="
+							+ index ,
+
+					success : function(persona) {
+						 
+
+							if (persona != null) {
+								console.log("persona.length " + persona.length);
+								 
+								if (persona.length != 0) {
+									$('#personaApellidoPaterno').val(
+											persona.nombreCompleto);
+									$('#tipoDocumentoPaciente').val(
+											persona.tipoDocumento.codReg);
+									$('#nroDocumentoPaciente').val(
+											persona.nroDocumento);
+									$('#personaApellidoMaterno').val(
+											persona.apellidoMaterno);
+									$('#personaPrimerNombre').val(
+											persona.primerNombre);
+									$('#personaSegundoNombre').val(
+											persona.segundoNombre); 
+									$('#personaCodigo').val(persona.codigo);    
+									var todate = new Date(persona.fechaNac);
+									var dia = todate.getDate();
+									var mes = todate.getMonth() + 1;
+									var anio = todate.getFullYear(); 
+									var fechaActual = new Date(); 
+									var anioActual = fechaActual.getFullYear();
+									var edad = anioActual - anio;
+									$('#edadPersona').val(edad);
+ 
+									$('#sexoPaciente').val(persona.sexo.codReg);
+									$('#personaDireccion').val(
+											persona.direccion);
+								 
+									if (persona.ubigeoDireccion.codigoUbigeo != "") {
+										$('#ubigeoDireccion').val(persona.ubigeoDireccion.codigoUbigeo);
+										$('#codigoRegistroUbigeoDireccion').val(persona.ubigeoDireccion.codigoRegistro);
+										$('#nombreUbigeoDireccion').val(persona.ubigeoDireccion.nombreUbigeo);
+									}else{ 
+									}
+							
+								  
+								}else {
+									msg_advertencia("¡La persona no se encuentra registrada!")
+									limpiarPersona();
+								}  
+
+							} else {
+								msg_advertencia("¡No se encontraron registros.!")
+								limpiarPersona();
+							} 
+					},
+					error : function(xhr, status, er) {
+						console.log("error: " + xhr + " status: " + status
+								+ " er:" + er);
+						if (xhr.status == 500) {
+							console.log(er);
+							// Error_500(er);
+						}
+						if (xhr.status == 901) {
+							console.log(er);
+							// spire_session_901(er);
+						}
+
+					}
+				});
+		finBloqueo();
+		$("#btnCerrarModalListaPersona").trigger("click");
+	 
+}
+
 function llenarExamenIndex(index){
 	var contextPath = $('#contextPath').val();
 	var htmlTabla = "";
@@ -201,7 +285,8 @@ function buscarPersonaNroDoc(){
 		msg_advertencia("Seleccione tipo de documento");
 		return;
 	} else if (numeroDocumento == null || numeroDocumento.trim() == "") {
-		msg_advertencia("Ingrese número de documento");
+		//msg_advertencia("Ingrese número de documento");
+		cargarListadoPersonaModal();
 		return;
 	} else if (tipoDocumento == '000001' && numeroDocumento.trim().length != 8) {
 		msg_advertencia("Número de dni debe contener 8 dígitos.")
@@ -513,9 +598,59 @@ function cargarPersonaModal() {
 		}); 
 }
 
+function cargarListadoPersonaModal() {
+	var contextPath = $('#contextPath').val();
+	path = contextPath + "/ordenController/personaListadoModal";
+		$.ajax({
+			type : "POST",
+			url : path,
 
+			success : function(data) {
+				$("#modalPersona").html(data);
+				$("#modalPersona").modal('show'); 
+			},
+			error : function(request, status, error) {
+				console.log("ERROR: " + error);
+			}
+		}); 
+}
+
+function ingresaEdad(){
+	var htmlTabla = "";
+	var contextPath = $('#contextPath').val();
+	var edad = $('#edadPersonaNueva').val();
+	console.log("edad " + edad);
+	
+	if(edad ==""){
+		document.getElementById('dateNacimiento').disabled = false;
+	}else{
+		 $('#dateNacimiento').val("");
+		document.getElementById('dateNacimiento').disabled = true;
+	}
+}
+
+function ingresaFechaNac(){
+	var htmlTabla = "";
+	var contextPath = $('#contextPath').val();
+	var dateNacimiento = $('#dateNacimiento').val();
+	console.log("edadPersonaNueva " + edadPersonaNueva);
+	
+	if(dateNacimiento ==""){
+		document.getElementById('edadPersonaNueva').disabled = false;
+	}else{
+		 $('#edadPersonaNueva').val("");
+		document.getElementById('edadPersonaNueva').disabled = true;
+		if(dateNacimiento.length==10){
+			var anio = dateNacimiento.substr(6, 4);
+			// $('#edadPersonaNueva').val(anio);
+		}
+	}
+}
 
 function grabarPersona(){
+	var edad = $('#edadPersonaNueva').val();
+	var dateNacimiento = $('#dateNacimiento').val();
+	
 	var htmlTabla = "";
 	var contextPath = $('#contextPath').val();
 	var actionForm = $('#frmGuardarPersona').attr("action");
@@ -530,8 +665,11 @@ function grabarPersona(){
 	if (!myFormulario[0].checkValidity()) {
 		msg_advertencia("Debe completar los campos requeridos(*) correctamente");
 
-	} else if(telefono.length < 7){
+	} else if(telefono.length > 0 && telefono.length < 7){
 		msg_advertencia("Ingrese número de celular correcto.");
+	
+	} else if(dateNacimiento =="" && edad ==""){
+		msg_advertencia("Ingrese fecha de nacimiento o la edad del paciente");
 		
 /*	}else if(codigoRegistroUbigeoDireccion.length == 0){
 		msg_advertencia("Ingrese ubigeo de dirección.");*/
@@ -560,7 +698,8 @@ function grabarPersona(){
 								$('#personaApellidoMaterno').val( persona.apellidoMaterno);
 								$('#personaPrimerNombre').val(persona.primerNombre);
 								$('#personaSegundoNombre').val(persona.segundoNombre); 
-								$('#personaCodigo').val(persona.codigo);    
+								$('#personaCodigo').val(persona.codigo);   
+								
 								var todate = new Date(persona.fechaNac);
 								var dia = todate.getDate();
 								var mes = todate.getMonth() + 1;

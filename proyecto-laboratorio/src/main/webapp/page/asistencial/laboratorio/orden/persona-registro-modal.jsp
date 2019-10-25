@@ -115,6 +115,14 @@ input[type=text] {
 							</div>
 						</div>
 					</div> 
+					<div class="col-md-4 mb-2">
+						<label for="exampleInputName" class="label_control">FECHA
+							NACIMIENTO  
+						</label>
+						<f:input class="form-control" id="dateNacimiento" name="dateNacimiento" maxlength="10" 
+							placeholder="DD/MM/YYYY" type="text" autocomplete="off" 
+							path="fechaNacStr" onkeyup="ingresaFechaNac(); this.value=formateafechaNacimiento(this.value);"/> 
+					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4 mb-2">
@@ -174,13 +182,15 @@ input[type=text] {
 
 						</div>
 					</div>
-					<div class="col-md-4 mb-2">
-						<label for="exampleInputName" class="label_control">FECHA
-							NACIMIENTO <span class="required">*</span>
+					<div class="form-group col-md-4 mb-2">
+						<label for="nombreCompleto" class="label_control">TELEFONO
 						</label>
-						<f:input class="form-control" id="date" name="date" maxlength="10" 
-							required="required" placeholder="DD/MM/YYYY" type="text" autocomplete="off"
-							path="fechaNacStr" onkeyup="this.value=formateafechaNacimiento(this.value);"/> 
+						<div class="controls">
+							<f:input type="text" class="form-control" 
+								onKeyPress="return soloNumeros(event)" maxlength="9"
+								id="telefono" path="telefonoNumero" autocomplete="off" />
+
+						</div>
 					</div>
 				</div>
 				<div class="row">
@@ -213,14 +223,15 @@ input[type=text] {
 						</div>
 					</div>
 					<div class="form-group col-md-4 mb-2">
-						<label for="nombreCompleto" class="label_control">TELEFONO
-							<span class="required">*</span>
+						<label for="nombreCompleto" class="label_control">EDAD
 						</label>
 						<div class="controls">
-							<f:input type="text" class="form-control" required="required"
-								onKeyPress="return soloNumeros(event)" maxlength="9"
-								id="telefono" path="telefonoNumero" autocomplete="off" />
-
+						<f:input type="text" class="form-control"
+						id="edadPersonaNueva" onKeyPress="return soloNumeros(event);"
+						onkeyup= "ingresaEdad();"
+						maxlength="3"
+						path="edad" autocomplete="off" />
+					
 						</div>
 					</div>
 				</div>
@@ -287,7 +298,7 @@ input[type=text] {
 	<script>
 		$(document).ready(
 				function() {
-					var date_input = $('input[id="date"]'); //our date input has the name "date"
+					var date_input = $('input[id="dateNacimiento"]'); //our date input has the name "date"
 					var container = $('.bootstrap-iso form').length > 0 ? $(
 							'.bootstrap-iso form').parent() : "body";
 					date_input.datepicker({
@@ -298,24 +309,7 @@ input[type=text] {
 						language : 'es'
 
 					})
-				})
-
-		$(document)
-				.ready(
-						function() {
-							var date_inputHasta = $('input[id="dateHasta"]'); //our date input has the name "date"
-							var containerHasta = $('.bootstrap-iso form').length > 0 ? $(
-									'.bootstrap-iso form').parent()
-									: "body";
-							date_inputHasta.datepicker({
-								format : 'dd/mm/yyyy',
-								container : containerHasta,
-								todayHighlight : true,
-								autoclose : true,
-								language : 'es'
-
-							})
-						})
+				}) 
 	</script>
   
 	<script>

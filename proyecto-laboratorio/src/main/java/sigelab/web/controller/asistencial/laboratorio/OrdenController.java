@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException; 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -84,6 +85,8 @@ public class OrdenController  extends BaseController {
 	List<TablaBean> lstNivelInstrucion = new ArrayList<TablaBean>();
 	List<UbigeoBean> lstUbigeoBean = new ArrayList<UbigeoBean>();
 	List<TablaBean> lstTipoExamen = new ArrayList<TablaBean>();
+	
+	List<PersonaBean> lstPersona = new ArrayList<PersonaBean>();
 	
 	private int porcentajeDescuento = 0;
 	private Byte archivoPDF;
@@ -239,7 +242,15 @@ public class OrdenController  extends BaseController {
 		return personaBean;
 	}
 	
-	
+	@RequestMapping(value = "/consultarPersonaPorIndex", method = RequestMethod.GET)
+	public @ResponseBody PersonaBean consultarPersonaPorIndex(
+			@RequestParam("index") Integer index)throws Exception {
+		this.setPersonaBean(new PersonaBean());  
+		personaBean = new PersonaBean(); 
+		personaBean = lstPersona.get(index);
+	    this.setPersonaBean(personaBean);
+		return personaBean;
+	}
 	@RequestMapping(value = "/consultarPersonaPorDocumento", method = RequestMethod.POST)
 	public @ResponseBody PersonaBean consultarPorNroDocumentoPOST(
 			@RequestParam("tipoDocumento") String tipoDocumento,
@@ -547,6 +558,17 @@ public class OrdenController  extends BaseController {
 		return mav;
 	} 
 	
+	@RequestMapping(value = "/personaListadoModal", method = RequestMethod.POST)
+	public ModelAndView personaListadoModal() throws Exception { 
+		
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/orden/persona-listado-modal", "command",  new PersonaBean());
+		lstPersona = personaService.getBuscarPorFiltros(new PersonaBean());
+		mav.addObject("lstPersona", lstPersona);
+		this.cargarCombos(mav);
+		return mav;
+	} 
+	
+	
 	@RequestMapping(value = "/grabarPersonaLaboratorio", method = RequestMethod.POST)
 	public @ResponseBody PersonaBean grabarPersonaLaboratorio(@ModelAttribute("personaBean")PersonaBean obpersonaBean,
 											 HttpServletRequest request) throws Exception {  
@@ -557,13 +579,38 @@ public class OrdenController  extends BaseController {
 		
 		 
 		System.out.println("obpersonaBean.getCodigo() " + obpersonaBean.getCodigo());
- 
+		System.out.println("obpersonaBean.getEdad() " + obpersonaBean.getEdad());
 		System.out.println("obpersonaBean.getFechaNacStr " + obpersonaBean.getFechaNacStr());
 		if (obpersonaBean.getFechaNacStr() != null) {
-			Date dateFecha=new SimpleDateFormat("dd/MM/yyyy").parse(obpersonaBean.getFechaNacStr());   
-			obpersonaBean.setFechaNac(dateFecha);	
+			if (!obpersonaBean.getFechaNacStr().equals("")) {
+				Date dateFecha=new SimpleDateFormat("dd/MM/yyyy").parse(obpersonaBean.getFechaNacStr());   
+				obpersonaBean.setFechaNac(dateFecha);		
+			}else {
+				if (!obpersonaBean.getEdad().equals("")) {
+					Calendar c = Calendar.getInstance();
+					System.out.println("anio" + Integer.toString(c.get(Calendar.YEAR)));
+					
+					int anioNac =(c.get(Calendar.YEAR)) - Integer.valueOf(obpersonaBean.getEdad()) ;
+					System.out.println("anioNac" + anioNac);
+					Date dateFecha=new SimpleDateFormat("dd/MM/yyyy").parse("31/12/"+anioNac);   
+					obpersonaBean.setFechaNac(dateFecha);
+					obpersonaBean.setFechaNacStr("31/12/"+anioNac);	
+				}
+				
+			}
+		}else {
+			if (!obpersonaBean.getEdad().equals("")) {
+				Calendar c = Calendar.getInstance();
+				System.out.println("anio" + Integer.toString(c.get(Calendar.YEAR)));
+				
+				int anioNac =(c.get(Calendar.YEAR)) - Integer.valueOf(obpersonaBean.getEdad()) ;
+				System.out.println("anioNac" + anioNac);
+				Date dateFecha=new SimpleDateFormat("dd/MM/yyyy").parse("31/12/"+anioNac);   
+				obpersonaBean.setFechaNac(dateFecha);	
+				obpersonaBean.setFechaNacStr("31/12/"+anioNac);	
+			}
 		}
-	     
+	     /**
 		if (obpersonaBean.getFechaNacStr() != null) {
 			 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 			 try {
@@ -576,7 +623,7 @@ public class OrdenController  extends BaseController {
 		        }
 			 
 		}
-		 
+		 */
 		if (obpersonaBean.getCodigo().equals("")) {
 			if(!obpersonaBean.getTipoDocumento().getCodReg().equals("000002") ){  
 				System.out.println("SIN SERVICIO DE RENIEC" ); 

@@ -607,9 +607,13 @@ input[type=text] {
 		<script
 			src="${pageContext.request.contextPath}/app-assets/js/sb-admin.min.js"></script>
 		<!-- Custom scripts for this page-->
-		<!-- Custom scripts for all pages-->
+		<!-- Custom scripts for all pages
 		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
-
+		-->
+		<script
+			src="${pageContext.request.contextPath}/assets/js/page/util/block.js"
+			type="text/javascript" charset="utf-8"></script>
+			
 		<script
 			src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
 			type="text/javascript" charset="utf-8"></script>
