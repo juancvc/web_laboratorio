@@ -921,7 +921,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 						HttpServletResponse response, 
 						HttpServletRequest request) throws JRException, IOException {
 		InputStream jasperStream = this.getClass().getResourceAsStream("/reportes/rptResultadosAnalisis.jasper");
-		
+		System.out.println("periodo orden "+getOrdenBean().getNumeroPeriodo());
 		Map<String, Object> parametro = new HashMap<String, Object>();
 		parametro.put("usuario", getUsuarioSesion(request).getNombreUsuario()); 
 		parametro.put("nroAnalisis",getOrdenBean().getCodigo()); 

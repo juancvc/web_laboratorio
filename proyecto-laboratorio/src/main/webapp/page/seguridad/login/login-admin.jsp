@@ -89,7 +89,7 @@
 </style>
 </head>
 
-<body class="bg-dark">
+<body class="bg-white">
 	<div class="container">
 	  <div class="row justify-content-center">
 

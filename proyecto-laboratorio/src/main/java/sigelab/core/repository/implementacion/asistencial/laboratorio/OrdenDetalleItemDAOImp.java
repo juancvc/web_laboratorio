@@ -267,7 +267,7 @@ private List<OrdenDetalleItemBean> deListaObjetoAListaObjetoBean(List<Orden_labo
 			spq.setParameter("CODINSTI", OrdenBean.getCodigoInstitucion()); 
 			spq.setParameter("CODSEDEI", OrdenBean.getCodigoSede()); 
 			spq.setParameter("CODORDEN", OrdenBean.getCodigo()); 
-							  
+			spq.setParameter("NROPERIO", OrdenBean.getNumeroPeriodo());				  
 			 if (spq.execute()) {
 				 lstOrden =  spq.getResultList(); 
 			 }

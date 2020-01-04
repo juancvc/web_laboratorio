@@ -78,7 +78,8 @@ import java.sql.Timestamp;
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class) ,
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class) ,
 		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class) ,
-		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDEN", type = String.class) 
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORDEN", type = String.class) ,
+		@StoredProcedureParameter(mode = ParameterMode.IN, name = "NROPERIO", type = String.class)
 }),
 
 @NamedStoredProcedureQuery(name = "ordenDetalleItem.buscarPorObjeto", procedureName = "[SIGEHOV2BANC].[BANC].[POSTULANTE_CAMPANIA_LISTA_X_OBJETO]", resultClasses = Orden_laboratorio_detalle_item.class, parameters = {
