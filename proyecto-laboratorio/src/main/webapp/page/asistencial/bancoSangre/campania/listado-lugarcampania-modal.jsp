@@ -40,7 +40,7 @@
 	rel="stylesheet">
 
 <link rel="shortcut icon" type="image/x-icon"
-	href="${pageContext.request.contextPath}/app-assets/images/ico/iconHNCH.ico">
+	href="${pageContext.request.contextPath}/app-assets/images/ico/icoTeamSoftti32x32.png">
 <!-- Custom fonts for this template-->
 <link
 	href="${pageContext.request.contextPath}/app-assets/vendor/font-awesome/css/font-awesome.min.css"
