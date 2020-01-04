@@ -1014,7 +1014,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
         	MimeMessage message = new MimeMessage(s);
         	message.setFrom(new InternetAddress("informatica.hch.2018@gmail.com"));
         	message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-        	message.setSubject("LABMED-Resultados analisis de laboratorio del paciente "+getOrdenBean().getPacienteBean().getPersona().getNombreCompleto());
+        	message.setSubject("MEDIC LAB-Resultados analisis de laboratorio del paciente "+getOrdenBean().getPacienteBean().getPersona().getNombreCompleto());
       
         	// message.setText(text, "utf-8", "html");
 

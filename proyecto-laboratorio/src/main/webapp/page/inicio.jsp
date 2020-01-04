@@ -13,7 +13,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>LABMED</title>
+<title>MEDIC LAB</title>
 <!-- Bootstrap core CSS-->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/app-assets/fonts/font-awesome/css/font-awesome.min.css">
@@ -42,7 +42,7 @@
 	rel="stylesheet">
 
 <link rel="shortcut icon" type="image/x-icon"
-	href="${pageContext.request.contextPath}/app-assets/images/ico/logoLabico.ico">
+	href="${pageContext.request.contextPath}/app-assets/images/ico/icoTeamSoftti32x32.png">
 <!-- Custom fonts for this template-->
 <link
 	href="${pageContext.request.contextPath}/app-assets/vendor/font-awesome/css/font-awesome.min.css"
@@ -72,7 +72,7 @@
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
 		id="mainNav">
-		<a class="navbar-brand label_control_hade" href="#l"> LABMED</a>
+		<a class="navbar-brand label_control_hade" href="#l"> MEDIC LAB</a>
 		<button class="navbar-toggler navbar-toggler-right" type="button"
 			data-toggle="collapse" data-target="#navbarResponsive"
 			aria-controls="navbarResponsive" aria-expanded="false"

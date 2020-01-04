@@ -394,7 +394,7 @@ public class PersonaController {
 				if(personaBean!=null){  
 					System.out.println("persona existe en sigehov2gene");
 					System.out.println(personaBean.getNombreCompleto());
-				//	personaBean.setOrigenDatos("LABMED");
+				//	personaBean.setOrigenDatos("MEDIC LAB");
 					
 					System.out.println("personaBean.getCodigo() " + personaBean.getCodigo());
 					PostulanteBean postulante = new PostulanteBean();
