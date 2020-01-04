@@ -12,7 +12,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>LABMED</title>
+<title>MEDIC LAB</title>
 <!-- Bootstrap core CSS-->
 <link
 	href="${pageContext.request.contextPath}/app-assets/vendor/bootstrap/css/bootstrap.min.css"
@@ -21,10 +21,10 @@
 <link
 	href="${pageContext.request.contextPath}/app-assets/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-<!-- Custom styles for this template-->
+<!-- Custom styles for this template
 <link
 	href="${pageContext.request.contextPath}/app-assets/css/sb-admin.css"
-	rel="stylesheet">
+	rel="stylesheet">-->
 
 <link rel="apple-touch-icon"
 	href="${pageContext.request.contextPath}/app-assets/images/ico/logoHNCH.png">
@@ -57,8 +57,13 @@
 	href="${pageContext.request.contextPath}/app-assets/css/pages/login-register.css">
 <!-- END Page Level CSS-->
 <!-- BEGIN Custom CSS-->
+  <link href="${pageContext.request.contextPath}/app-assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
+  <!-- Custom styles for this template-->
+  <link href="${pageContext.request.contextPath}/app-assets/css/sb-admin-2.min.css" rel="stylesheet">
 <style>
+.form-control-combo{font-size:13px;border-radius:10rem; padding:0rem 1rem}
 
 .divTitulo{
 	color: #00000;
@@ -77,12 +82,81 @@
   margin-right: auto;
   width: 90%;
   height: 50%; 
-}
+ } 
+ 
 </style>
 </head>
 
 <body class="bg-dark">
 	<div class="container">
+	  <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block">
+              <img id="imgFotoPaciente"  width="100%" height="100%"
+				src="${pageContext.request.contextPath}/assets/img/segu/logoLaboratorio.png" />
+              </div>
+              <div class="col-lg-6">
+                <div class="p-4">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Bienvenido(a)!</h1>
+                  </div> 
+                  <f:form class="user" role="form"
+					action="${pageContext.request.contextPath}/inicioController/controlAcceso"> 
+                    <div class="form-group">
+                      <f:input  id="textUsuario"
+							path="nombreUsuario" type="text" class="form-control form-control-user" 
+							aria-describedby="emailHelp" placeholder="Ingrese usuario..."/>
+                    </div>
+                    <div class="form-group">
+                      <f:input type="password" class="form-control form-control-user" id="textPassword" path="contrasena"
+							placeholder="Password"/>
+                    </div>
+                   
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox small">
+                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                        <label class="custom-control-label" for="customCheck">Recordarme</label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+					<input class="form-control" type="text" disabled="true" id="msgErrorLogin" value="${msgErrorLogin}"
+						style="background-color:LightPink ; display: none !important;">
+					</div>	
+                   <button id="btnIniciarSesion" type="submit"
+						class="btn btn-primary btn-user btn-block"> LOGIN
+					</button> 
+                 	</f:form>
+         
+                  
+                   <div class="text-center">
+                    <a class="small" href="forgot-password.html">¿Olvidó su contraseña?</a>
+                  </div>
+                  <!-- <div class="text-center">
+                    <a class="small" href="register.html">Create an Account!</a>
+                  </div>
+                  
+                   -->
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+	
+	
+	
+	<!-- 
+	
 		<div class="card card-login mx-auto mt-5">
 			<div class="card-header" style="align-text:center">
 			<div class="form-group"> 
@@ -124,7 +198,7 @@
                 <input class="form-check-input" type="checkbox"> Remember Password</label>
             </div>
           </div>-->
-					<button id="btnIniciarSesion" type="submit"
+			<!--	<button id="btnIniciarSesion" type="submit"
 						class="btn btn-primary btn-lg btn-block">
 						<i class="ft-unlock"></i> Acceder
 					</button>
@@ -133,8 +207,8 @@
           <a class="d-block small mt-3" href="register.html">Register an Account</a>
           <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
         </div>-->
-			</div>
-		</div>
+		<!--	</div>
+		</div>-->
 	</div>
 	<!-- Bootstrap core JavaScript-->
 	<script
