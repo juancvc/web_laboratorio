@@ -89,7 +89,7 @@
 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<jsp:include
-				page="${pageContext.request.contextPath}/../layout/menu-view.jsp" />
+				page="/layout/menu-view.jsp" />
 		</div>
 	</nav>
 
@@ -117,8 +117,23 @@
 						value="${pageContext.request.contextPath}">
 					<div class="card-body">
 						<div class="form-group">
+						<div class="row">
+						<div class="col-md-4">
+									<label for="exampleInputName" class="label_control">N° DOCUMENTO </label>
+									<div class="position-relative has-icon-left"> 
+										<input id="contextPath" type="hidden"
+											value="${pageContext.request.contextPath}">
+										<div class="controls">
+											<f:input type="text" class="form-control" 
+												maxlength="12" id="nroDocumentoPaciente"
+												path="nroDocumento" autocomplete="off"
+												onkeypress="return runScript(event)" />
+										</div>
+									</div> 
+									</div>
+						</div>
 							<div class="row">
-								<div class="col-md-4">
+								<div class="col-md-4" style="display: none;">
 									<label for="exampleInputName" class="label_control">FECHA
 										 DESDE </label>
 									<div class="position-relative has-icon-left">
@@ -133,7 +148,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-4" style="display: none;">
 									<label for="exampleInputName" class="label_control">FECHA
 										 HASTA </label>
 									<div class="controls">
@@ -143,7 +158,7 @@
 											onkeyup="this.value=formateafecha(this.value);" />
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-4" style="display: none;">
 									<label for="situacion" class="label_control">SITUACION
 									</label>
 									<div class="controls">
@@ -219,21 +234,13 @@
 													<td>${persona.strFechaCreacion}</td>
 													<td>${persona.situacion.nombreCorto}</td>
 													<td>${persona.nombreUsuarioCreacion}</td>
-													<td><c:choose>
-															<c:when test="${persona.situacion.codReg =='000001'}">
-																<a title="Ver detalle" data-placement="top"
-																	data-toggle="tooltip"
-																	class="btn btn-outline-success btn-sm"
-																	onclick="javascript:modificarElementoGenerico('/ordenController/modificar','${loop.index}')"
-																	href="#"><i class="ft-search"> Ver</i></a>
-															</c:when>
-															<c:otherwise>
-														
-													
-
-													
-															</c:otherwise>
-														</c:choose></td>
+													<td>
+													<a title="Modificar" data-placement="top"
+											data-toggle="tooltip"
+											class="btn btn-outline-success btn-sm"
+											onclick="javascript:modificarElementoGenerico('/personaController/modificarPersona','${loop.index}')"
+											href="#"><i class="icon-pencil"></i></a>
+													 </td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -291,7 +298,7 @@
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
 		<jsp:include
-			page="${pageContext.request.contextPath}/../layout/footer-view.jsp" />
+			page="/layout/footer-view.jsp" />
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"> <i
 			class="fa fa-angle-up"></i>
@@ -349,10 +356,6 @@
 			type="text/javascript"></script>
 		<script
 			src="${pageContext.request.contextPath}/assets/js/page/util/utilitarios.js"
-			type="text/javascript" charset="utf-8"></script>
-
-		<script
-			src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
 			type="text/javascript" charset="utf-8"></script>
 
 		<script

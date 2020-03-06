@@ -149,7 +149,7 @@ setTimeout("show5()",1000)
 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<jsp:include
-				page="${pageContext.request.contextPath}/../layout/menu-view.jsp" />
+				page="/../layout/menu-view.jsp" />
 		</div>
 	</nav> 
 		<div class="content-wrapper">
@@ -1218,7 +1218,7 @@ setTimeout("show5()",1000)
 
 
 			<jsp:include
-								page="${pageContext.request.contextPath}/../layout/footer-view.jsp" />
+								page="/../layout/footer-view.jsp" />
 
 															<!-- BEGIN VENDOR JS-->
 															<!--  <script src="${pageContext.request.contextPath}/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>-->

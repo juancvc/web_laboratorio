@@ -89,7 +89,7 @@
 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<jsp:include
-				page="${pageContext.request.contextPath}/../layout/menu-view.jsp" />
+				page="/layout/menu-view.jsp" />
 		</div>
 	</nav>
 
@@ -213,7 +213,7 @@
 													<td>${loop.count}</td>
 													<td>${orden.nroOrden}</td>
 													<td>${orden.pacienteBean.persona.nombreCompleto}</td>
-													<td>${orden.strFechaOrden}${orden.horaOrden}</td>
+													<td>${orden.strFechaOrden} ${orden.horaOrden}</td>
 													<td>${orden.sImporteTotal}</td>
 													<td>${orden.situacion.nombreCorto}</td>
 													<td>${orden.nombreUsuarioCreacion}</td>
@@ -302,7 +302,7 @@
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
 		<jsp:include
-			page="${pageContext.request.contextPath}/../layout/footer-view.jsp" />
+			page="/layout/footer-view.jsp" />
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"> <i
 			class="fa fa-angle-up"></i>

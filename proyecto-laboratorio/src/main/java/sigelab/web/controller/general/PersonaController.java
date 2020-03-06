@@ -175,6 +175,9 @@ public class PersonaController {
 		lstPersonaBean = new ArrayList<PersonaBean>(); 
 		ModelAndView mav = new ModelAndView("asistencial/laboratorio/persona/listado-persona", "command", personaBean); 
 		lstPersonaBean = personaService.getBuscarPorFiltros(personaBean);
+		lstSituacion = maestraAsis01Service.listarPorCodigoTabla("000016", 1);
+		
+		mav.addObject("lstSituacion", lstSituacion);
 		setLstPersonaBeanRpt(lstPersonaBean);
 		mav.addObject("lstPersonaBean", lstPersonaBean); 
 		mav.addObject("personaBean", personaBean); 
@@ -437,18 +440,6 @@ public class PersonaController {
 					personaBean.setNroDocumento(numero);
 					personaBean.setOrigenDatos("");
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
 					PacienteReniec pacienteReniec = new PacienteReniec();
 					pacienteReniec.setNroDni(numero); 
 					List<PacienteReniec> lstPersona = null ; //new ArrayList<PacienteReniec>();
@@ -653,7 +644,7 @@ public class PersonaController {
 		return this.getPersonaBean();
 	}
 	
-	
+	/***
 	@RequestMapping(value = "/nuevo", method = RequestMethod.GET)
 	public ModelAndView nuevoPostulante(HttpServletRequest request, PersonaBean personaBean) {
 		OrdenBean objOrdenBean = new OrdenBean();  
@@ -662,7 +653,7 @@ public class PersonaController {
 		return mav;
 	} 
 	
-	
+	*/
 	
 	
 	
@@ -698,7 +689,7 @@ public class PersonaController {
 	*/
 	
 	/***NUEVA LINEA 19-04-2019****/
-	@RequestMapping(value = "/nuevoPaciente", method = RequestMethod.GET)
+	@RequestMapping(value = "/nuevo", method = RequestMethod.GET)
 	public ModelAndView nuevoPaciente(HttpServletRequest request) {
 		PersonaBean personaBean = new PersonaBean(); 
 	
@@ -707,6 +698,32 @@ public class PersonaController {
 		this.cargarCombos(mav);
 		return mav;
 	}
+	
+	
+	@RequestMapping(value = "/modificarPersona", method = RequestMethod.POST)
+	public ModelAndView doModificarPostulante(@RequestParam("index") Integer index, HttpServletRequest request) {
+
+		System.out.println("modificar codigo: " + index); 
+		PersonaBean oPostulanteBean = new PersonaBean(); 
+		oPostulanteBean = this.lstPersonaBean.get(index);
+		
+		System.out.println("oPostulanteBeangetTipoDocumento().getCodReg() " + oPostulanteBean.getTipoDocumento().getCodReg());
+		System.out.println("oPostulanteBean " + oPostulanteBean.getNroDocumento());
+		
+		PersonaBean objPostulanteBean = new PersonaBean(); 
+		try {
+			objPostulanteBean = this.personaService.buscarxTipoDocumentoNumeroDocumento(oPostulanteBean);  
+			this.setPersonaBean(objPostulanteBean);
+		} catch (Exception e) {
+		}
+		
+		System.out.println("modificar oReferenciaBean: " + oPostulanteBean.getCodigo());
+		ModelAndView mav = new ModelAndView("asistencial/laboratorio/registro-paciente-laboratorio", "command", objPostulanteBean);
+		mav.addObject("postulanteBean", objPostulanteBean); 
+		this.cargarCombos(mav);
+		return mav;
+	}
+	
 	
 	   @RequestMapping(value = "/descargarExcel", method = RequestMethod.GET, produces = "application/vnd.ms-excel")
 	    public @ResponseBody void descargarExcel(HttpServletResponse response) throws IOException {

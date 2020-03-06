@@ -119,7 +119,7 @@
 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<jsp:include
-				page="${pageContext.request.contextPath}/../layout/menu-view.jsp" />
+				page="/../layout/menu-view.jsp" />
 		</div>
 	</nav>
 
@@ -305,7 +305,7 @@
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
 		<jsp:include
-			page="${pageContext.request.contextPath}/../layout/footer-view.jsp" />
+			page="/../layout/footer-view.jsp" />
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"> <i
 			class="fa fa-angle-up"></i>

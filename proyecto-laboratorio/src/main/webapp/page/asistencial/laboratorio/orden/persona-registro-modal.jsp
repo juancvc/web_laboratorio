@@ -120,7 +120,7 @@ input[type=text] {
 							NACIMIENTO  
 						</label>
 						<f:input class="form-control" id="dateNacimiento" name="dateNacimiento" maxlength="10" 
-							placeholder="DD/MM/YYYY" type="text" autocomplete="off" 
+							placeholder="DD/MM/YYYY" type="text" autocomplete="off" required="required"
 							path="fechaNacStr" onkeyup="ingresaFechaNac(); this.value=formateafechaNacimiento(this.value);"/> 
 					</div>
 				</div>
@@ -221,19 +221,7 @@ input[type=text] {
 									itemLabel="nombreCorto" />
 							</f:select>
 						</div>
-					</div>
-					<div class="form-group col-md-4 mb-2">
-						<label for="nombreCompleto" class="label_control">EDAD
-						</label>
-						<div class="controls">
-						<f:input type="text" class="form-control"
-						id="edadPersonaNueva" onKeyPress="return soloNumeros(event);"
-						onkeyup= "ingresaEdad();"
-						maxlength="3"
-						path="edad" autocomplete="off" />
-					
-						</div>
-					</div>
+					</div> 
 				</div>
 				<div class="row">
 					<div class="col-md-7 mb-1">

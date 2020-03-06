@@ -658,16 +658,20 @@ function grabarPersona(){
 	var myFormulario = $('#frmGuardarPersona');
 	var telefono = $('#telefono').val();
 	var codigoRegistroUbigeoDireccion = $('#txtCodRegUbigeo').val();
-	
+	var tipoDocumentoPersona = $('#tipoDocumentoPersona').val();
+	var nroDocumentoPersona = $('#nroDocumentoPersona').val();
 	// console.log("fechaIni " + fechaIni);
-	// console.log("fechaFin " + fechaFin);
+	 console.log("nroDocumentoPersona " + nroDocumentoPersona);
 
 	if (!myFormulario[0].checkValidity()) {
 		msg_advertencia("Debe completar los campos requeridos(*) correctamente");
+	
+	}else if(tipoDocumentoPersona == '000001' && nroDocumentoPersona.length != 8){
+		msg_advertencia("El número de DNI debe tener 8 dígitos.");
 
 	} else if(telefono.length > 0 && telefono.length < 7){
 		msg_advertencia("Ingrese número de celular correcto.");
-	
+		
 	} else if(dateNacimiento =="" && edad ==""){
 		msg_advertencia("Ingrese fecha de nacimiento o la edad del paciente");
 		

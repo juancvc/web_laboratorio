@@ -238,7 +238,7 @@ td.cantidad, th.cantidad {
 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<jsp:include
-				page="${pageContext.request.contextPath}/../layout/menu-view.jsp" />
+				page="/layout/menu-view.jsp" />
 		</div>
 	</nav>
 
@@ -258,7 +258,7 @@ td.cantidad, th.cantidad {
 
 					<input id="contextPath" type="hidden"
 						value="${pageContext.request.contextPath}">
-					<f:input type="text" class="form-control" id="personaCodigo"
+					<f:input type="hidden" class="form-control" id="personaCodigo"
 						path="codigo" />
 					<f:input type="hidden" class="form-control"
 						id="personaCodigoSigeho" path="codigoPersonaSigeho" />
@@ -291,8 +291,7 @@ td.cantidad, th.cantidad {
 										<div class="controls">
 											<f:input type="text" class="form-control" required="required"
 												maxlength="12" id="nroDocumentoPaciente"
-												path="nroDocumento" autocomplete="off"
-												onkeypress="return runScript(event)" />
+												path="nroDocumento" autocomplete="off" />
 										</div>
 									</div>
 								</div>
@@ -315,7 +314,7 @@ td.cantidad, th.cantidad {
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
-											id="personaApellidoPaterno" disabled="true"
+											id="personaApellidoPaterno"  
 											path="apellidoPaterno" autocomplete="off" />
 
 									</div>
@@ -326,7 +325,7 @@ td.cantidad, th.cantidad {
 									<div class="controls">
 										<f:input type="text" class="form-control"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
-											id="personaApellidoMaterno" disabled="true"
+											id="personaApellidoMaterno" 
 											path="apellidoMaterno" autocomplete="off" />
 
 									</div>
@@ -338,7 +337,7 @@ td.cantidad, th.cantidad {
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
-											id="personaPrimerNombre" disabled="true"
+											id="personaPrimerNombre" 
 											path="primerNombre" autocomplete="off" />
 
 									</div>
@@ -349,7 +348,7 @@ td.cantidad, th.cantidad {
 									<div class="controls">
 										<f:input type="text" class="form-control"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"
-											id="personaSegundoNombre" disabled="true"
+											id="personaSegundoNombre"  
 											path="segundoNombre" autocomplete="off" />
 									</div>
 								</div>
@@ -360,9 +359,9 @@ td.cantidad, th.cantidad {
 										class="required">*</span></label>
 									<div class="controls">
 										<f:select id="sexoPaciente" path="sexo.codReg"
-											disabled="true" class="form-control" required="required">
+											disabled="false" class="form-control" required="required">
 											<f:option value="" label="Seleccionar" selected="true"
-												disabled="disabled" />
+												 />
 											<f:options items="${lstSexo}" itemValue="codReg"
 												itemLabel="nombreCorto" />
 										</f:select>
@@ -374,10 +373,9 @@ td.cantidad, th.cantidad {
 									</label>
 									<div class="controls">
 										<f:select id="estadoCivilPersona"
-											path="estadoCivil.codReg" disabled="true"
+											path="estadoCivil.codReg"  
 											class="form-control" required="required">
-											<f:option value="" label="Seleccionar" selected="true"
-												disabled="disabled" />
+											<f:option value="" label="Seleccionar" selected="true"  />
 											<f:options items="${lstEstadoCivil}" itemValue="codReg"
 												itemLabel="nombreCorto" />
 										</f:select>
@@ -392,7 +390,7 @@ td.cantidad, th.cantidad {
 											pattern="dd/MM/yyyy" />
 										<f:input id="personaFechaNac" name="fecha" type="text"
 											class="form-control" path="fechaNacStr"
-											disabled="true" value="${dateString}" size="10"
+											 value="${dateString}" size="10"
 											maxlength="10" required="required"
 											onkeyup="this.value=formateafechaNacimiento(this.value);" />
 
@@ -416,7 +414,7 @@ td.cantidad, th.cantidad {
 										class="required"> *</span></label>
 									<div class="controls">
 										<f:select id="personaNacionalidad"
-											path="nacionalidad.codReg" disabled="true"
+											path="nacionalidad.codReg"  
 											class="form-control" required="required">
 											<f:option value="" label="Seleccionar" selected="true"
 												disabled="disabled" />
@@ -424,36 +422,7 @@ td.cantidad, th.cantidad {
 												itemLabel="nombreCorto" />
 										</f:select>
 									</div>
-								</div>
-								<div class="col-md-3">
-									<label for="lbltipoSeguroPaciente" class="label_control">GRADO
-										INSTRUCCION<span class="required"> *</span>
-									</label>
-									<div class="controls">
-										<f:select id="personaNivelInstrucion"
-											path="nivelInstrucion.codReg" class="form-control"
-											required="required">
-											<f:option value="" label="Seleccionar" selected="true"
-												disabled="disabled" />
-											<f:options items="${lstNivelInstrucion}" itemValue="codReg"
-												itemLabel="nombreCorto" />
-										</f:select>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<label for="lbltipoSeguroPaciente" class="label_control">OCUPACION<span
-										class="required"> *</span></label>
-									<div class="controls">
-										<f:select id="personaOcupacion"
-											path="ocupacion.codReg" class="form-control"
-											required="required">
-											<f:option value="" label="Seleccionar" selected="true"
-												disabled="disabled" />
-											<f:options items="${lstOcupacion}" itemValue="codReg"
-												itemLabel="nombreCorto" />
-										</f:select>
-									</div>
-								</div>
+								</div>  
 								<div class="form-group col-md-3 mb-1">
 									<label for="nombreCompleto" class="label_control">TELEFONO
 										<span class="required">*</span>
@@ -465,16 +434,26 @@ td.cantidad, th.cantidad {
 
 									</div>
 								</div>
+								<div class="form-group col-md-3 mb-1">
+									<label for="nombreCompleto" class="label_control">CORREO
+										<span class="required">*</span>
+									</label>
+									<div class="controls">
+										<f:input type="email" class="form-control" id="correo"
+											path="correo" autocomplete="off" />
+
+									</div>
+								</div>
 							</div>
 
-							<div class="row">
+							<div class="row" style="display: none;">
 								<div class="form-group col-md-2 mb-1">
 									<label for="nombreCompleto" class="label_control">UBIGEO
 										NACIMIENTO <span class="required">*</span>
 									</label>
 									<div class="controls">
-										<f:input type="text" class="form-control" required="required"
-											disabled="true" onKeyPress="return soloNumeros(event)"
+										<f:input type="text" class="form-control" 
+											onKeyPress="return soloNumeros(event)"
 											maxlength="6" id="ubigeoNacimientoCodigoUbigeo"
 											path="ubigeoNacimiento.codigoUbigeo" autocomplete="off" />
 
@@ -501,16 +480,7 @@ td.cantidad, th.cantidad {
 
 									</div>
 								</div>
-								<div class="form-group col-md-3 mb-1">
-									<label for="nombreCompleto" class="label_control">CORREO
-										<span class="required">*</span>
-									</label>
-									<div class="controls">
-										<f:input type="email" class="form-control" id="correo"
-											path="correo" autocomplete="off" />
-
-									</div>
-								</div>
+								
 							</div>
 							<div class="row">
 								<div class="form-group col-md-2 mb-3">
@@ -529,7 +499,7 @@ td.cantidad, th.cantidad {
 								</div>
 								<div class="col-md-1">
 									<button id="btnBuscarUbigeoDireccion" type="button"
-										style="margin-top: 30px;" disabled="true"
+										style="margin-top: 30px;" 
 										onclick="ubigeoCargarModal(2)"
 										class="form-control btn btn-info">
 										<i class="ft-search"></i> BUSCAR
@@ -552,17 +522,16 @@ td.cantidad, th.cantidad {
 									</label>
 									<div class="controls">
 										<f:input type="text" class="form-control" required="required"
-											disabled="true" id="personaDireccion"
+											id="personaDireccion"
 											path="direccion" autocomplete="off" />
 
 									</div>
 								</div>
 							</div>
-							<div class="row">
+							<div class="row" style="display: none;">
 								<div class="col-md-2">
 									<f:input type="hidden" id="foto" path="foto" />
-									<!-- <img id="imgFotoPostulante"  src="data:image/jpg;base64,${postulanteBean.persona.foto}" height="75%" width="55%" alt="Image"/> -->
-
+								 
 									<img id="imgFotoPaciente"
 										style="width: 200px; height: 200px; cursor: pointer;"
 										src="${pageContext.request.contextPath}/assets/img/fotoPersonaGenerico.gif" />
@@ -600,22 +569,22 @@ td.cantidad, th.cantidad {
 								</div>
 								
 							</div>
-							<div class="text-right"
+							<div class="text-right" 
 								style="margin-top: 0px; margin-bottom: 0px;">
-								<button id="btnImprimirTicket" type="button"
+								<button id="btnImprimirTicket" type="button" style="display: none;"
 									onclick="printDiv('areaImprimir')" class="btn btn-outline-dark:hover"
 									disabled="true">
 									<i class="fa fa-print"></i> IMPRIMIR TICKET
 								</button>
 								<a
-									href="${pageContext.request.contextPath}/bancoController/nuevoPostulante"
+									href="${pageContext.request.contextPath}/personalController/nuevo"
 									class="btn btn-secondary" title=""> <i class="fa icon-plus"></i>
 									NUEVO
 								</a>
 
 								<button id="btnGuardarPostulante" type="submit"
 									onclick="guardarPersonaLaboratorio()" class="btn btn-primary">
-									<i class="fa fa-floppy-o"></i> REGISTRAR
+									<i class="fa fa-floppy-o"></i> GRABAR
 								</button>
 							 
 							</div>
@@ -641,7 +610,7 @@ td.cantidad, th.cantidad {
 			</f:form>
 			<f:form id="frmRegistro" class="form-horizontal" role="form"
 				method="POST"
-				action="${pageContext.request.contextPath}/ordenController/nuevo"> 
+				action="${pageContext.request.contextPath}/personaController/listado"> 
 				<button type="submit" style="display: none" id="btnListado">Click
 					me</button>
 			</f:form>
@@ -703,7 +672,7 @@ td.cantidad, th.cantidad {
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
 		<jsp:include
-			page="${pageContext.request.contextPath}/../layout/footer-view.jsp" />
+			page="/layout/footer-view.jsp" />
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"> <i
 			class="fa fa-angle-up"></i>
@@ -757,9 +726,9 @@ td.cantidad, th.cantidad {
 			src="${pageContext.request.contextPath}/app-assets/js/scripts/dist/JsBarcode.all.js"></script>
 	</div>
 </body>
-
-<script
-	src="${pageContext.request.contextPath}/assets/js/page/asistencial/banco.js"
+	
+	<script
+	src="${pageContext.request.contextPath}/assets/js/page/asistencial/laboratorio.js"
 	type="text/javascript" charset="utf-8"></script>
 	
 <script
@@ -796,25 +765,7 @@ function crearBoton(){
 	  //  "onclick=\"especialidadCargarModal('"+[objCIEX.codReg]+"');\""+
 		$("#btnLlamarModificar").trigger("click");
 }
-function printDiv(nombreDiv) {
-	
-	
-    var contenido= document.getElementById(nombreDiv).innerHTML;
-    var contenidoOriginal= document.body.innerHTML;
-
-    document.body.innerHTML = contenido;
-
-    window.print();
-
-    document.body.innerHTML = contenidoOriginal;
-    
-    var codigoPostulante = $("#codigoPostulante").val();
-    var dni = $("#nroDocumentoPaciente").val();
-	if (codigoPostulante.length > 0) {
-		
-	}
-    
-}
+ 
 
 	Number.prototype.zeroPadding = function() {
 		var ret = "" + this.valueOf();
@@ -824,9 +775,9 @@ function printDiv(nombreDiv) {
 	$(document).ready(function() {
 		$("#nroDocumentoPaciente").focus();
 
-		var codigoPostulante = $("#codigoPostulante").val();
+		var codigoPostulante = $("#personaCodigo").val();
 		if (codigoPostulante.length > 0) {
-			document.getElementById('btnImprimirTicket').disabled = false;
+			document.getElementById('idBtnCargarPaciente').disabled = true;
 			
 			JsBarcode("#barcode1", codigoPostulante);
 			var dni = $("#nroDocumentoPaciente").val();

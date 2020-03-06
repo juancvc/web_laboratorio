@@ -74,32 +74,42 @@ import java.sql.Timestamp;
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class),
 			}),
 		
-		@NamedStoredProcedureQuery(name = "persona.actualizarPersonaBanco", procedureName = "SIGEHOV2GENE.[GENE].[USP_PERSONA_UPDATE_BANCO_WEB]", resultClasses = Persona.class, parameters = {
+		@NamedStoredProcedureQuery(name = "persona.actualizarPersonaBanco", procedureName = "[GENE].[USP_PERSONA_UPDATE_DATOS_LABORATORIO]", resultClasses = Persona.class, parameters = {
 				
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODORGAN", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODINSTI", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODSEDEI", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODPERSO", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.OUT, name = "NROVERSI", type = String.class), 
+				 
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "APEPATER", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "APEMATER", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "PRINOMBR", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "SEGNOMBR", type = String.class),
+
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1SEXOP", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "FECHANAC", type = String.class),
 				
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "LUGANACI", type = String.class), 
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODTIPOD", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "NRODOCUM", type = String.class), 
+
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1NACIO", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1ESCIV", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "LUGANACI", type = String.class),
 				
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1OCUPA", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1NIINS", type = String.class),
-				
-				@StoredProcedureParameter(mode = ParameterMode.INOUT, name = "CODCORXP", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TG1OCUPA", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "FOTO", 	  type = byte[].class),
+				 
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CORREODE", type = String.class),
 				
-				@StoredProcedureParameter(mode = ParameterMode.INOUT, name = "CODDIXPE", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODDIXPE", type = String.class),
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "DIRECCIO", type = String.class), 
 				@StoredProcedureParameter(mode = ParameterMode.IN, name = "CODRGUBI", type = String.class),
-				
-				@StoredProcedureParameter(mode = ParameterMode.INOUT, name = "CODTEXPE", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TELFNUMR", type = String.class),
 				 
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "TELFNUMR", type = String.class),
 				
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSCR", type = String.class),
-				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPCR", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "VARENIEC", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "ORIGREGI", type = String.class),
+				 
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = String.class),
+				@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = String.class),
 			}),		
 		
 		
@@ -300,7 +310,7 @@ public class Persona implements Serializable {
 	@Column(name="DIRECCIO")
 	private String direccion;
 	
-	
+	private String edadPers;
 //	@Column(name = "FOTODETA")
 	private byte[] fotoDeta;
 	 
@@ -324,9 +334,19 @@ public class Persona implements Serializable {
 	private String NOMBSITU;
 	private String NOMUSUAR;
 	private String SFECHREG;
+	private String STRFECHANAC;
+	
+	
 	public Persona() {
 	}
 
+	public void setSTRFECHANAC(String sTRFECHANAC) {
+		STRFECHANAC = sTRFECHANAC;
+	}
+
+	public String getSTRFECHANAC() {
+		return STRFECHANAC;
+	}
 	
 	public String getNOMBTPNA() {
 		return NOMBTPNA;
@@ -894,6 +914,14 @@ public class Persona implements Serializable {
 
 	public void setSFECHREG(String sFECHREG) {
 		SFECHREG = sFECHREG;
+	}
+
+	public String getEdadPers() {
+		return edadPers;
+	}
+
+	public void setEdadPers(String edadPers) {
+		this.edadPers = edadPers;
 	}
 
 	

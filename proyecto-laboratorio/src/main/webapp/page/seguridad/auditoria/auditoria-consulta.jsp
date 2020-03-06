@@ -65,7 +65,7 @@
 
     <div data-scroll-to-active="true" class="main-menu menu-fixed menu-dark menu-accordion menu-shadow">
       <div class="main-menu-content">
-          <jsp:include page="${pageContext.request.contextPath}/../layout/menu-view.jsp" />
+          <jsp:include page="/../layout/menu-view.jsp" />
       </div>
     </div>
 
@@ -409,7 +409,7 @@
     <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
-    <jsp:include page="${pageContext.request.contextPath}/../layout/footer-view.jsp" />
+    <jsp:include page="/../layout/footer-view.jsp" />
 
     <!-- BEGIN VENDOR JS-->
     <script src="${pageContext.request.contextPath}/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>

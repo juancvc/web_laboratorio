@@ -161,7 +161,7 @@ font-family: Cambria;
 
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<jsp:include
-					page="${pageContext.request.contextPath}/../layout/menu-view.jsp" />
+					page="../layout/menu-view.jsp" />
 			</div>
 		</nav>
 		<div class="content-wrapper">

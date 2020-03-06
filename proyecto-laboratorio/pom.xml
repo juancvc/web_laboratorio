@@ -132,7 +132,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		    <version>2.5.0</version>
 		</dependency>
 		
-		
+		<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence -->
+<!--<dependency>
+    <groupId>org.eclipse.persistence</groupId>
+    <artifactId>javax.persistence</artifactId>
+    <version>2.1.0</version>
+</dependency>-->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
@@ -308,7 +313,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   <artifactId>webcam-capture</artifactId>
   <version>0.3.10</version>
 </dependency>
-		
+	
+	<dependency>
+   <groupId>javax.persistence</groupId>
+   <artifactId>persistence-api</artifactId>
+   <version>1.0.2</version>
+   <scope>provided</scope>
+</dependency>
+	
 	</dependencies>  
 
   	<build>
