@@ -662,7 +662,6 @@ function grabarPersona(){
 	var nroDocumentoPersona = $('#nroDocumentoPersona').val();
 	// console.log("fechaIni " + fechaIni);
 	 console.log("nroDocumentoPersona " + nroDocumentoPersona);
-
 	if (!myFormulario[0].checkValidity()) {
 		msg_advertencia("Debe completar los campos requeridos(*) correctamente");
 	

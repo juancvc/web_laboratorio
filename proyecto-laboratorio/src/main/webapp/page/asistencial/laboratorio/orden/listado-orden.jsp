@@ -208,7 +208,7 @@
 										</thead>
 										<tbody id="idBodyListaPostulante">
 											<c:forEach var="orden" items="${lstOrdenBean}"
-												varStatus="loop">
+												varStatus="loop"> 
 												<tr>
 													<td>${loop.count}</td>
 													<td>${orden.nroOrden}</td>
