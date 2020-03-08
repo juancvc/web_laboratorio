@@ -78,7 +78,7 @@
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
 		id="mainNav">
-		<a class="navbar-brand label_control_hade" href="#"> HCH WEB </a>
+		<a class="navbar-brand label_control_hade" href="#"> MEDIC LAB </a>
 		<button class="navbar-toggler navbar-toggler-right" type="button"
 			data-toggle="collapse" data-target="#navbarResponsive"
 			aria-controls="navbarResponsive" aria-expanded="false"
@@ -89,7 +89,7 @@
 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<jsp:include
-				page="/../layout/menu-view.jsp" />
+				page="/layout/menu-view.jsp" />
 		</div>
 	</nav>
 
@@ -153,6 +153,7 @@
 										id="personaUsuarioNombreCompleto"
 										path="persona.nombreCompleto" disabled="true" />
 								</div>
+									<!--
 									<div class="col-md-2">
 									<label for="exampleInputName" class="label_control">SEDE
 										<span class="required">*</span>
@@ -167,6 +168,22 @@
 										</f:select>
 									</div>
 								</div>
+									-->
+								<div class="col-md-2">
+									<label for="exampleInputName" class="label_control">PERFIL
+										<span class="required">*</span>
+									</label>
+									<div class="controls">
+										<f:select id="comboPerfil" path="perfil.codigo"
+											required="required" class="form-control">
+											<f:option value="" label="Seleccionar" selected="true"
+												disabled="disabled" />
+											<f:options items="${lstPerfiles}" itemValue="codigo"
+												itemLabel="nombrePerfil" />
+										</f:select>
+									</div>
+								</div>
+									
 							</div>
 						</div>
 						<div class="form-body">
@@ -182,20 +199,7 @@
 									<f:input type="hidden" path="passwordUsuario"
 										id="idpasswordUsuario" val="" />
 								</div>
-								<div class="col-md-2">
-									<label for="exampleInputName" class="label_control">PERFIL
-										<span class="required">*</span>
-									</label>
-									<div class="controls">
-										<f:select id="comboPerfil" path="perfil.codigo"
-											required="required" class="form-control">
-											<f:option value="" label="Seleccionar" selected="true"
-												disabled="disabled" />
-											<f:options items="${tipoPerfil}" itemValue="codReg"
-												itemLabel="nombreCorto" />
-										</f:select>
-									</div>
-								</div>
+								
 							</div>
 						</div>
 						<div class="form-body">
@@ -203,22 +207,14 @@
 								<div class="col-md-4">
 									<label for="exampleInputName" class="label_control">CORREO <span class="required">*</span>
 									</label>
-									<f:input type="text" required="required" class="form-control"
-										id="correoUsuario" path="persona.correo" disabled="true" />
-									<f:input type="hidden" path="persona.correo"
-										id="correoUsuario" val="" />
-									<f:input type="hidden" path="persona.correo" id="correoUsuario" val="" />
-									<f:input type="hidden" path="persona.correo"
-										id="correoUsuario"  disabled="true"  />
+									<f:input type="email" required="required" class="form-control"  maxlength="120"
+										id="correoUsuario" path="correo"/> 
 								</div>
 								<div class="col-md-4">
 									<label for="exampleInputName2" class="label_control"> CELULAR <span class="required">*</span>
 									</label>
 									<f:input type="text" required="required" class="form-control"
-										id="celularUsuario" path="persona.telfCelu" disabled="true" />
-									<f:input type="hidden" path="persona.telfCelu"
-										id="celularUsuario" val="" />
-									<f:input type="hidden" path="persona.telfCelu" id="nroCelular" val="" />
+										id="celularUsuario" path="nroCelular"  maxlength="9" />  
 								
 								</div>
 							</div>
@@ -251,7 +247,7 @@
 				</f:form>
 				<f:form id="frmRegistro" class="form-horizontal" role="form"
 					method="POST"
-					action="${pageContext.request.contextPath}/perfilController/lista">
+					action="${pageContext.request.contextPath}/usuarioController/listado">
 					<button type="submit" style="display: none" id="btnListado">Click
 						me</button>
 				</f:form>
@@ -299,7 +295,7 @@
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
 		<jsp:include
-			page="/../layout/footer-view.jsp" />
+			page="/layout/footer-view.jsp" />
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"> <i
 			class="fa fa-angle-up"></i>

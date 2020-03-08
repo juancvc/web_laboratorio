@@ -102,29 +102,32 @@ public class UsuarioController extends BaseController{
 		return this.getLista(bean,request);
 	}
 	
+	@RequestMapping(value = "/listado", method = RequestMethod.POST)
+	public ModelAndView doListadoPost(@ModelAttribute("usuarioBean") UsuarioBean bean, HttpServletRequest request)throws Exception {
+		
+		return this.getLista(bean,request);
+	}
+	
 	@RequestMapping(value = "/nuevo", method = RequestMethod.GET)
 	public ModelAndView doNuevo() { 
 		ModelAndView mav = new ModelAndView("seguridad/usuario/registro-usuario", "command",new UsuarioBean());
 		mav.addObject("usuarioBean", new UsuarioBean());
 		try {
 			lstDocumento = maestraAsis01Service.listarPorCodigoTabla("000003", 1);
-			tipoPerfil = maestraGene01Services.listarPorCodigoTabla("000064", 1);
-			sedes = maestraGene01Services.listarPorCodigoTabla("000065", 1);
 		} catch (ServiceException e) {
 			System.out.println("printStackTrace");
 			e.printStackTrace();
 		}
 		setPersonaBean(new PersonaBean());
-		mav.addObject("lstDocumento", lstDocumento); 
-		mav.addObject("tipoPerfil", tipoPerfil); 
-		mav.addObject("sedes", sedes); 
-	//	this.cargarComboPerfiles(mav);
-	//	this.cargarCombos(mav);
+		mav.addObject("lstDocumento", lstDocumento);  
+		//mav.addObject("sedes", sedes); 
+		this.cargarComboPerfiles(mav); 
 		return mav;
 	}
 	
 	@RequestMapping(value = "/consultarPorDocumentoPersona", method = RequestMethod.GET)
-	public @ResponseBody PersonaBean consultarPorNroDocumento(@RequestParam("tipoDocumento") String tipoDocumento,@RequestParam("numero") String numero)throws Exception {
+	public @ResponseBody PersonaBean consultarPorNroDocumento(@RequestParam("tipoDocumento") String tipoDocumento,
+			@RequestParam("numero") String numero)throws Exception {
 		  
 		personaBean = new PersonaBean();
 		PersonaBean prmPersona = new PersonaBean();
@@ -133,7 +136,7 @@ public class UsuarioController extends BaseController{
 		
 		try {
 			personaBean = this.getPersonaService().buscarxTipoDocumentoNumeroDocumento(prmPersona); 
-			if(personaBean!=null){
+		/**	if(personaBean!=null){
 				System.out.println("persona existe en reco.persona");
 				System.out.println("persona"+personaBean.getNombreCompleto());
 				System.out.println("persona"+personaBean.getTelfCelu());
@@ -189,10 +192,10 @@ public class UsuarioController extends BaseController{
 						this.setPersonaBean(personaBean);
 					}*/
 					
-				} 
-			}
+			//	} 
+			//}
 		} catch (Exception e) { 
-			
+			personaBean = null;
 		} 
 	
 		return personaBean;
@@ -701,12 +704,7 @@ public static String stripAccents(String str) {
 					System.out.println(" usuarioBean codigoUser::: "  + usuarioBean.getCodigoUsuario());
 					System.out.println(" usuarioBean obj::: "  + usuarioBean);
 					this.setPersonaBean(usuarioBean.getPersona());					
-					try {
-						lstUsuarioRenaesBean = usuarioRenaesService.buscarxcodigousua(ousuarioBean); 
-						 
-					} catch (Exception e) { 
-						
-					}
+					 
 				}else{
 					System.out.println("usuario es null");
 					usuarioBean = new UsuarioBean();
@@ -721,7 +719,7 @@ public static String stripAccents(String str) {
 		ModelAndView mav = new ModelAndView("seguridad/usuario/registro-usuario", "command",usuarioBean);
 		mav.addObject("usuarioBean", usuarioBean);
 		mav.addObject("swActivo", "1");
-		mav.addObject("lstUsuarioRenaes", lstUsuarioRenaesBean);
+		//mav.addObject("lstUsuarioRenaes", lstUsuarioRenaesBean);
 		this.cargarCombos(mav);
 		this.cargarComboPerfiles(mav);
 		return mav;
@@ -744,13 +742,7 @@ public static String stripAccents(String str) {
 					System.out.println(" usuarioBean codigo::: "  + usuarioBean.getCodigo());
 					System.out.println(" usuarioBean codigoUser::: "  + usuarioBean.getCodigoUsuario());
 					System.out.println(" usuarioBean obj::: "  + usuarioBean);
-					this.setPersonaBean(usuarioBean.getPersona());					
-					try {
-						lstUsuarioRenaesBean = usuarioRenaesService.buscarxcodigousua(ousuarioBean); 
-						 
-					} catch (Exception e) { 
-						
-					}
+					this.setPersonaBean(usuarioBean.getPersona());	 
 				}else{
 					System.out.println("usuario es null");
 					usuarioBean = new UsuarioBean();
@@ -764,8 +756,7 @@ public static String stripAccents(String str) {
 	 
 		ModelAndView mav = new ModelAndView("seguridad/usuario/registro-usuario", "command",usuarioBean);
 		mav.addObject("usuarioBean", usuarioBean);
-		mav.addObject("swActivo", "1");
-		mav.addObject("lstUsuarioRenaes", lstUsuarioRenaesBean);
+		mav.addObject("swActivo", "1"); 
 		this.cargarCombos(mav);
 		this.cargarComboPerfiles(mav);
 		return mav;
@@ -941,15 +932,6 @@ public static String stripAccents(String str) {
 		
 		List<UsuarioBean> lstUsuarioBean =new ArrayList<UsuarioBean>(); 
 		try {
-		/**	
-			UsuarioBean userActual = this.getUsuarioSesion(request);
-			
-			if(	!VO.isNull(userActual) 
-				&& !VO.isNull(userActual.getCodPerfilUsuSelec())){ 
-				
-			}*/
-		//	usuarioBean.setAudCodigoUsuario(userActual.getCodigoUsuario());
-		//	usuarioBean.setCodPerfilUsuSelec(userActual.getCodPerfilUsuSelec());
 			lstUsuarioBean =  usuarioService.getBuscarPorFiltros(usuarioBean);
 			System.out.println("getLista size " + lstUsuarioBean.size());
 		} catch (Exception e) {
@@ -974,30 +956,27 @@ public static String stripAccents(String str) {
 	private void cargarCombos(ModelAndView mav){ 
  
 			try {
-			//	lstDocumento = maestraAsis14Service.listarPorCodigoTabla("000003", 1);  
+				lstDocumento = maestraAsis01Service.listarPorCodigoTabla("000003", 1);  
 				
-				 tipoPerfil = maestraAsis01Service.listarPorCodigoTabla("000064", 1);
-				 
-				 sedes  = maestraAsis01Service.listarPorCodigoTabla("000065", 1);
+				// tipoPerfil = maestraAsis01Service.listarPorCodigoTabla("000003", 1);
+				  
 				
 				
 			} catch (ServiceException e) {
 				e.printStackTrace();
 			}	 
 	
-		mav.addObject("tipoPerfil",tipoPerfil);
-		mav.addObject("sedes",sedes);
+	//	mav.addObject("tipoPerfil",tipoPerfil);
+		mav.addObject("lstDocumento",lstDocumento);
 	}  
 	
 	private void cargarComboPerfiles(ModelAndView mav){
 		perfilBean = new PerfilBean();
-		if (lstPerfiles==null) {
 			try {
 				lstPerfiles = perfilService.getBuscarPorFiltros(perfilBean);
 			} catch (ServiceException e) {
 				e.printStackTrace();
-			}		
-		}
+			} 
   
 		mav.addObject("lstPerfiles",lstPerfiles); 
 	}  

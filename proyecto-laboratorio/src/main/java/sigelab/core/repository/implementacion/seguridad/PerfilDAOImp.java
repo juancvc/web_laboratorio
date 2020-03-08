@@ -159,10 +159,7 @@ public class PerfilDAOImp implements PerfilDAO {
 			lstPerfil = spq.getResultList();
 		}
 
-		if (lstPerfil != null && lstPerfil.size() > 0) {
-			for ( Perfil p : lstPerfil ) {
-				System.out.println("perfil.getNombPerf :: " + p.getNombPerf());
-			}
+		if (lstPerfil != null && lstPerfil.size() > 0) { 
 			lstPerfilBean = deListaPerfilAListaPerfilBean(lstPerfil);
 		}
 		getEntityManager().close();
@@ -200,7 +197,6 @@ public class PerfilDAOImp implements PerfilDAO {
 		if (entity != null) {
 			bean.setCodigo(entity.getCodiPerf());
 			bean.setNombrePerfil(entity.getNombPerf());
-
 		}
 		return bean;
 	}

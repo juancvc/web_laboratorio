@@ -75,7 +75,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	@Override
 	public boolean actualizar(UsuarioBean t) throws DAOException {
 		boolean sw=false;
-		
+		System.out.println("actualizar usuario");
 		try {
 			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("usuario.actualizar");
 			    spq.setParameter("CODUSUAR", t.getCodigo());
@@ -86,7 +86,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	            spq.setParameter("NOMUSUAR", t.getNombreUsuario());
 	            spq.setParameter("PSWUSUAR", t.getPasswordUsuario());
 	            
-	            spq.setParameter("CODPERSO", t.getPersona()!=null? t.getPersona().getCodigo():null);
+	            spq.setParameter("CODPERSO", t.getPersona().getCodigo());
 	            
 	            spq.setParameter("CODIPERF", t.getPerfil().getCodigo()); 
 	            spq.setParameter("EMAIL", 	 t.getCorreo());   
@@ -234,6 +234,8 @@ public class UsuarioDAOImp implements UsuarioDAO {
 			bean.getPersona().setTipoDocumento(new TablaBean());
 			bean.getPersona().getTipoDocumento().setCodReg(entity.getTg1TpDoc());
 			bean.getPersona().setNroDocumento(entity.getNroDocum()); 
+			bean.getPersona().setCorreo(entity.getCorreo()); 
+			bean.getPersona().setTelfCelu(entity.getNroCelular()); 
 			bean.setCorreo(entity.getCorreo());
 			bean.setNroCelular(entity.getNroCelular());
 			bean.setPerfil(new PerfilBean());

@@ -172,10 +172,11 @@ function buscarPersona() {
 							$('#idpasswordUsuario').val("");
 							$('#personaUsuarioNombreCompleto').val(""); 
 							$('#celularUsuario').val(""); 
-							$('#correoUsuario').val(""); 
-							$('#idTablaUsuarioRenaes').empty(); 
-							if (persona != null) {
-								// debugger;
+							$('#correoUsuario').val("");  
+							
+							 console.log("persona " + persona.length);
+							if (persona.length != 0) {
+
 								$('#personaUsuarioNombreCompleto').val(
 										persona.nombreCompleto);
 								$('#celularUsuario').val(
@@ -382,6 +383,7 @@ function grabarUsuario(contextController, idForm){
 	 
 		var contextPath = $('#contextPath').val(); 
 		var actionForm = $('#frmRegistroUsuario').attr("action");
+		var personaUsuarioNombreCompleto = $('#personaUsuarioNombreCompleto').val();
 		//var url  = contextPath+"/usuarioController/grabar" ;
 		
 	//var url = contextController + actionForm;
@@ -394,6 +396,9 @@ function grabarUsuario(contextController, idForm){
 		if(!myFormulario[0].checkValidity()) {
 			 msg_advertencia("Debe completar los campos requeridos(*) correctamente");
 
+		}else if(personaUsuarioNombreCompleto == "") {
+			 msg_advertencia("No existe persona registrado con ése número de documento");
+
 		}else{
 			 
 				iniciarBloqueo();
@@ -402,10 +407,11 @@ function grabarUsuario(contextController, idForm){
 				url : url,
 				data: $(idForm).serialize(),
 				success : function(usuario) {
-					 if (usuario != null && usuario.codigo > 0 ) {
+					// if (usuario != null) {
 							// debugger;
 						 	msg_exito("Éxito al realizar proceso");  
-							$('#nombreUsuario').val(usuario.nombreUsuario);
+						 	 $("#btnListado").trigger("click");
+							/**$('#nombreUsuario').val(usuario.nombreUsuario);
 							$('#comboPerfil').val(usuario.perfil.codigo);
 							$('#codigoUsuario').val(usuario.codigo);
 							$('#idpasswordUsuario').val(usuario.passwordUsuario);
@@ -414,11 +420,11 @@ function grabarUsuario(contextController, idForm){
 							document.getElementById("btnAgregarEstabUser").disabled = false;
 							document.getElementById("btnRestablecerClaveUser").disabled = false;
 					//		listUsuarioRenaesBean(usuario.codigo);
-						}else{
+					/*	}else{
 							console.log("error al grabar ");
 							msg_error("Error al realizar proceso");  
 						} 
-						
+						*/
 				},
 				
 				error : function(xhr, status, er) { 

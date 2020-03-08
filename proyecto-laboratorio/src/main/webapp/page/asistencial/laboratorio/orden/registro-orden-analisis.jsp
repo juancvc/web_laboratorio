@@ -307,7 +307,7 @@
 															
 															<td>
 																	<button type='button'
-																			class='btn btn-outline-danger btn-sm'
+																			class='btn btn-outline-success btn-sm'
 																			data-toggle='tooltip' data-placement='top'
 																			title='Agregar Resultado'
 																			onclick='cargarResultadoAnalisisModal(${loop.index})'

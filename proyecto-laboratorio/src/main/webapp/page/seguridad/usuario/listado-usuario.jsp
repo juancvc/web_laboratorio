@@ -78,7 +78,7 @@
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
 		id="mainNav">
-		<a class="navbar-brand label_control_hade" href="#"> HCH WEB </a>
+		<a class="navbar-brand label_control_hade" href="#"> MEDIC LAB </a>
 		<button class="navbar-toggler navbar-toggler-right" type="button"
 			data-toggle="collapse" data-target="#navbarResponsive"
 			aria-controls="navbarResponsive" aria-expanded="false"
@@ -89,7 +89,7 @@
 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<jsp:include
-				page="/../layout/menu-view.jsp" />
+				page="/layout/menu-view.jsp" />
 		</div>
 	</nav>
 
@@ -182,21 +182,29 @@
 													<td>${usuario.nombreUsuario}</td>
 													<td>${usuario.perfil.nombrePerfil}</td>
 
-													<td><a title="Modificar" data-placement="top"
+													<td><c:choose>
+									<c:when test="${usuario.codigo=='000001'}"> 
+									</c:when>
+									<c:otherwise>
+									<a title="Modificar" data-placement="top"
 														data-toggle="tooltip"
 														class="btn btn-outline-success btn-sm"
 														onclick="javascript:modificarElementoGenerico('/usuarioController/modificar','${usuario.codigo}')"
 														href="#"><i class="icon-pencil"></i></a> <!--   <a title="Eliminar" data-placement="top" data-toggle="tooltip"
                                                          class="btn btn-outline-danger btn-sm" href="eliminar?codigo=${lenguaBean.codigo}"><i class="icon-trash"></i></a> -->
-
-														<button type="button"
+								
+									<button type="button"
 															class="btn btn-outline-danger btn-sm eliminarPerfil"
 															data-toggle="tooltip" data-placement="top" title=""
 															onclick="confirmar_accion('${usuario.codigo}')"
 															data-original-title="Eliminar"
 															id="eliminarPerfil${usuario.codigo}">
 															<i class="icon-trash"></i>
-														</button></td>
+														</button>
+									</c:otherwise>
+								</c:choose>
+								
+														</td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -240,7 +248,7 @@
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
 		<jsp:include
-			page="/../layout/footer-view.jsp" />
+			page="/layout/footer-view.jsp" />
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"> <i
 			class="fa fa-angle-up"></i>
