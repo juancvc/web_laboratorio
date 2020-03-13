@@ -997,7 +997,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
 
-                        return new PasswordAuthentication("informatica.hch.2018@gmail.com", "Hnch2012");//email e senha usuário 
+                        return new PasswordAuthentication("teamsoftti@gmail.com", "villonate410");//email e senha usuário 
                     }
                 });
 
@@ -1012,7 +1012,7 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
         	
         	
         	MimeMessage message = new MimeMessage(s);
-        	message.setFrom(new InternetAddress("informatica.hch.2018@gmail.com"));
+        	message.setFrom(new InternetAddress("teamsoftti@gmail.com"));
         	message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
         	message.setSubject("MEDIC LAB-Resultados analisis de laboratorio del paciente "+getOrdenBean().getPacienteBean().getPersona().getNombreCompleto());
       

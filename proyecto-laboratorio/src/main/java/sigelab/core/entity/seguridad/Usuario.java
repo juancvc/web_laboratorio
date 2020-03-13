@@ -162,10 +162,56 @@ public class Usuario implements Serializable {
 	
 	@Column(name = "TG1TPDOC")
 	private String tg1TpDoc;
-
+	
+	private String NOMBEMPR;
+	private String NRORUC;
+	private byte[] LOGO;
+	private String CODEMPRE;
+	
 	public Usuario() {
 		return;
 	}
+
+	
+	public String getNOMBEMPR() {
+		return NOMBEMPR;
+	}
+
+
+	public void setNOMBEMPR(String nOMBEMPR) {
+		NOMBEMPR = nOMBEMPR;
+	}
+
+
+	public String getNRORUC() {
+		return NRORUC;
+	}
+
+
+	public void setNRORUC(String nRORUC) {
+		NRORUC = nRORUC;
+	}
+
+
+	public byte[] getLOGO() {
+		return LOGO;
+	}
+
+
+	public void setLOGO(byte[] lOGO) {
+		LOGO = lOGO;
+	}
+
+
+	public String getCODEMPRE() {
+		return CODEMPRE;
+	}
+
+
+	public void setCODEMPRE(String cODEMPRE) {
+		CODEMPRE = cODEMPRE;
+	}
+
 
 	public String getnCodusuari() {
 		return nCodusuari;

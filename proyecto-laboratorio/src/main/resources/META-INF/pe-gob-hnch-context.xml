@@ -76,8 +76,11 @@
 	<mvc:resources mapping="/assets/**" location="/assets/" />
 
 	<mvc:resources mapping="/resultados/**"
-		location="file:///c:/webhnch/archivos/resultados/" />
-
+		location="file:///c:/teamsoftti/archivos/resultados/" />
+		
+	<mvc:resources mapping="/empresaLogo/**"
+		location="file:///c:/teamsoftti/archivos/empresaLogo/" />
+		 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 

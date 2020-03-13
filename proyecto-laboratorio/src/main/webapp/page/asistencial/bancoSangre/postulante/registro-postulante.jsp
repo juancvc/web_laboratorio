@@ -613,7 +613,7 @@ td.cantidad, th.cantidad {
 							</div>
 							<div class="row">
 								<div class="col-md-2">
-									<f:input type="hidden" id="foto" path="persona.foto" />
+									<f:input type="text" id="foto" path="persona.foto" />
 									<!-- <img id="imgFotoPostulante"  src="data:image/jpg;base64,${postulanteBean.persona.foto}" height="75%" width="55%" alt="Image"/> -->
 
 									<img id="imgFotoPaciente"

@@ -142,7 +142,7 @@ public class InicioController extends BaseController{
 			if (oUsuario != null) {
 				System.out.println("NombreUsuario "+oUsuario.getNombreUsuario());
 				System.out.println("NombreUsuario persona "+oUsuario.getPersona().getNombreCompleto());
-				System.out.println("Codigo "+oUsuario.getCodigo()); 
+				System.out.println("Codigo "+oUsuario.getEmpresaBean().getNombreEmpresa()); 
 					if (!oUsuario.getEstado().trim().equals("1")) {//Activo
 						
 						
@@ -221,7 +221,7 @@ public class InicioController extends BaseController{
 			if (oUsuario != null) {
 				System.out.println("NombreUsuario "+oUsuario.getNombreUsuario());
 				System.out.println("NombreUsuario persona "+oUsuario.getPersona().getNombreCompleto());
-				System.out.println("Codigo "+oUsuario.getCodigo()); 
+				System.out.println("Codigo "+oUsuario.getEmpresaBean().getNombreEmpresa()); 
 					if (!oUsuario.getEstado().trim().equals("1")) {//Activo
 						
 						

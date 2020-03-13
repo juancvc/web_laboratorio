@@ -159,9 +159,6 @@
 					class="nav-link-collapse collapsed" data-toggle="collapse">Usuario</a>
 					<ul class="sidenav-third-level collapse" id="collapseUsuer">
 						<li>
-						
-      				  
-     
 						<a
 							href="${pageContext.request.contextPath}/usuarioController/nuevo">Registro</a>
 						</li>
@@ -194,7 +191,8 @@
 			<ul class="sidenav-second-level collapse" id="collapseMulti">
 				<li><a href="#">Indicadores</a></li>
 				<li><a href="#">Productividad</a></li>
-				<li><a href="#">Campañas</a></li>
+				<!-- 
+					<li><a href="#">Campañas</a></li>
 				<li><a class="nav-link-collapse collapsed"
 					data-toggle="collapse" href="#collapseMulti2">Third Level</a>
 					<ul class="sidenav-third-level collapse" id="collapseMulti2">
@@ -202,6 +200,18 @@
 						<li><a href="#">Third Level Item</a></li>
 						<li><a href="#">Third Level Item</a></li>
 					</ul></li>
+				 -->
+			
+			</ul></li>
+	</c:if>
+	<c:if test="${accesoMenu.menu_Estadisticos}">
+		<li  class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels"><a
+			class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
+			href="#collapseConfi" data-parent="#exampleAccordion"> <i
+				class="fa fa-fw fa-wrench"></i> <span class="nav-link-text label_control_barra"> Configuración</span>
+		</a>
+			<ul class="sidenav-second-level collapse" id="collapseConfi">
+				<li><a href="${pageContext.request.contextPath}/empresaController/select">Empresa</a></li> 
 			</ul></li>
 	</c:if>
 </ul>
@@ -210,9 +220,15 @@
 		id="sidenavToggler"> <i class="fa fa-fw fa-angle-left"></i>
 	</a></li>
 </ul>
+	<div> 
+	<span style="color:white;">${usuarioSesion.empresaBean.nombreEmpresa}</span>
+</div>
 <ul class="navbar-nav ml-auto">
+
 	<li class="nav-item dropdown"><a href="#" data-toggle="dropdown"
 		class="dropdown-toggle nav-link dropdown-user-link"> <!--  <span class="avatar avatar-online"><img src="../app-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span> -->
+		
+			
 			<span class="user-name">${usuarioSesion.persona.nombreCompleto}</span>
 	</a>
 		<div class="dropdown-menu dropdown-menu-right">

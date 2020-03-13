@@ -60,8 +60,7 @@ input[type=text] {
 </style>
 
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/assets/css/datepicker.css">
-<link rel="stylesheet" href="form.css">
+	href="${pageContext.request.contextPath}/assets/css/datepicker.css"> 
 <div class="modal-dialog modal-lg" role="document">
 	<div class="modal-content">
 		<div class="modal-header">

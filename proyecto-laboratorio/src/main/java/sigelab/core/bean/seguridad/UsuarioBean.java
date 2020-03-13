@@ -2,6 +2,7 @@ package sigelab.core.bean.seguridad;
 
 import sigelab.base.bean.BaseBean;
 import sigelab.core.bean.general.TablaBean;
+import sigelab.core.bean.general.EmpresaBean;
 import sigelab.core.bean.general.PersonaBean;
 
 import java.util.List;
@@ -46,8 +47,21 @@ public class UsuarioBean extends BaseBean {
 	
 	private String nroCelular;
 	
+	private EmpresaBean empresaBean;
+	
 	public UsuarioBean() {
 		super();
+	}
+
+	public EmpresaBean getEmpresaBean() {
+		if (empresaBean == null) {
+			empresaBean = new EmpresaBean();
+		}
+		return empresaBean;
+	}
+
+	public void setEmpresaBean(EmpresaBean empresaBean) {
+		this.empresaBean = empresaBean;
 	}
 
 	public String getCodigoUsuario() {
