@@ -21,8 +21,8 @@
 			value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
 		<property name="url"
 			value="jdbc:sqlserver://localhost:1433;databaseName=BDLaboratorio" />
-		<property name="username" value="sa" />
-		<property name="password" value="123456" />
+		<property name="username" value="teamsoft" />
+		<property name="password" value="t3@mSoft1" />
 	</bean>
 
 	<bean id="transactionManager"

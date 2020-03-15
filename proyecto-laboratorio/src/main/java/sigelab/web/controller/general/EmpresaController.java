@@ -5,13 +5,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,15 +30,19 @@ import sigelab.core.bean.seguridad.UsuarioRenaesBean;
 import sigelab.core.service.exception.ServiceException;
 import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis14Service;
 import sigelab.core.service.interfaces.general.EmpresaService;
-import sigelab.web.controller.base.BaseController; 
+import sigelab.web.controller.base.BaseController;
+import sigelab.web.utilitarios.ResourceUtil; 
 
 @Controller
+@Scope(value = "session")
 @RequestMapping(value = "empresaController")
 public class EmpresaController extends BaseController{
 	
 	List<EmpresaBean> lstTablas = new ArrayList<EmpresaBean>();
-	
-	
+	final java.util.Random rand = new java.util.Random();
+	final Set<String> identifiers = new HashSet<String>();
+	final String lexicon = "ABCDEFGHIJKLMNOPQRSTUVWXYZ12345674890";
+	private String				tmpUrlImagen;
 	@Autowired
 	private EmpresaService empresaService;
 	
@@ -67,9 +74,8 @@ public class EmpresaController extends BaseController{
 				empresaBean = empresaService.getBuscarPorObjecto(oEmpresaBean);   
 				if (empresaBean.getLogo()!= null ) {
 					String bphoto = Base64.encodeBase64String(empresaBean.getLogo());  
-					empresaBean.setLogoCadena(bphoto); 
-					System.out.println("logo: "+ empresaBean.getLogo());
-					System.out.println("logoCadena: "+ empresaBean.getLogoCadena());
+					empresaBean.setLogoCadena(bphoto);  
+					tmpUrlImagen = empresaBean.getNombreLogo();
 				}
 				
 			} catch (ServiceException e) {
@@ -113,7 +119,7 @@ public class EmpresaController extends BaseController{
 			 					   @RequestParam("telefono") String telefono,
 			 					   @RequestParam("direccion") String direccion,
 			 					   @RequestParam("correo") String correo, 
-			 					   MultipartFile[] imgLogo, HttpServletRequest request ){
+			 					  @RequestParam("imgLogo") MultipartFile[] imgLogo, HttpServletRequest request ){
 		System.out.println("-----Ingreso a grabarTextoTexto ----");
  
 	EmpresaBean empresaBean = new EmpresaBean();
@@ -123,46 +129,23 @@ public class EmpresaController extends BaseController{
 	empresaBean.setCorreo(correo);
 	empresaBean.setDomicilioFiscal(direccion);
 		boolean swImgMate = false;
+		boolean swNuevaUrlImagen = false; 
 		MultipartFile lfImageMa = null;
-		if (imgLogo!=null) {
-		if (imgLogo.length > 0) {
-			 swImgMate = (imgLogo[0] != null) && (imgLogo[0].getOriginalFilename() != null) && (imgLogo[0].getOriginalFilename().trim().length() > 0);
-			 System.out.println(swImgMate);
-			 System.out.println(imgLogo[0].getOriginalFilename());
-		}
-	}
-		if (imgLogo!=null) {
-		if(imgLogo[0].getOriginalFilename().contains("img--Vacio---")){
-			 swImgMate = false;
-			 System.out.println("imgLogo[0].getOriginalFilename().split(\"---\")[1] " +
-					 imgLogo[0].getOriginalFilename().split("---")[1]);
-			// relacionBean.setImagen(imgLogo[0].getOriginalFilename().split("---")[1]);
-			 
-			 try {
-				System.out.println("imgLogo[0] " + imgLogo[0].getBytes());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		}
-		if (swImgMate) {
-			lfImageMa = imgLogo[0] ;
-			if (imgLogo[0].getOriginalFilename() != null) { 
-			}
-			
-		//	File dir = new File(this.getRootPath() + File.separator + relacionBean.getImagen());                
-	    /*    if (dir.exists()){
-	            //dir.mkdirs();
-	        	System.out.println("img"+ dir.getName());
-	        	String fileNameWithOutExt = FilenameUtils.removeExtension(relacionBean.getImagen());
-	        	String fileNameExt = FilenameUtils.getExtension(relacionBean.getImagen());
-	        	System.out.println("imgnefile" + randomIdentifier());
-	        	relacionBean.setImagen(randomIdentifier()+"."+fileNameExt);
-	        }   */
-//			super.cargarArchivo(this.getRootPath(),renombrarImagen(imgLogo,relacionBean.getCodigo())/* relacionBean.getImagen()*/,lfImageMa);
+		
+		if (imgLogo.length>0) {
+			swNuevaUrlImagen = (imgLogo[0]!=null) && (imgLogo[0].getOriginalFilename()!=null ) && (imgLogo[0].getOriginalFilename().trim().length()>0 );		
 		}
 		
+		if (swNuevaUrlImagen) {
+			empresaBean.setLogoFile(imgLogo[0]);
+	    	if (imgLogo[0].getOriginalFilename()!=null) {
+	    		empresaBean.setNombreLogo(imgLogo[0].getOriginalFilename());
+	    	}	    					
+		}else {				
+			empresaBean.setNombreLogo(tmpUrlImagen);
+		} 
+		
+		 
 		 
 		boolean sw = true;
 		try {
@@ -173,12 +156,33 @@ public class EmpresaController extends BaseController{
 		}
 		String liCodRela = "1";
 	 
-
+		if (sw) {
+			if (swNuevaUrlImagen) {
+				super.cargarArchivo(this.getRootPath(), empresaBean.getNombreLogo(), empresaBean.getLogoFile());    			    	
+				tmpUrlImagen = empresaBean.getNombreLogo();
+			} 
+		}
 		return liCodRela;
 
 	}
  
+	public String getRootPath() {
+		return ResourceUtil.getKey("ruta.teamsoftti.archivos.empresaLogo");
+	}
 	
+	public String randomIdentifier() {
+	    StringBuilder builder = new StringBuilder();
+	    while(builder.toString().length() == 0) {
+	        int length = rand.nextInt(5)+5;
+	        for(int i = 0; i < length; i++) {
+	            builder.append(lexicon.charAt(rand.nextInt(lexicon.length())));
+	        }
+	        if(identifiers.contains(builder.toString())) {
+	            builder = new StringBuilder();
+	        }
+	    }
+	    return builder.toString();
+	}
 /**	@RequestMapping(value = "/refrescarLista", method = RequestMethod.GET)
 	public @ResponseBody List<EmpresaBean> refrescarLista(@RequestParam("tabla") String tabla)throws Exception { 
 		 EmpresaBean empresaBean = new EmpresaBean();

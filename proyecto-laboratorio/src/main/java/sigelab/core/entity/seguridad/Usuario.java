@@ -167,12 +167,23 @@ public class Usuario implements Serializable {
 	private String NRORUC;
 	private byte[] LOGO;
 	private String CODEMPRE;
+	private String NOMBLOGO;
 	
 	public Usuario() {
 		return;
 	}
 
 	
+	public String getNOMBLOGO() {
+		return NOMBLOGO;
+	}
+
+
+	public void setNOMBLOGO(String nOMBLOGO) {
+		NOMBLOGO = nOMBLOGO;
+	}
+
+
 	public String getNOMBEMPR() {
 		return NOMBEMPR;
 	}

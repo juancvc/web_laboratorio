@@ -13,11 +13,11 @@ import java.util.Date;
 	@NamedStoredProcedureQuery(name = "leotbcauditoriaacceso.insertar", 
 		procedureName = "segu.fun_leotbcauditacc_insertar", 
 		parameters = {
-			@StoredProcedureParameter(mode = ParameterMode.OUT, name = "p_codaudacc", type = Number.class),
+		/*	@StoredProcedureParameter(mode = ParameterMode.OUT, name = "p_codaudacc", type = Number.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN,  name = "p_tm1accion", type = Integer.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN,  name = "p_usuacc", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN,  name = "p_hostacc", type = String.class),
-			@StoredProcedureParameter(mode = ParameterMode.IN,  name = "p_tm1sistem", type = Integer.class)
+			@StoredProcedureParameter(mode = ParameterMode.IN,  name = "p_tm1sistem", type = Integer.class)*/
 		}
 	),
 	@NamedStoredProcedureQuery(name = "leotbcauditoriaacceso.listar", 

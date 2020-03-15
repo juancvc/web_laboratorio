@@ -9,6 +9,7 @@ public class EmpresaBean extends BaseBean{
 	private String  descripcion; 
 	private String	nombreEmpresa;
 	private String  nombreComercial; 
+	private String	nombreLogo;
 	private byte[]	logo;
 	private MultipartFile	logoFile;
 	private String  logoCadena; 
@@ -20,6 +21,14 @@ public class EmpresaBean extends BaseBean{
 		super();
 	}
 	
+	public String getNombreLogo() {
+		return nombreLogo;
+	}
+
+	public void setNombreLogo(String nombreLogo) {
+		this.nombreLogo = nombreLogo;
+	}
+
 	public MultipartFile getLogoFile() {
 		return logoFile;
 	}

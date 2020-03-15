@@ -95,8 +95,8 @@ public class OrdenController  extends BaseController {
 	private String msg;
 	private String archivooPDF="";
 	private String logo ="labmedChico.png";
-	private String direccionEmpresa ="Av. Honorio Delgado 225 - 2do piso - Urb. ingenieria-SMP";
-	private String telefonoEmpresa ="Telf: (01)342 8744 CEL: 987736215";
+	private String direccionEmpresa ="AV. LOS CEDROS 1548- LA MOLINA";
+	private String telefonoEmpresa ="Telf: 987458721";
 	String usuarioWindows = System.getProperty("user.name");
 
 	private String descuento = "0.00";
@@ -900,16 +900,9 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
     @RequestMapping(value = "/cambiarLogo", method = RequestMethod.GET)
 	@ResponseBody
 	public void  cambiarLogo(@RequestParam("tipo") String tipo) throws JRException, IOException {
-    	System.out.println("cambiarLogo::: " + tipo); 
-    	if (tipo.equals("1")) {
-    		logo = "labmedChico.png";
-    		direccionEmpresa ="Av. Honorio Delgado 225 - 2do piso - Urb. ingenieria-SMP";
-    		telefonoEmpresa ="Telf: (01)342 8744 CEL: 987736215";
-		}else {
-			logo = "policlinico_santa rosa_de_los crisantemos.jpg";
-			direccionEmpresa = "Calle 5 Mz E lote 22 Urb Los Crisantemos - Puente Piedra";
-			telefonoEmpresa= "";
-		}
+    	System.out.println("cambiarLogo::: " + tipo);  
+    		logo = "labmedChico.png"; 
+		
     	
 	}
     

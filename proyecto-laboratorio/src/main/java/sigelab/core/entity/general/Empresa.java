@@ -22,7 +22,7 @@ import java.sql.Timestamp;
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUPCIPMO", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "AUCDUSMO", type = String.class),
 			@StoredProcedureParameter(mode = ParameterMode.IN, name = "SITUACRG", type = String.class),
-			
+			@StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMBLOGO", type = String.class)
 })
 	  
 })
@@ -89,7 +89,18 @@ public class Empresa implements Serializable {
 	@Column(name="CORREO")
 	private String CORREO;
 
+	@Column(name="NOMBLOGO")
+	private String NOMBLOGO;
+	
 	public Empresa() {
+	}
+
+	public String getNOMBLOGO() {
+		return NOMBLOGO;
+	}
+
+	public void setNOMBLOGO(String nOMBLOGO) {
+		NOMBLOGO = nOMBLOGO;
 	}
 
 	public String getCodempre() {

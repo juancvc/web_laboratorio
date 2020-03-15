@@ -1,4 +1,4 @@
-   function readFile(input) {
+  /** function readFile(input) {
 
         if (input.files && input.files[0]) {
 
@@ -43,9 +43,9 @@
         readFile(e.srcElement);
 
     }
+ */
 
- 
-function guardarEmpresa2(){
+function guardarEmpresa(){
 	var contextPath = $('#contextPath').val();
 	var dataForms = new FormData();
 	var nombre = $("#nombre").val();
@@ -81,10 +81,12 @@ function guardarEmpresa2(){
 			$.ajax({
 	  			type 	: "POST",
 	  			data 	: dataForms,
+	  			enctype : 'multipart/form-data',
 	  			contentType:false,
 		   		processData:false,
 		   		cache:false,
 	  			url 	: url,
+	  			dataType : 'json',
 	  			success : function(data){
 	  				if (data != "0") { 
 	  	  				msg_exito(); 
@@ -100,7 +102,7 @@ function guardarEmpresa2(){
 }
 
 
-    function guardarEmpresa() {
+    function guardarEmpresa2() {
     	// debugger;
     	var htmlTabla = "";
     	var contextPath = $('#contextPath').val();

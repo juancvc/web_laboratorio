@@ -84,10 +84,12 @@
 
 .tituloForm{
 	font-family: Cambria;
-	font-size: 18px;  
-	padding:.0.3rem 0.3rem 0.3rem 0.3rem ;
-	font-weight: bold; 
+	font-size: 15px;  
+	padding:.5rem 1rem 0.5rem 0.5rem;
+	font-weight: bold;  
 	margin-bottom: 10px;
+	background-color: #17202a;
+	color:#ffffff;
 }
 
 .divCabeceraPanel{

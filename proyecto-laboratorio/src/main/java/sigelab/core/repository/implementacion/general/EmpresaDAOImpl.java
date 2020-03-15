@@ -1,3 +1,12 @@
+
+
+
+
+
+
+
+
+
 package sigelab.core.repository.implementacion.general;
   
 import sigelab.core.bean.general.EmpresaBean;  
@@ -75,6 +84,7 @@ public class EmpresaDAOImpl implements EmpresaDAO {
 			spq.setParameter("AUPCIPMO", EmpresaBean.getIpModificacion());
 			spq.setParameter("AUCDUSMO", EmpresaBean.getCodigoUsuarioModificacion());
 			spq.setParameter("SITUACRG", EmpresaBean.getSituacion().getCodReg());
+			spq.setParameter("NOMBLOGO", EmpresaBean.getNombreLogo());
 			spq.execute();
 			
 			sw=true;
@@ -176,6 +186,7 @@ public class EmpresaDAOImpl implements EmpresaDAO {
 			bean.setTelefonoCelular(entity.getTELFCELU());
 			bean.setCorreo(entity.getCORREO());
 			bean.setDescripcion(entity.getDescripci());
+			bean.setNombreLogo(entity.getNOMBLOGO());
 		}
 		
 		return bean;

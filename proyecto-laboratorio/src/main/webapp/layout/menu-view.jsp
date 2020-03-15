@@ -2,7 +2,21 @@
 <%@page import="sigelab.core.bean.seguridad.UsuarioBean"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
+	<style>
+	.user-name{ 
+		  font-size: 12px; 
+		  color:#212529; 
+		}
+		.nombreEmpresa{  
+		  padding:.0rem 0rem 0rem 1rem;
+		}
+		.rucEmpresa{ 
+		font-family: Cambria;
+		  font-size: 14px; 
+		  color:#212529; 
+		  padding:.0rem 0rem 0.5rem 1rem;
+		}
+	</style>
 
 <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 	<c:if test="${accesoMenu.menu_Estadisticos}">
@@ -12,7 +26,7 @@
 			<a class="nav-link"
 			href="${pageContext.request.contextPath}/inicioController/portada"><i
 				class="fa fa-home fa-fw"> </i><span  id="spnInicio"
-				class="nav-link-text label_control_barra"> Inicio</span></a>
+				class="nav-link-text label_control_barra"> Dashboard</span></a>
 		</li>
 	</c:if>
 	<!-- 
@@ -95,7 +109,7 @@
 	</a>
 		<ul class="sidenav-third-level collapse" id="collapsePaciente">
 			<li><a
-				href="${pageContext.request.contextPath}/personaController/nuevoPaciente">Registro</a>
+				href="${pageContext.request.contextPath}/personaController/nuevo">Registro</a>
 			</li>
 			<li><a
 				href="${pageContext.request.contextPath}/personaController/listado">Listado</a>
@@ -133,10 +147,7 @@
 				
 				 <li><a
 					href="${pageContext.request.contextPath}/tarifarioController/listadoTarifario"><span
-						class="label_control_barra">Tarifario</span></a></li> 
-				 <li><a
-					href="${pageContext.request.contextPath}/laboratorioController/tarifarioGeneralModal"><span
-						class="label_control_barra">Resultados</span></a></li> 	
+						class="label_control_barra">Tarifario</span></a></li>  	
 						
 					 <li><a
 					href="${pageContext.request.contextPath}/formulaController/nuevaFormula"><span
@@ -181,7 +192,7 @@
 					</ul></li>
 			</ul></li>
 	</c:if>
-
+<!--
 	<c:if test="${accesoMenu.menu_Estadisticos}">
 		<li  class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels"><a
 			class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
@@ -201,9 +212,9 @@
 						<li><a href="#">Third Level Item</a></li>
 					</ul></li>
 				 -->
-			
+		<!--	
 			</ul></li>
-	</c:if>
+	</c:if>-->
 	<c:if test="${accesoMenu.menu_Estadisticos}">
 		<li  class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels"><a
 			class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
@@ -221,7 +232,14 @@
 	</a></li>
 </ul>
 	<div> 
-	<span style="color:white;">${usuarioSesion.empresaBean.nombreEmpresa}</span>
+	<img id="imgLogoCabecera" onclick="abrir_input('fileEmpresaLogo')" 
+	src="${pageContext.request.contextPath}/empresaLogo/${usuarioSesion.empresaBean.nombreLogo}" alt=""  
+	class="img-fluid thumb-mini" data-toggle="modal" data-target="#xlarge" style="width: 70px; height: 50px;cursor: pointer;">  
+</div>
+<div>  
+<h6 class="nombreEmpresa">${usuarioSesion.empresaBean.nombreEmpresa}</h6>
+	<span class="rucEmpresa">RUC: ${usuarioSesion.empresaBean.nroRUC}
+	</span>
 </div>
 <ul class="navbar-nav ml-auto">
 
@@ -351,4 +369,5 @@
 		window.location.href = url;
 
 	};
+
 </script>

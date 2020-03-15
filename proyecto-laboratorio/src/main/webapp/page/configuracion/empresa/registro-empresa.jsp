@@ -70,23 +70,19 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/app-assets/fonts/font-awesome/css/font-awesome.min.css">
 
-
+	<style>
+	.msj{ 
+		  font-size: 8px; 
+		  color:#f20c2b; 
+		} 
+	</style>
 
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-		id="mainNav">
-		<a class="navbar-brand label_control_hade" href="#"> MEDIC LAB </a>
-		<button class="navbar-toggler navbar-toggler-right" type="button"
-			data-toggle="collapse" data-target="#navbarResponsive"
-			aria-controls="navbarResponsive" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-
+		id="mainNav"> 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<jsp:include page="/layout/menu-view.jsp" />
 		</div>
@@ -155,34 +151,44 @@
 								</div>
 							</div>
 							<div class="row">  
+							
 							<div class="col-md-8">
 									<label for="exampleInputName" class="label_control">LOGO
 									</label>
-								<div id="divInputLoad"> 
-									<div id="divFileUpload">
-										<f:input type="text" id="txtLogo" path="logo" />
-										<f:input id="file-upload" type="file" path="logoFile"  accept="image/*" />
- 
-									</div>
-<br> 
-									<div id="file-preview-zone"> 
-											<label for=""><img id="file-preview" 
-											style="width: 200px; height: 100px; cursor: pointer;" 
-											src="${pageContext.request.contextPath}/assets/img/700x300.jpg" 
-											 alt="element 01" class="img-fluid thumb-mini"></label> 
-									</div>
-								  </div>
-								</div>
+								<f:input type="file" path="logo" name="fileEmpresaLogo" 
+											id="fileEmpresaLogo" 
+											onchange="return validar_file('fileEmpresaLogo','imgEmpresa','${pageContext.request.contextPath}/empresaLogo/${nroRUC}','000001')" 
+											
+											value="" accept="image/png, .jpeg, .jpg, image/gif" style="display:none" />
+											<div id="list1"   style="cursor: pointer; " class="form-group col-md-12"  >
+											<c:choose>
+											<c:when test="${empresaBean.nombreLogo != ''}">
+											<label for=""><img id="imgEmpresa" onclick="abrir_input('fileEmpresaLogo')" 
+											src="${pageContext.request.contextPath}/empresaLogo/${empresaBean.nombreLogo}" alt=""  
+											class="img-fluid thumb-mini" data-toggle="modal" data-target="#xlarge" style="width: 200px; height: 100px;cursor: pointer;"></label>
+											<div id="fake-btn-1" style="display:none" class="form-input text-xs-center truncate"></div>
+												</c:when>
+											
+											<c:otherwise>
+											<label for=""><img id="imgEmpresa"
+											
+											 src="${pageContext.request.contextPath}/assets/img/700x300.jpg"  
+											onclick="abrir_input('fileEmpresaLogo')" alt="element 01" class="img-fluid thumb-mini" style="width: 200px; height: 100px;cursor: pointer;"></label> 
+												</c:otherwise>
+												</c:choose>
+											</div>	
+								</div> 
 							</div>
 						</div>
-						<br>
-
+						
+						<div class="row">
+						<div class="form-group col-md-10"> 
+						<span class='msj'>* Los cambios se reflejarán al reiniciar sesión</span>
+						</div>
+						</div> 
 						<div class="row">
 							<div class="form-group col-md-10 text-right"
-								style="margin-top: 15px;">
-								<a href="nuevo" class="btn btn-secondary" title=""> <i
-									class="fa fa-eraser"></i> NUEVO
-								</a>
+								style="margin-top: 15px;"> 
 								<button id="btn-save-reg" type="submit"
 									class="btn btn-flat btn-primary" onclick="guardarEmpresa()">
 									<i class="fa fa-floppy-o"></i> GUARDAR
@@ -312,6 +318,7 @@
 </body>
 
 <script type="text/javascript">
+/*
 $(document).ready(function() {
 console.log("logo empresa " + "${empresaBean.logo}");
 	var image = new Image();
@@ -330,12 +337,47 @@ console.log("logo empresa " + "${empresaBean.logo}");
 	
 	
 });
-
+*/
 	function validar() {
 
 	}
 	function abrir_input(idinput) {
 		document.getElementById(idinput).click();
 	}
+	
+
+    function validar_file(fileid,imgid,imgsrc,idcodigo){
+/*    debugger;*/
+    var fileInput = document.getElementById(fileid);
+    var filePath  = fileInput.value;
+    var allowedExtensions = /(.jpg|.jpeg|.png|.gif|.svg)$/i;
+    var extensionvacia    = /()$/i;
+    if(allowedExtensions.exec(filePath)){
+       if (fileInput.files && fileInput.files[0]) {
+           var reader = new FileReader();
+           reader.onload = function(e) { 
+        	   $('#'+imgid).attr('src',''+e.target.result+''); 
+           };
+           reader.readAsDataURL(fileInput.files[0]);
+       } 
+    }else{ 
+       if(extensionvacia.exec(filePath) && (filePath=='')) {
+           limpiar_img(imgid,imgsrc,idcodigo);  
+           return false;  
+       } else {
+           msg_info("extensión no válida");
+           fileInput.value = '';
+           limpiar_img(imgid,imgsrc,idcodigo);
+           return false; 
+       }
+    } 
+}
+    
+    var path = null;
+	$(document).ready(function() {
+		path = document.getElementById("contextPath").value;
+
+	});
+    
 </script>
 </html>

@@ -156,11 +156,11 @@ public class AuditoriaDAOImp implements AuditoriaDAO {
 		boolean sw = false;
 		try {
 			StoredProcedureQuery spq = em.createNamedStoredProcedureQuery("leotbcauditoriaacceso.insertar");
-	        spq.setParameter("p_tm1accion", prmAuditoriaAccesoBean.getTipoAccion()!=null ? prmAuditoriaAccesoBean.getTipoAccion().getCodReg() : null);
+	     /*   spq.setParameter("p_tm1accion", prmAuditoriaAccesoBean.getTipoAccion()!=null ? prmAuditoriaAccesoBean.getTipoAccion().getCodReg() : null);
 	        spq.setParameter("p_usuacc", prmAuditoriaAccesoBean.getNomUsuario());
 	        spq.setParameter("p_hostacc", prmAuditoriaAccesoBean.getIpCreacion());
 	        spq.setParameter("p_tm1sistem", prmAuditoriaAccesoBean.getTipoSistema()!=null ? prmAuditoriaAccesoBean.getTipoSistema().getCodReg() : null);
-	        
+	       */ 
 	        spq.execute();
 			
 			id = spq.getOutputParameterValue(1);

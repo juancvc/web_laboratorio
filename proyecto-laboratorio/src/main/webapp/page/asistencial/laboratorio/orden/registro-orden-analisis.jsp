@@ -91,16 +91,7 @@
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-		id="mainNav">
-		<a class="navbar-brand label_control_hade" href="#"> MEDIC LAB </a>
-		<button class="navbar-toggler navbar-toggler-right" type="button"
-			data-toggle="collapse" data-target="#navbarResponsive"
-			aria-controls="navbarResponsive" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-
+		id="mainNav"> 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<jsp:include
 				page="/layout/menu-view.jsp" />
@@ -358,25 +349,8 @@
 								
 							</div>
 					
-						<div class="row">
-						<div class="form-group col-md-4" 
-								style="margin-top: 15px;">  
-								<div class="form-check form-check-inline">
-								<input type="radio" class="form-check-input" id="materialInline1"  checked
-												name="inlineMaterialRadiosExample"
-												onclick="cambiarLogo(1);"> <label
-												class="form-check-label" for="materialInline1">Logo Labmed</label>
-										</div>
-										<!-- Material inline 2 -->
-										<div class="form-check form-check-inline">
-											<input type="radio" class="form-check-input" id="materialInline2" 
-												name="inlineMaterialRadiosExample"
-												onclick="cambiarLogo(2);"> <label
-												class="form-check-label" for="materialInline2">Logo Santa Rosa</label>
-										</div>
-							
-							</div>
-							<div class="form-group col-md-8 text-right" 
+						<div class="row"> 
+							<div class="form-group col-md-12 text-right" 
 								style="margin-top: 15px;">
 										<button type="submit" onclick="actualizarResultadoOrdenDetalle()"
 										<c:choose>

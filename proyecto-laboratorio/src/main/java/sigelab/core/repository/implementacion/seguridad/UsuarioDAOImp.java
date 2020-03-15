@@ -247,7 +247,8 @@ public class UsuarioDAOImp implements UsuarioDAO {
 			bean.getEmpresaBean().setNombreEmpresa(entity.getNOMBEMPR());
 			bean.getEmpresaBean().setNroRUC(entity.getNRORUC());
 			bean.getEmpresaBean().setLogo(entity.getLOGO());
-				
+			bean.getEmpresaBean().setNombreLogo(entity.getNOMBLOGO());
+			
 			bean.setFlgRestPass(entity.getvFlgrestpas()); 
 		 	if(entity.getnTm1situsu()!=""){
 
