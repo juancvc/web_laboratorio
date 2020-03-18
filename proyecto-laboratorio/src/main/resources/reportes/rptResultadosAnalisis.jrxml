@@ -29,6 +29,8 @@
 	<parameter name="logo" class="java.lang.String"/>
 	<parameter name="direccionEmpresa" class="java.lang.String"/>
 	<parameter name="telefonoEmpresa" class="java.lang.String"/>
+	<parameter name="empresa" class="java.lang.String"/>
+	<parameter name="ruc" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -130,36 +132,50 @@
 	<title>
 		<band height="81" splitType="Stretch">
 			<staticText>
-				<reportElement style="Title" x="1" y="44" width="564" height="22" uuid="239fc69e-3880-4273-9972-81c582c269f1"/>
+				<reportElement style="Title" x="110" y="29" width="308" height="22" uuid="239fc69e-3880-4273-9972-81c582c269f1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="16" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[REPORTE DE ATENCIÓN]]></text>
 			</staticText>
 			<image hAlign="Left">
-				<reportElement x="0" y="0" width="249" height="44" uuid="eda0561b-9fd2-4a45-88bd-921c0f20005c"/>
-				<imageExpression><![CDATA[getClass().getResource("/sigelab/web/reportes/"+$P{logo}).openStream()]]></imageExpression>
+				<reportElement x="0" y="0" width="98" height="51" uuid="eda0561b-9fd2-4a45-88bd-921c0f20005c"/>
+				<imageExpression><![CDATA["C:\\teamsoftti\\archivos\\empresaLogo\\"+$P{logo}]]></imageExpression>
 			</image>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="418" y="25" width="144" height="15" forecolor="#000000" uuid="e7d300d0-2378-4bc8-a699-e2f16665a295"/>
+				<reportElement x="418" y="66" width="144" height="15" forecolor="#000000" uuid="e7d300d0-2378-4bc8-a699-e2f16665a295"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="295" y="0" width="267" height="13" uuid="a7a522dc-d40e-4262-817a-181bf1052797"/>
+				<reportElement x="418" y="27" width="144" height="13" uuid="a7a522dc-d40e-4262-817a-181bf1052797"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccionEmpresa}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="295" y="13" width="267" height="13" uuid="4de00640-5edc-4cfc-b236-143f566c3aa1"/>
+				<reportElement x="418" y="40" width="144" height="13" uuid="4de00640-5edc-4cfc-b236-143f566c3aa1"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{telefonoEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="0" width="144" height="12" uuid="6c8e9755-de57-4770-a257-f2e91f98f7a5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="14" width="144" height="12" uuid="9519521c-f888-493d-8c23-7aae21284f06"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RUC: " + $P{ruc}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

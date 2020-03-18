@@ -1,6 +1,8 @@
 package sigelab.web.controller.inicio;
+
 import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
+import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.seguridad.AccesoBean;
 import sigelab.core.bean.seguridad.AuditoriaAccesoBean;
@@ -100,15 +102,23 @@ public class InicioController extends BaseController{
 	private OrdenBean uOrdenBeanVentaAnual;
 	private String diaSemana;
 	private String nombreVenta;
+	private String sFecha ="";
+	private String p_nroPeriodo ="";
+	private int p_nroSemana =0;
+	private String p_descripcionSemana ="";
+	
 	private int tipoReporte=1;
 	List<OrdenBean> lstOrdenBean = new ArrayList<OrdenBean>(); 
 	private List<OrdenBean> lstOrdenBeann ;  
 	private List<OrdenBean> lstOrdenBeanArea  ;  
 	private List<OrdenBean> lstOrdenBeanBarra ;  
 	private List<OrdenBean> lstOrdenBeanCircular ;
+	
 	@PostConstruct
-	public void init(){
-		
+	public void init() throws ParseException{ 
+		 System.out.println("inicioForm.getsFecha() " + sFecha);
+		 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+	     sFecha =formatter.format(new Date());
 		this.setLstMaestra(new ArrayList<TablaBean>()); 
 	
 	}
@@ -1941,6 +1951,147 @@ public HSSFColor setColor(HSSFWorkbook workbook, byte r,byte g, byte b){
     return hssfColor;
 }
 
+@RequestMapping(value = "/cambiarFecha", method = RequestMethod.GET)
+public @ResponseBody void cambiarFecha(
+		@RequestParam("fecha") String fecha)throws Exception {
+	System.out.println(" fecha "+ fecha);
+	sFecha = fecha;
+	
+}
+
+@RequestMapping(value = "/cambiarFechaSemanal", method = RequestMethod.GET)
+public @ResponseBody void cambiarFechaSemanal(
+		@RequestParam("fecha") String fecha,
+		@RequestParam("periodo") String periodo,
+		@RequestParam("nroSemana") int nroSemana,
+		@RequestParam("descripcionSemana") String descripcionSemana)throws Exception {
+	System.out.println(" fecha "+ fecha);
+	sFecha = fecha;
+	p_descripcionSemana =descripcionSemana;
+	p_nroPeriodo = periodo;
+	p_nroSemana = nroSemana;
+}
+
+@RequestMapping(value = "/portadaDiario", method = RequestMethod.GET)
+public ModelAndView portadaDiario(
+	 HttpServletRequest request) throws Exception {
+	InicioForm inicioForm = new InicioForm();
+	
+	 tipoReporte=1;
+	 nombreVenta="VENTA DEL DIA";
+	
+	/***mandamos datos del tablero de fecha actual por default a los reportes de la semana***/
+	obtenerFechaHoraDia();
+	uOrderBean = new OrdenBean();
+	uOrdenBeanVentadiaria = new OrdenBean();
+	
+	OrdenBean uOrdenBean2 = new OrdenBean();
+	OrdenBean uOrdenBean3 = new OrdenBean();
+	
+	OrdenBean uOrdenBeanArea  = new OrdenBean();
+	OrdenBean uOrdenBeanBarra  = new OrdenBean();
+	lstOrdenBeanArea = new ArrayList<OrdenBean>();
+	lstOrdenBeanBarra = new ArrayList<OrdenBean>();
+	lstOrdenBeanCircular = new ArrayList<OrdenBean>();
+	
+	OrdenBean prmOrdenBean1 = new OrdenBean();
+	OrdenBean prmOrdenBean2 = new OrdenBean();
+	OrdenBean prmOrdenBean3 = new OrdenBean();
+	
+	OrdenBean prmOrdenBeanArea  = new OrdenBean();
+	OrdenBean prmOrdenBeanBarra  = new OrdenBean();
+	
+	OrdenBean prmOrdenBeanVentaDiaria = new OrdenBean();
+	Date date = new Date();
+	
+	 String dateInString = sFecha; //inicioForm.getsFecha();
+	 System.out.println("inicioForm.getsFecha() " + sFecha);
+	 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+     try {
+    	 inicioForm.setsFecha(sFecha);
+          date = formatter.parse(dateInString);
+         System.out.println(date);
+         System.out.println(formatter.format(date));
+
+     } catch (ParseException e) {
+         e.printStackTrace();
+     }
+     
+	SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+	SimpleDateFormat mes = new SimpleDateFormat("MM");
+	SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+	mes.format(date);
+	anio.format(date);
+	fecha.format(date);
+	String strDate = fecha.format(date);
+	System.out.println("strDate"+strDate);
+	String strMes = mes.format(date);
+	System.out.println("strMes"+strMes);
+	String strAnio = anio.format(date);
+	System.out.println("strAnio"+strAnio);
+	Date dt = fecha.parse(strDate);
+//	prmOrdenBean1.setFechaOrden(dt);
+	prmOrdenBean1.setFecha(strDate);
+//	prmOrdenBean2.setFechaOrden(dt);
+	prmOrdenBean2.setFecha(strDate);
+//	prmOrdenBean3.setFechaOrden(dt);
+	prmOrdenBean3.setFecha(strDate);
+//	prmOrdenBeanVentaDiaria.setFechaOrden(dt);
+	prmOrdenBeanVentaDiaria.setFecha(strDate);
+	/**situacion 000001 pendiente 000002 atendido 000003 anulado ***/
+	TablaBean tabla1 = new TablaBean();
+	tabla1.setCodReg("000001");
+	TablaBean tabla2 = new TablaBean();
+	tabla2.setCodReg("000002");
+	TablaBean tabla3 = new TablaBean();
+	tabla3.setCodReg("000003");
+	prmOrdenBean1.setSituacion(tabla1);
+	prmOrdenBean2.setSituacion(tabla2);
+	prmOrdenBean3.setSituacion(tabla3);
+	prmOrdenBeanArea.setNroMes(strMes);
+	prmOrdenBeanArea.setNumeroPeriodo(strAnio);
+	prmOrdenBeanBarra.setNumeroPeriodo(strAnio);
+	System.out.println("acaPortada");
+	try { 
+		uOrderBean = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean1);
+	
+		uOrdenBean2 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean2);
+		
+		uOrdenBean3 = ordenService.reporteCantidadDiarioOrdenSituacion(prmOrdenBean3);
+		
+		uOrdenBeanVentadiaria = ordenService.reporteVentaDiaria(prmOrdenBeanVentaDiaria);
+		uOrdenBeanVentadiaria.setSwDiario(true);
+//		uOrdenBeanArea = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
+			//	uOrdenBeanBarra = (OrdenBean) ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanBarra);
+				lstOrdenBeanArea = ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
+				lstOrdenBeanBarra = ordenService.reporteVentaMensualPeriodoBarra(prmOrdenBeanBarra);
+				lstOrdenBeanCircular = ordenService.reporteCantidadDiarioExamenesSolicitados(prmOrdenBeanVentaDiaria);
+		
+				System.out.println("lstOrdenBeanArea"+lstOrdenBeanArea.size());
+				System.out.println("lstOrdenBeanCircular"+lstOrdenBeanCircular.size());
+		if(uOrderBean!=null){   
+			
+			
+		}else{   
+		} 
+} catch (Exception e) {  
+}
+	ModelAndView mav =  new ModelAndView("portada", "command", inicioForm);
+	mav.addObject("uOrderBean", 		   uOrderBean);
+	mav.addObject("uOrdenBean2", 		   uOrdenBean2);
+	mav.addObject("uOrdenBean3", 		   uOrdenBean3);
+	mav.addObject("uOrdenBeanVentadiaria", uOrdenBeanVentadiaria);
+	mav.addObject("lstOrdenBeanArea",	   lstOrdenBeanArea);
+	mav.addObject("lstOrdenBeanBarra", 	   lstOrdenBeanBarra);
+	mav.addObject("lstOrdenBeanCircular",  lstOrdenBeanCircular);
+	mav.addObject("diaSemana", 	   		   diaSemana);
+	mav.addObject("nombreVenta", 	   	   nombreVenta);
+	
+	return mav;	
+	
+	
+};
+
 
 @RequestMapping(value = "/portadaListarDiario", method = RequestMethod.GET)
 public ModelAndView portadaListarDiario(HttpServletRequest request) throws Exception {
@@ -2052,8 +2203,13 @@ public ModelAndView portadaListarDiario(HttpServletRequest request) throws Excep
 @RequestMapping(value = "/portadaListarSemanal", method = RequestMethod.GET)
 public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exception {
 	System.out.println("VENTA DE LA SEMANA");
-	ModelAndView mav =  new ModelAndView("portada", "command", new InicioForm());
 	
+	InicioForm inicioForm = new InicioForm();
+	if (!p_descripcionSemana.equals("")) {
+		inicioForm.setDescripcionSemana(p_descripcionSemana);
+		inicioForm.setNroSemana(p_nroSemana);
+		inicioForm.setPeriodo(p_nroPeriodo);
+	}
 	tipoReporte=2;
 	System.out.println("VENTA DE LA SEMANA");
 	nombreVenta="VENTA DE LA SEMANA";
@@ -2064,8 +2220,7 @@ public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exce
 	uOrdenBeanVentaSemanal = new OrdenBean();
 	
 	OrdenBean uOrdenBean2 = new OrdenBean();
-	OrdenBean uOrdenBean3 = new OrdenBean();
-	
+	OrdenBean uOrdenBean3 = new OrdenBean(); 
 	
 	lstOrdenBeanArea = new ArrayList<OrdenBean>();
 	lstOrdenBeanBarra = new ArrayList<OrdenBean>();
@@ -2080,12 +2235,28 @@ public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exce
 	
 	OrdenBean prmOrdenBeanVentaDiaria = new OrdenBean();
 	Date date = new Date();
+	
+	 String dateInString = sFecha; //inicioForm.getsFecha();
+	 System.out.println("inicioForm.getsFecha() " + sFecha);
+	 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    try {
+    	inicioForm.setsFecha(sFecha);
+        date = formatter.parse(dateInString);
+        System.out.println(date);
+        System.out.println(formatter.format(date));
+
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
 	SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
 	SimpleDateFormat mes = new SimpleDateFormat("MM");
 	SimpleDateFormat anio = new SimpleDateFormat("yyyy");
 	mes.format(date);
 	anio.format(date);
 	fecha.format(date);
+	
+	
+	
 	String strDate = fecha.format(date);
 	System.out.println("strDate"+strDate);
 	String strMes = mes.format(date);
@@ -2093,13 +2264,9 @@ public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exce
 	String strAnio = anio.format(date);
 	System.out.println("strAnio"+strAnio);
 	Date dt = fecha.parse(strDate);
-//	prmOrdenBean1.setFechaOrden(dt);
 	prmOrdenBean1.setFecha(strDate);
-//	prmOrdenBean2.setFechaOrden(dt);
 	prmOrdenBean2.setFecha(strDate);
-//	prmOrdenBean3.setFechaOrden(dt);
 	prmOrdenBean3.setFecha(strDate);
-//	prmOrdenBeanVentaDiaria.setFechaOrden(dt);
 	prmOrdenBeanVentaDiaria.setFecha(strDate);
 	/**situacion 000001 pendiente 000002 atendido 000003 anulado ***/
 	TablaBean tabla1 = new TablaBean();
@@ -2139,7 +2306,7 @@ public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exce
 		} 
 } catch (Exception e) {  
 }
-	
+	ModelAndView mav =  new ModelAndView("portada", "command", inicioForm);
 	mav.addObject("uOrderBean", 		   uOrderBean);
 	mav.addObject("uOrdenBean2", 		   uOrdenBean2);
 	mav.addObject("uOrdenBean3", 		   uOrdenBean3);

@@ -223,10 +223,12 @@ font-family: Cambria;
 						class="btn btn-outline-success btn-sm"
 						data-toggle="tooltip" data-placement="top" title=""
 						data-original-title="Agregar"
-						onclick="refrescar()"
-						id="refrescar">
+						onclick="refrescar();"
+						id="refrescarDia">
 						<i class="icon-refresh"> Refrescar</i> 
-					</button>  
+					</button> 
+					 
+							 
 				</div>	
 				<div class="col-sm-2 "> 
 					</div>			
@@ -242,6 +244,7 @@ font-family: Cambria;
 							
 				<div class="col-sm-1 ">  
 						<f:input class="form-control"  type="year" id="year" placeholder="Año" path="periodo"  /> 
+						<f:input  type="hidden" id="descripcionSemana"  path="descripcionSemana"  /> 
 							</div>
 										
 				<div class="col-sm-1  form-group  text-right">  
@@ -526,19 +529,26 @@ font-family: Cambria;
 					<div class="modal-content" id="modalVentaDiariaContent"></div>
 				</div>
 			</div>
-
+            <a class="nav-link" style="display: none"
+				href="${pageContext.request.contextPath}/inicioController/portadaDiario"><i
+				class="fa fa-home fa-fw"> </i><span id="spnDia"
+				class="nav-link-text label_control_barra"></span></a> 
+				
 			<a class="nav-link" style="display: none"
 				href="${pageContext.request.contextPath}/inicioController/portadaListarDiario"><i
 				class="fa fa-home fa-fw"> </i><span id="spnDiario"
-				class="nav-link-text label_control_barra"></span></a> <a
+				class="nav-link-text label_control_barra"></span></a> 
+			<a
 				class="nav-link" style="display: none"
 				href="${pageContext.request.contextPath}/inicioController/portadaListarSemanal"><i
 				class="fa fa-home fa-fw"> </i><span id="spnSemanal"
 				style="display: none" class="nav-link-text label_control_barra"></span></a>
+				
 			<a class="nav-link" style="display: none"
 				href="${pageContext.request.contextPath}/inicioController/portadaListarMensual"><i
 				class="fa fa-home fa-fw"> </i><span id="spnMensual"
 				style="display: none" class="nav-link-text label_control_barra"></span></a>
+				
 			<a class="nav-link" style="display: none"
 				href="${pageContext.request.contextPath}/inicioController/portadaListarAnual"><i
 				class="fa fa-home fa-fw"> </i><span id="spnAnual"

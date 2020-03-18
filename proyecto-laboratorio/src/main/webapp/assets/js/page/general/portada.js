@@ -292,6 +292,26 @@ function cargarVentaModal() {
 		}); 
 }
 
+function refrescar() {
+	console.log("refrescar");
+  var contextPath = $('#contextPath').val();
+  var date = $('#date').val();
+  
+	path = contextPath + "/inicioController/cambiarFecha?fecha=" + date;
+	$.ajax({ 
+		type : 'GET',
+		url : path,
+		success : function(data) {  
+		},
+		error : function() {
+			//console.log("ERROR: ");
+		}
+	});
+	$("#spnDia").trigger("click");
+	 document.getElementById("materialInline2").checked = true;
+	 $( "#materialInline2" ).prop( "checked", true );
+	 
+}
 
 function refrescarListadoVentasSemanal() {
 	console.log("refrescarListadoVentasSemanal");
@@ -411,6 +431,36 @@ function calculaSemana() {
 	 " al " + ultimo.getDate() + " de "+ meses[ultimo.getMonth()] ;
   /**  "El primer día de la " + week + "<sup>a</sup> semana de " + year + " es " + primer.getDate() + " de " + meses[primer.getMonth()] + " (" + dias[primer.getDay()] + ")<br/>" +
     "El último día de la " + week + "<sup>a</sup> semana de " + year + " es " + ultimo.getDate() + " de " + meses[ultimo.getMonth()] + " (" + dias[ultimo.getDay()] + ")"; */
-
+  $('#descripcionSemana').val(	"Del " + primer.getDate() + " de "+ meses[primer.getMonth()]  +
+			 					" al " + ultimo.getDate() + " de "+ meses[ultimo.getMonth()]);
+  var mes = primer.getMonth() +1;
+  var dia = primer.getDate();
+  var contextPath = $('#contextPath').val();
+  var descripcionSemana = $('#descripcionSemana').val();
+  
+  if (dia.toString().length == 1) {
+		dia = "0" + dia;
+	}
+	if (mes.toString().length == 1) {
+		mes = "0" + mes;
+	}
+	  var date = dia+"/"+mes+"/"+year;
+	path = contextPath + "/inicioController/cambiarFechaSemanal?fecha=" + date+
+	"&periodo="+year+
+	"&nroSemana="+week+
+	"&descripcionSemana="+descripcionSemana;;
+	$.ajax({ 
+		type : 'GET',
+		url : path,
+		success : function(data) {  
+		},
+		error : function() {
+			//console.log("ERROR: ");
+		}
+	});
+	
+	$("#spnSemanal").trigger("click");
+	 document.getElementById("materialInline2").checked = true;
+	 $( "#materialInline2" ).prop( "checked", true );
 }
 

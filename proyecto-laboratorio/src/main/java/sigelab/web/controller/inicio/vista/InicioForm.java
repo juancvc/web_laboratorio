@@ -16,6 +16,7 @@ public class InicioForm {
 	private String sFecha;
 	private String periodo;
 	private int nroSemana;
+	private String descripcionSemana;
 	
 	public OrdenBean getOrdenBean() {
 		return ordenBean;
@@ -23,6 +24,14 @@ public class InicioForm {
 
 	public void setOrdenBean(OrdenBean ordenBean) {
 		this.ordenBean = ordenBean;
+	}
+
+	public String getDescripcionSemana() {
+		return descripcionSemana;
+	}
+
+	public void setDescripcionSemana(String descripcionSemana) {
+		this.descripcionSemana = descripcionSemana;
 	}
 
 	public String getsFecha() {

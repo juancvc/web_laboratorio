@@ -49,6 +49,7 @@ import sigelab.core.bean.asistencial.banco.PreDonanteEntrevistaBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleBean;
 import sigelab.core.bean.asistencial.laboratorio.OrdenDetalleItemBean;
+import sigelab.core.bean.general.EmpresaBean;
 import sigelab.core.bean.general.PersonaBean;
 import sigelab.core.bean.general.TablaBean;
 import sigelab.core.bean.general.TarifarioBean;
@@ -58,7 +59,8 @@ import sigelab.core.service.exception.ServiceException;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenDetalleItemService;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenDetalleService;
 import sigelab.core.service.interfaces.asistencial.laboratorio.OrdenService;
-import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service; 
+import sigelab.core.service.interfaces.asistencial.maestra.MaestraAsis01Service;
+import sigelab.core.service.interfaces.general.EmpresaService;
 import sigelab.core.service.interfaces.general.Maestra1Service; 
 import sigelab.core.service.interfaces.general.PersonaService;
 import sigelab.core.service.interfaces.general.TarifarioService;
@@ -94,11 +96,14 @@ public class OrdenController  extends BaseController {
 	private String asunto;
 	private String msg;
 	private String archivooPDF="";
-	private String logo ="labmedChico.png";
-	private String direccionEmpresa ="AV. LOS CEDROS 1548- LA MOLINA";
-	private String telefonoEmpresa ="Telf: 987458721";
+	private String logo ="";
+	private String direccionEmpresa ="";
+	private String telefonoEmpresa ="";
+	private String empresa ="";
+	private String ruc ="";
 	String usuarioWindows = System.getProperty("user.name");
 
+	
 	private String descuento = "0.00";
 	private String subTotal  = "0.00";
 	private String total  = "0.00";
@@ -109,6 +114,8 @@ public class OrdenController  extends BaseController {
     @Autowired
 	private OrdenDetalleItemService ordenDetalleItemService;
     
+	@Autowired
+	private EmpresaService empresaService;
 	
 	PersonaBean personaBean = new PersonaBean();  
 	private UbigeoBean ubigeobean;
@@ -914,9 +921,29 @@ for (OrdenDetalleBean objOrdenDetalleBean :ordenBean.getLstOrdenDetalleBean()) {
 						HttpServletResponse response, 
 						HttpServletRequest request) throws JRException, IOException {
 		InputStream jasperStream = this.getClass().getResourceAsStream("/reportes/rptResultadosAnalisis.jasper");
-		System.out.println("periodo orden "+getOrdenBean().getNumeroPeriodo());
+		 
+		EmpresaBean oEmpresaBean = new EmpresaBean();  
+		EmpresaBean empresaBean = new EmpresaBean();  
+	
+			try { 
+				empresaBean = empresaService.getBuscarPorObjecto(oEmpresaBean);   
+				if (empresaBean!= null ) { 
+					logo = empresaBean.getNombreLogo();
+					direccionEmpresa = empresaBean.getDomicilioFiscal();
+					telefonoEmpresa = empresaBean.getTelefonoCelular();
+					empresa = empresaBean.getNombreEmpresa();
+					ruc = empresaBean.getNroRUC();
+				}
+				
+			} catch (ServiceException e) {
+				
+				e.printStackTrace();
+			}
+			System.out.println("logo " + logo);
 		Map<String, Object> parametro = new HashMap<String, Object>();
 		parametro.put("usuario", getUsuarioSesion(request).getNombreUsuario()); 
+		parametro.put("empresa",empresa); 
+		parametro.put("ruc",ruc); 
 		parametro.put("nroAnalisis",getOrdenBean().getCodigo()); 
 		parametro.put("logo",logo); 
 		parametro.put("direccionEmpresa",direccionEmpresa); 
