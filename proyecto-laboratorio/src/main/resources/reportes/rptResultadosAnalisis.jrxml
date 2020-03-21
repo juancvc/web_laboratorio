@@ -271,28 +271,28 @@
 	<detail>
 		<band height="18" splitType="Stretch">
 			<textField>
-				<reportElement x="8" y="0" width="250" height="18" uuid="8f66d34a-51ec-46ec-8d6b-a49b60bc472e"/>
+				<reportElement isPrintRepeatedValues="false" x="8" y="0" width="250" height="18" uuid="8f66d34a-51ec-46ec-8d6b-a49b60bc472e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="332" y="0" width="59" height="18" uuid="961edc88-53f3-410b-862a-dc50c76839e2"/>
+				<reportElement isPrintRepeatedValues="false" x="332" y="0" width="59" height="18" uuid="961edc88-53f3-410b-862a-dc50c76839e2"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{abrev}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="265" y="0" width="50" height="18" uuid="89fc49c1-f728-43b2-9ab4-21d940424572"/>
+				<reportElement isPrintRepeatedValues="false" x="265" y="0" width="50" height="18" uuid="89fc49c1-f728-43b2-9ab4-21d940424572"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{resultado}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="405" y="0" width="157" height="18" uuid="2b76a10a-7c54-41b5-8a23-843eb845c953"/>
+				<reportElement isPrintRepeatedValues="false" x="405" y="0" width="157" height="18" uuid="2b76a10a-7c54-41b5-8a23-843eb845c953"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>

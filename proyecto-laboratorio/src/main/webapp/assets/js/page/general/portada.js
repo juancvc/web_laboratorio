@@ -309,10 +309,28 @@ function refrescar() {
 	});
 	$("#spnDia").trigger("click");
 	 document.getElementById("materialInline2").checked = true;
-	 $( "#materialInline2" ).prop( "checked", true );
-	 
+	 $( "#materialInline2" ).prop( "checked", true ); 
 }
 
+function refrescarAnual() {
+	console.log("refrescarAnual");
+  var contextPath = $('#contextPath').val();
+  var periodo = $('#periodo').val();
+  
+	path = contextPath + "/inicioController/cambiarPeriodo?periodo=" + periodo;
+	$.ajax({ 
+		type : 'GET',
+		url : path,
+		success : function(data) {  
+		},
+		error : function() {
+			//console.log("ERROR: ");
+		}
+	});
+	$("#spnAnual").trigger("click");
+	 document.getElementById("materialInline4").checked = true;
+	 
+}
 function refrescarListadoVentasSemanal() {
 	console.log("refrescarListadoVentasSemanal");
 	
@@ -355,6 +373,31 @@ function refrescarListadoVentasDiario() {
 			//console.log("ERROR: ");
 		}
 	});*/
+}
+
+function buscarPorMes() {
+	console.log("refrescar");
+	  var contextPath = $('#contextPath').val();
+	  var mes = $('#cboMes').val();
+	  var periodo = $('#yearMes').val();
+	  
+		path = contextPath + "/inicioController/cambiarFechaMensual?mes=" + mes+
+		"&periodo="+periodo;
+		$.ajax({ 
+			type : 'GET',
+			url : path,
+			success : function(data) {  
+			},
+			error : function() {
+				//console.log("ERROR: ");
+			}
+		});
+		
+	$("#spnMensual").trigger("click");
+	 document.getElementById("materialInline3").checked = true;
+	 
+	 console.log("aca mensual");
+ 
 }
 
 function refrescarListadoVentasMensual() {
@@ -448,7 +491,7 @@ function calculaSemana() {
 	path = contextPath + "/inicioController/cambiarFechaSemanal?fecha=" + date+
 	"&periodo="+year+
 	"&nroSemana="+week+
-	"&descripcionSemana="+descripcionSemana;;
+	"&descripcionSemana="+descripcionSemana;
 	$.ajax({ 
 		type : 'GET',
 		url : path,

@@ -15,6 +15,7 @@ public class InicioForm {
 	private OrdenBean ordenBean = new OrdenBean();
 	private String sFecha;
 	private String periodo;
+	private String mes;
 	private int nroSemana;
 	private String descripcionSemana;
 	
@@ -26,7 +27,23 @@ public class InicioForm {
 		this.ordenBean = ordenBean;
 	}
 
+	public String getMes() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM");
+		Date fecha  = new Date();
+		if (mes == null) {
+			mes = sdf.format(fecha);
+		}
+		return mes;
+	}
+
+	public void setMes(String mes) {
+		this.mes = mes;
+	}
+
 	public String getDescripcionSemana() {
+		if (descripcionSemana == null) {
+			descripcionSemana = "";
+		}
 		return descripcionSemana;
 	}
 

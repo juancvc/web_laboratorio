@@ -93,6 +93,7 @@ public class InicioController extends BaseController{
 	
 	List<TablaBean> lstMaestra =(new ArrayList<TablaBean>()); ;
 	List<TablaBean> lstSituacion = new ArrayList<TablaBean>();
+	List<TablaBean> lstMes = new ArrayList<TablaBean>();
 	List<TablaBean> lstTipoPaciente = new ArrayList<TablaBean>(); 
 	
 	private OrdenBean uOrderBean;
@@ -106,6 +107,7 @@ public class InicioController extends BaseController{
 	private String p_nroPeriodo ="";
 	private int p_nroSemana =0;
 	private String p_descripcionSemana ="";
+	private String p_mes ="";
 	
 	private int tipoReporte=1;
 	List<OrdenBean> lstOrdenBean = new ArrayList<OrdenBean>(); 
@@ -118,9 +120,20 @@ public class InicioController extends BaseController{
 	public void init() throws ParseException{ 
 		 System.out.println("inicioForm.getsFecha() " + sFecha);
 		 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		 SimpleDateFormat frmMes = new SimpleDateFormat("MM");
+		 SimpleDateFormat frmAnio = new SimpleDateFormat("yyyy");
+		 
 	     sFecha =formatter.format(new Date());
+	     p_mes = frmMes.format(new Date());
+	     p_nroPeriodo = frmAnio.format(new Date());
+	     
 		this.setLstMaestra(new ArrayList<TablaBean>()); 
-	
+		try {
+			lstMes = maestraAsis14Service.listarPorCodigoTabla("000017", 1);
+		} catch (ServiceException e) {
+			System.out.println("printStackTrace");
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -2322,10 +2335,22 @@ public ModelAndView portadaListarSemanal(HttpServletRequest request) throws Exce
 	
 };
 
+@RequestMapping(value = "/cambiarFechaMensual", method = RequestMethod.GET)
+public @ResponseBody void cambiarFechaMensual(
+		@RequestParam("mes") String mes,
+		@RequestParam("periodo") String periodo)throws Exception {
+	System.out.println(" periodo "+ periodo); 
+	p_nroPeriodo = periodo;
+	p_mes = mes;
+}
+
+
 @RequestMapping(value = "/portadaListarMensual", method = RequestMethod.GET)
 public ModelAndView portadaListarMensual(HttpServletRequest request) throws Exception {
 	
-	ModelAndView mav =  new ModelAndView("portada", "command", new InicioForm());
+	InicioForm inicioForm = new InicioForm();
+	inicioForm.setMes(p_mes);
+	inicioForm.setPeriodo(p_nroPeriodo);
 	tipoReporte=3;
 	 nombreVenta="VENTA DEL MES";
 	
@@ -2349,32 +2374,29 @@ public ModelAndView portadaListarMensual(HttpServletRequest request) throws Exce
 	
 	OrdenBean prmOrdenBeanVentaMensual = new OrdenBean();
 	Date date = new Date();
-	SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
-	SimpleDateFormat mes = new SimpleDateFormat("MM");
-	SimpleDateFormat anio = new SimpleDateFormat("yyyy");
-	mes.format(date);
-	anio.format(date);
-	fecha.format(date);
-	String strDate = fecha.format(date);
-	System.out.println("strDate"+strDate);
+	
+	//SimpleDateFormat mes = new SimpleDateFormat("MM");
+	//SimpleDateFormat anio = new SimpleDateFormat("yyyy");
+	/*mes.format(date);
+	anio.format(date); 
+	
 	String strMes = mes.format(date);
 	System.out.println("strMes"+strMes);
 	String strAnio = anio.format(date);
-	System.out.println("strAnio"+strAnio);
-	Date dt = fecha.parse(strDate);
+	System.out.println("strAnio"+strAnio); 
+*/
+	prmOrdenBean1.setNroMes(p_mes);
+	prmOrdenBean1.setNumeroPeriodo(p_nroPeriodo);
 
-	prmOrdenBean1.setNroMes(strMes);
-	prmOrdenBean1.setNumeroPeriodo(strAnio);
+	prmOrdenBean2.setNroMes(p_mes);
+	prmOrdenBean2.setNumeroPeriodo(p_nroPeriodo);
 
-	prmOrdenBean2.setNroMes(strMes);
-	prmOrdenBean2.setNumeroPeriodo(strAnio);
-
-	prmOrdenBean3.setNroMes(strMes);
-	prmOrdenBean3.setNumeroPeriodo(strAnio);
+	prmOrdenBean3.setNroMes(p_mes);
+	prmOrdenBean3.setNumeroPeriodo(p_nroPeriodo);
 
 
-	prmOrdenBeanVentaMensual.setNroMes(strMes);
-	prmOrdenBeanVentaMensual.setNumeroPeriodo(strAnio);
+	prmOrdenBeanVentaMensual.setNroMes(p_mes);
+	prmOrdenBeanVentaMensual.setNumeroPeriodo(p_nroPeriodo);
 	
 	/**situacion 000001 pendiente 000002 atendido 000003 anulado ***/
 	TablaBean tabla1 = new TablaBean();
@@ -2386,9 +2408,9 @@ public ModelAndView portadaListarMensual(HttpServletRequest request) throws Exce
 	prmOrdenBean1.setSituacion(tabla1);
 	prmOrdenBean2.setSituacion(tabla2);
 	prmOrdenBean3.setSituacion(tabla3);
-	prmOrdenBeanArea.setNroMes(strMes);
-	prmOrdenBeanArea.setNumeroPeriodo(strAnio);
-	prmOrdenBeanBarra.setNumeroPeriodo(strAnio);
+	prmOrdenBeanArea.setNroMes(p_mes);
+	prmOrdenBeanArea.setNumeroPeriodo(p_nroPeriodo);
+	prmOrdenBeanBarra.setNumeroPeriodo(p_nroPeriodo);
 
 	try { 
 
@@ -2414,7 +2436,7 @@ public ModelAndView portadaListarMensual(HttpServletRequest request) throws Exce
 		} 
 } catch (Exception e) {  
 }
-	
+	ModelAndView mav =  new ModelAndView("portada", "command", inicioForm);
 	mav.addObject("uOrderBean", 		   uOrderBean);
 	mav.addObject("uOrdenBean2", 		   uOrdenBean2);
 	mav.addObject("uOrdenBean3", 		   uOrdenBean3);
@@ -2424,17 +2446,24 @@ public ModelAndView portadaListarMensual(HttpServletRequest request) throws Exce
 	mav.addObject("lstOrdenBeanCircular",  lstOrdenBeanCircular);
 	mav.addObject("diaSemana", 	   		   diaSemana);
 	mav.addObject("nombreVenta", 	   	   nombreVenta);
+	mav.addObject("lstMes", 	   	   lstMes);
 	
 	return mav;	
 	
 	
 };
+
+@RequestMapping(value = "/cambiarPeriodo", method = RequestMethod.GET)
+public @ResponseBody void cambiarPeriodo(
+		@RequestParam("periodo") String periodo)throws Exception {
+	p_nroPeriodo = periodo;
 	
+}
+
 @RequestMapping(value = "/portadaListarAnual", method = RequestMethod.GET)
 public ModelAndView portadaListarAnual(HttpServletRequest request) throws Exception {
-	
-	ModelAndView mav =  new ModelAndView("portada", "command", new InicioForm());
-	
+	InicioForm inicioForm = new InicioForm();
+	inicioForm.setPeriodo(p_nroPeriodo);
 	tipoReporte=4;
 	 nombreVenta="VENTA DEL AÑO";
 	/***mandamos datos del tablero de fecha actual por default a los reportes del año***/
@@ -2444,9 +2473,7 @@ public ModelAndView portadaListarAnual(HttpServletRequest request) throws Except
 	
 	OrdenBean uOrdenBean2 = new OrdenBean();
 	OrdenBean uOrdenBean3 = new OrdenBean();
-	
-	OrdenBean uOrdenBeanArea  = new OrdenBean();
-	OrdenBean uOrdenBeanBarra  = new OrdenBean();
+	 
 	lstOrdenBeanArea = new ArrayList<OrdenBean>();
 	lstOrdenBeanBarra = new ArrayList<OrdenBean>();
 	lstOrdenBeanCircular = new ArrayList<OrdenBean>();
@@ -2456,35 +2483,12 @@ public ModelAndView portadaListarAnual(HttpServletRequest request) throws Except
 	OrdenBean prmOrdenBean3 = new OrdenBean();
 	
 	OrdenBean prmOrdenBeanArea  = new OrdenBean();
-	OrdenBean prmOrdenBeanBarra  = new OrdenBean();
-	
-	OrdenBean prmOrdenBeanVentaAnual = new OrdenBean();
-	Date date = new Date();
-	SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
-	SimpleDateFormat mes = new SimpleDateFormat("MM");
-	SimpleDateFormat anio = new SimpleDateFormat("yyyy");
-	mes.format(date);
-	anio.format(date);
-	fecha.format(date);
-	String strDate = fecha.format(date);
-	System.out.println("strDate"+strDate);
-	String strMes = mes.format(date);
-	System.out.println("strMes"+strMes);
-	String strAnio = anio.format(date);
-	System.out.println("strAnio"+strAnio);
-	Date dt = fecha.parse(strDate);
-	
-	prmOrdenBean1.setNumeroPeriodo(strAnio);
-
-
-	prmOrdenBean2.setNumeroPeriodo(strAnio);
-
-
-	prmOrdenBean3.setNumeroPeriodo(strAnio);
-
-
-
-	prmOrdenBeanVentaAnual.setNumeroPeriodo(strAnio);
+	OrdenBean prmOrdenBeanBarra  = new OrdenBean(); 
+	OrdenBean prmOrdenBeanVentaAnual = new OrdenBean();  
+	prmOrdenBean1.setNumeroPeriodo(p_nroPeriodo);
+	prmOrdenBean2.setNumeroPeriodo(p_nroPeriodo);
+	prmOrdenBean3.setNumeroPeriodo(p_nroPeriodo); 
+	prmOrdenBeanVentaAnual.setNumeroPeriodo(p_nroPeriodo);
 
 	/**situacion 000001 pendiente 000002 atendido 000003 anulado ***/
 	TablaBean tabla1 = new TablaBean();
@@ -2496,27 +2500,20 @@ public ModelAndView portadaListarAnual(HttpServletRequest request) throws Except
 	prmOrdenBean1.setSituacion(tabla1);
 	prmOrdenBean2.setSituacion(tabla2);
 	prmOrdenBean3.setSituacion(tabla3);
-	prmOrdenBeanArea.setNroMes(strMes);
-	prmOrdenBeanArea.setNumeroPeriodo(strAnio);
-	prmOrdenBeanBarra.setNumeroPeriodo(strAnio);
+	prmOrdenBeanArea.setNroMes(p_mes);
+	prmOrdenBeanArea.setNumeroPeriodo(p_nroPeriodo);
+	prmOrdenBeanBarra.setNumeroPeriodo(p_nroPeriodo);
 	System.out.println("acaPortada");
 	try { 
 
 		uOrderBean = ordenService.reporteCantidadAnualOrdenSituacion(prmOrdenBean1);
-
 		uOrdenBean2 = ordenService.reporteCantidadAnualOrdenSituacion(prmOrdenBean2);
-
 		uOrdenBean3 = ordenService.reporteCantidadAnualOrdenSituacion(prmOrdenBean3);
-
 		uOrdenBeanVentaAnual = ordenService.reporteVentaAnual(prmOrdenBeanVentaAnual);	
 		uOrdenBeanVentaAnual.setSwAnual(true);
-
 				lstOrdenBeanArea = ordenService.reporteVentaMensualPeriodoArea(prmOrdenBeanArea);
 				lstOrdenBeanBarra = ordenService.reporteVentaMensualPeriodoBarra(prmOrdenBeanBarra);
-				lstOrdenBeanCircular = ordenService.reporteCantidadAnualExamenesSolicitados(prmOrdenBeanVentaAnual);
-		
-				System.out.println("lstOrdenBeanArea"+lstOrdenBeanArea.size());
-				System.out.println("lstOrdenBeanCircular"+lstOrdenBeanCircular.size());
+				lstOrdenBeanCircular = ordenService.reporteCantidadAnualExamenesSolicitados(prmOrdenBeanVentaAnual); 
 		if(uOrderBean!=null){   
 			
 			
@@ -2524,7 +2521,7 @@ public ModelAndView portadaListarAnual(HttpServletRequest request) throws Except
 		} 
 } catch (Exception e) {  
 }
-	
+	ModelAndView mav =  new ModelAndView("portada", "command", inicioForm);
 	mav.addObject("uOrderBean", 		   uOrderBean);
 	mav.addObject("uOrdenBean2", 		   uOrdenBean2);
 	mav.addObject("uOrdenBean3", 		   uOrdenBean3);

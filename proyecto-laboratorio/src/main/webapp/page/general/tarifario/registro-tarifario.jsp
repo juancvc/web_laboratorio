@@ -208,7 +208,7 @@
 														<f:input type="hidden"    value="${tabla.codigo}" path="lstTarifarioDetalleBean[${loop.index}].codigo" />
 														<tr id='anterior${loop.index}'> 
 															<td><div class="controls"> 
-																	<f:input type="hidden" min="1" maxlength="20"  required="required"
+																	<f:input type="text" min="1" maxlength="20"  required="required"
 																		class="form-control" value="${tabla.unidades}"
 																		id="tarifarioUnidades${loop.index}" path="lstTarifarioDetalleBean[${loop.index}].unidades" />
 

@@ -211,7 +211,7 @@ private List<OrdenDetalleItemBean> deListaObjetoAListaObjetoBean(List<Orden_labo
 			bean.getExamenesLaboratorioBean().setTipoExamenAsoc(entity.getTipo());
 			bean.getExamenesLaboratorioBean().getExamenUnidadMedidaLaboratorioBean().setDescripcion(entity.getDescripcionUnidadMedida());
 			bean.getExamenesLaboratorioBean().getExamenUnidadMedidaLaboratorioBean().setAbrev(entity.getAbrevUnidadMedida());
-			
+			bean.setObservacion(entity.getOBSERVACION());
 	 	}
 		
 		return bean;

@@ -321,35 +321,6 @@ public class OrdenController  extends BaseController {
 		return mav;
 	} 
 	 
-	
-	@RequestMapping(value = "rptListadoPostulantes", method = RequestMethod.GET)
-	@ResponseBody
-	public void getRpt1(@RequestParam("nombreCampania") String nombreCampania,
-						HttpServletResponse response, 
-						HttpServletRequest request) throws JRException, IOException {
-		InputStream jasperStream = this.getClass().getResourceAsStream("/reportes/rptListadoPostulantes.jasper");
-		Map<String, Object> parametro = new HashMap<String, Object>();
-		parametro.put("usuario", getUsuarioSesion(request).getNombreUsuario());
-		parametro.put("nombreCampania", nombreCampania);
-		System.out.println("jasperStream " + jasperStream);
-	//	List<ReferenciaBean> rates = new ArrayList<ReferenciaBean>();
-	
-		//	rates.add(getReferenciaBean());
-		// data source
-		// JRDataSource dataSource = getDataSource(rates);
-		JRBeanCollectionDataSource dataSource =   null;//new JRBeanCollectionDataSource(lstPostulanteBean);
-		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametro, dataSource);
-
-		response.setContentType("application/x-pdf");
-		response.setHeader("Content-disposition",
-				"inline; filename=listadoPostulantes.pdf");
-
-		final OutputStream outStream = response.getOutputStream();
-		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
-	}
-	
-	 
 	 
 	
 	@RequestMapping(value = "/refrescarListTarifario", method = RequestMethod.GET)

@@ -213,7 +213,7 @@ font-family: Cambria;
 					</div>
 					</div>
 				
-					<c:if test="${uOrdenBeanVentadiaria.swDiario!=null || uOrdenBeanVentadiaria.swDiario==true}">
+				<c:if test="${uOrdenBeanVentadiaria.swDiario!=null || uOrdenBeanVentadiaria.swDiario==true}">
 					<div class="col-sm-4 ">
 						<f:input class="form-control" id="date" name="date"
 							placeholder="DD/MM/YYYY" type="text" path="sFecha" />
@@ -226,15 +226,11 @@ font-family: Cambria;
 						onclick="refrescar();"
 						id="refrescarDia">
 						<i class="icon-refresh"> Refrescar</i> 
-					</button> 
-					 
-							 
+					</button>  
 				</div>	
 				<div class="col-sm-2 "> 
 					</div>			
-					</c:if>
-					
-					
+				</c:if>
 					
 				<c:if test="${uOrdenBeanVentadiaria.swSemanal!=null || uOrdenBeanVentadiaria.swSemanal==true}">
 				<div class="col-sm-1 form-group  text-right"> 
@@ -243,7 +239,7 @@ font-family: Cambria;
 							</div>
 							
 				<div class="col-sm-1 ">  
-						<f:input class="form-control"  type="year" id="year" placeholder="Año" path="periodo"  /> 
+						<f:input class="form-control" maxlength="4" type="number" id="year" placeholder="Año" path="periodo"  /> 
 						<f:input  type="hidden" id="descripcionSemana"  path="descripcionSemana"  /> 
 							</div>
 										
@@ -268,8 +264,42 @@ font-family: Cambria;
 					<div class="col-sm-3 form-group text-left"  >    
 							<span  class="spnResultado"   id="resultado"></span>   
 					</div>						
-				</c:if>	 		
-			</div>	
+				</c:if>	
+				
+			<c:if test="${uOrdenBeanVentadiaria.swMensual!=null || uOrdenBeanVentadiaria.swMensual==true}"> 
+				<div class="col-sm-1 ">  
+						<f:input class="form-control"  maxlength="4"  type="number"  id="yearMes" placeholder="Año" path="periodo"
+						min="2017" max="2100"  />  
+							</div>
+				<div class="controls">
+					<f:select id="cboMes"
+						path="mes" required="required"
+						class="form-control" onchange="buscarPorMes()">
+						<f:options items="${lstMes}" itemValue="codReg"
+							itemLabel="nombreCorto" />
+					</f:select>
+				</div>					
+			</c:if>	
+			
+				<c:if test="${uOrdenBeanVentadiaria.swAnual!=null || uOrdenBeanVentadiaria.swAnual==true}"> 
+				<div class="col-sm-2 ">  
+						<f:input class="form-control"  maxlength="4"  type="number"  id="periodo" placeholder="Año" path="periodo"
+						min="2020" max="2100"  />  
+							</div> 
+							
+					<div class="col-sm-1 " style="margin-top: 5px;">    
+						<button type="button"  
+								class="btn btn-outline-success btn-sm"
+								data-toggle="tooltip" data-placement="top" title=""
+								data-original-title="Refrescar"
+								onclick="refrescarAnual();"
+								id="buscarAnual">
+								<i class="icon-refresh"> Buscar</i> 
+						</button>  
+					</div>		
+			</c:if>	
+			
+		  </div>	
 		</div>
 
 				<br>
@@ -616,11 +646,21 @@ font-family: Cambria;
 	</body>
 </f:form>
 <script>
+  document.querySelector("input[type=number]")
+  .oninput = e => console.log(new Date(e.target.valueAsNumber, 0, 1))
+</script>
+
+<script>
 
 var arrayMenus = []; 
 	$(document).ready(function() {
-		console.log("log");
 		
+		 var descripcionSemana = $('#descripcionSemana').val(); 
+		 if(document.getElementById("materialInline2").checked == true){
+			 console.log("empezar ");
+			 document.getElementById("resultado").innerHTML = descripcionSemana; 
+		 }
+		  
 		<c:forEach var="orden" items="${lstOrdenBeanArea}"
 			varStatus="loop">
 		var objOrden = {
